@@ -6,7 +6,6 @@ import 'package:forspeech/api_config.dart';
 import 'package:forspeech/eweapon.dart';
 import 'user_session.dart';
 import 'etc.dart';
-import 'photo_fullscreen_viewer.dart';
 import 'comment.dart';
 
 class DetailViewerPage extends StatefulWidget {
@@ -22,8 +21,6 @@ class DetailViewerPage extends StatefulWidget {
 }
 
 class _DetailViewerPageState extends State<DetailViewerPage> {
-  late final PageController _pageController;
-  int _currentPage = 0;
   final TextEditingController _commentController = TextEditingController();
   final Dio _dio = Dio();
   final FocusNode _commentFocusNode = FocusNode();
@@ -37,18 +34,11 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(viewportFraction: 0.85);
-    _pageController.addListener(() {
-      if (_pageController.page?.round() != _currentPage) {
-        setState(() => _currentPage = _pageController.page!.round());
-      }
-    });
     _loadInitialComments();
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
     _commentController.dispose();
     _commentFocusNode.dispose();
     super.dispose();
@@ -198,6 +188,7 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
       } else {
         _commentController.clear();
       }
+      _commentFocusNode.requestFocus();
     });
   }
 
@@ -255,71 +246,87 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: TopAppBar(title: widget.weapon.title),
-      body: Column(
+      // [수정] body를 Stack으로 변경하여 배경과 콘텐츠를 분리
+      body: Stack(
         children: [
-          Expanded(child: PageView(controller: _pageController, children: [_buildImageViewer(widget.weapon.img2), _buildCommentsView()])),
-          _buildPageIndicator(),
-          const SizedBox(height: 20),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildImageViewer(String imageUrl) {
-    return GestureDetector(onTap: () => Navigator.push(context, PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => PhotoFullscreenViewer(imageUrl: imageUrl), transitionsBuilder: (_, animation, __, child) => FadeTransition(opacity: animation, child: child))), child: Card(color: Colors.grey[900], clipBehavior: Clip.antiAlias, margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)), child: InteractiveViewer(panEnabled: false, child: Center(child: Image.network(imageUrl, fit: BoxFit.contain)))));
-  }
-  Widget _buildPageIndicator() {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: List.generate(2, (index) => Container(width: 8, height: 8, margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4), decoration: BoxDecoration(shape: BoxShape.circle, color: _currentPage == index ? Colors.white : Colors.white.withOpacity(0.4)))));
-  }
-
-  Widget _buildCommentsView() {
-    return Card(
-      color: Colors.grey[900],
-      clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Column(
-        children: [
-          const Padding(padding: EdgeInsets.fromLTRB(16, 16, 16, 8), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Comments', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)), Divider(color: Colors.white24, height: 24)])),
-          Expanded(
-            child: _isLoadingComments
-                ? const Center(child: CircularProgressIndicator(color: Colors.white))
-                : _comments.isEmpty
-                ? const Center(child: Text('첫 댓글을 남겨보세요!', style: TextStyle(color: Colors.white70)))
-                : ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: _comments.length,
-              itemBuilder: (context, index) {
-                final comment = _comments.reversed.toList()[index];
-                return _buildCommentThread(comment);
-              },
+          // 1. 배경 레이어
+          Positioned.fill( // 화면 전체를 채우도록 설정
+            child: RotatedBox(
+              quarterTurns: -1, // -90도 회전 (-1 * 90도)
+              child: Image.asset(
+                'assets/images/detail_view_background.png',
+                fit: BoxFit.cover, // 회전 후에도 화면을 꽉 채움
+              ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-            child: Column(
-              children: [
-                if (_replyingToComment != null) _buildReplyIndicator(),
-                TextField(
-                  focusNode: _commentFocusNode,
-                  controller: _commentController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: UserSession.nickname != null ? '댓글을 입력하세요...' : '로그인이 필요합니다.',
-                    hintStyle: TextStyle(color: Colors.grey[500]),
-                    filled: true,
-                    fillColor: Colors.grey[850],
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
-                    suffixIcon: IconButton(icon: Icon(Icons.send, color: Colors.grey[400]), onPressed: UserSession.nickname != null ? _addComment : null),
+          // 2. 콘텐츠 레이어 (기존 body의 내용)
+          Column(
+            children: [
+              Expanded(
+                child: Card(
+                  color: Colors.transparent, // 배경이 비치도록 투명하게 설정
+                  elevation: 0,
+                  clipBehavior: Clip.antiAlias,
+                  margin: const EdgeInsets.all(8.0),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Comments', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+                            Divider(color: Colors.white24, height: 24)
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: _isLoadingComments
+                            ? const Center(child: CircularProgressIndicator(color: Colors.white))
+                            : _comments.isEmpty
+                            ? const Center(child: Text('첫 댓글을 남겨보세요!', style: TextStyle(color: Colors.white70)))
+                            : ListView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          itemCount: _comments.length,
+                          itemBuilder: (context, index) {
+                            final comment = _comments.reversed.toList()[index];
+                            return _buildCommentThread(comment);
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                        child: Column(
+                          children: [
+                            if (_replyingToComment != null) _buildReplyIndicator(),
+                            TextField(
+                              focusNode: _commentFocusNode,
+                              controller: _commentController,
+                              style: const TextStyle(color: Colors.white),
+                              decoration: InputDecoration(
+                                hintText: UserSession.nickname != null ? '댓글을 입력하세요...' : '로그인이 필요합니다.',
+                                hintStyle: TextStyle(color: Colors.grey[500]),
+                                filled: true,
+                                fillColor: Colors.grey[850],
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
+                                suffixIcon: IconButton(icon: Icon(Icons.send, color: Colors.grey[400]), onPressed: UserSession.nickname != null ? _addComment : null),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
+
 
   Widget _buildReplyIndicator() {
     return Padding(
@@ -327,14 +334,18 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            "'${_replyingToUsername ?? ''}'님에게 답글 남기는 중...",
-            style: TextStyle(color: Colors.grey[400], fontSize: 12),
+          Flexible(
+            child: Text(
+              "'${_replyingToUsername ?? ''}'님에게 답글 남기는 중...",
+              style: TextStyle(color: Colors.grey[400], fontSize: 12),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           InkWell(
             onTap: _cancelReplyMode,
             child: Row(
               children: [
+                const SizedBox(width: 8),
                 Text('취소', style: TextStyle(color: Colors.grey[400], fontSize: 12)),
                 const SizedBox(width: 4),
                 Icon(Icons.close, size: 16, color: Colors.grey[400]),
@@ -346,84 +357,91 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
     );
   }
 
+  // [수정] 댓글 스레드를 감싸던 Padding 제거
   Widget _buildCommentThread(Comment comment) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildCommentItem(comment),
-          if (comment.areRepliesVisible)
-            Padding(
-              padding: const EdgeInsets.only(left: 52, top: 8),
-              child: _buildRepliesSection(comment),
-            ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildCommentItem(comment),
+        if (comment.areRepliesVisible)
+          Padding(
+            padding: const EdgeInsets.only(left: 52, top: 8),
+            child: _buildRepliesSection(comment),
+          ),
+      ],
     );
   }
 
-  /// [수정] 아이콘 모양과 색상을 myLike, myDislike 상태에 따라 각각 결정
   Widget _buildCommentItem(Comment comment) {
-    // 아이콘 모양 결정
     final likeIcon = comment.myLike ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined;
     final dislikeIcon = comment.myDislike ? Icons.thumb_down_alt : Icons.thumb_down_alt_outlined;
-    // 아이콘 색상 결정
     final likeColor = comment.myLike ? Colors.white : Colors.grey[400];
     final dislikeColor = comment.myDislike ? Colors.white : Colors.grey[400];
 
-    return InkWell(
-      onTap: () => _toggleRepliesAndSetReplyMode(comment),
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(backgroundColor: Colors.blueGrey[700], child: Text(comment.username.isNotEmpty ? comment.username[0].toUpperCase() : '?', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(comment.username, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
-                      const SizedBox(height: 4),
-                      Text(comment.comment, style: TextStyle(color: Colors.grey[300], height: 1.4, fontSize: 14)),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.only(left: 52),
-              child: Row(
+    // [수정] Container의 margin 제거
+    return Container(
+      height: 150.0,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.0),
+        image: const DecorationImage(
+          image: AssetImage('assets/images/commentbackground.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: InkWell(
+        onTap: () => _toggleRepliesAndSetReplyMode(comment),
+        borderRadius: BorderRadius.circular(12.0),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(likeIcon, color: likeColor), onPressed: () => _handleLikeDislike(comment.id, isLike: true)),
-                  Text(comment.likes.toString(), style: TextStyle(color: Colors.grey[400], fontSize: 14)),
-                  const SizedBox(width: 16),
-                  IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(dislikeIcon, color: dislikeColor), onPressed: () => _handleLikeDislike(comment.id, isLike: false)),
-                  Text(comment.dislike.toString(), style: TextStyle(color: Colors.grey[400], fontSize: 14)),
-                  const SizedBox(width: 16),
-                  IconButton(
-                    iconSize: 18,
-                    constraints: const BoxConstraints(),
-                    padding: const EdgeInsets.all(4),
-                    icon: Icon(Icons.chat_bubble_outline, color: Colors.grey[400]),
-                    onPressed: () => _setReplyMode(comment),
-                  ),
-                  if (comment.replyCount > 0)
-                    Text(
-                      comment.replyCount.toString(),
-                      style: TextStyle(color: Colors.grey[400], fontSize: 14),
+                  CircleAvatar(backgroundColor: Colors.blueGrey[700], child: Text(comment.username.isNotEmpty ? comment.username[0].toUpperCase() : '?', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(comment.username, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
+                        const SizedBox(height: 4),
+                        Text(comment.comment, style: TextStyle(color: Colors.grey[300], height: 1.4, fontSize: 14)),
+                      ],
                     ),
+                  ),
                 ],
               ),
-            ),
-          ],
+              const Spacer(), // Use Spacer to push the action row to the bottom
+              Padding(
+                padding: const EdgeInsets.only(left: 52),
+                child: Row(
+                  children: [
+                    IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(likeIcon, color: likeColor), onPressed: () => _handleLikeDislike(comment.id, isLike: true)),
+                    Text(comment.likes.toString(), style: TextStyle(color: Colors.grey[400], fontSize: 14)),
+                    const SizedBox(width: 16),
+                    IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(dislikeIcon, color: dislikeColor), onPressed: () => _handleLikeDislike(comment.id, isLike: false)),
+                    Text(comment.dislike.toString(), style: TextStyle(color: Colors.grey[400], fontSize: 14)),
+                    const SizedBox(width: 16),
+                    IconButton(
+                      iconSize: 18,
+                      constraints: const BoxConstraints(),
+                      padding: const EdgeInsets.all(4),
+                      icon: Icon(Icons.chat_bubble_outline, color: Colors.grey[400]),
+                      onPressed: () => _setReplyMode(comment),
+                    ),
+                    if (comment.replyCount > 0)
+                      Text(
+                        comment.replyCount.toString(),
+                        style: TextStyle(color: Colors.grey[400], fontSize: 14),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -434,65 +452,69 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (parentComment.areRepliesLoading) const Padding(padding: EdgeInsets.symmetric(vertical: 16.0), child: Center(child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))),
+        // [수정] 답글을 감싸던 Padding 제거
         if (!parentComment.areRepliesLoading)
-          ...parentComment.replies.map((reply) => Padding(
-            padding: const EdgeInsets.only(top: 12.0),
-            child: _buildReplyItem(reply, parentComment),
-          )),
+          ...parentComment.replies.map((reply) => _buildReplyItem(reply, parentComment)),
       ],
     );
   }
 
-  /// [수정] 아이콘 모양과 색상을 myLike, myDislike 상태에 따라 각각 결정
   Widget _buildReplyItem(Comment reply, Comment parentComment) {
-    // 아이콘 모양 결정
     final likeIcon = reply.myLike ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined;
     final dislikeIcon = reply.myDislike ? Icons.thumb_down_alt : Icons.thumb_down_alt_outlined;
-    // 아이콘 색상 결정
     final likeColor = reply.myLike ? Colors.white : Colors.grey[400];
     final dislikeColor = reply.myDislike ? Colors.white : Colors.grey[400];
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        InkWell(
-          onTap: () => _setReplyMode(parentComment, usernameToReply: reply.username),
-          borderRadius: BorderRadius.circular(8),
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(backgroundColor: Colors.blueGrey[700], child: Text(reply.username.isNotEmpty ? reply.username[0].toUpperCase() : '?', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(reply.username, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
-                      const SizedBox(height: 4),
-                      Text(reply.comment, style: TextStyle(color: Colors.grey[300], height: 1.4, fontSize: 14)),
-                    ],
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.0),
+        image: const DecorationImage(
+          image: AssetImage('assets/images/commentbackground.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () => _setReplyMode(parentComment, usernameToReply: reply.username),
+            borderRadius: BorderRadius.circular(12.0),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(backgroundColor: Colors.blueGrey[700], child: Text(reply.username.isNotEmpty ? reply.username[0].toUpperCase() : '?', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(reply.username, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
+                        const SizedBox(height: 4),
+                        Text(reply.comment, style: TextStyle(color: Colors.grey[300], height: 1.4, fontSize: 14)),
+                      ],
+                    ),
                   ),
-                ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 64, bottom: 8),
+            child: Row(
+              children: [
+                IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(likeIcon, color: likeColor), onPressed: () => _handleLikeDislike(reply.id, isLike: true)),
+                Text(reply.likes.toString(), style: TextStyle(color: Colors.grey[400], fontSize: 14)),
+                const SizedBox(width: 16),
+                IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(dislikeIcon, color: dislikeColor), onPressed: () => _handleLikeDislike(reply.id, isLike: false)),
+                Text(reply.dislike.toString(), style: TextStyle(color: Colors.grey[400], fontSize: 14)),
               ],
             ),
           ),
-        ),
-        const SizedBox(height: 8),
-        Padding(
-          padding: const EdgeInsets.only(left: 52),
-          child: Row(
-            children: [
-              IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(likeIcon, color: likeColor), onPressed: () => _handleLikeDislike(reply.id, isLike: true)),
-              Text(reply.likes.toString(), style: TextStyle(color: Colors.grey[400], fontSize: 14)),
-              const SizedBox(width: 16),
-              IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(dislikeIcon, color: dislikeColor), onPressed: () => _handleLikeDislike(reply.id, isLike: false)),
-              Text(reply.dislike.toString(), style: TextStyle(color: Colors.grey[400], fontSize: 14)),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
