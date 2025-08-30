@@ -245,82 +245,98 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: TopAppBar(title: widget.weapon.title),
-      // [수정] body를 Stack으로 변경하여 배경과 콘텐츠를 분리
       body: Stack(
         children: [
-          // 1. 배경 레이어
-          Positioned.fill( // 화면 전체를 채우도록 설정
+          Positioned.fill(
             child: RotatedBox(
-              quarterTurns: -1, // -90도 회전 (-1 * 90도)
+              quarterTurns: 1,
               child: Image.asset(
                 'assets/images/detail_view_background.png',
-                fit: BoxFit.cover, // 회전 후에도 화면을 꽉 채움
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          // 2. 콘텐츠 레이어 (기존 body의 내용)
-          Column(
-            children: [
-              Expanded(
-                child: Card(
-                  color: Colors.transparent, // 배경이 비치도록 투명하게 설정
-                  elevation: 0,
-                  clipBehavior: Clip.antiAlias,
-                  margin: const EdgeInsets.all(8.0),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Comments', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-                            Divider(color: Colors.white24, height: 24)
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: _isLoadingComments
-                            ? const Center(child: CircularProgressIndicator(color: Colors.white))
-                            : _comments.isEmpty
-                            ? const Center(child: Text('첫 댓글을 남겨보세요!', style: TextStyle(color: Colors.white70)))
-                            : ListView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          itemCount: _comments.length,
-                          itemBuilder: (context, index) {
-                            final comment = _comments.reversed.toList()[index];
-                            return _buildCommentThread(comment);
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                        child: Column(
-                          children: [
-                            if (_replyingToComment != null) _buildReplyIndicator(),
-                            TextField(
-                              focusNode: _commentFocusNode,
-                              controller: _commentController,
-                              style: const TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                hintText: UserSession.nickname != null ? '댓글을 입력하세요...' : '로그인이 필요합니다.',
-                                hintStyle: TextStyle(color: Colors.grey[500]),
-                                filled: true,
-                                fillColor: Colors.grey[850],
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
-                                suffixIcon: IconButton(icon: Icon(Icons.send, color: Colors.grey[400]), onPressed: UserSession.nickname != null ? _addComment : null),
+          SafeArea( // SafeArea 추가하여 시스템 UI(상태바 등)를 피하도록 설정
+            child: Column(
+              children: [
+                Expanded(
+                  child: Card(
+                    color: Colors.transparent,
+                    elevation: 0,
+                    clipBehavior: Clip.antiAlias,
+                    margin: const EdgeInsets.all(8.0),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // [수정] Row를 사용하여 뒤로가기 버튼과 제목을 함께 배치
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 22),
+                                    onPressed: () => Navigator.of(context).pop(),
+                                    padding: const EdgeInsets.only(right: 8), // 오른쪽 패딩 추가
+                                    constraints: const BoxConstraints(),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      widget.weapon.title,
+                                      style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
+                              const Divider(color: Colors.white24, height: 24)
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                        Expanded(
+                          child: _isLoadingComments
+                              ? const Center(child: CircularProgressIndicator(color: Colors.white))
+                              : _comments.isEmpty
+                              ? const Center(child: Text('첫 댓글을 남겨보세요!', style: TextStyle(color: Colors.white70)))
+                              : ListView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            itemCount: _comments.length,
+                            itemBuilder: (context, index) {
+                              final comment = _comments.reversed.toList()[index];
+                              return _buildCommentThread(comment);
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                          child: Column(
+                            children: [
+                              if (_replyingToComment != null) _buildReplyIndicator(),
+                              TextField(
+                                focusNode: _commentFocusNode,
+                                controller: _commentController,
+                                style: const TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                  hintText: UserSession.nickname != null ? '댓글을 입력하세요...' : '로그인이 필요합니다.',
+                                  hintStyle: TextStyle(color: Colors.grey[500]),
+                                  filled: true,
+                                  fillColor: Colors.grey[850],
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
+                                  suffixIcon: IconButton(icon: Icon(Icons.send, color: Colors.grey[400]), onPressed: UserSession.nickname != null ? _addComment : null),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -357,18 +373,20 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
     );
   }
 
-  // [수정] 댓글 스레드를 감싸던 Padding 제거
   Widget _buildCommentThread(Comment comment) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildCommentItem(comment),
-        if (comment.areRepliesVisible)
-          Padding(
-            padding: const EdgeInsets.only(left: 52, top: 8),
-            child: _buildRepliesSection(comment),
-          ),
-      ],
+    return Padding( // 이 부분을 추가
+      padding: const EdgeInsets.only(bottom: 12.0), // 예를 들어 하단에 12.0 픽셀 패딩
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildCommentItem(comment),
+          if (comment.areRepliesVisible)
+            Padding(
+              padding: const EdgeInsets.only(left: 12, top: 8),
+              child: _buildRepliesSection(comment),
+            ),
+        ],
+      ),
     );
   }
 
@@ -378,7 +396,6 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
     final likeColor = comment.myLike ? Colors.white : Colors.grey[400];
     final dislikeColor = comment.myDislike ? Colors.white : Colors.grey[400];
 
-    // [수정] Container의 margin 제거
     return Container(
       height: 150.0,
       clipBehavior: Clip.antiAlias,
@@ -400,7 +417,12 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(backgroundColor: Colors.blueGrey[700], child: Text(comment.username.isNotEmpty ? comment.username[0].toUpperCase() : '?', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+                  Image.asset(
+                    'assets/images/comment.png',
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -414,9 +436,9 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
                   ),
                 ],
               ),
-              const Spacer(), // Use Spacer to push the action row to the bottom
+              const Spacer(),
               Padding(
-                padding: const EdgeInsets.only(left: 52),
+                padding: const EdgeInsets.only(left: 38),
                 child: Row(
                   children: [
                     IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(likeIcon, color: likeColor), onPressed: () => _handleLikeDislike(comment.id, isLike: true)),
@@ -452,7 +474,6 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (parentComment.areRepliesLoading) const Padding(padding: EdgeInsets.symmetric(vertical: 16.0), child: Center(child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))),
-        // [수정] 답글을 감싸던 Padding 제거
         if (!parentComment.areRepliesLoading)
           ...parentComment.replies.map((reply) => _buildReplyItem(reply, parentComment)),
       ],
@@ -485,7 +506,12 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(backgroundColor: Colors.blueGrey[700], child: Text(reply.username.isNotEmpty ? reply.username[0].toUpperCase() : '?', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+                  Image.asset(
+                    'assets/images/comment.png',
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(

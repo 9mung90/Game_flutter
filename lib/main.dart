@@ -6,6 +6,7 @@ import 'game.dart';
 import 'etc.dart';
 import 'eweapon_list_page.dart';
 import 'login_page.dart';
+import 'list_Top.dart';
 
 
 ValueNotifier<int> homePageRefreshNotifier = ValueNotifier(0);
@@ -116,7 +117,7 @@ class _GameListPageState extends State<GameListPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EWeaponListPage(game: game),
+                        builder: (context) => GameItemMasterPage(game: game),
                       ),
                     );
                   },
