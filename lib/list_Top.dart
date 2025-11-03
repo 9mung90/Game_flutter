@@ -8,6 +8,11 @@ import 'package:forspeech/game.dart';
 import 'package:forspeech/detail_view_page.dart';
 import 'package:forspeech/detail_image_view_page.dart';
 
+import 'package:forspeech/earmor.dart';
+import 'package:forspeech/earmor_list_page.dart';
+
+
+// 웨폰 리스트 페이지 위의 이름/검색창/필터?
 
 
 class GameItemMasterPage extends StatefulWidget {
@@ -102,8 +107,6 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
         ),
       );
     }
-    // else if (item is Armor) { ... }
-    // else { ... }
   }
 
 
@@ -112,7 +115,7 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
     // 각 카테고리별 콘텐츠 위젯 리스트
     // EWeaponListPage에 필요한 파라미터들을 전달합니다.
     final List<Widget> _pages = [
-      Center(child: Text('랜덤 목록 (게임: ${widget.game.title}, 검색: $_searchQuery)', style: const TextStyle(color: Colors.white, fontSize: 20))),
+      Center(child: Text('AI 질문(AI로 질문을 받을 수 있게 추후 만들 예정)', style: const TextStyle(color: Colors.white, fontSize: 20))),
       EWeaponListPage(
         game: widget.game,
         searchQuery: _searchQuery,
@@ -121,7 +124,12 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
       ),
       // 여기에 추후 만들 ArmorListPage, AshListPage, EtcListPage 등을 추가합니다.
       // 현재는 임시로 텍스트 위젯을 사용합니다.
-      Center(child: Text('방어구 목록 (게임: ${widget.game.title}, 검색: $_searchQuery)', style: const TextStyle(color: Colors.white, fontSize: 20))),
+      EArmorListPage(
+        game: widget.game,
+        searchQuery: _searchQuery,
+        showImageDialog: _showImageDialog,
+      ),
+
       Center(child: Text('전투 기술 목록 (게임: ${widget.game.title}, 검색: $_searchQuery)', style: const TextStyle(color: Colors.white, fontSize: 20))),
       Center(child: Text('소비템 목록 (게임: ${widget.game.title}, 검색: $_searchQuery)', style: const TextStyle(color: Colors.white, fontSize: 20))),
       Center(child: Text('기타 목록 (게임: ${widget.game.title}, 검색: $_searchQuery)', style: const TextStyle(color: Colors.white, fontSize: 20))),
@@ -172,8 +180,8 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
               children: <Widget>[
 
                 _buildCategoryButton(
-                  iconPath: 'assets/images/random_Icon.png',
-                  label: '랜덤',
+                  iconPath: 'assets/images/ai_Icon.png',
+                  label: 'AI 질문',
                   index: 0,
                   currentIndex: _selectedIndex,
                   onTap: (index) {

@@ -9,11 +9,13 @@ import 'game.dart';
 import 'detail_view_page.dart';
 import 'detail_image_view_page.dart';
 
+// 무기 목록 보여주는 페이지 나중에 방어구 페이지 같은거도 이거 복붙하면 됨
+
 // EWeaponListPage는 이제 무기 목록만 담당합니다.
 class EWeaponListPage extends StatefulWidget {
   final Game game;
   final String searchQuery; // 검색어를 상위 위젯에서 받음
-  final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
+  final Function(BuildContext, String, String) showImageDialog; // 이미지 다이어로그 콜백
   final Function(EWeapon) navigateToDetailViewer; // 상세 뷰어 콜백
 
   const EWeaponListPage({
@@ -50,6 +52,13 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
+
+    // ✅ print() 함수를 사용해 변수 값을 출력합니다.
+    print('Screen Width: $screenWidth');
+    print('Screen Height: $screenHeight');
     return FutureBuilder<List<EWeapon>>(
       future: _futureEWeapons,
       builder: (context, snapshot) {
@@ -97,7 +106,8 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 80.0,
+                      // [수정] 고정값 80.0 -> 화면 높이의 10% (80.0 / 800.0)
+                      height: screenHeight * 0.1,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -105,7 +115,8 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                             onTap: () => widget.showImageDialog(context, weapon.img, weapon.title), // 콜백 사용
                             child: Container(
                               margin: const EdgeInsets.only(left: 3),
-                              width: 90,
+                              // [수정] 고정값 90 -> 화면 너비의 25% (90.0 / 360.0)
+                              width: screenWidth * 0.25,
                               padding: const EdgeInsets.all(8.0),
                               child: Image.network(
                                 weapon.img,
@@ -133,10 +144,26 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 4),
-                                  Text(
-                                    weapon.type,
-                                    style: TextStyle(color: Colors.grey[400], fontSize: 13),
-                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        weapon.type,
+                                        style: TextStyle(color: Colors.grey[400], fontSize: 13),
+                                      ),
+                                      // 구분 기호와 좌우 공백을 추가합니다.
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                        child: Text(
+                                          '|',
+                                          style: TextStyle(color: Colors.grey[600], fontSize: 11),
+                                        ),
+                                      ),
+                                      Text(
+                                        weapon.genre,
+                                        style: TextStyle(color: Colors.grey[400], fontSize: 13),
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
@@ -151,8 +178,9 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                 children: <Widget>[
                                   Image.asset(
                                     'assets/images/comment.png',
-                                    width: 40.0,
-                                    height: 40.0,
+                                    // [수정] 고정값 40.0 -> 화면 너비의 약 11% (40.0 / 360.0)
+                                    width: screenWidth * 0.11,
+                                    height: screenWidth * 0.11,
                                   ),
                                   const SizedBox(height: 2.0),
                                   const Text(

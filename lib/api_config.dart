@@ -1,5 +1,7 @@
 // api_config.dart
-const String apiBaseUrl = 'http://192.168.0.18:8080';
+const String apiBaseUrl = 'http://10.106.1.183:8080';
+// 학교 10.106.2.195
+// 집 192.168.0.34
 /*
 const bool isWeb = bool.fromEnvironment('dart.library.html');
 const String apiBaseUrl = isWeb

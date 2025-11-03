@@ -8,6 +8,8 @@ import 'user_session.dart';
 import 'etc.dart';
 import 'comment.dart';
 
+// 그냥 댓글 창
+
 class DetailViewerPage extends StatefulWidget {
   final EWeapon weapon;
 
@@ -243,6 +245,11 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
 
   @override
   Widget build(BuildContext context) {
+    // [추가] 화면 크기 가져오기
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
@@ -264,35 +271,41 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
                     color: Colors.transparent,
                     elevation: 0,
                     clipBehavior: Clip.antiAlias,
-                    margin: const EdgeInsets.all(8.0),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    // [수정] 고정값 -> 화면 너비 비율
+                    margin: EdgeInsets.all(screenWidth * 0.022), // 8.0 / 360.0
+                    // [수정] 고정값 -> 화면 너비 비율
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(screenWidth * 0.044)), // 16 / 360.0
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                          // [수정] 고정값 -> 화면 비율
+                          padding: EdgeInsets.fromLTRB(screenWidth * 0.044, screenHeight * 0.02, screenWidth * 0.044, screenHeight * 0.01), // 16, 16, 16, 8
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // [수정] Row를 사용하여 뒤로가기 버튼과 제목을 함께 배치
                               Row(
                                 children: [
                                   IconButton(
-                                    icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 22),
+                                    // [수정] 고정값 -> 화면 높이 비율
+                                    icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: screenHeight * 0.0275), // 22 / 800
                                     onPressed: () => Navigator.of(context).pop(),
-                                    padding: const EdgeInsets.only(right: 8), // 오른쪽 패딩 추가
+                                    // [수정] 고정값 -> 화면 너비 비율
+                                    padding: EdgeInsets.only(right: screenWidth * 0.022), // 8 / 360
                                     constraints: const BoxConstraints(),
                                   ),
                                   Expanded(
                                     child: Text(
                                       widget.weapon.title,
-                                      style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                                      // [수정] 고정값 -> 화면 높이 비율
+                                      style: TextStyle(color: Colors.white, fontSize: screenHeight * 0.0275, fontWeight: FontWeight.bold), // 22 / 800
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),
                                   ),
                                 ],
                               ),
-                              const Divider(color: Colors.white24, height: 24)
+                              // [수정] 고정값 -> 화면 높이 비율
+                              Divider(color: Colors.white24, height: screenHeight * 0.03) // 24 / 800
                             ],
                           ),
                         ),
@@ -302,7 +315,8 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
                               : _comments.isEmpty
                               ? const Center(child: Text('첫 댓글을 남겨보세요!', style: TextStyle(color: Colors.white70)))
                               : ListView.builder(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            // [수정] 고정값 -> 화면 너비 비율
+                            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.044), // 16 / 360
                             itemCount: _comments.length,
                             itemBuilder: (context, index) {
                               final comment = _comments.reversed.toList()[index];
@@ -311,7 +325,8 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                          // [수정] 고정값 -> 화면 비율
+                          padding: EdgeInsets.fromLTRB(screenWidth * 0.044, screenHeight * 0.01, screenWidth * 0.044, screenHeight * 0.02), // 16, 8, 16, 16
                           child: Column(
                             children: [
                               if (_replyingToComment != null) _buildReplyIndicator(),
@@ -324,7 +339,8 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
                                   hintStyle: TextStyle(color: Colors.grey[500]),
                                   filled: true,
                                   fillColor: Colors.grey[850],
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
+                                  // [수정] 고정값 -> 화면 너비 비율
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(screenWidth * 0.083), borderSide: BorderSide.none), // 30 / 360
                                   suffixIcon: IconButton(icon: Icon(Icons.send, color: Colors.grey[400]), onPressed: UserSession.nickname != null ? _addComment : null),
                                 ),
                               ),
@@ -345,15 +361,21 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
 
 
   Widget _buildReplyIndicator() {
+    // [추가] 화면 크기 가져오기 (build 메소드 밖이므로 context를 통해 직접 가져옴)
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+      // [수정] 고정값 -> 화면 비율
+      padding: EdgeInsets.only(left: screenWidth * 0.022, right: screenWidth * 0.022, bottom: screenHeight * 0.01), // 8, 8, 8
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
             child: Text(
               "'${_replyingToUsername ?? ''}'님에게 답글 남기는 중...",
-              style: TextStyle(color: Colors.grey[400], fontSize: 12),
+              // [수정] 고정값 -> 화면 높이 비율
+              style: TextStyle(color: Colors.grey[400], fontSize: screenHeight * 0.015), // 12 / 800
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -361,10 +383,14 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
             onTap: _cancelReplyMode,
             child: Row(
               children: [
-                const SizedBox(width: 8),
-                Text('취소', style: TextStyle(color: Colors.grey[400], fontSize: 12)),
-                const SizedBox(width: 4),
-                Icon(Icons.close, size: 16, color: Colors.grey[400]),
+                // [수정] 고정값 -> 화면 너비 비율
+                SizedBox(width: screenWidth * 0.022), // 8
+                // [수정] 고정값 -> 화면 높이 비율
+                Text('취소', style: TextStyle(color: Colors.grey[400], fontSize: screenHeight * 0.015)), // 12
+                // [수정] 고정값 -> 화면 너비 비율
+                SizedBox(width: screenWidth * 0.011), // 4
+                // [수정] 고정값 -> 화면 높이 비율
+                Icon(Icons.close, size: screenHeight * 0.02, color: Colors.grey[400]), // 16
               ],
             ),
           )
@@ -374,15 +400,21 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
   }
 
   Widget _buildCommentThread(Comment comment) {
-    return Padding( // 이 부분을 추가
-      padding: const EdgeInsets.only(bottom: 12.0), // 예를 들어 하단에 12.0 픽셀 패딩
+    // [추가] 화면 크기 가져오기
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+
+    return Padding(
+      // [수정] 고정값 -> 화면 높이 비율
+      padding: EdgeInsets.only(bottom: screenHeight * 0.015), // 12.0
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildCommentItem(comment),
           if (comment.areRepliesVisible)
             Padding(
-              padding: const EdgeInsets.only(left: 12, top: 8),
+              // [수정] 고정값 -> 화면 비율
+              padding: EdgeInsets.only(left: screenWidth * 0.033, top: screenHeight * 0.01), // 12, 8
               child: _buildRepliesSection(comment),
             ),
         ],
@@ -391,16 +423,22 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
   }
 
   Widget _buildCommentItem(Comment comment) {
+    // [추가] 화면 크기 가져오기
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     final likeIcon = comment.myLike ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined;
     final dislikeIcon = comment.myDislike ? Icons.thumb_down_alt : Icons.thumb_down_alt_outlined;
     final likeColor = comment.myLike ? Colors.white : Colors.grey[400];
     final dislikeColor = comment.myDislike ? Colors.white : Colors.grey[400];
 
     return Container(
-      height: 150.0,
+      // [수정] 고정값 -> 화면 높이 비율
+      height: screenHeight * 0.1875, // 150.0 / 800.0
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
+        // [수정] 고정값 -> 화면 너비 비율
+        borderRadius: BorderRadius.circular(screenWidth * 0.033), // 12.0 / 360.0
         image: const DecorationImage(
           image: AssetImage('assets/images/commentbackground.png'),
           fit: BoxFit.cover,
@@ -408,9 +446,10 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
       ),
       child: InkWell(
         onTap: () => _toggleRepliesAndSetReplyMode(comment),
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(screenWidth * 0.033), // 12.0
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          // [수정] 고정값 -> 화면 너비 비율
+          padding: EdgeInsets.all(screenWidth * 0.033), // 12.0
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -419,18 +458,23 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
                 children: [
                   Image.asset(
                     'assets/images/comment.png',
-                    width: 40,
-                    height: 40,
+                    // [수정] 고정값 -> 화면 너비 비율
+                    width: screenWidth * 0.11, // 40 / 360
+                    height: screenWidth * 0.11, // 40 / 360
                     fit: BoxFit.cover,
                   ),
-                  const SizedBox(width: 12),
+                  // [수정] 고정값 -> 화면 너비 비율
+                  SizedBox(width: screenWidth * 0.033), // 12
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(comment.username, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
-                        const SizedBox(height: 4),
-                        Text(comment.comment, style: TextStyle(color: Colors.grey[300], height: 1.4, fontSize: 14)),
+                        // [수정] 고정값 -> 화면 높이 비율
+                        Text(comment.username, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: screenHeight * 0.01875)), // 15
+                        // [수정] 고정값 -> 화면 높이 비율
+                        SizedBox(height: screenHeight * 0.005), // 4
+                        // [수정] 고정값 -> 화면 높이 비율
+                        Text(comment.comment, style: TextStyle(color: Colors.grey[300], height: 1.4, fontSize: screenHeight * 0.0175)), // 14
                       ],
                     ),
                   ),
@@ -438,17 +482,25 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
               ),
               const Spacer(),
               Padding(
-                padding: const EdgeInsets.only(left: 38),
+                // [수정] 고정값 -> 화면 너비 비율
+                padding: EdgeInsets.only(left: screenWidth * 0.105), // 38 / 360
                 child: Row(
                   children: [
-                    IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(likeIcon, color: likeColor), onPressed: () => _handleLikeDislike(comment.id, isLike: true)),
-                    Text(comment.likes.toString(), style: TextStyle(color: Colors.grey[400], fontSize: 14)),
-                    const SizedBox(width: 16),
-                    IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(dislikeIcon, color: dislikeColor), onPressed: () => _handleLikeDislike(comment.id, isLike: false)),
-                    Text(comment.dislike.toString(), style: TextStyle(color: Colors.grey[400], fontSize: 14)),
-                    const SizedBox(width: 16),
+                    // [수정] 고정값 -> 화면 높이 비율
+                    IconButton(iconSize: screenHeight * 0.0225, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(likeIcon, color: likeColor), onPressed: () => _handleLikeDislike(comment.id, isLike: true)), // 18
+                    // [수정] 고정값 -> 화면 높이 비율
+                    Text(comment.likes.toString(), style: TextStyle(color: Colors.grey[400], fontSize: screenHeight * 0.0175)), // 14
+                    // [수정] 고정값 -> 화면 너비 비율
+                    SizedBox(width: screenWidth * 0.044), // 16
+                    // [수정] 고정값 -> 화면 높이 비율
+                    IconButton(iconSize: screenHeight * 0.0225, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(dislikeIcon, color: dislikeColor), onPressed: () => _handleLikeDislike(comment.id, isLike: false)), // 18
+                    // [수정] 고정값 -> 화면 높이 비율
+                    Text(comment.dislike.toString(), style: TextStyle(color: Colors.grey[400], fontSize: screenHeight * 0.0175)), // 14
+                    // [수정] 고정값 -> 화면 너비 비율
+                    SizedBox(width: screenWidth * 0.044), // 16
                     IconButton(
-                      iconSize: 18,
+                      // [수정] 고정값 -> 화면 높이 비율
+                      iconSize: screenHeight * 0.0225, // 18
                       constraints: const BoxConstraints(),
                       padding: const EdgeInsets.all(4),
                       icon: Icon(Icons.chat_bubble_outline, color: Colors.grey[400]),
@@ -457,7 +509,8 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
                     if (comment.replyCount > 0)
                       Text(
                         comment.replyCount.toString(),
-                        style: TextStyle(color: Colors.grey[400], fontSize: 14),
+                        // [수정] 고정값 -> 화면 높이 비율
+                        style: TextStyle(color: Colors.grey[400], fontSize: screenHeight * 0.0175), // 14
                       ),
                   ],
                 ),
@@ -481,6 +534,10 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
   }
 
   Widget _buildReplyItem(Comment reply, Comment parentComment) {
+    // [추가] 화면 크기 가져오기
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     final likeIcon = reply.myLike ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined;
     final dislikeIcon = reply.myDislike ? Icons.thumb_down_alt : Icons.thumb_down_alt_outlined;
     final likeColor = reply.myLike ? Colors.white : Colors.grey[400];
@@ -489,7 +546,8 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
+        // [수정] 고정값 -> 화면 너비 비율
+        borderRadius: BorderRadius.circular(screenWidth * 0.033), // 12.0
         image: const DecorationImage(
           image: AssetImage('assets/images/commentbackground.png'),
           fit: BoxFit.cover,
@@ -500,26 +558,32 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
         children: [
           InkWell(
             onTap: () => _setReplyMode(parentComment, usernameToReply: reply.username),
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(screenWidth * 0.033), // 12.0
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              // [수정] 고정값 -> 화면 너비 비율
+              padding: EdgeInsets.all(screenWidth * 0.033), // 12.0
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
                     'assets/images/comment.png',
-                    width: 40,
-                    height: 40,
+                    // [수정] 고정값 -> 화면 너비 비율
+                    width: screenWidth * 0.11, // 40
+                    height: screenWidth * 0.11, // 40
                     fit: BoxFit.cover,
                   ),
-                  const SizedBox(width: 12),
+                  // [수정] 고정값 -> 화면 너비 비율
+                  SizedBox(width: screenWidth * 0.033), // 12
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(reply.username, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
-                        const SizedBox(height: 4),
-                        Text(reply.comment, style: TextStyle(color: Colors.grey[300], height: 1.4, fontSize: 14)),
+                        // [수정] 고정값 -> 화면 높이 비율
+                        Text(reply.username, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: screenHeight * 0.01875)), // 15
+                        // [수정] 고정값 -> 화면 높이 비율
+                        SizedBox(height: screenHeight * 0.005), // 4
+                        // [수정] 고정값 -> 화면 높이 비율
+                        Text(reply.comment, style: TextStyle(color: Colors.grey[300], height: 1.4, fontSize: screenHeight * 0.0175)), // 14
                       ],
                     ),
                   ),
@@ -528,14 +592,20 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 64, bottom: 8),
+            // [수정] 고정값 -> 화면 너비, 높이 비율
+            padding: EdgeInsets.only(left: screenWidth * 0.177, bottom: screenHeight * 0.01), // 64, 8
             child: Row(
               children: [
-                IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(likeIcon, color: likeColor), onPressed: () => _handleLikeDislike(reply.id, isLike: true)),
-                Text(reply.likes.toString(), style: TextStyle(color: Colors.grey[400], fontSize: 14)),
-                const SizedBox(width: 16),
-                IconButton(iconSize: 18, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(dislikeIcon, color: dislikeColor), onPressed: () => _handleLikeDislike(reply.id, isLike: false)),
-                Text(reply.dislike.toString(), style: TextStyle(color: Colors.grey[400], fontSize: 14)),
+                // [수정] 고정값 -> 화면 높이 비율
+                IconButton(iconSize: screenHeight * 0.0225, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(likeIcon, color: likeColor), onPressed: () => _handleLikeDislike(reply.id, isLike: true)), // 18
+                // [수정] 고정값 -> 화면 높이 비율
+                Text(reply.likes.toString(), style: TextStyle(color: Colors.grey[400], fontSize: screenHeight * 0.0175)), // 14
+                // [수정] 고정값 -> 화면 너비 비율
+                SizedBox(width: screenWidth * 0.044), // 16
+                // [수정] 고정값 -> 화면 높이 비율
+                IconButton(iconSize: screenHeight * 0.0225, constraints: const BoxConstraints(), padding: const EdgeInsets.all(4), icon: Icon(dislikeIcon, color: dislikeColor), onPressed: () => _handleLikeDislike(reply.id, isLike: false)), // 18
+                // [수정] 고정값 -> 화면 높이 비율
+                Text(reply.dislike.toString(), style: TextStyle(color: Colors.grey[400], fontSize: screenHeight * 0.0175)), // 14
               ],
             ),
           ),

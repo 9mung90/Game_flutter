@@ -8,6 +8,7 @@ import 'eweapon_list_page.dart';
 import 'login_page.dart';
 import 'list_Top.dart';
 
+// 메인페이지, 어차피 엘든링 말고는 작동 안함
 
 ValueNotifier<int> homePageRefreshNotifier = ValueNotifier(0);
 
@@ -91,6 +92,11 @@ class _GameListPageState extends State<GameListPage> {
 
   @override
   Widget build(BuildContext context) {
+    // [추가] 화면 크기를 가져옵니다.
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
+
     return FutureBuilder<List<Game>>(
       future: futureGames,
       builder: (context, snapshot) {
@@ -104,9 +110,14 @@ class _GameListPageState extends State<GameListPage> {
 
         final games = snapshot.data!;
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+          // [수정] 고정값 -> 화면 비율에 따른 값
+          padding: EdgeInsets.symmetric(
+            vertical: screenHeight * 0.025, // 20.0 / 800.0
+            horizontal: screenWidth * 0.033, // 12.0 / 360.0
+          ),
           child: SizedBox(
-            height: 260,
+            // [수정] 고정값 -> 화면 높이 비율에 따른 값
+            height: screenHeight * 0.325, // 260.0 / 800.0
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: games.length,
@@ -122,27 +133,31 @@ class _GameListPageState extends State<GameListPage> {
                     );
                   },
                   child: Container(
-                    width: 160,
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    // [수정] 고정값 -> 화면 너비 비율에 따른 값
+                    width: screenWidth * 0.444, // 160.0 / 360.0
+                    // [수정] 고정값 -> 화면 너비 비율에 따른 값
+                    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.022), // 8.0 / 360.0
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
+                      // [수정] 고정값 -> 화면 너비 비율에 따른 값
+                      borderRadius: BorderRadius.circular(screenWidth * 0.044), // 16.0 / 360.0
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.2),
-                          blurRadius: 6,
-                          offset: const Offset(0, 4),
+                          // [수정] 고정값 -> 화면 너비 비율에 따른 값
+                          blurRadius: screenWidth * 0.016, // 6.0 / 360.0
+                          // [수정] 고정값 -> 화면 높이 비율에 따른 값
+                          offset: Offset(0, screenHeight * 0.005), // 4.0 / 800.0
                         ),
                       ],
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
+                      // [수정] 고정값 -> 화면 너비 비율에 따른 값
+                      borderRadius: BorderRadius.circular(screenWidth * 0.044), // 16.0 / 360.0
                       child: Stack(
                         children: [
                           Positioned.fill(
                             child: Image.network(
                               game.img,
-                              // --- 핵심 수정 부분 ---
-                              // contain을 cover로 되돌립니다.
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
                               const Center(child: Icon(Icons.broken_image)),
@@ -153,45 +168,55 @@ class _GameListPageState extends State<GameListPage> {
                             ),
                           ),
                           Positioned(
-                            left: 8,
-                            bottom: 8,
+                            // [수정] 고정값 -> 화면 너비 비율에 따른 값
+                            left: screenWidth * 0.022, // 8.0 / 360.0
+                            bottom: screenWidth * 0.022, // 8.0 / 360.0
                             child: CircleAvatar(
-                              radius: 14,
+                              // [수정] 고정값 -> 화면 너비 비율에 따른 값
+                              radius: screenWidth * 0.038, // 14.0 / 360.0
                               backgroundColor: Colors.black.withOpacity(0.6),
                               child: Text(
                                 '${index + 1}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 12,
+                                  // [수정] 고정값 -> 화면 높이 비율에 따른 값 (폰트는 높이 기준이 좀 더 안정적)
+                                  fontSize: screenHeight * 0.015, // 12.0 / 800.0
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ),
                           Positioned(
-                            bottom: 8,
-                            right: 8,
+                            // [수정] 고정값 -> 화면 너비 비율에 따른 값
+                            bottom: screenWidth * 0.022, // 8.0 / 360.0
+                            right: screenWidth * 0.022, // 8.0 / 360.0
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                              // [수정] 고정값 -> 화면 비율에 따른 값
+                              padding: EdgeInsets.symmetric(
+                                horizontal: screenWidth * 0.016, // 6.0 / 360.0
+                                vertical: screenHeight * 0.005, // 4.0 / 800.0
+                              ),
                               color: Colors.black.withOpacity(0.5),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
                                     game.title,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 12,
+                                      // [수정] 고정값 -> 화면 높이 비율에 따른 값
+                                      fontSize: screenHeight * 0.015, // 12.0 / 800.0
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
                                     '${game.price}원',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: Colors.white70,
-                                      fontSize: 11,
+                                      // [수정] 고정값 -> 화면 높이 비율에 따른 값
+                                      fontSize: screenHeight * 0.013, // 11.0 / 800.0
                                     ),
                                   ),
                                 ],
