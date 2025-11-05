@@ -11,6 +11,12 @@ import 'package:forspeech/detail_image_view_page.dart';
 import 'package:forspeech/earmor.dart';
 import 'package:forspeech/earmor_list_page.dart';
 
+import 'package:forspeech/eash.dart';
+import 'package:forspeech/eash_list_page.dart';
+
+import 'package:forspeech/espell.dart';
+import 'package:forspeech/espell_list_page.dart';
+
 
 // 웨폰 리스트 페이지 위의 이름/검색창/필터?
 
@@ -130,8 +136,18 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
         showImageDialog: _showImageDialog,
       ),
 
-      Center(child: Text('전투 기술 목록 (게임: ${widget.game.title}, 검색: $_searchQuery)', style: const TextStyle(color: Colors.white, fontSize: 20))),
-      Center(child: Text('소비템 목록 (게임: ${widget.game.title}, 검색: $_searchQuery)', style: const TextStyle(color: Colors.white, fontSize: 20))),
+      EAshListPage(
+        game: widget.game,
+        searchQuery: _searchQuery,
+        showImageDialog: _showImageDialog,
+      ),
+
+      ESpellListPage(
+        game: widget.game,
+        searchQuery: _searchQuery,
+        showImageDialog: _showImageDialog,
+      ),
+
       Center(child: Text('기타 목록 (게임: ${widget.game.title}, 검색: $_searchQuery)', style: const TextStyle(color: Colors.white, fontSize: 20))),
     ];
 
