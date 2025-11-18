@@ -20,9 +20,7 @@ import 'package:forspeech/espell_list_page.dart';
 import 'ebone_list_page.dart';
 import 'eetc_list_page.dart';
 
-
 // 웨폰 리스트 페이지 위의 이름/검색창/필터?
-
 
 class GameItemMasterPage extends StatefulWidget {
   final Game game;
@@ -34,6 +32,8 @@ class GameItemMasterPage extends StatefulWidget {
 
 class _GameItemMasterPageState extends State<GameItemMasterPage> {
   final TextEditingController _searchController = TextEditingController();
+  final PageController _pageController = PageController(initialPage: 0); // ⭐ 추가
+
   String _searchQuery = '';
   int _selectedIndex = 0; // 0: 무기, 1: 방어구, 2: 전투 기술, 3: 기타
 
@@ -50,6 +50,7 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
   @override
   void dispose() {
     _searchController.dispose();
+    _pageController.dispose(); // ⭐ 추가
     super.dispose();
   }
 
@@ -88,7 +89,10 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
                         imageUrl,
                         fit: BoxFit.contain,
                         errorBuilder: (_, __, ___) => const Icon(
-                            Icons.image_not_supported, color: Colors.white38, size: 48),
+                          Icons.image_not_supported,
+                          color: Colors.white38,
+                          size: 48,
+                        ),
                       ),
                     ),
                   ),
@@ -101,11 +105,7 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
     );
   }
 
-  // EWeapon 객체를 받도록 되어있으므로, 다른 타입의 아이템도 처리하려면 제네릭하게 수정하거나 오버로드해야 할 수 있습니다.
   void _navigateToDetailViewer(dynamic item) {
-    // 여기서는 EWeapon만 처리하는 예시를 보여줍니다.
-    // 만약 Armor 등 다른 타입도 DetailViewerPage에 넘겨야 한다면,
-    // DetailViewerPage가 dynamic을 받거나, 각 타입별로 따로 처리해야 합니다.
     if (item is EWeapon) {
       Navigator.push(
         context,
@@ -118,11 +118,9 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     // 각 카테고리별 콘텐츠 위젯 리스트
-    // EWeaponListPage에 필요한 파라미터들을 전달합니다.
     final List<Widget> _pages = [
       EWeaponListPage(
         game: widget.game,
@@ -130,38 +128,31 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
         showImageDialog: _showImageDialog,
         navigateToDetailViewer: _navigateToDetailViewer,
       ),
-      // 여기에 추후 만들 ArmorListPage, AshListPage, EtcListPage 등을 추가합니다.
-      // 현재는 임시로 텍스트 위젯을 사용합니다.
       EArmorListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
       ),
-
       EAshListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
       ),
-
       ESpellListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
       ),
-
       EBoneListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
       ),
-
       EEtcListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
       ),
-
     ];
 
     return Scaffold(
@@ -169,7 +160,13 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.grey[900],
-        title: Text(widget.game.title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title: Text(
+          widget.game.title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         elevation: 0,
       ),
       body: Column(
@@ -207,8 +204,6 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-
-
                 _buildCategoryButton(
                   iconPath: 'assets/images/weapon_Icon.png',
                   label: '무기',
@@ -219,6 +214,11 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
                       _selectedIndex = index;
                       _searchController.clear(); // 카테고리 변경 시 검색창 초기화
                     });
+                    _pageController.animateToPage( // ⭐ 스와이프 연동
+                      index,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                    );
                   },
                 ),
                 _buildCategoryButton(
@@ -231,6 +231,11 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
                       _selectedIndex = index;
                       _searchController.clear();
                     });
+                    _pageController.animateToPage(
+                      index,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                    );
                   },
                 ),
                 _buildCategoryButton(
@@ -243,6 +248,11 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
                       _selectedIndex = index;
                       _searchController.clear();
                     });
+                    _pageController.animateToPage(
+                      index,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                    );
                   },
                 ),
                 _buildCategoryButton(
@@ -255,9 +265,13 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
                       _selectedIndex = index;
                       _searchController.clear();
                     });
+                    _pageController.animateToPage(
+                      index,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                    );
                   },
                 ),
-
                 _buildCategoryButton(
                   iconPath: 'assets/images/ai_Icon.png',
                   label: '뼛가루',
@@ -268,9 +282,13 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
                       _selectedIndex = index;
                       _searchController.clear();
                     });
+                    _pageController.animateToPage(
+                      index,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                    );
                   },
                 ),
-
                 _buildCategoryButton(
                   iconPath: 'assets/images/etc_Icon.png',
                   label: '기타',
@@ -281,6 +299,11 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
                       _selectedIndex = index;
                       _searchController.clear();
                     });
+                    _pageController.animateToPage(
+                      index,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                    );
                   },
                 ),
               ],
@@ -288,8 +311,17 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
           ),
           const SizedBox(height: 8),
           Expanded(
-            child: IndexedStack(
-              index: _selectedIndex,
+            // 🔁 기존 IndexedStack → PageView로 교체
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                  // 스와이프로 바꿀 때 검색어 유지하고 싶으면 그대로 두고,
+                  // 같이 지우고 싶으면 아래 주석 해제:
+                  // _searchController.clear();
+                });
+              },
               children: _pages,
             ),
           ),
@@ -299,9 +331,7 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
   }
 }
 
-// _buildCategoryButton 위젯도 GameItemMasterPage의 State 클래스 외부로 옮기거나,
-// 이 위젯 내부에 넣고 필요하면 _GameItemMasterPageState에서 접근하도록 합니다.
-// 여기서는 위젯 외부로 빼서 재활용 가능하게 했습니다.
+// _buildCategoryButton 위젯
 Widget _buildCategoryButton({
   required String iconPath,
   required String label,
@@ -327,7 +357,6 @@ Widget _buildCategoryButton({
             iconPath,
             width: 20,
             height: 20,
-            //color: isSelected ? Colors.white : Colors.white70,
             errorBuilder: (context, error, stackTrace) =>
                 Icon(Icons.broken_image, color: isSelected ? Colors.white : Colors.white70, size: 40),
           ),
@@ -338,6 +367,7 @@ Widget _buildCategoryButton({
               color: isSelected ? Colors.white : Colors.white70,
               fontSize: 12,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+
             ),
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,

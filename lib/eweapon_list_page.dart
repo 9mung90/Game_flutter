@@ -50,6 +50,71 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
     }
   }
 
+  /// description 파싱:
+  /// 1) 기본적으로 '.'를 기준으로 문장 분리
+  /// 2) 단, '.' 뒤의 첫 non-space 문자가 '(' 이면, ')' 나올 때까지 한 줄로 묶고
+  ///    ')' 뒤에서 줄바꿈
+  List<String> _splitDescriptionWithParens(String text) {
+    final List<String> result = [];
+    final StringBuffer buf = StringBuffer();
+    int i = 0;
+    final int len = text.length;
+
+    while (i < len) {
+      final String ch = text[i];
+      buf.write(ch);
+
+      if (ch == '.') {
+        // '.' 뒤의 첫 non-space 문자 확인
+        int j = i + 1;
+        while (j < len && text[j] == ' ') {
+          j++;
+        }
+
+        // '.' 다음이 '(' 이면: 괄호 내용까지 한 문장으로
+        if (j < len && text[j] == '(') {
+          // j까지 이미 buf에 들어가게 i를 옮김
+          while (i + 1 < len && i + 1 <= j) {
+            i++;
+            buf.write(text[i]);
+          }
+
+          // ')' 나올 때까지 읽기
+          while (i + 1 < len) {
+            i++;
+            buf.write(text[i]);
+            if (text[i] == ')') {
+              break;
+            }
+          }
+
+          final line = buf.toString().trim();
+          if (line.isNotEmpty) {
+            result.add(line);
+          }
+          buf.clear();
+        } else {
+          // 그냥 '.'이면 여기서 문장 종료
+          final line = buf.toString().trim();
+          if (line.isNotEmpty) {
+            result.add(line);
+          }
+          buf.clear();
+        }
+      }
+
+      i++;
+    }
+
+    // 마지막에 남은 것 처리
+    final tail = buf.toString().trim();
+    if (tail.isNotEmpty) {
+      result.add(tail);
+    }
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -71,7 +136,9 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
         final filteredWeapons = snapshot.data
             ?.where((weapon) =>
         weapon.game == widget.game.title &&
-            weapon.title.toLowerCase().contains(widget.searchQuery.toLowerCase())) // widget.searchQuery 사용
+            weapon.title
+                .toLowerCase()
+                .contains(widget.searchQuery.toLowerCase())) // widget.searchQuery 사용
             .toList() ??
             [];
 
@@ -87,6 +154,10 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
           itemBuilder: (context, index) {
             final weapon = filteredWeapons[index];
             final isExpanded = _expandedId == weapon.id;
+
+            // 설명을 규칙에 맞게 분리
+            final List<String> descriptionLines =
+            _splitDescriptionWithParens(weapon.description);
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -112,7 +183,8 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            onTap: () => widget.showImageDialog(context, weapon.img, weapon.title), // 콜백 사용
+                            onTap: () =>
+                                widget.showImageDialog(context, weapon.img, weapon.title), // 콜백 사용
                             child: Container(
                               margin: const EdgeInsets.only(left: 3),
                               // [수정] 고정값 90 -> 화면 너비의 25% (90.0 / 360.0)
@@ -205,10 +277,26 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                           children: [
                             const Divider(color: Colors.white24, height: 1, thickness: 0.5),
                             const SizedBox(height: 10),
-                            Text(
-                              weapon.description,
-                              style: TextStyle(color: Colors.grey[300], fontSize: 14, height: 1.4),
+
+                            // 🔹 설명: 문장별로 나눠서 한 줄씩 + 줄마다 SizedBox로 간격
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                for (final line in descriptionLines)
+                                  if (line.trim().isNotEmpty) ...[
+                                    Text(
+                                      line.trim(),
+                                      style: TextStyle(
+                                        color: Colors.grey[300],
+                                        fontSize: 14,
+                                        height: 1.4,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                  ],
+                              ],
                             ),
+
                             const SizedBox(height: 12),
                             GestureDetector(
                               onTap: () {

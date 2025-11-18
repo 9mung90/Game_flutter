@@ -46,15 +46,76 @@ class _EAshListPageState extends State<EAshListPage> {
     }
   }
 
+  /// description 파싱:
+  /// 1) 기본적으로 '.'를 기준으로 문장 분리
+  /// 2) 단, '.' 뒤의 첫 non-space 문자가 '(' 이면, ')'까지 한 줄로 묶고
+  ///    그 다음부터 줄바꿈
+  List<String> _splitDescriptionWithParens(String text) {
+    final List<String> result = [];
+    final StringBuffer buf = StringBuffer();
+    int i = 0;
+    final int len = text.length;
+
+    while (i < len) {
+      final String ch = text[i];
+      buf.write(ch);
+
+      if (ch == '.') {
+        // '.' 뒤의 첫 non-space 문자 확인
+        int j = i + 1;
+        while (j < len && text[j] == ' ') {
+          j++;
+        }
+
+        // '.' 다음이 '(' 이면: 괄호 끝까지 같은 줄로
+        if (j < len && text[j] == '(') {
+          // j 위치까지 버퍼에 들어가도록 i 이동
+          while (i + 1 < len && i + 1 <= j) {
+            i++;
+            buf.write(text[i]);
+          }
+
+          // ')' 나올 때까지 읽기
+          while (i + 1 < len) {
+            i++;
+            buf.write(text[i]);
+            if (text[i] == ')') {
+              break;
+            }
+          }
+
+          final line = buf.toString().trim();
+          if (line.isNotEmpty) {
+            result.add(line);
+          }
+          buf.clear();
+        } else {
+          // 그냥 '.'이면 여기서 문장 종료
+          final line = buf.toString().trim();
+          if (line.isNotEmpty) {
+            result.add(line);
+          }
+          buf.clear();
+        }
+      }
+
+      i++;
+    }
+
+    // 마지막에 남은 것 처리
+    final tail = buf.toString().trim();
+    if (tail.isNotEmpty) {
+      result.add(tail);
+    }
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
-
-    // 디버그용
-    // print('Screen Width: $screenWidth');
-    // print('Screen Height: $screenHeight');
 
     return FutureBuilder<List<EAsh>>(
       future: _futureEAshes,
@@ -91,6 +152,10 @@ class _EAshListPageState extends State<EAshListPage> {
             final ash = filtered[index];
             final isExpanded = _expandedId == ash.id;
 
+            // 설명을 규칙에 맞게 분리
+            final List<String> descriptionLines =
+            _splitDescriptionWithParens(ash.description);
+
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
               clipBehavior: Clip.antiAlias,
@@ -114,7 +179,8 @@ class _EAshListPageState extends State<EAshListPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            onTap: () => widget.showImageDialog(context, ash.img, ash.title),
+                            onTap: () =>
+                                widget.showImageDialog(context, ash.img, ash.title),
                             child: Container(
                               margin: const EdgeInsets.only(left: 3),
                               width: screenWidth * 0.25,
@@ -131,7 +197,8 @@ class _EAshListPageState extends State<EAshListPage> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 12.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -152,7 +219,9 @@ class _EAshListPageState extends State<EAshListPage> {
                                     children: [
                                       Text(
                                         ash.property, // 속성
-                                        style: TextStyle(color: Colors.grey[400], fontSize: 13),
+                                        style: TextStyle(
+                                            color: Colors.grey[400],
+                                            fontSize: 13),
                                       ),
                                     ],
                                   ),
@@ -166,16 +235,38 @@ class _EAshListPageState extends State<EAshListPage> {
                     ),
                     if (isExpanded)
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
+                        padding:
+                        const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          crossAxisAlignment:
+                          CrossAxisAlignment.stretch,
                           children: [
-                            const Divider(color: Colors.white24, height: 1, thickness: 0.5),
+                            const Divider(
+                                color: Colors.white24,
+                                height: 1,
+                                thickness: 0.5),
                             const SizedBox(height: 10),
-                            Text(
-                              ash.description,
-                              style: TextStyle(color: Colors.grey[300], fontSize: 14, height: 1.4),
+
+                            // 설명: 문장별로 나눠서 한 줄씩 + 줄마다 SizedBox
+                            Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                for (final line in descriptionLines)
+                                  if (line.trim().isNotEmpty) ...[
+                                    Text(
+                                      line.trim(),
+                                      style: TextStyle(
+                                        color: Colors.grey[300],
+                                        fontSize: 14,
+                                        height: 1.4,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                  ],
+                              ],
                             ),
+
                             const SizedBox(height: 12),
                           ],
                         ),

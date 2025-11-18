@@ -46,6 +46,70 @@ class _EBoneListPageState extends State<EBoneListPage> {
     }
   }
 
+  /// description 파싱:
+  /// 1) 기본적으로 '.'를 기준으로 문장 분리
+  /// 2) 단, '.' 뒤의 첫 non-space 문자가 '(' 이면, ')' 나올 때까지 같은 줄로 묶고
+  ///    ')' 뒤에서 줄바꿈
+  List<String> _splitDescriptionWithParens(String text) {
+    final List<String> result = [];
+    final StringBuffer buf = StringBuffer();
+    int i = 0;
+    final int len = text.length;
+
+    while (i < len) {
+      final String ch = text[i];
+      buf.write(ch);
+
+      if (ch == '.') {
+        // '.' 뒤의 첫 non-space 문자 확인
+        int j = i + 1;
+        while (j < len && text[j] == ' ') {
+          j++;
+        }
+
+        // '.' 다음이 '(' 이면: 괄호 내용까지 한 문장으로
+        if (j < len && text[j] == '(') {
+          while (i + 1 < len && i + 1 <= j) {
+            i++;
+            buf.write(text[i]);
+          }
+
+          // ')' 나올 때까지 읽기
+          while (i + 1 < len) {
+            i++;
+            buf.write(text[i]);
+            if (text[i] == ')') {
+              break;
+            }
+          }
+
+          final line = buf.toString().trim();
+          if (line.isNotEmpty) {
+            result.add(line);
+          }
+          buf.clear();
+        } else {
+          // 그냥 '.'이면 여기서 문장 종료
+          final line = buf.toString().trim();
+          if (line.isNotEmpty) {
+            result.add(line);
+          }
+          buf.clear();
+        }
+      }
+
+      i++;
+    }
+
+    // 마지막에 남은 것 처리
+    final tail = buf.toString().trim();
+    if (tail.isNotEmpty) {
+      result.add(tail);
+    }
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -91,6 +155,13 @@ class _EBoneListPageState extends State<EBoneListPage> {
           itemBuilder: (context, index) {
             final bone = filtered[index];
             final isExpanded = _expandedId == bone.id;
+
+            // bget에 내용이 있는지 체크 (null → '' 로 들어온 것도 걸러짐)
+            final bool hasBget = bone.bget.trim().isNotEmpty;
+
+            // description을 규칙에 맞게 분리
+            final List<String> descriptionLines =
+            _splitDescriptionWithParens(bone.description);
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -153,31 +224,13 @@ class _EBoneListPageState extends State<EBoneListPage> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 4),
-                                  // 메타 정보: buse | bget
+                                  // 메타 정보: 용도만 위에 표시
                                   Wrap(
                                     crossAxisAlignment:
                                     WrapCrossAlignment.center,
                                     children: [
                                       Text(
-                                        '용도: ${bone.buse}',
-                                        style: TextStyle(
-                                          color: Colors.grey[400],
-                                          fontSize: 13,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6.0),
-                                        child: Text(
-                                          '|',
-                                          style: TextStyle(
-                                            color: Colors.grey[600],
-                                            fontSize: 11,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        '획득: ${bone.bget}',
+                                        '소비: ${bone.buse}',
                                         style: TextStyle(
                                           color: Colors.grey[400],
                                           fontSize: 13,
@@ -192,7 +245,7 @@ class _EBoneListPageState extends State<EBoneListPage> {
                         ],
                       ),
                     ),
-                    // 확장 영역: 설명
+                    // 확장 영역: 설명 + (있다면) 획득
                     if (isExpanded)
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
@@ -205,14 +258,42 @@ class _EBoneListPageState extends State<EBoneListPage> {
                               thickness: 0.5,
                             ),
                             const SizedBox(height: 10),
-                            Text(
-                              bone.description,
-                              style: TextStyle(
-                                color: Colors.grey[300],
-                                fontSize: 14,
-                                height: 1.4,
-                              ),
+
+                            // 상세 설명: 문장별 Text + SizedBox로 한 칸씩
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                for (final line in descriptionLines)
+                                  if (line.trim().isNotEmpty) ...[
+                                    Text(
+                                      line.trim(),
+                                      style: TextStyle(
+                                        color: Colors.grey[300],
+                                        fontSize: 14,
+                                        height: 1.4,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                  ],
+                              ],
                             ),
+
+
+                            const SizedBox(height: 8),
+                            const SizedBox(height: 8),
+
+                            // --- bget이 있을 때만 표시 ---
+                            if (hasBget)
+                              Text(
+                                bone.bget,
+                                style: TextStyle(
+                                  color: Colors.grey[300],
+                                  fontSize: 14,
+                                  height: 1.4,
+                                ),
+                              ),
+                            // -------------------------------
+
                             const SizedBox(height: 12),
                           ],
                         ),

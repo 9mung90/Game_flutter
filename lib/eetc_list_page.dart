@@ -46,6 +46,74 @@ class _EEtcListPageState extends State<EEtcListPage> {
     }
   }
 
+  /// description 파싱:
+  /// 1) 기본적으로 '.'를 기준으로 문장 분리
+  /// 2) 단, '.' 뒤의 첫 non-space 문자가 '(' 이면, ')' 나올 때까지 같은 문장으로 묶고
+  ///    ')' 뒤에서 줄바꿈
+  List<String> _splitDescriptionWithParens(String text) {
+    final List<String> result = [];
+    final StringBuffer buf = StringBuffer();
+    int i = 0;
+    final int len = text.length;
+
+    while (i < len) {
+      final String ch = text[i];
+      buf.write(ch);
+
+      if (ch == '.') {
+        // '.' 뒤의 첫 non-space 문자 확인
+        int j = i + 1;
+        while (j < len && text[j] == ' ') {
+          j++;
+        }
+
+        // '.' 다음에 '(' 이면: 괄호 내용까지 같은 문장으로 묶기
+        if (j < len && text[j] == '(') {
+          // 사이 공백들까지 이미 buf에 들어와 있음
+          // 이제 '(' 포함해서 ')'까지 읽어오기
+          // j는 '(' 위치
+          while (i + 1 < len && i + 1 <= j) {
+            i++;
+            buf.write(text[i]);
+          }
+
+          // 이제 ')' 나올 때까지 계속 읽기
+          while (i + 1 < len) {
+            i++;
+            buf.write(text[i]);
+            if (text[i] == ')') {
+              break; // 여기서 한 문장 끝
+            }
+          }
+
+          // 하나의 문장 완성
+          final line = buf.toString().trim();
+          if (line.isNotEmpty) {
+            result.add(line);
+          }
+          buf.clear();
+        } else {
+          // 일반적인 '.' → 문장 끝
+          final line = buf.toString().trim();
+          if (line.isNotEmpty) {
+            result.add(line);
+          }
+          buf.clear();
+        }
+      }
+
+      i++;
+    }
+
+    // 마지막 버퍼에 남아 있는 내용 처리
+    final tail = buf.toString().trim();
+    if (tail.isNotEmpty) {
+      result.add(tail);
+    }
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -95,6 +163,13 @@ class _EEtcListPageState extends State<EEtcListPage> {
           itemBuilder: (context, index) {
             final etc = filtered[index];
             final isExpanded = _expandedId == etc.id;
+
+            // ability가 비어있는지 체크 (null → '' 로 들어온 것도 걸러짐)
+            final bool hasAbility = etc.ability.trim().isNotEmpty;
+
+            // 새 규칙으로 description 분리
+            final List<String> descriptionLines =
+            _splitDescriptionWithParens(etc.description);
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -160,37 +235,13 @@ class _EEtcListPageState extends State<EEtcListPage> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 4),
-                                  // 메타 정보: 타입 | 능력
-                                  Wrap(
-                                    crossAxisAlignment:
-                                    WrapCrossAlignment.center,
-                                    children: [
-                                      Text(
-                                        etc.type,
-                                        style: TextStyle(
-                                          color: Colors.grey[400],
-                                          fontSize: 13,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6.0),
-                                        child: Text(
-                                          '|',
-                                          style: TextStyle(
-                                            color: Colors.grey[600],
-                                            fontSize: 11,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        '능력: ${etc.ability}',
-                                        style: TextStyle(
-                                          color: Colors.grey[400],
-                                          fontSize: 13,
-                                        ),
-                                      ),
-                                    ],
+                                  // 메타 정보: 타입만 표시
+                                  Text(
+                                    etc.type,
+                                    style: TextStyle(
+                                      color: Colors.grey[400],
+                                      fontSize: 13,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -200,7 +251,7 @@ class _EEtcListPageState extends State<EEtcListPage> {
                       ),
                     ),
 
-                    // 아래: 확장 영역(설명)
+                    // 아래: 확장 영역(설명 + 능력)
                     if (isExpanded)
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
@@ -213,15 +264,40 @@ class _EEtcListPageState extends State<EEtcListPage> {
                               thickness: 0.5,
                             ),
                             const SizedBox(height: 10),
-                            Text(
-                              etc.description,
-                              style: TextStyle(
-                                color: Colors.grey[300],
-                                fontSize: 14,
-                                height: 1.4,
-                              ),
+
+                            // 설명: 문장마다 Text + SizedBox로 한 칸씩 띄우기
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                for (final line in descriptionLines)
+                                  if (line.trim().isNotEmpty) ...[
+                                    Text(
+                                      line.trim(),
+                                      style: TextStyle(
+                                        color: Colors.grey[300],
+                                        fontSize: 14,
+                                        height: 1.4,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                  ],
+                              ],
                             ),
-                            const SizedBox(height: 12),
+
+                            // 능력이 있을 때만: 2칸 띄우고 + 능력 내용
+                            if (hasAbility) ...[
+                              const SizedBox(height: 16),
+                              Text(
+                                etc.ability,
+                                style: TextStyle(
+                                  color: Colors.grey[300],
+                                  fontSize: 14,
+                                  height: 1.4,
+                                ),
+                              ),
+
+                              const SizedBox(height: 12),
+                            ],
                           ],
                         ),
                       ),
