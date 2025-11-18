@@ -17,6 +17,9 @@ import 'package:forspeech/eash_list_page.dart';
 import 'package:forspeech/espell.dart';
 import 'package:forspeech/espell_list_page.dart';
 
+import 'ebone_list_page.dart';
+import 'eetc_list_page.dart';
+
 
 // 웨폰 리스트 페이지 위의 이름/검색창/필터?
 
@@ -121,7 +124,6 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
     // 각 카테고리별 콘텐츠 위젯 리스트
     // EWeaponListPage에 필요한 파라미터들을 전달합니다.
     final List<Widget> _pages = [
-      Center(child: Text('AI 질문(AI로 질문을 받을 수 있게 추후 만들 예정)', style: const TextStyle(color: Colors.white, fontSize: 20))),
       EWeaponListPage(
         game: widget.game,
         searchQuery: _searchQuery,
@@ -148,7 +150,18 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
         showImageDialog: _showImageDialog,
       ),
 
-      Center(child: Text('기타 목록 (게임: ${widget.game.title}, 검색: $_searchQuery)', style: const TextStyle(color: Colors.white, fontSize: 20))),
+      EBoneListPage(
+        game: widget.game,
+        searchQuery: _searchQuery,
+        showImageDialog: _showImageDialog,
+      ),
+
+      EEtcListPage(
+        game: widget.game,
+        searchQuery: _searchQuery,
+        showImageDialog: _showImageDialog,
+      ),
+
     ];
 
     return Scaffold(
@@ -195,23 +208,11 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
               scrollDirection: Axis.horizontal,
               children: <Widget>[
 
-                _buildCategoryButton(
-                  iconPath: 'assets/images/ai_Icon.png',
-                  label: 'AI 질문',
-                  index: 0,
-                  currentIndex: _selectedIndex,
-                  onTap: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                      _searchController.clear();
-                    });
-                  },
-                ),
 
                 _buildCategoryButton(
                   iconPath: 'assets/images/weapon_Icon.png',
                   label: '무기',
-                  index: 1,
+                  index: 0,
                   currentIndex: _selectedIndex,
                   onTap: (index) {
                     setState(() {
@@ -223,7 +224,7 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
                 _buildCategoryButton(
                   iconPath: 'assets/images/armor_Icon.png',
                   label: '방어구',
-                  index: 2,
+                  index: 1,
                   currentIndex: _selectedIndex,
                   onTap: (index) {
                     setState(() {
@@ -235,7 +236,7 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
                 _buildCategoryButton(
                   iconPath: 'assets/images/ash_Icon.png',
                   label: '전투 기술',
-                  index: 3,
+                  index: 2,
                   currentIndex: _selectedIndex,
                   onTap: (index) {
                     setState(() {
@@ -246,7 +247,20 @@ class _GameItemMasterPageState extends State<GameItemMasterPage> {
                 ),
                 _buildCategoryButton(
                   iconPath: 'assets/images/use_Icon.png',
-                  label: '소비',
+                  label: '마술/기도',
+                  index: 3,
+                  currentIndex: _selectedIndex,
+                  onTap: (index) {
+                    setState(() {
+                      _selectedIndex = index;
+                      _searchController.clear();
+                    });
+                  },
+                ),
+
+                _buildCategoryButton(
+                  iconPath: 'assets/images/ai_Icon.png',
+                  label: '뼛가루',
                   index: 4,
                   currentIndex: _selectedIndex,
                   onTap: (index) {

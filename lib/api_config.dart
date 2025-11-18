@@ -1,5 +1,5 @@
 // api_config.dart
-const String apiBaseUrl = 'http://10.109.2.155:8080';
+const String apiBaseUrl = 'http://10.106.3.211:8080';
 // 학교 10.106.2.195
 // 집 192.168.0.34
 /*
