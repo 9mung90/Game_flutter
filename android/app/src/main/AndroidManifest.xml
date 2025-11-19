@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <application
-        android:label="forspeech"
+        android:label="엘든 링 아이템 리스트"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

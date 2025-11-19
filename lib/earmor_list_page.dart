@@ -15,11 +15,15 @@ class EArmorListPage extends StatefulWidget {
   final String searchQuery; // 상위에서 전달받는 검색어
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
 
+  // 🔹 방어구 필터 값 (ex. '전체', '머리', '몸통' ...)
+  final String partFilter;
+
   const EArmorListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
+    required this.partFilter,  // 🔹 추가
   });
 
   @override
@@ -135,12 +139,20 @@ class _EArmorListPageState extends State<EArmorListPage> {
         }
 
         final filteredArmors = snapshot.data
-            ?.where((armor) =>
-        armor.game == widget.game.title &&
-            armor.title
-                .toLowerCase()
-                .contains(widget.searchQuery.toLowerCase()))
-            .toList() ??
+        // 🔹 기존 조건 + partFilter까지 함께 적용
+            ?.where((armor) {
+          final bool gameMatch = armor.game == widget.game.title;
+          final bool nameMatch = armor.title
+              .toLowerCase()
+              .contains(widget.searchQuery.toLowerCase());
+
+          // 🔹 필터 값이 '전체'면 모든 부위 통과, 아니면 armor.part가 선택한 부위랑 같을 때만
+          final bool partMatch = widget.partFilter == '전체'
+              ? true
+              : armor.part == widget.partFilter;
+
+          return gameMatch && nameMatch && partMatch;
+        }).toList() ??
             [];
 
         if (filteredArmors.isEmpty) {

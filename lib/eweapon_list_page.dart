@@ -9,8 +9,6 @@ import 'game.dart';
 import 'detail_view_page.dart';
 import 'detail_image_view_page.dart';
 
-// 무기 목록 보여주는 페이지 나중에 방어구 페이지 같은거도 이거 복붙하면 됨
-
 // EWeaponListPage는 이제 무기 목록만 담당합니다.
 class EWeaponListPage extends StatefulWidget {
   final Game game;
@@ -18,12 +16,16 @@ class EWeaponListPage extends StatefulWidget {
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이어로그 콜백
   final Function(EWeapon) navigateToDetailViewer; // 상세 뷰어 콜백
 
+  // 🔹 장르 필터 값 추가
+  final String genreFilter;
+
   const EWeaponListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
     required this.navigateToDetailViewer,
+    required this.genreFilter,
   });
 
   @override
@@ -65,21 +67,17 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
       buf.write(ch);
 
       if (ch == '.') {
-        // '.' 뒤의 첫 non-space 문자 확인
         int j = i + 1;
         while (j < len && text[j] == ' ') {
           j++;
         }
 
-        // '.' 다음이 '(' 이면: 괄호 내용까지 한 문장으로
         if (j < len && text[j] == '(') {
-          // j까지 이미 buf에 들어가게 i를 옮김
           while (i + 1 < len && i + 1 <= j) {
             i++;
             buf.write(text[i]);
           }
 
-          // ')' 나올 때까지 읽기
           while (i + 1 < len) {
             i++;
             buf.write(text[i]);
@@ -94,7 +92,6 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
           }
           buf.clear();
         } else {
-          // 그냥 '.'이면 여기서 문장 종료
           final line = buf.toString().trim();
           if (line.isNotEmpty) {
             result.add(line);
@@ -106,7 +103,6 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
       i++;
     }
 
-    // 마지막에 남은 것 처리
     final tail = buf.toString().trim();
     if (tail.isNotEmpty) {
       result.add(tail);
@@ -121,25 +117,40 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
 
-    // ✅ print() 함수를 사용해 변수 값을 출력합니다.
     print('Screen Width: $screenWidth');
     print('Screen Height: $screenHeight');
+
     return FutureBuilder<List<EWeapon>>(
       future: _futureEWeapons,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator(color: Colors.white));
         } else if (snapshot.hasError) {
-          return Center(child: Text('에러 발생: ${snapshot.error}', style: const TextStyle(color: Colors.white)));
+          return Center(
+            child: Text(
+              '에러 발생: ${snapshot.error}',
+              style: const TextStyle(color: Colors.white),
+            ),
+          );
         }
 
         final filteredWeapons = snapshot.data
-            ?.where((weapon) =>
-        weapon.game == widget.game.title &&
-            weapon.title
-                .toLowerCase()
-                .contains(widget.searchQuery.toLowerCase())) // widget.searchQuery 사용
-            .toList() ??
+            ?.where((weapon) {
+          final bool gameMatch = weapon.game == widget.game.title;
+          final bool nameMatch = weapon.title
+              .toLowerCase()
+              .contains(widget.searchQuery.toLowerCase());
+
+          // 🔹 장르 필터 적용
+          //  - '전체' 이면 필터 무시
+          //  - 아니면 weapon.genre == 선택된 장르 인 것만 통과
+          final String currentFilter = widget.genreFilter;
+          final bool genreMatch = (currentFilter == '전체')
+              ? true
+              : (weapon.genre == currentFilter);
+
+          return gameMatch && nameMatch && genreMatch;
+        }).toList() ??
             [];
 
         if (filteredWeapons.isEmpty) {
@@ -155,7 +166,6 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
             final weapon = filteredWeapons[index];
             final isExpanded = _expandedId == weapon.id;
 
-            // 설명을 규칙에 맞게 분리
             final List<String> descriptionLines =
             _splitDescriptionWithParens(weapon.description);
 
@@ -177,24 +187,27 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                 child: Column(
                   children: [
                     SizedBox(
-                      // [수정] 고정값 80.0 -> 화면 높이의 10% (80.0 / 800.0)
                       height: screenHeight * 0.1,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            onTap: () =>
-                                widget.showImageDialog(context, weapon.img, weapon.title), // 콜백 사용
+                            onTap: () => widget.showImageDialog(
+                              context,
+                              weapon.img,
+                              weapon.title,
+                            ),
                             child: Container(
                               margin: const EdgeInsets.only(left: 3),
-                              // [수정] 고정값 90 -> 화면 너비의 25% (90.0 / 360.0)
                               width: screenWidth * 0.25,
                               padding: const EdgeInsets.all(8.0),
                               child: Image.network(
                                 weapon.img,
                                 fit: BoxFit.contain,
-                                errorBuilder: (c, e, s) =>
-                                const Icon(Icons.image_not_supported, color: Colors.white24),
+                                errorBuilder: (c, e, s) => const Icon(
+                                  Icons.image_not_supported,
+                                  color: Colors.white24,
+                                ),
                               ),
                             ),
                           ),
@@ -220,19 +233,28 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                     children: [
                                       Text(
                                         weapon.type,
-                                        style: TextStyle(color: Colors.grey[400], fontSize: 13),
+                                        style: TextStyle(
+                                          color: Colors.grey[400],
+                                          fontSize: 13,
+                                        ),
                                       ),
-                                      // 구분 기호와 좌우 공백을 추가합니다.
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                        padding:
+                                        const EdgeInsets.symmetric(horizontal: 4.0),
                                         child: Text(
                                           '|',
-                                          style: TextStyle(color: Colors.grey[600], fontSize: 11),
+                                          style: TextStyle(
+                                            color: Colors.grey[600],
+                                            fontSize: 11,
+                                          ),
                                         ),
                                       ),
                                       Text(
                                         weapon.genre,
-                                        style: TextStyle(color: Colors.grey[400], fontSize: 13),
+                                        style: TextStyle(
+                                          color: Colors.grey[400],
+                                          fontSize: 13,
+                                        ),
                                       ),
                                     ],
                                   )
@@ -240,17 +262,18 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                               ),
                             ),
                           ),
+                          /*
                           Padding(
-                            padding: const EdgeInsets.only(left: 12.0, right: 16.0),
+                            padding:
+                            const EdgeInsets.only(left: 12.0, right: 16.0),
                             child: GestureDetector(
-                              onTap: () => widget.navigateToDetailViewer(weapon), // 콜백 사용
+                              onTap: () => widget.navigateToDetailViewer(weapon),
                               behavior: HitTestBehavior.translucent,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Image.asset(
                                     'assets/images/comment.png',
-                                    // [수정] 고정값 40.0 -> 화면 너비의 약 11% (40.0 / 360.0)
                                     width: screenWidth * 0.11,
                                     height: screenWidth * 0.11,
                                   ),
@@ -265,7 +288,7 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                 ],
                               ),
                             ),
-                          ),
+                          ),*/
                         ],
                       ),
                     ),
@@ -275,10 +298,12 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            const Divider(color: Colors.white24, height: 1, thickness: 0.5),
+                            const Divider(
+                              color: Colors.white24,
+                              height: 1,
+                              thickness: 0.5,
+                            ),
                             const SizedBox(height: 10),
-
-                            // 🔹 설명: 문장별로 나눠서 한 줄씩 + 줄마다 SizedBox로 간격
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -296,7 +321,6 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                   ],
                               ],
                             ),
-
                             const SizedBox(height: 12),
                             GestureDetector(
                               onTap: () {
@@ -312,23 +336,30 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                   );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('상세 이미지가 없습니다.')),
+                                    const SnackBar(
+                                      content: Text('상세 이미지가 없습니다.'),
+                                    ),
                                   );
                                 }
                               },
                               child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                padding:
+                                const EdgeInsets.symmetric(vertical: 12),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   image: const DecorationImage(
-                                    image: AssetImage('assets/images/detailground.png'),
+                                    image: AssetImage(
+                                        'assets/images/detailground.png'),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                                 child: const Center(
                                   child: Text(
                                     '상세 이미지 보기',
-                                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),

@@ -14,11 +14,15 @@ class EEtcListPage extends StatefulWidget {
   final String searchQuery; // 상위에서 전달받는 검색어
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
 
+  // 🔹 타입 필터 추가 (예: 소모품 / 키 아이템 / 제작 재료 등)
+  final String typeFilter;
+
   const EEtcListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
+    this.typeFilter = '전체',          // 기본값: 전체
   });
 
   @override
@@ -141,10 +145,11 @@ class _EEtcListPageState extends State<EEtcListPage> {
 
         final items = snapshot.data ?? [];
 
-        // 게임 이름 + 검색어로 필터링
+        // 게임 이름 + 검색어 + 타입 필터로 필터링
         final filtered = items
             .where((e) =>
         e.game == widget.game.title &&
+            (widget.typeFilter == '전체' || e.type == widget.typeFilter) &&
             e.title.toLowerCase().contains(widget.searchQuery.toLowerCase()))
             .toList();
 

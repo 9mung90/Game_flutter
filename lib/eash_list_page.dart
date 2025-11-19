@@ -14,11 +14,15 @@ class EAshListPage extends StatefulWidget {
   final String searchQuery; // 상위에서 전달받는 검색어
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
 
+  // 🔹 전투 기술(재) 필터 값 (예: '전체', '물리', '화염' ...)
+  final String propertyFilter;
+
   const EAshListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
+    required this.propertyFilter,  // 🔹 추가
   });
 
   @override
@@ -133,11 +137,19 @@ class _EAshListPageState extends State<EAshListPage> {
 
         final items = snapshot.data ?? [];
 
-        final filtered = items
-            .where((e) =>
-        e.game == widget.game.title &&
-            e.title.toLowerCase().contains(widget.searchQuery.toLowerCase()))
-            .toList();
+        final filtered = items.where((e) {
+          final bool gameMatch = e.game == widget.game.title;
+          final bool nameMatch = e.title
+              .toLowerCase()
+              .contains(widget.searchQuery.toLowerCase());
+
+          // 🔹 필터 값이 '전체'면 전부 통과, 아니면 EAsh.property와 일치할 때만
+          final bool propertyMatch = widget.propertyFilter == '전체'
+              ? true
+              : e.property == widget.propertyFilter;
+
+          return gameMatch && nameMatch && propertyMatch;
+        }).toList();
 
         if (filtered.isEmpty) {
           return const Center(

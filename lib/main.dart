@@ -5,8 +5,8 @@ import 'api_config.dart';
 import 'game.dart';
 import 'etc.dart';
 import 'eweapon_list_page.dart';
-import 'login_page.dart';
 import 'list_Top.dart';
+import 'login_page.dart';
 
 // 메인페이지, 어차피 엘든링 말고는 작동 안함
 
@@ -22,17 +22,40 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/main',
-      routes: {
-        '/main': (context) => const MainPage(),
-      },
+      debugShowCheckedModeBanner: false,
 
+      // 🔹 앱 켜지자마자 ListTop으로 바로 이동
+      initialRoute: '/listTop',
+
+      routes: {
+        // 원래 메인 페이지 (나중에 다시 쓸 수 있게 유지)
+        '/main': (context) => const MainPage(),
+
+        // 🔹 Elden Ring용 ListTop 라우트
+        '/listTop': (context) {
+          // 여기서 임시 Elden Ring Game 하나 만들어서 넘김
+          final Game eldenRing = Game(
+            id: 18,
+            title: '엘든 링',
+            genre1: '소울라이크',
+            genre2: '모험',
+            genre3: '어드벤쳐',
+            img: 'https://coddingswitch.s3.ap-northeast-2.amazonaws.com/test/Elden-Ring-KF01.jpg',
+            price: 49800,
+            // Game 클래스에 다른 필드 있으면 거기도 채워줘
+          );
+
+          return ListTop(game: eldenRing);
+        },
+      },
 
       theme: ThemeData(
         fontFamily: 'OptimusPrinceps',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
       ),
-      home: const MainPage(),
+
+      // 🔹 initialRoute를 쓰고 있으니까 home은 굳이 안 써도 됨 (써도 무시됨)
+      // home: const MainPage(),
     );
   }
 }
@@ -128,7 +151,8 @@ class _GameListPageState extends State<GameListPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => GameItemMasterPage(game: game),
+                        // 🔹 GameItemMasterPage → ListTop으로 변경
+                        builder: (context) => ListTop(game: game),
                       ),
                     );
                   },
@@ -179,7 +203,7 @@ class _GameListPageState extends State<GameListPage> {
                                 '${index + 1}',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  // [수정] 고정값 -> 화면 높이 비율에 따른 값 (폰트는 높이 기준이 좀 더 안정적)
+                                  // [수정] 고정값 -> 화면 높이 비율에 따른 값
                                   fontSize: screenHeight * 0.015, // 12.0 / 800.0
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -205,8 +229,7 @@ class _GameListPageState extends State<GameListPage> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      // [수정] 고정값 -> 화면 높이 비율에 따른 값
-                                      fontSize: screenHeight * 0.015, // 12.0 / 800.0
+                                      fontSize: screenHeight * 0.015,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -215,8 +238,7 @@ class _GameListPageState extends State<GameListPage> {
                                     '${game.price}원',
                                     style: TextStyle(
                                       color: Colors.white70,
-                                      // [수정] 고정값 -> 화면 높이 비율에 따른 값
-                                      fontSize: screenHeight * 0.013, // 11.0 / 800.0
+                                      fontSize: screenHeight * 0.013,
                                     ),
                                   ),
                                 ],
