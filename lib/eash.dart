@@ -1,5 +1,5 @@
 // lib/eweapon.dart
-
+// 업데이트 테스트
 // API로부터 받은 무기 데이터를 담을 클래스입니다.
 class EAsh {
   final int id;
