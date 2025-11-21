@@ -8,6 +8,9 @@ import 'api_config.dart';
 import 'eetc.dart';
 import 'game.dart';
 
+/// 🔥 EEtc 전역 캐시 (이 파일 안에서만 사용)
+List<EEtc>? _eEtcCache;
+
 /// 기타(EEtc) 아이템 목록 페이지
 class EEtcListPage extends StatefulWidget {
   final Game game;
@@ -40,11 +43,21 @@ class _EEtcListPageState extends State<EEtcListPage> {
   }
 
   Future<List<EEtc>> fetchEEtcs() async {
+    // 🔥 1) 이미 캐시가 있으면 API 호출 없이 바로 반환
+    if (_eEtcCache != null) {
+      return _eEtcCache!;
+    }
+
     final response = await http.get(Uri.parse('$apiBaseUrl/EEtc'));
 
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
-      return body.map((dynamic item) => EEtc.fromJson(item)).toList();
+      final List<EEtc> data =
+      body.map((dynamic item) => EEtc.fromJson(item)).toList();
+
+      // 🔥 2) 첫 로딩 시 결과를 캐시에 저장
+      _eEtcCache = data;
+      return data;
     } else {
       throw Exception('기타 아이템(EEtc) 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
@@ -151,7 +164,9 @@ class _EEtcListPageState extends State<EEtcListPage> {
             .where((e) =>
         e.game == widget.game.title &&
             (widget.typeFilter == '전체' || e.type == widget.typeFilter) &&
-            e.title.toLowerCase().contains(widget.searchQuery.toLowerCase()))
+            e.title
+                .toLowerCase()
+                .contains(widget.searchQuery.toLowerCase()))
             .toList();
 
         if (filtered.isEmpty) {
@@ -204,8 +219,8 @@ class _EEtcListPageState extends State<EEtcListPage> {
                         children: [
                           // 왼쪽 썸네일
                           GestureDetector(
-                            onTap: () =>
-                                widget.showImageDialog(context, etc.img, etc.title),
+                            onTap: () => widget.showImageDialog(
+                                context, etc.img, etc.title),
                             child: Container(
                               margin: const EdgeInsets.only(left: 3),
                               width: screenWidth * 0.25,
@@ -223,8 +238,8 @@ class _EEtcListPageState extends State<EEtcListPage> {
                           // 오른쪽 텍스트 영역
                           Expanded(
                             child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 12.0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -260,7 +275,8 @@ class _EEtcListPageState extends State<EEtcListPage> {
                     // 아래: 확장 영역(설명 + 능력)
                     if (isExpanded)
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
+                        padding:
+                        const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [

@@ -8,6 +8,9 @@ import '../api_config.dart';
 import 'eash.dart';            // ✅ EAsh DTO 사용
 import 'game.dart';
 
+/// ⭐ EAsh 전역 캐시 (이 파일 안에서만 사용)
+List<EAsh>? _eAshCache;
+
 /// 재료(재, Ash) 목록 페이지 - 댓글/네비 제거 버전
 class EAshListPage extends StatefulWidget {
   final Game game;
@@ -40,11 +43,21 @@ class _EAshListPageState extends State<EAshListPage> {
   }
 
   Future<List<EAsh>> fetchEAshes() async {
+    // ⭐ 1) 캐시가 이미 있으면 그대로 반환 (API 호출 안 함)
+    if (_eAshCache != null) {
+      return _eAshCache!;
+    }
+
     // ✅ 백엔드 라우트에 맞춰 경로 확인 (예: /EAsh)
     final response = await http.get(Uri.parse('$apiBaseUrl/EAsh'));
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
-      return body.map((dynamic item) => EAsh.fromJson(item)).toList();
+      final List<EAsh> data =
+      body.map((dynamic item) => EAsh.fromJson(item)).toList();
+
+      // ⭐ 2) 처음 로딩한 데이터 캐시에 저장
+      _eAshCache = data;
+      return data;
     } else {
       throw Exception('EAsh 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }

@@ -8,6 +8,9 @@ import 'api_config.dart';
 import 'ebone.dart';
 import 'game.dart';
 
+/// EBone 전역 캐시 (이 파일 안에서만 사용)
+List<EBone>? _eBoneCache;
+
 /// 뼈(EBone) 아이템 목록 페이지
 class EBoneListPage extends StatefulWidget {
   final Game game;
@@ -36,11 +39,21 @@ class _EBoneListPageState extends State<EBoneListPage> {
   }
 
   Future<List<EBone>> fetchEBones() async {
+    // 🔥 1) 캐시가 이미 있으면 API 호출 없이 바로 반환
+    if (_eBoneCache != null) {
+      return _eBoneCache!;
+    }
+
     final response = await http.get(Uri.parse('$apiBaseUrl/EBone'));
 
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
-      return body.map((dynamic item) => EBone.fromJson(item)).toList();
+      final List<EBone> data =
+      body.map((dynamic item) => EBone.fromJson(item)).toList();
+
+      // 🔥 2) 최초 한 번 로딩한 데이터를 캐시에 저장
+      _eBoneCache = data;
+      return data;
     } else {
       throw Exception('뼛가루 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
@@ -138,7 +151,9 @@ class _EBoneListPageState extends State<EBoneListPage> {
         final filtered = items
             .where((b) =>
         b.game == widget.game.title &&
-            b.title.toLowerCase().contains(widget.searchQuery.toLowerCase()))
+            b.title
+                .toLowerCase()
+                .contains(widget.searchQuery.toLowerCase()))
             .toList();
 
         if (filtered.isEmpty) {
@@ -188,8 +203,8 @@ class _EBoneListPageState extends State<EBoneListPage> {
                         children: [
                           // 왼쪽 썸네일 이미지
                           GestureDetector(
-                            onTap: () =>
-                                widget.showImageDialog(context, bone.img, bone.title),
+                            onTap: () => widget.showImageDialog(
+                                context, bone.img, bone.title),
                             child: Container(
                               margin: const EdgeInsets.only(left: 3),
                               width: screenWidth * 0.25,
@@ -207,8 +222,8 @@ class _EBoneListPageState extends State<EBoneListPage> {
                           // 오른쪽 텍스트 영역
                           Expanded(
                             child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 12.0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -249,9 +264,11 @@ class _EBoneListPageState extends State<EBoneListPage> {
                     // 확장 영역: 설명 + (있다면) 획득
                     if (isExpanded)
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
+                        padding:
+                        const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          crossAxisAlignment:
+                          CrossAxisAlignment.stretch,
                           children: [
                             const Divider(
                               color: Colors.white24,
@@ -262,7 +279,8 @@ class _EBoneListPageState extends State<EBoneListPage> {
 
                             // 상세 설명: 문장별 Text + SizedBox로 한 칸씩
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
                               children: [
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
@@ -278,7 +296,6 @@ class _EBoneListPageState extends State<EBoneListPage> {
                                   ],
                               ],
                             ),
-
 
                             const SizedBox(height: 8),
                             const SizedBox(height: 8),

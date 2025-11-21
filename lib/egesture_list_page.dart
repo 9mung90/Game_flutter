@@ -8,6 +8,9 @@ import 'api_config.dart';
 import 'egesture.dart';
 import 'game.dart';
 
+/// 🔥 EGesture 전역 캐시 (이 파일 안에서만 사용)
+List<EGesture>? _eGestureCache;
+
 /// 제스처(EGesture) 아이템 목록 페이지
 class EGestureListPage extends StatefulWidget {
   final Game game;
@@ -36,12 +39,22 @@ class _EGestureListPageState extends State<EGestureListPage> {
   }
 
   Future<List<EGesture>> fetchEGestures() async {
+    // ⭐ 1) 캐시가 이미 있으면 API 호출 안 하고 바로 반환
+    if (_eGestureCache != null) {
+      return _eGestureCache!;
+    }
+
     // 서버 제스처 목록 엔드포인트 (EBone 패턴 따라감: /EBone → /EGesture)
     final response = await http.get(Uri.parse('$apiBaseUrl/EGesture'));
 
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
-      return body.map((dynamic item) => EGesture.fromJson(item)).toList();
+      final List<EGesture> data =
+      body.map((dynamic item) => EGesture.fromJson(item)).toList();
+
+      // ⭐ 2) 처음 불러온 데이터를 캐시에 저장
+      _eGestureCache = data;
+      return data;
     } else {
       throw Exception('제스처 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
@@ -140,7 +153,9 @@ class _EGestureListPageState extends State<EGestureListPage> {
         final filtered = items
             .where((g) =>
         g.game == widget.game.title &&
-            g.title.toLowerCase().contains(widget.searchQuery.toLowerCase()))
+            g.title
+                .toLowerCase()
+                .contains(widget.searchQuery.toLowerCase()))
             .toList();
 
         if (filtered.isEmpty) {
@@ -240,9 +255,11 @@ class _EGestureListPageState extends State<EGestureListPage> {
                     // 확장 영역: 상세 설명
                     if (isExpanded)
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
+                        padding:
+                        const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          crossAxisAlignment:
+                          CrossAxisAlignment.stretch,
                           children: [
                             const Divider(
                               color: Colors.white24,
@@ -253,7 +270,8 @@ class _EGestureListPageState extends State<EGestureListPage> {
 
                             // 상세 설명: 문장별 Text + SizedBox로 한 칸씩
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
                               children: [
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[

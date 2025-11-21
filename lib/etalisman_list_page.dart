@@ -8,6 +8,9 @@ import 'api_config.dart';
 import 'etalisman.dart';
 import 'game.dart';
 
+/// 🔥 ETalisman 전역 캐시 (이 파일 안에서만 사용)
+List<ETalisman>? _eTalismanCache;
+
 /// 탈리스만(ETalisman) 목록 페이지
 class ETalismanListPage extends StatefulWidget {
   final Game game;
@@ -36,11 +39,21 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
   }
 
   Future<List<ETalisman>> fetchETalismans() async {
+    // 🔥 1) 이미 캐시가 있으면 API 호출 없이 바로 반환
+    if (_eTalismanCache != null) {
+      return _eTalismanCache!;
+    }
+
     // 컨트롤러에서 매핑한 URL에 맞춰 수정하면 됨 (예: /ETalisman)
     final response = await http.get(Uri.parse('$apiBaseUrl/ETalisman'));
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
-      return body.map((dynamic item) => ETalisman.fromJson(item)).toList();
+      final List<ETalisman> data =
+      body.map((dynamic item) => ETalisman.fromJson(item)).toList();
+
+      // 🔥 2) 첫 로딩 결과를 캐시에 저장
+      _eTalismanCache = data;
+      return data;
     } else {
       throw Exception('탈리스만 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
@@ -143,7 +156,9 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
         final filtered = items
             .where((e) =>
         e.game == widget.game.title &&
-            e.title.toLowerCase().contains(widget.searchQuery.toLowerCase()))
+            e.title
+                .toLowerCase()
+                .contains(widget.searchQuery.toLowerCase()))
             .toList();
 
         if (filtered.isEmpty) {

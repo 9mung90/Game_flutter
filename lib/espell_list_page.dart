@@ -8,6 +8,9 @@ import 'api_config.dart';
 import 'espell.dart';
 import 'game.dart';
 
+/// 🔥 ESpell 전역 캐시 (이 파일 안에서만 사용)
+List<ESpell>? _eSpellCache;
+
 /// 주문(Spell) 목록 페이지 (댓글/네비 제거 버전)
 class ESpellListPage extends StatefulWidget {
   final Game game;
@@ -36,11 +39,21 @@ class _ESpellListPageState extends State<ESpellListPage> {
   }
 
   Future<List<ESpell>> fetchESpells() async {
+    // 🔥 1) 이미 캐시가 있으면 API 호출 없이 바로 반환
+    if (_eSpellCache != null) {
+      return _eSpellCache!;
+    }
+
     // 백엔드 라우트에 맞춰 조정: /ESpell (다르면 여기만 변경)
     final response = await http.get(Uri.parse('$apiBaseUrl/ESpell'));
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
-      return body.map((dynamic item) => ESpell.fromJson(item)).toList();
+      final List<ESpell> data =
+      body.map((dynamic item) => ESpell.fromJson(item)).toList();
+
+      // 🔥 2) 첫 로딩 결과를 캐시에 저장
+      _eSpellCache = data;
+      return data;
     } else {
       throw Exception('주문(ESpell) 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
@@ -136,7 +149,9 @@ class _ESpellListPageState extends State<ESpellListPage> {
         final filtered = items
             .where((s) =>
         s.game == widget.game.title &&
-            s.title.toLowerCase().contains(widget.searchQuery.toLowerCase()))
+            s.title
+                .toLowerCase()
+                .contains(widget.searchQuery.toLowerCase()))
             .toList();
 
         if (filtered.isEmpty) {

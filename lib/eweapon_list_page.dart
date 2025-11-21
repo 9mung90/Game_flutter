@@ -9,11 +9,14 @@ import 'game.dart';
 import 'detail_view_page.dart';
 import 'detail_image_view_page.dart';
 
+/// 🔥 EWeapon 전역 캐시 (이 파일 안에서만 사용)
+List<EWeapon>? _eWeaponCache;
+
 // EWeaponListPage는 이제 무기 목록만 담당합니다.
 class EWeaponListPage extends StatefulWidget {
   final Game game;
   final String searchQuery; // 검색어를 상위 위젯에서 받음
-  final Function(BuildContext, String, String) showImageDialog; // 이미지 다이어로그 콜백
+  final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
   final Function(EWeapon) navigateToDetailViewer; // 상세 뷰어 콜백
 
   // 🔹 장르 필터 값 추가
@@ -43,10 +46,20 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
   }
 
   Future<List<EWeapon>> fetchEWeapons() async {
+    // 🔥 1) 이미 캐시가 있으면 API 호출 없이 바로 사용
+    if (_eWeaponCache != null) {
+      return _eWeaponCache!;
+    }
+
     final response = await http.get(Uri.parse('$apiBaseUrl/EWeapon'));
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
-      return body.map((dynamic item) => EWeapon.fromJson(item)).toList();
+      final List<EWeapon> data =
+      body.map((dynamic item) => EWeapon.fromJson(item)).toList();
+
+      // 🔥 2) 첫 로딩 결과를 캐시에 저장
+      _eWeaponCache = data;
+      return data;
     } else {
       throw Exception('무기 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
@@ -117,7 +130,6 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
-
 
     return FutureBuilder<List<EWeapon>>(
       future: _futureEWeapons,
