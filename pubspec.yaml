@@ -110,7 +110,7 @@ flutter:
 
 flutter_native_splash:
   color: "#000000"          # 배경색 (검은색)
-  image: assets/images/loading_Icon2.jpg  # 가운데 로고
+  background_image: assets/images/loading_Icon2.jpg  # 가운데 로고
   android: true
   ios: true
   web: false
@@ -118,7 +118,7 @@ flutter_native_splash:
   # 안드로이드 12 전용 아이콘/이미지 (있으면)
   android_12:
     color: "#000000"
-    image: assets/images/loading_Icon2.jpg
+    background_image: assets/images/loading_Icon2.jpg
 
 flutter_launcher_icons:
   android: true
