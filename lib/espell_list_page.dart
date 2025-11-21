@@ -116,6 +116,7 @@ class _ESpellListPageState extends State<ESpellListPage> {
     final Size screenSize = MediaQuery.of(context).size;
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
+    final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
 
     return FutureBuilder<List<ESpell>>(
       future: _futureESpells,
@@ -145,7 +146,7 @@ class _ESpellListPageState extends State<ESpellListPage> {
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
             final spell = filtered[index];

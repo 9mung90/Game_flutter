@@ -120,9 +120,8 @@ class _EArmorListPageState extends State<EArmorListPage> {
     final Size screenSize = MediaQuery.of(context).size;
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
+    final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
 
-    print('Screen Width: $screenWidth');
-    print('Screen Height: $screenHeight');
 
     return FutureBuilder<List<EArmor>>(
       future: _futureEArmors,
@@ -162,7 +161,7 @@ class _EArmorListPageState extends State<EArmorListPage> {
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
           itemCount: filteredArmors.length,
           itemBuilder: (context, index) {
             final armor = filteredArmors[index];

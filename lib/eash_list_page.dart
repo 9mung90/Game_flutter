@@ -120,6 +120,7 @@ class _EAshListPageState extends State<EAshListPage> {
     final Size screenSize = MediaQuery.of(context).size;
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
+    final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
 
     return FutureBuilder<List<EAsh>>(
       future: _futureEAshes,
@@ -158,7 +159,7 @@ class _EAshListPageState extends State<EAshListPage> {
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
             final ash = filtered[index];
