@@ -43,7 +43,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_native_splash: ^2.4.2
-  flutter_launcher_icons: ^0.14.1
+  flutter_launcher_icons: ^0.14.4
 
 
 
@@ -107,18 +107,19 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
-
+#일부러 버그를 내서 main_Icon이 뜨게 만들었음, 그게 제일 이뻐서..dependency_overrides:
+# 근데 다른건 방법을 도저히 모르겠네 그냥 적용하면 너무 안이뻐 이게
 flutter_native_splash:
-  color: "#000000"          # 배경색 (검은색)
-  background_image: assets/images/loading_Icon2.jpg  # 가운데 로고
+  color: "#FFFFFF"          # 배경색 (검은색)
+  background_image: assets/images/back_Icon.png  # 가운데 로고
   android: true
   ios: true
   web: false
 
   # 안드로이드 12 전용 아이콘/이미지 (있으면)
   android_12:
-    color: "#000000"
-    background_image: assets/images/loading_Icon2.jpg
+    color: "#FFFFFF"
+    background_image: assets/images/back_Icon.png
 
 flutter_launcher_icons:
   android: true

@@ -41,6 +41,9 @@ class _ListTopState extends State<ListTop> {
   final PageController _pageController = PageController(initialPage: 0);
   final ScrollController _tabScrollController = ScrollController();
 
+  // 🔥 검색창 포커스 제어용 FocusNode 추가
+  final FocusNode _searchFocusNode = FocusNode();
+
   String _searchQuery = '';
   int _selectedIndex = 0; // 0: 무기, 1: 방어구, 2: 전투 기술, ...
 
@@ -72,6 +75,8 @@ class _ListTopState extends State<ListTop> {
     _searchController.dispose();
     _pageController.dispose();
     _tabScrollController.dispose();
+    _searchFocusNode
+        .dispose(); // 🔥 FocusNode도 잊지 말고 해제 (메모리 누수 방지)
     super.dispose();
   }
 
@@ -709,247 +714,260 @@ class _ListTopState extends State<ListTop> {
       ),
     ];
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: Colors.grey[900],
-        title: Row(
-          children: [
-            Image.asset(
-              'assets/images/grace_Icon2.png',
-              width: 32,
-              height: 32,
-              fit: BoxFit.cover,
-            ),
-            const SizedBox(width: 8),
-            Flexible(
-              child: Text(
-                widget.game.title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+    return WillPopScope(
+      // 🔥 안드로이드 뒤로가기 버튼 눌렀을 때 처리
+      onWillPop: () async {
+        if (_searchFocusNode.hasFocus) {
+          // 검색창에 포커스가 있으면 → 포커스만 해제하고, 페이지 뒤로가기는 막기
+          _searchFocusNode.unfocus();
+          return false; // pop 하지 않음
+        }
+        // 포커스 없으면 → 원래대로 뒤로가기 허용
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Colors.grey[900],
+          title: Row(
+            children: [
+              Image.asset(
+                'assets/images/grace_Icon2.png',
+                width: 32,
+                height: 32,
+                fit: BoxFit.cover,
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  widget.game.title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+          elevation: 0,
+        ),
+        body: Column(
+          children: [
+            // 🔹 검색창
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 5),
+              child: TextField(
+                controller: _searchController,
+                focusNode: _searchFocusNode, // 🔥 여기 연결
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: '아이템 이름으로 검색...',
+                  hintStyle: TextStyle(color: Colors.grey[500]),
+                  prefixIcon: Icon(Icons.search, color: Colors.grey[500]),
+                  suffixIcon: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (_searchQuery.isNotEmpty)
+                        IconButton(
+                          icon: const Icon(Icons.clear),
+                          color: Colors.white70,
+                          tooltip: '검색어 지우기',
+                          onPressed: () => _searchController.clear(),
+                        ),
+                      IconButton(
+                        icon: const Icon(Icons.filter_list),
+                        color: filterIconColor,
+                        tooltip: hasFilter ? '필터' : '필터 없음',
+                        onPressed: hasFilter ? _openFilterSheet : null,
+                      ),
+                    ],
+                  ),
+                  filled: true,
+                  fillColor: const Color.fromRGBO(33, 33, 33, 1),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+            ),
+
+            // 카테고리 버튼 줄
+            Container(
+              height: 60,
+              margin: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 0.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: ListView(
+                controller: _tabScrollController,
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  _buildCategoryButton(
+                    iconPath: 'assets/images/weapon_Icon.png',
+                    label: '무기',
+                    index: 0,
+                    currentIndex: _selectedIndex,
+                    onTap: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                        _searchController.clear();
+                      });
+                      _pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeInOut,
+                      );
+                      _scrollToCategory(index);
+                    },
+                  ),
+                  _buildCategoryButton(
+                    iconPath: 'assets/images/armor_Icon.png',
+                    label: '방어구',
+                    index: 1,
+                    currentIndex: _selectedIndex,
+                    onTap: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                        _searchController.clear();
+                      });
+                      _pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeInOut,
+                      );
+                      _scrollToCategory(index);
+                    },
+                  ),
+                  _buildCategoryButton(
+                    iconPath: 'assets/images/ash_Icon.png',
+                    label: '전투 기술',
+                    index: 2,
+                    currentIndex: _selectedIndex,
+                    onTap: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                        _searchController.clear();
+                      });
+                      _pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeInOut,
+                      );
+                      _scrollToCategory(index);
+                    },
+                  ),
+                  _buildCategoryButton(
+                    iconPath: 'assets/images/ESpell_Icon.png',
+                    label: '마술/기도',
+                    index: 3,
+                    currentIndex: _selectedIndex,
+                    onTap: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                        _searchController.clear();
+                      });
+                      _pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeInOut,
+                      );
+                      _scrollToCategory(index);
+                    },
+                  ),
+                  _buildCategoryButton(
+                    iconPath: 'assets/images/ETalisman_Icon.png',
+                    label: '탈리스만',
+                    index: 4,
+                    currentIndex: _selectedIndex,
+                    onTap: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                        _searchController.clear();
+                      });
+                      _pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeInOut,
+                      );
+                      _scrollToCategory(index);
+                    },
+                  ),
+                  _buildCategoryButton(
+                    iconPath: 'assets/images/ai_Icon.png',
+                    label: '뼛가루',
+                    index: 5,
+                    currentIndex: _selectedIndex,
+                    onTap: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                        _searchController.clear();
+                      });
+                      _pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeInOut,
+                      );
+                      _scrollToCategory(index);
+                    },
+                  ),
+                  _buildCategoryButton(
+                    iconPath: 'assets/images/etc_Icon.png',
+                    label: '기타',
+                    index: 6,
+                    currentIndex: _selectedIndex,
+                    onTap: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                        _searchController.clear();
+                      });
+                      _pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeInOut,
+                      );
+                      _scrollToCategory(index);
+                    },
+                  ),
+                  // ⭐ 제스처 카테고리 버튼
+                  _buildCategoryButton(
+                    iconPath: 'assets/images/EGesture_Icon.png',
+                    label: '제스처',
+                    index: 7,
+                    currentIndex: _selectedIndex,
+                    onTap: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                        _searchController.clear();
+                      });
+                      _pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeInOut,
+                      );
+                      _scrollToCategory(index);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                  _scrollToCategory(index);
+                },
+                children: _pages,
               ),
             ),
           ],
         ),
-        elevation: 0,
-      ),
-      body: Column(
-        children: [
-          // 🔹 검색창
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 5),
-            child: TextField(
-              controller: _searchController,
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: '아이템 이름으로 검색...',
-                hintStyle: TextStyle(color: Colors.grey[500]),
-                prefixIcon: Icon(Icons.search, color: Colors.grey[500]),
-                suffixIcon: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (_searchQuery.isNotEmpty)
-                      IconButton(
-                        icon: const Icon(Icons.clear),
-                        color: Colors.white70,
-                        tooltip: '검색어 지우기',
-                        onPressed: () => _searchController.clear(),
-                      ),
-                    IconButton(
-                      icon: const Icon(Icons.filter_list),
-                      color: filterIconColor,
-                      tooltip: hasFilter ? '필터' : '필터 없음',
-                      onPressed: hasFilter ? _openFilterSheet : null,
-                    ),
-                  ],
-                ),
-                filled: true,
-                fillColor: const Color.fromRGBO(33, 33, 33, 1),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-          ),
-
-          // 카테고리 버튼 줄
-          Container(
-            height: 60,
-            margin: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 0.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: ListView(
-              controller: _tabScrollController,
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                _buildCategoryButton(
-                  iconPath: 'assets/images/weapon_Icon.png',
-                  label: '무기',
-                  index: 0,
-                  currentIndex: _selectedIndex,
-                  onTap: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                      _searchController.clear();
-                    });
-                    _pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 250),
-                      curve: Curves.easeInOut,
-                    );
-                    _scrollToCategory(index);
-                  },
-                ),
-                _buildCategoryButton(
-                  iconPath: 'assets/images/armor_Icon.png',
-                  label: '방어구',
-                  index: 1,
-                  currentIndex: _selectedIndex,
-                  onTap: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                      _searchController.clear();
-                    });
-                    _pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 250),
-                      curve: Curves.easeInOut,
-                    );
-                    _scrollToCategory(index);
-                  },
-                ),
-                _buildCategoryButton(
-                  iconPath: 'assets/images/ash_Icon.png',
-                  label: '전투 기술',
-                  index: 2,
-                  currentIndex: _selectedIndex,
-                  onTap: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                      _searchController.clear();
-                    });
-                    _pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 250),
-                      curve: Curves.easeInOut,
-                    );
-                    _scrollToCategory(index);
-                  },
-                ),
-                _buildCategoryButton(
-                  iconPath: 'assets/images/ESpell_Icon.png',
-                  label: '마술/기도',
-                  index: 3,
-                  currentIndex: _selectedIndex,
-                  onTap: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                      _searchController.clear();
-                    });
-                    _pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 250),
-                      curve: Curves.easeInOut,
-                    );
-                    _scrollToCategory(index);
-                  },
-                ),
-                _buildCategoryButton(
-                  iconPath: 'assets/images/ETalisman_Icon.png',
-                  label: '탈리스만',
-                  index: 4,
-                  currentIndex: _selectedIndex,
-                  onTap: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                      _searchController.clear();
-                    });
-                    _pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 250),
-                      curve: Curves.easeInOut,
-                    );
-                    _scrollToCategory(index);
-                  },
-                ),
-                _buildCategoryButton(
-                  iconPath: 'assets/images/ai_Icon.png',
-                  label: '뼛가루',
-                  index: 5,
-                  currentIndex: _selectedIndex,
-                  onTap: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                      _searchController.clear();
-                    });
-                    _pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 250),
-                      curve: Curves.easeInOut,
-                    );
-                    _scrollToCategory(index);
-                  },
-                ),
-                _buildCategoryButton(
-                  iconPath: 'assets/images/etc_Icon.png',
-                  label: '기타',
-                  index: 6,
-                  currentIndex: _selectedIndex,
-                  onTap: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                      _searchController.clear();
-                    });
-                    _pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 250),
-                      curve: Curves.easeInOut,
-                    );
-                    _scrollToCategory(index);
-                  },
-                ),
-                // ⭐ 제스처 카테고리 버튼
-                _buildCategoryButton(
-                  iconPath: 'assets/images/EGesture_Icon.png',
-                  label: '제스처',
-                  index: 7,
-                  currentIndex: _selectedIndex,
-                  onTap: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                      _searchController.clear();
-                    });
-                    _pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 250),
-                      curve: Curves.easeInOut,
-                    );
-                    _scrollToCategory(index);
-                  },
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 8),
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-                _scrollToCategory(index);
-              },
-              children: _pages,
-            ),
-          ),
-        ],
       ),
     );
   }
