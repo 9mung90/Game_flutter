@@ -1,4 +1,4 @@
-// lib/pages/eweapon_list_page.dart (수정)
+// lib/pages/eweapon_list_page.dart (수정 완료)
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,8 +19,9 @@ class EWeaponListPage extends StatefulWidget {
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
   final Function(EWeapon) navigateToDetailViewer; // 상세 뷰어 콜백
 
-  // 🔹 장르 필터 값 추가
-  final String genreFilter;
+  // 🔹 상위/하위 필터 값
+  final String genreFilter;     // 소형 무기 / 대형 무기 / 원거리 무기 / 촉매 / 방패 ...
+  final String subTypeFilter;   // 단검 / 직검 / 대검 ...
 
   const EWeaponListPage({
     super.key,
@@ -29,6 +30,7 @@ class EWeaponListPage extends StatefulWidget {
     required this.showImageDialog,
     required this.navigateToDetailViewer,
     required this.genreFilter,
+    required this.subTypeFilter,
   });
 
   @override
@@ -130,6 +132,7 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
+    print('screen width = $screenWidth, height = $screenHeight');
 
     return FutureBuilder<List<EWeapon>>(
       future: _futureEWeapons,
@@ -152,15 +155,19 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
               .toLowerCase()
               .contains(widget.searchQuery.toLowerCase());
 
-          // 🔹 장르 필터 적용
-          //  - '전체' 이면 필터 무시
-          //  - 아니면 weapon.genre == 선택된 장르 인 것만 통과
-          final String currentFilter = widget.genreFilter;
-          final bool genreMatch = (currentFilter == '전체')
+          // 🔹 상위 필터(genre: 소형 무기 / 대형 무기 …)
+          final String currentGenreFilter = widget.genreFilter;
+          final bool genreMatch = (currentGenreFilter == '전체')
               ? true
-              : (weapon.genre == currentFilter);
+              : (weapon.genre == currentGenreFilter);
 
-          return gameMatch && nameMatch && genreMatch;
+          // 🔹 하위 필터(type: 단검 / 직검 / 대검 …)
+          final String currentSubFilter = widget.subTypeFilter;
+          final bool subMatch = (currentSubFilter == '전체')
+              ? true
+              : (weapon.type == currentSubFilter);
+
+          return gameMatch && nameMatch && genreMatch && subMatch;
         }).toList() ??
             [];
 
@@ -276,7 +283,7 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                           /*
                           Padding(
                             padding:
-                            const EdgeInsets.only(left: 12.0, right: 16.0),
+                                const EdgeInsets.only(left: 12.0, right: 16.0),
                             child: GestureDetector(
                               onTap: () => widget.navigateToDetailViewer(weapon),
                               behavior: HitTestBehavior.translucent,
@@ -354,13 +361,12 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                 }
                               },
                               child: Container(
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 12),
+                                padding: const EdgeInsets.symmetric(vertical: 12),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   image: const DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/detailground.png'),
+                                    image:
+                                    AssetImage('assets/images/detailground.png'),
                                     fit: BoxFit.cover,
                                   ),
                                 ),

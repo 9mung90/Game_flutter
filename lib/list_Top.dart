@@ -44,8 +44,9 @@ class _ListTopState extends State<ListTop> {
   String _searchQuery = '';
   int _selectedIndex = 0; // 0: 무기, 1: 방어구, 2: 전투 기술, ...
 
-  // 🔹 무기 전용 장르 필터
-  String _weaponGenreFilter = '전체';
+  // 🔹 무기 전용 2단계 필터
+  String _weaponMainFilter = '전체'; // 소형 무기 / 대형 무기 / 원거리 무기 / 촉매 / 방패 ...
+  String _weaponSubFilter = '전체';  // 단검 / 직검 / 대검 ... (상위 선택에 따라 달라짐)
 
   // 🔹 방어구 전용 부위 필터 (머리 / 몸통 / 손 / 다리 등)
   String _armorPartFilter = '전체';
@@ -171,7 +172,8 @@ class _ListTopState extends State<ListTop> {
   bool _isFilterActiveForCurrentTab() {
     switch (_selectedIndex) {
       case 0:
-        return _weaponGenreFilter != '전체';
+      // 무기: 상위/하위 둘 중 하나라도 전체가 아니면 활성화
+        return _weaponMainFilter != '전체' || _weaponSubFilter != '전체';
       case 1:
         return _armorPartFilter != '전체';
       case 2:
@@ -183,8 +185,14 @@ class _ListTopState extends State<ListTop> {
     }
   }
 
-  // 🔹 필터 선택 바텀시트 열기
+  // 🔹 공용 필터 선택 바텀시트 열기
   void _openFilterSheet() {
+    // 무기 탭이라면 2단계 필터 시트로 분기
+    if (_selectedIndex == 0) {
+      _openWeaponFilterSheet();
+      return;
+    }
+
     if (!_hasFilterForCurrentTab()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('이 카테고리는 아직 필터가 없습니다.')),
@@ -198,19 +206,6 @@ class _ListTopState extends State<ListTop> {
     String? iconAsset;
 
     switch (_selectedIndex) {
-      case 0:
-        title = '무기 필터';
-        iconAsset = 'assets/images/weapon_Icon.png';
-        options = const [
-          '전체',
-          '소형 무기',
-          '대형 무기',
-          '원거리 무기',
-          '촉매',
-          '방패',
-        ];
-        currentValue = _weaponGenreFilter;
-        break;
       case 1:
         title = '방어구 필터';
         iconAsset = 'assets/images/armor_Icon.png';
@@ -322,9 +317,6 @@ class _ListTopState extends State<ListTop> {
                       onPressed: () {
                         setState(() {
                           switch (_selectedIndex) {
-                            case 0:
-                              _weaponGenreFilter = '전체';
-                              break;
                             case 1:
                               _armorPartFilter = '전체';
                               break;
@@ -359,9 +351,6 @@ class _ListTopState extends State<ListTop> {
                       onTap: () {
                         setState(() {
                           switch (_selectedIndex) {
-                            case 0:
-                              _weaponGenreFilter = option;
-                              break;
                             case 1:
                               _armorPartFilter = option;
                               break;
@@ -420,6 +409,246 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
+  // 🔥 무기 전용: 상위 / 하위 2단계 필터 시트
+  void _openWeaponFilterSheet() {
+    // 상위 분류(genre)
+    const List<String> mainOptions = [
+      '전체',
+      '소형 무기',
+      '대형 무기',
+      '원거리 무기',
+      '촉매',
+      '방패',
+    ];
+
+    // 🔥 상위 분류별 하위 타입(type) 목록
+    const Map<String, List<String>> subOptions = {
+      '소형 무기': [
+        '단검',
+        '직검',
+        '곡검',
+        '채찍',
+      ],
+      '대형 무기': [
+        '대검',
+        '대형 곡검',
+        '도끼',
+        '도끼창',
+        '망치',
+      ],
+      '원거리 무기': [
+        '활',
+        '대형 활',
+        '석궁',
+      ],
+      '촉매': [
+        '지팡이',
+        '도장',
+      ],
+      '방패': [
+        '소형 방패',
+        '중형 방패',
+        '대형 방패',
+      ],
+    };
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        String tempMain = _weaponMainFilter;
+        String tempSub = _weaponSubFilter;
+
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            // 현재 상위 선택에 따라 하위 리스트 구성
+            List<String> currentSubList = [];
+            if (tempMain != '전체') {
+              currentSubList = [
+                '전체',
+                ...(subOptions[tempMain] ?? []),
+              ];
+            }
+
+            final double maxHeight = MediaQuery.of(context).size.height * 0.6;
+
+            return SafeArea(
+              child: SizedBox(
+                height: maxHeight,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    // 상단 타이틀 + 초기화
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/weapon_Icon.png',
+                            width: 22,
+                            height: 22,
+                            errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.broken_image,
+                                color: Colors.white70, size: 22),
+                          ),
+                          const SizedBox(width: 8),
+                          const Text(
+                            '무기 필터',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {
+                              // 상/하위 모두 초기화 + 부모 상태도 초기화
+                              setModalState(() {
+                                tempMain = '전체';
+                                tempSub = '전체';
+                              });
+                              setState(() {
+                                _weaponMainFilter = '전체';
+                                _weaponSubFilter = '전체';
+                              });
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              '초기화',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Divider(color: Colors.white24, height: 1),
+
+                    // 🔹 상단 바로 아래: 가로 꽉 차는, 세로 얇은 드롭다운
+                    if (tempMain != '전체' && currentSubList.isNotEmpty)
+                      Padding(
+                        padding:
+                        const EdgeInsets.fromLTRB(16, 10, 16, 8),
+                        child: Container(
+                          height: 34, // 👈 세로 얇게
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: Colors.white24,
+                              width: 1,
+                            ),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: tempSub,
+                              isExpanded: true,
+                              dropdownColor: Colors.grey[900],
+                              iconEnabledColor: Colors.white70,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                              ),
+                              items: currentSubList
+                                  .map(
+                                    (option) => DropdownMenuItem<String>(
+                                  value: option,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: Text(
+                                      option,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              )
+                                  .toList(),
+                              onChanged: (value) {
+                                if (value == null) return;
+                                setModalState(() {
+                                  tempSub = value;
+                                });
+                                setState(() {
+                                  _weaponMainFilter = tempMain;
+                                  _weaponSubFilter = tempSub;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      )
+                    else
+                      const SizedBox(height: 8),
+
+                    // 🔹 상위 분류 리스트 (render overflow 방지를 위해 Expanded 사용)
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: mainOptions.length,
+                        itemBuilder: (context, index) {
+                          final option = mainOptions[index];
+                          final bool isSelected = option == tempMain;
+
+                          return InkWell(
+                            onTap: () {
+                              setModalState(() {
+                                tempMain = option;
+                                tempSub = '전체';
+                              });
+                              setState(() {
+                                _weaponMainFilter = tempMain;
+                                _weaponSubFilter = tempSub;
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 10,
+                              ),
+                              color: isSelected
+                                  ? Colors.grey[800]
+                                  : Colors.transparent,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    option,
+                                    style: TextStyle(
+                                      color: isSelected
+                                          ? Colors.white
+                                          : Colors.grey[300],
+                                      fontSize: 14,
+                                      fontWeight: isSelected
+                                          ? FontWeight.w600
+                                          : FontWeight.normal,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  if (isSelected)
+                                    const Icon(
+                                      Icons.check,
+                                      color: Colors.amberAccent,
+                                      size: 18,
+                                    ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool hasFilter = _hasFilterForCurrentTab();
@@ -436,7 +665,8 @@ class _ListTopState extends State<ListTop> {
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
         navigateToDetailViewer: _navigateToDetailViewer,
-        genreFilter: _weaponGenreFilter,
+        genreFilter: _weaponMainFilter,   // 상위 분류
+        subTypeFilter: _weaponSubFilter,  // 하위 분류
       ),
       EArmorListPage(
         game: widget.game,
@@ -550,8 +780,7 @@ class _ListTopState extends State<ListTop> {
           // 카테고리 버튼 줄
           Container(
             height: 60,
-            margin:
-            const EdgeInsets.symmetric(horizontal: 3.0, vertical: 0.0),
+            margin: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 0.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
             ),
@@ -685,7 +914,7 @@ class _ListTopState extends State<ListTop> {
                     _scrollToCategory(index);
                   },
                 ),
-                // ⭐ 제스처 카테고리 버튼 (아이콘은 임시로 탈리스만 이미지 재사용)
+                // ⭐ 제스처 카테고리 버튼
                 _buildCategoryButton(
                   iconPath: 'assets/images/EGesture_Icon.png',
                   label: '제스처',
@@ -765,8 +994,7 @@ Widget _buildCategoryButton({
             style: TextStyle(
               color: isSelected ? Colors.white : Colors.white70,
               fontSize: 12,
-              fontWeight:
-              isSelected ? FontWeight.bold : FontWeight.normal,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
