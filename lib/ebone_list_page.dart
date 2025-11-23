@@ -17,11 +17,23 @@ class EBoneListPage extends StatefulWidget {
   final String searchQuery; // 상위에서 전달받는 검색어
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
 
+  // 🔥 무기와 동일한 추가 필터 (강화 방식 / DLC / 전설 / 본편)
+  final bool filterNormalEnhance;   // 일반 강화
+  final bool filterSpecialEnhance;  // 특수 강화
+  final bool filterLegend;          // 전설 뼛가루
+  final bool filterBase;            // 본편 뼛가루
+  final bool filterDlc;             // DLC 뼛가루
+
   const EBoneListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
+    this.filterNormalEnhance = false,
+    this.filterSpecialEnhance = false,
+    this.filterLegend = false,
+    this.filterBase = true,
+    this.filterDlc = false,
   });
 
   @override
@@ -147,14 +159,79 @@ class _EBoneListPageState extends State<EBoneListPage> {
         }
 
         final items = snapshot.data ?? [];
-        // 게임 이름 + 검색어로 필터링
-        final filtered = items
-            .where((b) =>
-        b.game == widget.game.title &&
-            b.title
-                .toLowerCase()
-                .contains(widget.searchQuery.toLowerCase()))
-            .toList();
+
+        // ============================
+        // 🔥 무기 페이지와 동일한 필터 로직
+        //  1) 일반/특수/전설 뼛가루
+        //  2) 본편 / DLC
+        // ============================
+        final filtered = items.where((b) {
+          final bool gameMatch = b.game == widget.game.title;
+          final bool nameMatch = b.title
+              .toLowerCase()
+              .contains(widget.searchQuery.toLowerCase());
+
+          final String title = b.title;
+
+          // DLC / 전설 플래그
+          final bool isDlc = title.contains('◇');
+          final bool isLegend = title.contains('☆');
+          final bool isBase = !isDlc;
+
+          // 강화 방식 판별
+          //  - '○' 포함 → 특수 강화
+          //  - '○' 없음 → 일반 강화
+          final bool hasCircle = title.contains('○');
+          final bool isSpecialEnhance = hasCircle;
+          final bool isNormalEnhance = !hasCircle;
+
+          // 선택된 강화/전설 모드 (서로 배타적)
+          String enhanceMode = 'none';
+          if (widget.filterNormalEnhance) {
+            enhanceMode = 'normal';
+          } else if (widget.filterSpecialEnhance) {
+            enhanceMode = 'special';
+          } else if (widget.filterLegend) {
+            enhanceMode = 'legend';
+          }
+
+          // 1) 강화/전설 필터 매칭
+          bool matchesEnhance = true;
+          switch (enhanceMode) {
+            case 'normal':
+              matchesEnhance = isNormalEnhance;
+              break;
+            case 'special':
+              matchesEnhance = isSpecialEnhance;
+              break;
+            case 'legend':
+              matchesEnhance = isLegend;
+              break;
+            case 'none':
+            default:
+              matchesEnhance = true; // 필터 안 쓰면 무시
+          }
+
+          // 2) 본편 / DLC 필터 매칭
+          final bool baseFlag = widget.filterBase;
+          final bool dlcFlag = widget.filterDlc;
+
+          bool matchesBaseDlc = true;
+          if (baseFlag && dlcFlag) {
+            matchesBaseDlc = true; // 둘 다 ON → 둘 다 허용
+          } else if (baseFlag && !dlcFlag) {
+            matchesBaseDlc = isBase; // 본편만
+          } else if (!baseFlag && dlcFlag) {
+            matchesBaseDlc = isDlc; // DLC만
+          } else {
+            matchesBaseDlc = true; // 둘 다 OFF → 제약 없음
+          }
+
+          return gameMatch &&
+              nameMatch &&
+              matchesEnhance &&
+              matchesBaseDlc;
+        }).toList();
 
         if (filtered.isEmpty) {
           return const Center(
@@ -222,8 +299,8 @@ class _EBoneListPageState extends State<EBoneListPage> {
                           // 오른쪽 텍스트 영역
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12.0),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 12.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,

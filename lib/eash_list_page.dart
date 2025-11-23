@@ -17,15 +17,23 @@ class EAshListPage extends StatefulWidget {
   final String searchQuery; // 상위에서 전달받는 검색어
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
 
-  // 🔹 전투 기술(재) 필터 값 (예: '전체', '물리', '화염' ...)
+  // 🔹 전투 기술(재) 속성 필터 값 (예: '전체', '물리', '화염' ...)
   final String propertyFilter;
+
+  // 🔥 본편 / DLC 필터
+  //  - title에 '◇' 포함 → DLC
+  //  - 포함 안 됨 → 본편
+  final bool filterBase; // 본편 전투 기술
+  final bool filterDlc;  // DLC 전투 기술
 
   const EAshListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
-    required this.propertyFilter,  // 🔹 추가
+    required this.propertyFilter,
+    this.filterBase = true,   // 기본: 본편 ON
+    this.filterDlc = false,   // 기본: DLC OFF
   });
 
   @override
@@ -157,12 +165,36 @@ class _EAshListPageState extends State<EAshListPage> {
               .toLowerCase()
               .contains(widget.searchQuery.toLowerCase());
 
-          // 🔹 필터 값이 '전체'면 전부 통과, 아니면 EAsh.property와 일치할 때만
+          // 🔹 속성 필터 (기존 로직 유지)
           final bool propertyMatch = widget.propertyFilter == '전체'
               ? true
               : e.property == widget.propertyFilter;
 
-          return gameMatch && nameMatch && propertyMatch;
+          // 🔥 본편 / DLC 판별
+          final String title = e.title;
+          final bool isDlc = title.contains('◇'); // DLC
+          final bool isBase = !isDlc;             // 본편
+
+          final bool baseFlag = widget.filterBase;
+          final bool dlcFlag = widget.filterDlc;
+
+          bool matchesBaseDlc = true;
+
+          // - 둘 다 true  → 둘 다 허용
+          // - base만 true → 본편만
+          // - dlc만 true  → DLC만
+          // - 둘 다 false → 제한 없음
+          if (baseFlag && dlcFlag) {
+            matchesBaseDlc = true;
+          } else if (baseFlag && !dlcFlag) {
+            matchesBaseDlc = isBase;
+          } else if (!baseFlag && dlcFlag) {
+            matchesBaseDlc = isDlc;
+          } else {
+            matchesBaseDlc = true;
+          }
+
+          return gameMatch && nameMatch && propertyMatch && matchesBaseDlc;
         }).toList();
 
         if (filtered.isEmpty) {
@@ -240,7 +272,6 @@ class _EAshListPageState extends State<EAshListPage> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 4),
-                                  // ✅ EAsh에는 part/aset이 없고 property만 있다고 가정
                                   Row(
                                     children: [
                                       Text(

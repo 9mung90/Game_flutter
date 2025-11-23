@@ -17,15 +17,21 @@ class EEtcListPage extends StatefulWidget {
   final String searchQuery; // 상위에서 전달받는 검색어
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
 
-  // 🔹 타입 필터 추가 (예: 소모품 / 키 아이템 / 제작 재료 등)
+  // 🔹 타입 필터 (예: 소모품 / 키 아이템 / 제작 재료 등)
   final String typeFilter;
+
+  // 🔥 본편 / DLC 필터
+  final bool filterBase; // 본편
+  final bool filterDlc;  // DLC
 
   const EEtcListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
-    this.typeFilter = '전체',          // 기본값: 전체
+    this.typeFilter = '전체',   // 기본: 전체 타입
+    this.filterBase = true,    // 기본: 본편 ON
+    this.filterDlc = false,    // 기본: DLC OFF
   });
 
   @override
@@ -88,7 +94,6 @@ class _EEtcListPageState extends State<EEtcListPage> {
         if (j < len && text[j] == '(') {
           // 사이 공백들까지 이미 buf에 들어와 있음
           // 이제 '(' 포함해서 ')'까지 읽어오기
-          // j는 '(' 위치
           while (i + 1 < len && i + 1 <= j) {
             i++;
             buf.write(text[i]);
@@ -159,15 +164,36 @@ class _EEtcListPageState extends State<EEtcListPage> {
 
         final items = snapshot.data ?? [];
 
-        // 게임 이름 + 검색어 + 타입 필터로 필터링
-        final filtered = items
-            .where((e) =>
-        e.game == widget.game.title &&
-            (widget.typeFilter == '전체' || e.type == widget.typeFilter) &&
-            e.title
-                .toLowerCase()
-                .contains(widget.searchQuery.toLowerCase()))
-            .toList();
+        // 게임 이름 + 검색어 + 타입 필터 + 본편/DLC 필터
+        final filtered = items.where((e) {
+          final bool gameMatch = e.game == widget.game.title;
+          final bool typeMatch =
+          (widget.typeFilter == '전체' || e.type == widget.typeFilter);
+          final bool nameMatch = e.title
+              .toLowerCase()
+              .contains(widget.searchQuery.toLowerCase());
+
+          // 🔥 본편 / DLC 판별 (이름에 ◇ 있으면 DLC라고 가정)
+          final String title = e.title;
+          final bool isDlc = title.contains('◇');
+          final bool isBase = !isDlc;
+
+          final bool baseFlag = widget.filterBase;
+          final bool dlcFlag = widget.filterDlc;
+
+          bool matchesBaseDlc = true;
+          if (baseFlag && dlcFlag) {
+            matchesBaseDlc = true; // 둘 다 켜져 있으면 모두 허용
+          } else if (baseFlag && !dlcFlag) {
+            matchesBaseDlc = isBase; // 본편만
+          } else if (!baseFlag && dlcFlag) {
+            matchesBaseDlc = isDlc; // DLC만
+          } else {
+            matchesBaseDlc = true; // 둘 다 꺼져 있으면 제한 없음
+          }
+
+          return gameMatch && typeMatch && nameMatch && matchesBaseDlc;
+        }).toList();
 
         if (filtered.isEmpty) {
           return const Center(
@@ -238,8 +264,8 @@ class _EEtcListPageState extends State<EEtcListPage> {
                           // 오른쪽 텍스트 영역
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12.0),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 12.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -317,7 +343,6 @@ class _EEtcListPageState extends State<EEtcListPage> {
                                   height: 1.4,
                                 ),
                               ),
-
                               const SizedBox(height: 12),
                             ],
                           ],

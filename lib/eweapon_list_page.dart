@@ -1,8 +1,9 @@
-// lib/pages/eweapon_list_page.dart (수정 완료)
+// lib/pages/eweapon_list_page.dart
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 import 'api_config.dart';
 import 'eweapon.dart';
 import 'game.dart';
@@ -20,8 +21,15 @@ class EWeaponListPage extends StatefulWidget {
   final Function(EWeapon) navigateToDetailViewer; // 상세 뷰어 콜백
 
   // 🔹 상위/하위 필터 값
-  final String genreFilter;     // 소형 무기 / 대형 무기 / 원거리 무기 / 촉매 / 방패 ...
-  final String subTypeFilter;   // 단검 / 직검 / 대검 ...
+  final String genreFilter; // 소형 무기 / 대형 무기 / 원거리 무기 / 촉매 / 방패 ...
+  final String subTypeFilter; // 단검 / 직검 / 대검 ...
+
+  // 🔥 새 추가 필터들 (강화 방식 / DLC / 전설 / 본편)
+  final bool filterNormalEnhance;   // 일반 강화
+  final bool filterSpecialEnhance;  // 특수 강화
+  final bool filterLegend;          // 전설 무기
+  final bool filterBase;            // 본편 무기
+  final bool filterDlc;             // DLC 무기
 
   const EWeaponListPage({
     super.key,
@@ -31,6 +39,11 @@ class EWeaponListPage extends StatefulWidget {
     required this.navigateToDetailViewer,
     required this.genreFilter,
     required this.subTypeFilter,
+    this.filterNormalEnhance = false,
+    this.filterSpecialEnhance = false,
+    this.filterLegend = false,
+    this.filterBase = true,
+    this.filterDlc = false,
   });
 
   @override
@@ -132,13 +145,15 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
+
     print('screen width = $screenWidth, height = $screenHeight');
 
     return FutureBuilder<List<EWeapon>>(
       future: _futureEWeapons,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator(color: Colors.white));
+          return const Center(
+              child: CircularProgressIndicator(color: Colors.white));
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
@@ -167,8 +182,82 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
               ? true
               : (weapon.type == currentSubFilter);
 
-          return gameMatch && nameMatch && genreMatch && subMatch;
-        }).toList() ??
+          // ============================
+          // 🔥 새 필터 로직 (강화 / 전설 / 본편 / DLC)
+          // ============================
+          final String title = weapon.title;
+
+          // DLC / 전설 플래그
+          final bool isDlc = title.contains('◇');
+          final bool isLegend = title.contains('☆');
+          final bool isBase = !isDlc;
+
+          // 강화 방식 판별
+          //  - '○' 포함 → 특수 강화
+          //  - '○' 없음 → 일반 강화
+          final bool hasCircle = title.contains('○');
+          final bool isSpecialEnhance = hasCircle;
+          final bool isNormalEnhance = !hasCircle;
+
+          // 선택된 강화/전설 모드 (서로 배타적)
+          String enhanceMode = 'none';
+          if (widget.filterNormalEnhance) {
+            enhanceMode = 'normal';
+          } else if (widget.filterSpecialEnhance) {
+            enhanceMode = 'special';
+          } else if (widget.filterLegend) {
+            enhanceMode = 'legend';
+          }
+
+          // 1) 강화/전설 필터 매칭
+          bool matchesEnhance = true;
+          switch (enhanceMode) {
+            case 'normal':
+            // 일반 강화만
+              matchesEnhance = isNormalEnhance;
+              break;
+            case 'special':
+            // 특수 강화만
+              matchesEnhance = isSpecialEnhance;
+              break;
+            case 'legend':
+            // 전설 무기만 (☆)
+              matchesEnhance = isLegend;
+              break;
+            case 'none':
+            default:
+              matchesEnhance = true; // 강화 필터 안 쓰면 무시
+          }
+
+          // 2) 본편 / DLC 필터 매칭
+          final bool baseFlag = widget.filterBase;
+          final bool dlcFlag = widget.filterDlc;
+
+          bool matchesBaseDlc = true;
+
+          // - 본편 / DLC 버튼 둘 다 꺼져 있으면 → 제약 없음 (둘 다 허용)
+          // - 본편만 켜져 있으면 → 본편만
+          // - DLC만 켜져 있으면 → DLC만
+          // - 둘 다 켜져 있으면 → 둘 다 허용
+          if (baseFlag && dlcFlag) {
+            matchesBaseDlc = true;
+          } else if (baseFlag && !dlcFlag) {
+            matchesBaseDlc = isBase;
+          } else if (!baseFlag && dlcFlag) {
+            matchesBaseDlc = isDlc;
+          } else {
+            matchesBaseDlc = true; // 둘 다 false → 제약 없음
+          }
+
+          // 최종
+          return gameMatch &&
+              nameMatch &&
+              genreMatch &&
+              subMatch &&
+              matchesEnhance &&
+              matchesBaseDlc;
+        })
+            .toList() ??
             [];
 
         if (filteredWeapons.isEmpty) {
@@ -231,7 +320,8 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 12.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -257,8 +347,8 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                         ),
                                       ),
                                       Padding(
-                                        padding:
-                                        const EdgeInsets.symmetric(horizontal: 4.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4.0),
                                         child: Text(
                                           '|',
                                           style: TextStyle(
@@ -280,6 +370,7 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                               ),
                             ),
                           ),
+                          // 댓글 버튼은 주석 처리 유지
                           /*
                           Padding(
                             padding:
@@ -306,7 +397,8 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                 ],
                               ),
                             ),
-                          ),*/
+                          ),
+                          */
                         ],
                       ),
                     ),
@@ -346,10 +438,11 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => DetailImageViewerPage(
-                                        imageUrl: weapon.img2,
-                                        title: weapon.title,
-                                      ),
+                                      builder: (context) =>
+                                          DetailImageViewerPage(
+                                            imageUrl: weapon.img2,
+                                            title: weapon.title,
+                                          ),
                                     ),
                                   );
                                 } else {
@@ -361,12 +454,13 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                 }
                               },
                               child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                padding:
+                                const EdgeInsets.symmetric(vertical: 12),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   image: const DecorationImage(
-                                    image:
-                                    AssetImage('assets/images/detailground.png'),
+                                    image: AssetImage(
+                                        'assets/images/detailground.png'),
                                     fit: BoxFit.cover,
                                   ),
                                 ),

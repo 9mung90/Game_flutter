@@ -23,7 +23,7 @@ import 'ebone_list_page.dart';
 import 'eetc_list_page.dart';
 import 'etalisman_list_page.dart';
 
-// ⭐ 제스처 리스트 페이지 import
+// ⭐ 제스처 리스트 페이지
 import 'egesture_list_page.dart';
 
 // 웨폰 리스트 페이지 위의 이름/검색창/필터?
@@ -49,7 +49,7 @@ class _ListTopState extends State<ListTop> {
 
   // 🔹 무기 전용 2단계 필터
   String _weaponMainFilter = '전체'; // 소형 무기 / 대형 무기 / 원거리 무기 / 촉매 / 방패 ...
-  String _weaponSubFilter = '전체';  // 단검 / 직검 / 대검 ... (상위 선택에 따라 달라짐)
+  String _weaponSubFilter = '전체'; // 단검 / 직검 / 대검 ... (상위 선택에 따라 달라짐)
 
   // 🔹 방어구 전용 부위 필터 (머리 / 몸통 / 손 / 다리 등)
   String _armorPartFilter = '전체';
@@ -59,6 +59,44 @@ class _ListTopState extends State<ListTop> {
 
   // 🔹 기타(EEtc) 전용 타입 필터
   String _etcTypeFilter = '전체';
+
+  // 🔥 무기 전용 추가 필터 (강화 방식 / DLC / 전설 / 본편)
+  bool _weaponFilterNormalEnhance = false;   // 일반 강화
+  bool _weaponFilterSpecialEnhance = false;  // 특수 강화
+  bool _weaponFilterLegend = false;          // 전설 무기
+  bool _weaponFilterBase = false;            // 본편 무기 (기본: 선택 안 됨)
+  bool _weaponFilterDlc = false;             // DLC 무기 (기본: 선택 안 됨)
+
+  // 🔥 방어구 전용 본편 / DLC 필터
+  bool _armorFilterBase = false;             // 본편 방어구
+  bool _armorFilterDlc = false;              // DLC 방어구
+
+  // 🔥 전투 기술 전용 본편 / DLC 필터
+  bool _ashFilterBase = false;               // 본편 전투 기술
+  bool _ashFilterDlc = false;                // DLC 전투 기술
+
+  // 🔥 주문(ESpell) 전용 본편 / DLC 필터
+  bool _spellFilterBase = false;             // 본편 주문
+  bool _spellFilterDlc = false;              // DLC 주문
+
+  // 🔥 탈리스만(ETalisman) 전용 본편 / DLC 필터
+  bool _talismanFilterBase = false;          // 본편 탈리스만
+  bool _talismanFilterDlc = false;           // DLC 탈리스만
+
+  // 🔥 뼛가루(EBone) 전용 필터 (일반/특수/전설 + 본편/DLC)
+  bool _boneFilterNormalEnhance = false;
+  bool _boneFilterSpecialEnhance = false;
+  bool _boneFilterLegend = false;
+  bool _boneFilterBase = false;
+  bool _boneFilterDlc = false;
+
+  // 🔥 기타(EEtc) 전용 본편 / DLC 필터
+  bool _etcFilterBase = false;
+  bool _etcFilterDlc = false;
+
+  // 🔥 제스처(EGesture) 전용 본편 / DLC 필터
+  bool _gestureFilterBase = false;
+  bool _gestureFilterDlc = false;
 
   @override
   void initState() {
@@ -75,8 +113,7 @@ class _ListTopState extends State<ListTop> {
     _searchController.dispose();
     _pageController.dispose();
     _tabScrollController.dispose();
-    _searchFocusNode
-        .dispose(); // 🔥 FocusNode도 잊지 말고 해제 (메모리 누수 방지)
+    _searchFocusNode.dispose(); // 🔥 FocusNode도 잊지 말고 해제 (메모리 누수 방지)
     super.dispose();
   }
 
@@ -164,16 +201,16 @@ class _ListTopState extends State<ListTop> {
     }
   }
 
-  // 🔹 현재 탭에 필터가 있는지 여부
+  // 🔹 현재 탭에 "기존 필터"(리스트 필터)가 있는지 여부
   bool _hasFilterForCurrentTab() {
     return _selectedIndex == 0 || // 무기
         _selectedIndex == 1 || // 방어구
         _selectedIndex == 2 || // 전투 기술(EAsh)
-        _selectedIndex == 6; // 기타(EEtc)
-    // ⭐ 제스처(index 7)는 필터 없음 → 여기 안 넣음
+        _selectedIndex == 6;   // 기타(EEtc) 타입 필터
+    // ⭐ 뼛가루(index 5), 제스처(index 7)는 "추가 필터"만 있음
   }
 
-  // 🔹 현재 탭에서 필터가 "전체"가 아닌지 → 아이콘 하이라이트용
+  // 🔹 현재 탭에서 "기존 필터"가 활성화 상태인지
   bool _isFilterActiveForCurrentTab() {
     switch (_selectedIndex) {
       case 0:
@@ -190,7 +227,55 @@ class _ListTopState extends State<ListTop> {
     }
   }
 
-  // 🔹 공용 필터 선택 바텀시트 열기
+  // 🔥 무기 전용 추가 필터 활성 상태인지 (강화/DLC/전설/본편)
+  bool _isWeaponExtraFilterActive() {
+    return _weaponFilterNormalEnhance ||
+        _weaponFilterSpecialEnhance ||
+        _weaponFilterLegend ||
+        _weaponFilterBase ||
+        _weaponFilterDlc;
+  }
+
+  // 🔥 방어구 추가 필터 활성 상태인지 (본편/DLC)
+  bool _isArmorExtraFilterActive() {
+    return _armorFilterBase || _armorFilterDlc;
+  }
+
+  // 🔥 전투 기술 추가 필터 활성 상태인지 (본편/DLC)
+  bool _isAshExtraFilterActive() {
+    return _ashFilterBase || _ashFilterDlc;
+  }
+
+  // 🔥 주문(ESpell) 추가 필터 활성 상태인지 (본편/DLC)
+  bool _isSpellExtraFilterActive() {
+    return _spellFilterBase || _spellFilterDlc;
+  }
+
+  // 🔥 탈리스만(ETalisman) 추가 필터 활성 상태인지 (본편/DLC)
+  bool _isTalismanExtraFilterActive() {
+    return _talismanFilterBase || _talismanFilterDlc;
+  }
+
+  // 🔥 뼛가루(EBone) 추가 필터 활성 상태인지
+  bool _isBoneExtraFilterActive() {
+    return _boneFilterNormalEnhance ||
+        _boneFilterSpecialEnhance ||
+        _boneFilterLegend ||
+        _boneFilterBase ||
+        _boneFilterDlc;
+  }
+
+  // 🔥 기타(EEtc) 추가 필터 활성 상태인지 (본편/DLC)
+  bool _isEtcExtraFilterActive() {
+    return _etcFilterBase || _etcFilterDlc;
+  }
+
+  // 🔥 제스처(EGesture) 추가 필터 활성 상태인지 (본편/DLC)
+  bool _isGestureExtraFilterActive() {
+    return _gestureFilterBase || _gestureFilterDlc;
+  }
+
+  // 🔹 공용 필터 선택 바텀시트 열기 (기존: 무기/방어구/전투기술/기타 타입 필터)
   void _openFilterSheet() {
     // 무기 탭이라면 2단계 필터 시트로 분기
     if (_selectedIndex == 0) {
@@ -414,7 +499,7 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
-  // 🔥 무기 전용: 상위 / 하위 2단계 필터 시트
+  // 🔥 무기 전용: 상위 / 하위 2단계 필터 시트 (기존)
   void _openWeaponFilterSheet() {
     // 상위 분류(genre)
     const List<String> mainOptions = [
@@ -478,7 +563,8 @@ class _ListTopState extends State<ListTop> {
               ];
             }
 
-            final double maxHeight = MediaQuery.of(context).size.height * 0.6;
+            final double maxHeight =
+                MediaQuery.of(context).size.height * 0.6;
 
             return SafeArea(
               child: SizedBox(
@@ -559,17 +645,20 @@ class _ListTopState extends State<ListTop> {
                               ),
                               items: currentSubList
                                   .map(
-                                    (option) => DropdownMenuItem<String>(
-                                  value: option,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: Text(
-                                      option,
-                                      overflow: TextOverflow.ellipsis,
+                                    (option) =>
+                                    DropdownMenuItem<String>(
+                                      value: option,
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Text(
+                                          option,
+                                          overflow:
+                                          TextOverflow.ellipsis,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
                               )
                                   .toList(),
                               onChanged: (value) {
@@ -654,14 +743,1152 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
+  // 🔥 무기 전용: 강화/본편/DLC/전설 추가 필터 바텀시트
+  void _openWeaponExtraFilterSheet() {
+    if (_selectedIndex != 0) return;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        bool tempNormal = _weaponFilterNormalEnhance;
+        bool tempSpecial = _weaponFilterSpecialEnhance;
+        bool tempLegend = _weaponFilterLegend;
+        bool tempBase = _weaponFilterBase;
+        bool tempDlc = _weaponFilterDlc;
+
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding:
+                    const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.auto_awesome,
+                          color: Colors.amberAccent,
+                          size: 22,
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          '무기 추가 필터',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            setModalState(() {
+                              tempNormal = false;
+                              tempSpecial = false;
+                              tempLegend = false;
+                              tempBase = false;
+                              tempDlc = false;
+                            });
+                            setState(() {
+                              _weaponFilterNormalEnhance = false;
+                              _weaponFilterSpecialEnhance = false;
+                              _weaponFilterLegend = false;
+                              _weaponFilterBase = false;
+                              _weaponFilterDlc = false;
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            '초기화',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(color: Colors.white24, height: 1),
+
+                  // 🔹 일반 / 특수 / 전설 (서로 배타적)
+                  CheckboxListTile(
+                    value: tempNormal,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempNormal = newValue;
+                        if (newValue) {
+                          tempSpecial = false;
+                          tempLegend = false;
+                        }
+                      });
+                      setState(() {
+                        _weaponFilterNormalEnhance = newValue;
+                        if (newValue) {
+                          _weaponFilterSpecialEnhance = false;
+                          _weaponFilterLegend = false;
+                        }
+                      });
+                    },
+                    title: const Text(
+                      '일반 강화',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  CheckboxListTile(
+                    value: tempSpecial,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempSpecial = newValue;
+                        if (newValue) {
+                          tempNormal = false;
+                          tempLegend = false;
+                        }
+                      });
+                      setState(() {
+                        _weaponFilterSpecialEnhance = newValue;
+                        if (newValue) {
+                          _weaponFilterNormalEnhance = false;
+                          _weaponFilterLegend = false;
+                        }
+                      });
+                    },
+                    title: const Text(
+                      '특수 강화',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  CheckboxListTile(
+                    value: tempLegend,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempLegend = newValue;
+                        if (newValue) {
+                          tempNormal = false;
+                          tempSpecial = false;
+                        }
+                      });
+                      setState(() {
+                        _weaponFilterLegend = newValue;
+                        if (newValue) {
+                          _weaponFilterNormalEnhance = false;
+                          _weaponFilterSpecialEnhance = false;
+                        }
+                      });
+                    },
+                    title: const Text(
+                      '전설 무기',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+
+                  const Divider(color: Colors.white24, height: 1),
+
+                  // 🔹 본편 / DLC
+                  CheckboxListTile(
+                    value: tempBase,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempBase = newValue;
+                      });
+                      setState(() {
+                        _weaponFilterBase = newValue;
+                      });
+                    },
+                    title: const Text(
+                      '본편 무기',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  CheckboxListTile(
+                    value: tempDlc,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempDlc = newValue;
+                      });
+                      setState(() {
+                        _weaponFilterDlc = newValue;
+                      });
+                    },
+                    title: const Text(
+                      'DLC 무기 (이름에 ◇)',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // 🔥 방어구 본편/DLC 추가 필터 바텀시트
+  void _openArmorExtraFilterSheet() {
+    if (_selectedIndex != 1) return;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        bool tempBase = _armorFilterBase;
+        bool tempDlc = _armorFilterDlc;
+
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding:
+                    const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.shield_moon,
+                          color: Colors.lightBlueAccent,
+                          size: 22,
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          '방어구 추가 필터',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            setModalState(() {
+                              tempBase = false;
+                              tempDlc = false;
+                            });
+                            setState(() {
+                              _armorFilterBase = false;
+                              _armorFilterDlc = false;
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            '초기화',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(color: Colors.white24, height: 1),
+
+                  CheckboxListTile(
+                    value: tempBase,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempBase = newValue;
+                      });
+                      setState(() {
+                        _armorFilterBase = newValue;
+                      });
+                    },
+                    title: const Text(
+                      '본편 방어구',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  CheckboxListTile(
+                    value: tempDlc,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempDlc = newValue;
+                      });
+                      setState(() {
+                        _armorFilterDlc = newValue;
+                      });
+                    },
+                    title: const Text(
+                      'DLC 방어구 (이름에 ◇)',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // 🔥 전투 기술 본편/DLC 추가 필터 바텀시트
+  void _openAshExtraFilterSheet() {
+    if (_selectedIndex != 2) return;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        bool tempBase = _ashFilterBase;
+        bool tempDlc = _ashFilterDlc;
+
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding:
+                    const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.flash_on,
+                          color: Colors.orangeAccent,
+                          size: 22,
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          '전투 기술 추가 필터',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            setModalState(() {
+                              tempBase = false;
+                              tempDlc = false;
+                            });
+                            setState(() {
+                              _ashFilterBase = false;
+                              _ashFilterDlc = false;
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            '초기화',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(color: Colors.white24, height: 1),
+
+                  CheckboxListTile(
+                    value: tempBase,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempBase = newValue;
+                      });
+                      setState(() {
+                        _ashFilterBase = newValue;
+                      });
+                    },
+                    title: const Text(
+                      '본편 전투 기술',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  CheckboxListTile(
+                    value: tempDlc,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempDlc = newValue;
+                      });
+                      setState(() {
+                        _ashFilterDlc = newValue;
+                      });
+                    },
+                    title: const Text(
+                      'DLC 전투 기술 (이름에 ◇)',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // 🔥 주문(ESpell) 본편/DLC 추가 필터 바텀시트
+  void _openSpellExtraFilterSheet() {
+    if (_selectedIndex != 3) return;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        bool tempBase = _spellFilterBase;
+        bool tempDlc = _spellFilterDlc;
+
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding:
+                    const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/ESpell_Icon.png',
+                          width: 22,
+                          height: 22,
+                          errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.broken_image,
+                              color: Colors.white70, size: 22),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          '전투 기술 필터',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            setModalState(() {
+                              tempBase = false;
+                              tempDlc = false;
+                            });
+                            setState(() {
+                              _spellFilterBase = false;
+                              _spellFilterDlc = false;
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            '초기화',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(color: Colors.white24, height: 1),
+
+                  CheckboxListTile(
+                    value: tempBase,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempBase = newValue;
+                      });
+                      setState(() {
+                        _spellFilterBase = newValue;
+                      });
+                    },
+                    title: const Text(
+                      '본편',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  CheckboxListTile(
+                    value: tempDlc,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempDlc = newValue;
+                      });
+                      setState(() {
+                        _spellFilterDlc = newValue;
+                      });
+                    },
+                    title: const Text(
+                      'DLC (◇)',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // 🔥 탈리스만(ETalisman) 본편/DLC 추가 필터 바텀시트
+  void _openTalismanExtraFilterSheet() {
+    if (_selectedIndex != 4) return;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        bool tempBase = _talismanFilterBase;
+        bool tempDlc = _talismanFilterDlc;
+
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding:
+                    const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/ETalisman_Icon.png',
+                          width: 22,
+                          height: 22,
+                          errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.broken_image,
+                              color: Colors.white70, size: 22),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          '탈리스만 필터',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            setModalState(() {
+                              tempBase = false;
+                              tempDlc = false;
+                            });
+                            setState(() {
+                              _talismanFilterBase = false;
+                              _talismanFilterDlc = false;
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            '초기화',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(color: Colors.white24, height: 1),
+
+                  CheckboxListTile(
+                    value: tempBase,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempBase = newValue;
+                      });
+                      setState(() {
+                        _talismanFilterBase = newValue;
+                      });
+                    },
+                    title: const Text(
+                      '본편',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  CheckboxListTile(
+                    value: tempDlc,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempDlc = newValue;
+                      });
+                      setState(() {
+                        _talismanFilterDlc = newValue;
+                      });
+                    },
+                    title: const Text(
+                      'DLC (◇)',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // 🔥 뼛가루(EBone) 일반/특수/전설 + 본편/DLC 추가 필터 바텀시트
+  void _openBoneExtraFilterSheet() {
+    if (_selectedIndex != 5) return;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        bool tempNormal = _boneFilterNormalEnhance;
+        bool tempSpecial = _boneFilterSpecialEnhance;
+        bool tempLegend = _boneFilterLegend;
+        bool tempBase = _boneFilterBase;
+        bool tempDlc = _boneFilterDlc;
+
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding:
+                    const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: Row(
+                      children: [
+                        // 뼛가루 아이콘 (카테고리와 동일)
+                        Image.asset(
+                          'assets/images/ai_Icon.png',
+                          width: 22,
+                          height: 22,
+                          errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.broken_image,
+                              color: Colors.white70, size: 22),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          '뼛가루 추가 필터',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            setModalState(() {
+                              tempNormal = false;
+                              tempSpecial = false;
+                              tempLegend = false;
+                              tempBase = false;
+                              tempDlc = false;
+                            });
+                            setState(() {
+                              _boneFilterNormalEnhance = false;
+                              _boneFilterSpecialEnhance = false;
+                              _boneFilterLegend = false;
+                              _boneFilterBase = false;
+                              _boneFilterDlc = false;
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            '초기화',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(color: Colors.white24, height: 1),
+
+                  // 🔹 일반 / 특수 / 전설 (서로 배타적)
+                  CheckboxListTile(
+                    value: tempNormal,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempNormal = newValue;
+                        if (newValue) {
+                          tempSpecial = false;
+                          tempLegend = false;
+                        }
+                      });
+                      setState(() {
+                        _boneFilterNormalEnhance = newValue;
+                        if (newValue) {
+                          _boneFilterSpecialEnhance = false;
+                          _boneFilterLegend = false;
+                        }
+                      });
+                    },
+                    title: const Text(
+                      '일반 강화 뼛가루',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  CheckboxListTile(
+                    value: tempSpecial,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempSpecial = newValue;
+                        if (newValue) {
+                          tempNormal = false;
+                          tempLegend = false;
+                        }
+                      });
+                      setState(() {
+                        _boneFilterSpecialEnhance = newValue;
+                        if (newValue) {
+                          _boneFilterNormalEnhance = false;
+                          _boneFilterLegend = false;
+                        }
+                      });
+                    },
+                    title: const Text(
+                      '특수 강화 뼛가루',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  CheckboxListTile(
+                    value: tempLegend,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempLegend = newValue;
+                        if (newValue) {
+                          tempNormal = false;
+                          tempSpecial = false;
+                        }
+                      });
+                      setState(() {
+                        _boneFilterLegend = newValue;
+                        if (newValue) {
+                          _boneFilterNormalEnhance = false;
+                          _boneFilterSpecialEnhance = false;
+                        }
+                      });
+                    },
+                    title: const Text(
+                      '전설 뼛가루',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+
+                  const Divider(color: Colors.white24, height: 1),
+
+                  // 🔹 본편 / DLC
+                  CheckboxListTile(
+                    value: tempBase,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempBase = newValue;
+                      });
+                      setState(() {
+                        _boneFilterBase = newValue;
+                      });
+                    },
+                    title: const Text(
+                      '본편 뼛가루',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  CheckboxListTile(
+                    value: tempDlc,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempDlc = newValue;
+                      });
+                      setState(() {
+                        _boneFilterDlc = newValue;
+                      });
+                    },
+                    title: const Text(
+                      'DLC 뼛가루 (이름에 ◇)',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+
+                  const SizedBox(height: 8),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // 🔥 기타(EEtc) 본편/DLC 추가 필터 바텀시트
+  void _openEtcExtraFilterSheet() {
+    if (_selectedIndex != 6) return;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        bool tempBase = _etcFilterBase;
+        bool tempDlc = _etcFilterDlc;
+
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding:
+                    const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/etc_Icon.png',
+                          width: 22,
+                          height: 22,
+                          errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.broken_image,
+                              color: Colors.white70, size: 22),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          '기타 아이템 추가 필터',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            setModalState(() {
+                              tempBase = false;
+                              tempDlc = false;
+                            });
+                            setState(() {
+                              _etcFilterBase = false;
+                              _etcFilterDlc = false;
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            '초기화',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(color: Colors.white24, height: 1),
+
+                  CheckboxListTile(
+                    value: tempBase,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempBase = newValue;
+                      });
+                      setState(() {
+                        _etcFilterBase = newValue;
+                      });
+                    },
+                    title: const Text(
+                      '본편',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  CheckboxListTile(
+                    value: tempDlc,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempDlc = newValue;
+                      });
+                      setState(() {
+                        _etcFilterDlc = newValue;
+                      });
+                    },
+                    title: const Text(
+                      'DLC (◇)',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+
+                  const SizedBox(height: 8),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // 🔥 제스처(EGesture) 본편/DLC 추가 필터 바텀시트
+  void _openGestureExtraFilterSheet() {
+    if (_selectedIndex != 7) return;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        bool tempBase = _gestureFilterBase;
+        bool tempDlc = _gestureFilterDlc;
+
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding:
+                    const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/EGesture_Icon.png',
+                          width: 22,
+                          height: 22,
+                          errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.broken_image,
+                              color: Colors.white70, size: 22),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          '제스처 필터',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            setModalState(() {
+                              tempBase = false;
+                              tempDlc = false;
+                            });
+                            setState(() {
+                              _gestureFilterBase = false;
+                              _gestureFilterDlc = false;
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            '초기화',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(color: Colors.white24, height: 1),
+
+                  CheckboxListTile(
+                    value: tempBase,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempBase = newValue;
+                      });
+                      setState(() {
+                        _gestureFilterBase = newValue;
+                      });
+                    },
+                    title: const Text(
+                      '본편',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  CheckboxListTile(
+                    value: tempDlc,
+                    onChanged: (v) {
+                      final bool newValue = v ?? false;
+                      setModalState(() {
+                        tempDlc = newValue;
+                      });
+                      setState(() {
+                        _gestureFilterDlc = newValue;
+                      });
+                    },
+                    title: const Text(
+                      'DLC (◇)',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 14),
+                    ),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    activeColor: Colors.amberAccent,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool hasFilter = _hasFilterForCurrentTab();
     final bool filterActive = _isFilterActiveForCurrentTab();
+    final bool weaponExtraActive = _isWeaponExtraFilterActive();
+    final bool armorExtraActive = _isArmorExtraFilterActive();
+    final bool ashExtraActive = _isAshExtraFilterActive();
+    final bool spellExtraActive = _isSpellExtraFilterActive();
+    final bool talismanExtraActive = _isTalismanExtraFilterActive();
+    final bool boneExtraActive = _isBoneExtraFilterActive();
+    final bool etcExtraActive = _isEtcExtraFilterActive();
+    final bool gestureExtraActive = _isGestureExtraFilterActive();
 
     final Color filterIconColor = !hasFilter
         ? Colors.grey[600]!
         : (filterActive ? Colors.amberAccent : Colors.grey[400]!);
+
+    // 🔥 현재 탭에 따라 추가 필터 아이콘 색상
+    final Color extraFilterIconColor =
+    _selectedIndex == 0
+        ? (weaponExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
+        : (_selectedIndex == 1
+        ? (armorExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
+        : (_selectedIndex == 2
+        ? (ashExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
+        : (_selectedIndex == 3
+        ? (spellExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
+        : (_selectedIndex == 4
+        ? (talismanExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
+        : (_selectedIndex == 5
+        ? (boneExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
+        : (_selectedIndex == 6
+        ? (etcExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
+        : (_selectedIndex == 7
+        ? (gestureExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
+        : Colors.grey[700]!)))))));
 
     // 각 카테고리별 콘텐츠 위젯 리스트
     final List<Widget> _pages = [
@@ -670,47 +1897,69 @@ class _ListTopState extends State<ListTop> {
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
         navigateToDetailViewer: _navigateToDetailViewer,
-        genreFilter: _weaponMainFilter,   // 상위 분류
-        subTypeFilter: _weaponSubFilter,  // 하위 분류
+        genreFilter: _weaponMainFilter, // 상위 분류
+        subTypeFilter: _weaponSubFilter, // 하위 분류
+        filterNormalEnhance: _weaponFilterNormalEnhance,
+        filterSpecialEnhance: _weaponFilterSpecialEnhance,
+        filterLegend: _weaponFilterLegend,
+        filterBase: _weaponFilterBase,
+        filterDlc: _weaponFilterDlc,
       ),
       EArmorListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
         partFilter: _armorPartFilter,
+        filterBase: _armorFilterBase,
+        filterDlc: _armorFilterDlc,
       ),
       EAshListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
         propertyFilter: _ashPropertyFilter,
+        filterBase: _ashFilterBase,
+        filterDlc: _ashFilterDlc,
       ),
       ESpellListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
+        filterBase: _spellFilterBase,
+        filterDlc: _spellFilterDlc,
       ),
       ETalismanListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
+        filterBase: _talismanFilterBase,
+        filterDlc: _talismanFilterDlc,
       ),
       EBoneListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
+        filterNormalEnhance: _boneFilterNormalEnhance,
+        filterSpecialEnhance: _boneFilterSpecialEnhance,
+        filterLegend: _boneFilterLegend,
+        filterBase: _boneFilterBase,
+        filterDlc: _boneFilterDlc,
       ),
       EEtcListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
         typeFilter: _etcTypeFilter,
+        filterBase: _etcFilterBase,
+        filterDlc: _etcFilterDlc,
       ),
-      // ⭐ 제스처 탭 페이지 (필터 없음)
+      // ⭐ 제스처 탭 페이지
       EGestureListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
+        filterBase: _gestureFilterBase,
+        filterDlc: _gestureFilterDlc,
       ),
     ];
 
@@ -718,11 +1967,9 @@ class _ListTopState extends State<ListTop> {
       // 🔥 안드로이드 뒤로가기 버튼 눌렀을 때 처리
       onWillPop: () async {
         if (_searchFocusNode.hasFocus) {
-          // 검색창에 포커스가 있으면 → 포커스만 해제하고, 페이지 뒤로가기는 막기
           _searchFocusNode.unfocus();
-          return false; // pop 하지 않음
+          return false;
         }
-        // 포커스 없으면 → 원래대로 뒤로가기 허용
         return true;
       },
       child: Scaffold(
@@ -760,12 +2007,13 @@ class _ListTopState extends State<ListTop> {
               padding: const EdgeInsets.fromLTRB(8, 8, 8, 5),
               child: TextField(
                 controller: _searchController,
-                focusNode: _searchFocusNode, // 🔥 여기 연결
+                focusNode: _searchFocusNode,
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   hintText: '아이템 이름으로 검색...',
                   hintStyle: TextStyle(color: Colors.grey[500]),
-                  prefixIcon: Icon(Icons.search, color: Colors.grey[500]),
+                  prefixIcon:
+                  Icon(Icons.search, color: Colors.grey[500]),
                   suffixIcon: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -776,6 +2024,57 @@ class _ListTopState extends State<ListTop> {
                           tooltip: '검색어 지우기',
                           onPressed: () => _searchController.clear(),
                         ),
+                      // 🔥 추가 필터 아이콘 (무기/방어구/전투기술/주문/탈리스만/뼛가루/기타/제스처)
+                      IconButton(
+                        icon: const Icon(Icons.filter_alt_outlined),
+                        color: extraFilterIconColor,
+                        tooltip: _selectedIndex == 0
+                            ? '무기 강화/본편/DLC/전설 필터'
+                            : (_selectedIndex == 1
+                            ? '방어구 본편/DLC 필터'
+                            : (_selectedIndex == 2
+                            ? '전투 기술 본편/DLC 필터'
+                            : (_selectedIndex == 3
+                            ? '전투 기술 필터'
+                            : (_selectedIndex == 4
+                            ? '탈리스만 필터'
+                            : (_selectedIndex == 5
+                            ? '뼛가루 필터'
+                            : (_selectedIndex == 6
+                            ? '기타 아이템 본편/DLC 필터'
+                            : (_selectedIndex == 7
+                            ? '제스처 필터'
+                            : '추가 필터 없음'))))))),
+                        onPressed: (_selectedIndex == 0 ||
+                            _selectedIndex == 1 ||
+                            _selectedIndex == 2 ||
+                            _selectedIndex == 3 ||
+                            _selectedIndex == 4 ||
+                            _selectedIndex == 5 ||
+                            _selectedIndex == 6 ||
+                            _selectedIndex == 7)
+                            ? () {
+                          if (_selectedIndex == 0) {
+                            _openWeaponExtraFilterSheet();
+                          } else if (_selectedIndex == 1) {
+                            _openArmorExtraFilterSheet();
+                          } else if (_selectedIndex == 2) {
+                            _openAshExtraFilterSheet();
+                          } else if (_selectedIndex == 3) {
+                            _openSpellExtraFilterSheet();
+                          } else if (_selectedIndex == 4) {
+                            _openTalismanExtraFilterSheet();
+                          } else if (_selectedIndex == 5) {
+                            _openBoneExtraFilterSheet();
+                          } else if (_selectedIndex == 6) {
+                            _openEtcExtraFilterSheet();
+                          } else if (_selectedIndex == 7) {
+                            _openGestureExtraFilterSheet();
+                          }
+                        }
+                            : null,
+                      ),
+                      // 기존 필터 아이콘 (타입/부위/속성 필터)
                       IconButton(
                         icon: const Icon(Icons.filter_list),
                         color: filterIconColor,
@@ -785,7 +2084,8 @@ class _ListTopState extends State<ListTop> {
                     ],
                   ),
                   filled: true,
-                  fillColor: const Color.fromRGBO(33, 33, 33, 1),
+                  fillColor:
+                  const Color.fromRGBO(33, 33, 33, 1),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
@@ -797,7 +2097,8 @@ class _ListTopState extends State<ListTop> {
             // 카테고리 버튼 줄
             Container(
               height: 60,
-              margin: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 0.0),
+              margin: const EdgeInsets.symmetric(
+                  horizontal: 3.0, vertical: 0.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
               ),
@@ -817,7 +2118,8 @@ class _ListTopState extends State<ListTop> {
                       });
                       _pageController.animateToPage(
                         index,
-                        duration: const Duration(milliseconds: 250),
+                        duration:
+                        const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
                       _scrollToCategory(index);
@@ -835,7 +2137,8 @@ class _ListTopState extends State<ListTop> {
                       });
                       _pageController.animateToPage(
                         index,
-                        duration: const Duration(milliseconds: 250),
+                        duration:
+                        const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
                       _scrollToCategory(index);
@@ -853,7 +2156,8 @@ class _ListTopState extends State<ListTop> {
                       });
                       _pageController.animateToPage(
                         index,
-                        duration: const Duration(milliseconds: 250),
+                        duration:
+                        const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
                       _scrollToCategory(index);
@@ -871,7 +2175,8 @@ class _ListTopState extends State<ListTop> {
                       });
                       _pageController.animateToPage(
                         index,
-                        duration: const Duration(milliseconds: 250),
+                        duration:
+                        const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
                       _scrollToCategory(index);
@@ -889,7 +2194,8 @@ class _ListTopState extends State<ListTop> {
                       });
                       _pageController.animateToPage(
                         index,
-                        duration: const Duration(milliseconds: 250),
+                        duration:
+                        const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
                       _scrollToCategory(index);
@@ -907,7 +2213,8 @@ class _ListTopState extends State<ListTop> {
                       });
                       _pageController.animateToPage(
                         index,
-                        duration: const Duration(milliseconds: 250),
+                        duration:
+                        const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
                       _scrollToCategory(index);
@@ -925,13 +2232,13 @@ class _ListTopState extends State<ListTop> {
                       });
                       _pageController.animateToPage(
                         index,
-                        duration: const Duration(milliseconds: 250),
+                        duration:
+                        const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
                       _scrollToCategory(index);
                     },
                   ),
-                  // ⭐ 제스처 카테고리 버튼
                   _buildCategoryButton(
                     iconPath: 'assets/images/EGesture_Icon.png',
                     label: '제스처',
@@ -944,7 +2251,8 @@ class _ListTopState extends State<ListTop> {
                       });
                       _pageController.animateToPage(
                         index,
-                        duration: const Duration(milliseconds: 250),
+                        duration:
+                        const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
                       _scrollToCategory(index);
@@ -954,6 +2262,7 @@ class _ListTopState extends State<ListTop> {
               ),
             ),
             const SizedBox(height: 8),
+
             Expanded(
               child: PageView(
                 controller: _pageController,
@@ -1012,7 +2321,8 @@ Widget _buildCategoryButton({
             style: TextStyle(
               color: isSelected ? Colors.white : Colors.white70,
               fontSize: 12,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              fontWeight:
+              isSelected ? FontWeight.bold : FontWeight.normal,
             ),
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,

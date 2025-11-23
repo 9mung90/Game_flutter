@@ -17,11 +17,17 @@ class ETalismanListPage extends StatefulWidget {
   final String searchQuery; // 상위에서 전달받는 검색어
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
 
+  // 🔹 본편 / DLC 필터
+  final bool filterBase; // 본편 탈리스만 표시 여부
+  final bool filterDlc;  // DLC 탈리스만 표시 여부
+
   const ETalismanListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
+    required this.filterBase,
+    required this.filterDlc,
   });
 
   @override
@@ -152,14 +158,30 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
 
         final items = snapshot.data ?? [];
 
-        // 게임 이름 + 검색어로 필터링
-        final filtered = items
-            .where((e) =>
-        e.game == widget.game.title &&
-            e.title
-                .toLowerCase()
-                .contains(widget.searchQuery.toLowerCase()))
-            .toList();
+        // 🔥 게임 이름 + 검색어 + 본편/DLC 필터링
+        final filtered = items.where((e) {
+          final bool gameMatch = e.game == widget.game.title;
+          final bool nameMatch = e.title
+              .toLowerCase()
+              .contains(widget.searchQuery.toLowerCase());
+
+          // 이름에 '◇' 있으면 DLC로 취급
+          final bool isDlc = e.title.contains('◇');
+
+          bool baseDlcMatch;
+          if (widget.filterBase && !widget.filterDlc) {
+            // 본편만 보기
+            baseDlcMatch = !isDlc;
+          } else if (!widget.filterBase && widget.filterDlc) {
+            // DLC만 보기
+            baseDlcMatch = isDlc;
+          } else {
+            // 둘 다 true 또는 둘 다 false → 둘 다 허용
+            baseDlcMatch = true;
+          }
+
+          return gameMatch && nameMatch && baseDlcMatch;
+        }).toList();
 
         if (filtered.isEmpty) {
           return const Center(
@@ -273,7 +295,8 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                         padding:
                         const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          crossAxisAlignment:
+                          CrossAxisAlignment.stretch,
                           children: [
                             const Divider(
                               color: Colors.white24,

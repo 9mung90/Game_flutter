@@ -17,11 +17,17 @@ class ESpellListPage extends StatefulWidget {
   final String searchQuery; // 상위에서 전달받는 검색어
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
 
+  // 🔹 본편 / DLC 필터
+  final bool filterBase; // 본편 주문 표시 여부
+  final bool filterDlc;  // DLC 주문 표시 여부
+
   const ESpellListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
+    required this.filterBase,
+    required this.filterDlc,
   });
 
   @override
@@ -135,7 +141,8 @@ class _ESpellListPageState extends State<ESpellListPage> {
       future: _futureESpells,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator(color: Colors.white));
+          return const Center(
+              child: CircularProgressIndicator(color: Colors.white));
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
@@ -146,13 +153,30 @@ class _ESpellListPageState extends State<ESpellListPage> {
         }
 
         final items = snapshot.data ?? [];
-        final filtered = items
-            .where((s) =>
-        s.game == widget.game.title &&
-            s.title
-                .toLowerCase()
-                .contains(widget.searchQuery.toLowerCase()))
-            .toList();
+
+        final filtered = items.where((s) {
+          final bool gameMatch = s.game == widget.game.title;
+          final bool nameMatch = s.title
+              .toLowerCase()
+              .contains(widget.searchQuery.toLowerCase());
+
+          // 🔹 DLC 여부: 이름에 '◇'가 있으면 DLC 주문으로 취급
+          final bool isDlc = s.title.contains('◇');
+
+          bool baseDlcMatch;
+          if (widget.filterBase && !widget.filterDlc) {
+            // 본편만 보기
+            baseDlcMatch = !isDlc;
+          } else if (!widget.filterBase && widget.filterDlc) {
+            // DLC만 보기
+            baseDlcMatch = isDlc;
+          } else {
+            // 둘 다 true 이거나 둘 다 false -> 본편/DLC 모두 허용
+            baseDlcMatch = true;
+          }
+
+          return gameMatch && nameMatch && baseDlcMatch;
+        }).toList();
 
         if (filtered.isEmpty) {
           return const Center(

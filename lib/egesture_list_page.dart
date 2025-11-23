@@ -17,11 +17,17 @@ class EGestureListPage extends StatefulWidget {
   final String searchQuery; // 상위에서 전달받는 검색어
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
 
+  // 🔥 본편 / DLC 필터
+  final bool filterBase; // 본편
+  final bool filterDlc;  // DLC (이름에 ◇)
+
   const EGestureListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
+    this.filterBase = false,
+    this.filterDlc = false,
   });
 
   @override
@@ -44,7 +50,7 @@ class _EGestureListPageState extends State<EGestureListPage> {
       return _eGestureCache!;
     }
 
-    // 서버 제스처 목록 엔드포인트 (EBone 패턴 따라감: /EBone → /EGesture)
+    // 서버 제스처 목록 엔드포인트
     final response = await http.get(Uri.parse('$apiBaseUrl/EGesture'));
 
     if (response.statusCode == 200) {
@@ -61,9 +67,6 @@ class _EGestureListPageState extends State<EGestureListPage> {
   }
 
   /// description 파싱 (EBone과 비슷하게 문장 단위로 나누기)
-  /// 1) 기본적으로 '.'를 기준으로 문장 분리
-  /// 2) 단, '.' 뒤의 첫 non-space 문자가 '(' 이면, ')' 나올 때까지 같은 줄로 묶고
-  ///    ')' 뒤에서 줄바꿈
   List<String> _splitDescriptionWithParens(String text) {
     final List<String> result = [];
     final StringBuffer buf = StringBuffer();
@@ -75,20 +78,17 @@ class _EGestureListPageState extends State<EGestureListPage> {
       buf.write(ch);
 
       if (ch == '.') {
-        // '.' 뒤의 첫 non-space 문자 확인
         int j = i + 1;
         while (j < len && text[j] == ' ') {
           j++;
         }
 
-        // '.' 다음이 '(' 이면: 괄호 내용까지 한 문장으로
         if (j < len && text[j] == '(') {
           while (i + 1 < len && i + 1 <= j) {
             i++;
             buf.write(text[i]);
           }
 
-          // ')' 나올 때까지 읽기
           while (i + 1 < len) {
             i++;
             buf.write(text[i]);
@@ -103,7 +103,6 @@ class _EGestureListPageState extends State<EGestureListPage> {
           }
           buf.clear();
         } else {
-          // 그냥 '.'이면 여기서 문장 종료
           final line = buf.toString().trim();
           if (line.isNotEmpty) {
             result.add(line);
@@ -115,7 +114,6 @@ class _EGestureListPageState extends State<EGestureListPage> {
       i++;
     }
 
-    // 마지막에 남은 것 처리
     final tail = buf.toString().trim();
     if (tail.isNotEmpty) {
       result.add(tail);
@@ -149,14 +147,34 @@ class _EGestureListPageState extends State<EGestureListPage> {
 
         final items = snapshot.data ?? [];
 
-        // 게임 이름 + 검색어로 필터링
-        final filtered = items
-            .where((g) =>
-        g.game == widget.game.title &&
-            g.title
-                .toLowerCase()
-                .contains(widget.searchQuery.toLowerCase()))
-            .toList();
+        // 게임 이름 + 검색어 + 본편/DLC 필터링
+        final filtered = items.where((g) {
+          final bool gameMatch = g.game == widget.game.title;
+          final bool nameMatch = g.title
+              .toLowerCase()
+              .contains(widget.searchQuery.toLowerCase());
+
+          final String title = g.title;
+          final bool isDlc = title.contains('◇');
+          final bool isBase = !isDlc;
+
+          final bool baseFlag = widget.filterBase;
+          final bool dlcFlag = widget.filterDlc;
+
+          bool matchesBaseDlc;
+
+          if (baseFlag && dlcFlag) {
+            matchesBaseDlc = true;
+          } else if (baseFlag && !dlcFlag) {
+            matchesBaseDlc = isBase;
+          } else if (!baseFlag && dlcFlag) {
+            matchesBaseDlc = isDlc;
+          } else {
+            matchesBaseDlc = true; // 둘 다 false → 제약 없음
+          }
+
+          return gameMatch && nameMatch && matchesBaseDlc;
+        }).toList();
 
         if (filtered.isEmpty) {
           return const Center(
@@ -242,8 +260,6 @@ class _EGestureListPageState extends State<EGestureListPage> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 4),
-                                  // 제스처 타입/부가정보가 따로 없으므로
-                                  // 간단한 안내 문구나 첫 줄 요약을 넣어도 됨.
                                 ],
                               ),
                             ),
@@ -268,7 +284,6 @@ class _EGestureListPageState extends State<EGestureListPage> {
                             ),
                             const SizedBox(height: 10),
 
-                            // 상세 설명: 문장별 Text + SizedBox로 한 칸씩
                             Column(
                               crossAxisAlignment:
                               CrossAxisAlignment.start,

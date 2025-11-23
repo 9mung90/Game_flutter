@@ -21,12 +21,20 @@ class EArmorListPage extends StatefulWidget {
   // 🔹 방어구 필터 값 (ex. '전체', '머리', '몸통' ...)
   final String partFilter;
 
+  // 🔥 본편 / DLC 필터 (이름에 ◇ 포함 여부로 구분)
+  //  - filterBase: 본편 방어구
+  //  - filterDlc : DLC 방어구 (이름에 ◇ 포함)
+  final bool filterBase;
+  final bool filterDlc;
+
   const EArmorListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
-    required this.partFilter,  // 🔹 추가
+    required this.partFilter,  // 🔹 기존 필터
+    this.filterBase = true,    // 🔥 기본값: 본편만 ON
+    this.filterDlc = false,    // 🔥 기본값: DLC OFF
   });
 
   @override
@@ -140,7 +148,8 @@ class _EArmorListPageState extends State<EArmorListPage> {
       future: _futureEArmors,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator(color: Colors.white));
+          return const Center(
+              child: CircularProgressIndicator(color: Colors.white));
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
@@ -151,19 +160,45 @@ class _EArmorListPageState extends State<EArmorListPage> {
         }
 
         final filteredArmors = snapshot.data
-        // 🔹 기존 조건 + partFilter까지 함께 적용
+        // 🔹 기존 조건 + partFilter + 본편/DLC 필터까지 함께 적용
             ?.where((armor) {
           final bool gameMatch = armor.game == widget.game.title;
           final bool nameMatch = armor.title
               .toLowerCase()
               .contains(widget.searchQuery.toLowerCase());
 
-          // 🔹 필터 값이 '전체'면 모든 부위 통과, 아니면 armor.part가 선택한 부위랑 같을 때만
+          // 🔹 부위 필터 ('전체'면 모두 통과)
           final bool partMatch = widget.partFilter == '전체'
               ? true
               : armor.part == widget.partFilter;
 
-          return gameMatch && nameMatch && partMatch;
+          // 🔥 본편 / DLC 판별
+          //  - 제목에 '◇' 포함: DLC
+          //  - 그 외: 본편
+          final String title = armor.title;
+          final bool isDlc = title.contains('◇');
+          final bool isBase = !isDlc;
+
+          final bool baseFlag = widget.filterBase;
+          final bool dlcFlag = widget.filterDlc;
+
+          bool matchesBaseDlc = true;
+
+          // - 둘 다 true  → 제약 없음 (본편+ DLC 모두 허용)
+          // - base만 true → 본편만
+          // - dlc만 true  → DLC만
+          // - 둘 다 false → 제약 없음 (둘 다 허용)
+          if (baseFlag && dlcFlag) {
+            matchesBaseDlc = true;
+          } else if (baseFlag && !dlcFlag) {
+            matchesBaseDlc = isBase;
+          } else if (!baseFlag && dlcFlag) {
+            matchesBaseDlc = isDlc;
+          } else {
+            matchesBaseDlc = true;
+          }
+
+          return gameMatch && nameMatch && partMatch && matchesBaseDlc;
         }).toList() ??
             [];
 
