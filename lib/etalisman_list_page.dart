@@ -21,6 +21,9 @@ class ETalismanListPage extends StatefulWidget {
   final bool filterBase; // 본편 탈리스만 표시 여부
   final bool filterDlc;  // DLC 탈리스만 표시 여부
 
+  // 🔥 전설 탈리스만 필터 (주문이랑 동일 구조)
+  final bool filterLegend; // 전설만 보기 여부
+
   const ETalismanListPage({
     super.key,
     required this.game,
@@ -28,6 +31,7 @@ class ETalismanListPage extends StatefulWidget {
     required this.showImageDialog,
     required this.filterBase,
     required this.filterDlc,
+    this.filterLegend = false, // 🔥 기본값: 전설 필터 OFF
   });
 
   @override
@@ -158,7 +162,7 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
 
         final items = snapshot.data ?? [];
 
-        // 🔥 게임 이름 + 검색어 + 본편/DLC 필터링
+        // 🔥 게임 이름 + 검색어 + 본편/DLC + 전설 필터링
         final filtered = items.where((e) {
           final bool gameMatch = e.game == widget.game.title;
           final bool nameMatch = e.title
@@ -167,6 +171,12 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
 
           // 이름에 '◇' 있으면 DLC로 취급
           final bool isDlc = e.title.contains('◇');
+
+          // 🔥 전설 판정 규칙 (필요하면 더 추가 가능)
+          //  - 제목에 '☆' 포함
+          //  - 제목에 '전설' 이라는 단어 포함
+          final bool isLegend =
+              e.title.contains('☆') || e.title.contains('전설');
 
           bool baseDlcMatch;
           if (widget.filterBase && !widget.filterDlc) {
@@ -180,7 +190,13 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
             baseDlcMatch = true;
           }
 
-          return gameMatch && nameMatch && baseDlcMatch;
+          // 🔥 전설 필터: 켜져 있으면 전설만 통과
+          bool legendMatch = true;
+          if (widget.filterLegend) {
+            legendMatch = isLegend;
+          }
+
+          return gameMatch && nameMatch && baseDlcMatch && legendMatch;
         }).toList();
 
         if (filtered.isEmpty) {

@@ -1,5 +1,4 @@
 // lib/pages/espell_list_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -19,7 +18,16 @@ class ESpellListPage extends StatefulWidget {
 
   // 🔹 본편 / DLC 필터
   final bool filterBase; // 본편 주문 표시 여부
-  final bool filterDlc;  // DLC 주문 표시 여부
+  final bool filterDlc; // DLC 주문 표시 여부
+
+  // 🔥 전설 주문 필터 — 기본값 false
+  final bool filterLegend;
+
+  // 🔥 spell / type 필터 추가
+  // - spellKindFilter: "전체 / 주문 / 기도 / 마술" 등
+  // - spellTypeFilter: "전체 / 두 손가락 / 황금 나무 신앙" 등
+  final String spellKindFilter;
+  final String spellTypeFilter;
 
   const ESpellListPage({
     super.key,
@@ -28,6 +36,9 @@ class ESpellListPage extends StatefulWidget {
     required this.showImageDialog,
     required this.filterBase,
     required this.filterDlc,
+    this.filterLegend = false,
+    this.spellKindFilter = '전체',
+    this.spellTypeFilter = '전체',
   });
 
   @override
@@ -52,6 +63,7 @@ class _ESpellListPageState extends State<ESpellListPage> {
 
     // 백엔드 라우트에 맞춰 조정: /ESpell (다르면 여기만 변경)
     final response = await http.get(Uri.parse('$apiBaseUrl/ESpell'));
+
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
       final List<ESpell> data =
@@ -61,7 +73,8 @@ class _ESpellListPageState extends State<ESpellListPage> {
       _eSpellCache = data;
       return data;
     } else {
-      throw Exception('주문(ESpell) 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
+      throw Exception(
+          '주문(ESpell) 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
   }
 
@@ -156,6 +169,7 @@ class _ESpellListPageState extends State<ESpellListPage> {
 
         final filtered = items.where((s) {
           final bool gameMatch = s.game == widget.game.title;
+
           final bool nameMatch = s.title
               .toLowerCase()
               .contains(widget.searchQuery.toLowerCase());
@@ -163,6 +177,14 @@ class _ESpellListPageState extends State<ESpellListPage> {
           // 🔹 DLC 여부: 이름에 '◇'가 있으면 DLC 주문으로 취급
           final bool isDlc = s.title.contains('◇');
 
+          // 🔥 전설 여부:
+          // - 무기처럼 '☆' 마크가 있거나
+          // - type/title에 '전설' 이라는 단어가 들어가면 전설 주문으로 취급
+          final bool isLegend = s.title.contains('☆') ||
+              s.type.contains('전설') ||
+              s.title.contains('전설');
+
+          // 🔹 본편 / DLC 매칭
           bool baseDlcMatch;
           if (widget.filterBase && !widget.filterDlc) {
             // 본편만 보기
@@ -175,12 +197,37 @@ class _ESpellListPageState extends State<ESpellListPage> {
             baseDlcMatch = true;
           }
 
-          return gameMatch && nameMatch && baseDlcMatch;
+          // 🔥 전설 필터: 켜져 있으면 전설 주문만 통과
+          bool legendMatch = true;
+          if (widget.filterLegend) {
+            legendMatch = isLegend;
+          }
+
+          // 🔥 spellKindFilter: spell 컬럼 값으로 필터 (기도 / 주문 / 마술 ...)
+          bool spellKindMatch = true;
+          if (widget.spellKindFilter != '전체') {
+            // ESpell 모델에 'spell' 필드가 있다고 가정
+            spellKindMatch = s.spell == widget.spellKindFilter;
+          }
+
+          // 🔥 spellTypeFilter: type 컬럼 값으로 필터 (두 손가락, 황금 나무 신앙 ...)
+          bool spellTypeMatch = true;
+          if (widget.spellTypeFilter != '전체') {
+            spellTypeMatch = s.type == widget.spellTypeFilter;
+          }
+
+          return gameMatch &&
+              nameMatch &&
+              baseDlcMatch &&
+              legendMatch &&
+              spellKindMatch &&
+              spellTypeMatch;
         }).toList();
 
         if (filtered.isEmpty) {
           return const Center(
-            child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
+            child: Text('항목이 없습니다.',
+                style: TextStyle(color: Colors.white70)),
           );
         }
 
@@ -275,7 +322,7 @@ class _ESpellListPageState extends State<ESpellListPage> {
                                         ),
                                       ),
                                       Text(
-                                        '슬롯: ${spell.slot}',
+                                        '요구 슬롯: ${spell.slot}',
                                         style: TextStyle(
                                             color: Colors.grey[400],
                                             fontSize: 13),
@@ -291,7 +338,7 @@ class _ESpellListPageState extends State<ESpellListPage> {
                                         ),
                                       ),
                                       Text(
-                                        '요구: ${spell.need}',
+                                        '${spell.need}',
                                         style: TextStyle(
                                             color: Colors.grey[400],
                                             fontSize: 13),
@@ -314,11 +361,11 @@ class _ESpellListPageState extends State<ESpellListPage> {
                           CrossAxisAlignment.stretch,
                           children: [
                             const Divider(
-                                color: Colors.white24,
-                                height: 1,
-                                thickness: 0.5),
+                              color: Colors.white24,
+                              height: 1,
+                              thickness: 0.5,
+                            ),
                             const SizedBox(height: 10),
-
                             // 설명: 문장별로 나눠서 한 줄씩 + 줄마다 SizedBox
                             Column(
                               crossAxisAlignment:
@@ -338,7 +385,6 @@ class _ESpellListPageState extends State<ESpellListPage> {
                                   ],
                               ],
                             ),
-
                             const SizedBox(height: 12),
                           ],
                         ),

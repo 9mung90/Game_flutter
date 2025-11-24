@@ -6,6 +6,7 @@ class ESpell {
   final String game;
   final String title;
   final String type;
+  final String spell;
   final String slot;
   final String need;
   final String description;
@@ -16,6 +17,7 @@ class ESpell {
     required this.game,
     required this.title,
     required this.type,
+    required this.spell,
     required this.slot,
     required this.need,
     required this.description,
@@ -31,6 +33,7 @@ class ESpell {
       game: json['game'] ?? '', // 데이터가 null일 경우를 대비해 기본값 설정
       title: json['title'] ?? '제목 없음',
       type: json['type'] ?? '주문 타입 없음',
+      spell: json['spell'] ?? '주문,기도 여부 없음',
       slot: json['slot'] ?? '요구 슬롯 없음',
       need: json['need'] ?? '요구 스탯 없음',
       description: json['description'] ?? '설명이 없습니다.',
