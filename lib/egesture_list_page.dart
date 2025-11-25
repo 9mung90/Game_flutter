@@ -290,12 +290,15 @@ class _EGestureListPageState extends State<EGestureListPage> {
                               children: [
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
-                                    Text(
-                                      line.trim(),
-                                      style: TextStyle(
-                                        color: Colors.grey[300],
-                                        fontSize: 14,
-                                        height: 1.4,
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0), // ← 설명 들여쓰기
+                                      child: Text(
+                                        line.trim(),
+                                        style: TextStyle(
+                                          color: Colors.grey[300],
+                                          fontSize: 14,
+                                          height: 1.4,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 4),

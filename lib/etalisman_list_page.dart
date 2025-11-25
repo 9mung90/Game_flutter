@@ -327,12 +327,15 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                               children: [
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
-                                    Text(
-                                      line.trim(),
-                                      style: TextStyle(
-                                        color: Colors.grey[300],
-                                        fontSize: 14,
-                                        height: 1.4,
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0), // 👉 여기서 오른쪽으로 살짝 밀기
+                                      child: Text(
+                                        line.trim(),
+                                        style: TextStyle(
+                                          color: Colors.grey[300],
+                                          fontSize: 14,
+                                          height: 1.4,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 4),
@@ -343,12 +346,15 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                             // 능력이 있을 때만: 2칸 띄우고 + 능력 내용
                             if (hasAbility) ...[
                               const SizedBox(height: 16),
-                              Text(
-                                talisman.ability,
-                                style: TextStyle(
-                                  color: Colors.grey[300],
-                                  fontSize: 14,
-                                  height: 1.4,
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0), // 👈 설명이랑 같은 들여쓰기
+                                child: Text(
+                                  talisman.ability,
+                                  style: TextStyle(
+                                    color: Colors.grey[300],
+                                    fontSize: 14,
+                                    height: 1.4,
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 12),

@@ -419,12 +419,15 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                               children: [
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
-                                    Text(
-                                      line.trim(),
-                                      style: TextStyle(
-                                        color: Colors.grey[300],
-                                        fontSize: 14,
-                                        height: 1.4,
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0), // 👈 한 칸 정도 오른쪽으로
+                                      child: Text(
+                                        line.trim(),
+                                        style: TextStyle(
+                                          color: Colors.grey[300],
+                                          fontSize: 14,
+                                          height: 1.4,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 4),

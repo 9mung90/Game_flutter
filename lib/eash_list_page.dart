@@ -311,12 +311,15 @@ class _EAshListPageState extends State<EAshListPage> {
                               children: [
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
-                                    Text(
-                                      line.trim(),
-                                      style: TextStyle(
-                                        color: Colors.grey[300],
-                                        fontSize: 14,
-                                        height: 1.4,
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0), // 👉 여기서 오른쪽으로 살짝 밀기
+                                      child: Text(
+                                        line.trim(),
+                                        style: TextStyle(
+                                          color: Colors.grey[300],
+                                          fontSize: 14,
+                                          height: 1.4,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 4),
