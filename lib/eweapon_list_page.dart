@@ -9,6 +9,7 @@ import 'eweapon.dart';
 import 'game.dart';
 import 'detail_view_page.dart';
 import 'detail_image_view_page.dart';
+import 'local_data/local_data_loader.dart';  // ✅ 로컬 JSON 로더 추가
 
 /// 🔥 EWeapon 전역 캐시 (이 파일 안에서만 사용)
 List<EWeapon>? _eWeaponCache;
@@ -57,27 +58,38 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
   @override
   void initState() {
     super.initState();
+    // ✅ 이제는 서버가 아니라 로컬 JSON(assets)에서 로드
     _futureEWeapons = fetchEWeapons();
   }
 
+  // 🔥 지금부터는 오프라인(assets)에서 로드하는 버전
   Future<List<EWeapon>> fetchEWeapons() async {
-    // 🔥 1) 이미 캐시가 있으면 API 호출 없이 바로 사용
-    if (_eWeaponCache != null) {
-      return _eWeaponCache!;
-    }
+    // 오프라인 모드: assets/data/elden_weapons_v1.json에서 로드
+    return LocalDataLoader.loadWeapons();
 
-    final response = await http.get(Uri.parse('$apiBaseUrl/EWeapon'));
-    if (response.statusCode == 200) {
-      final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
-      final List<EWeapon> data =
-      body.map((dynamic item) => EWeapon.fromJson(item)).toList();
+    /*
+    // ✅ [기존 서버에서 받아오던 코드] — 나중에 다시 쓸 수 있게 아예 남겨둠
 
-      // 🔥 2) 첫 로딩 결과를 캐시에 저장
-      _eWeaponCache = data;
-      return data;
-    } else {
-      throw Exception('무기 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
+    Future<List<EWeapon>> fetchEWeapons() async {
+      // 🔥 1) 이미 캐시가 있으면 API 호출 없이 바로 사용
+      if (_eWeaponCache != null) {
+        return _eWeaponCache!;
+      }
+
+      final response = await http.get(Uri.parse('$apiBaseUrl/EWeapon'));
+      if (response.statusCode == 200) {
+        final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
+        final List<EWeapon> data =
+            body.map((dynamic item) => EWeapon.fromJson(item)).toList();
+
+        // 🔥 2) 첫 로딩 결과를 캐시에 저장
+        _eWeaponCache = data;
+        return data;
+      } else {
+        throw Exception('무기 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
+      }
     }
+    */
   }
 
   /// description 파싱:
@@ -420,7 +432,7 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0), // 👈 한 칸 정도 오른쪽으로
+                                      padding: const EdgeInsets.only(left: 8.0),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(

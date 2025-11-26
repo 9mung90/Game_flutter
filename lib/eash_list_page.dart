@@ -1,10 +1,11 @@
 // lib/pages/eash_list_page.dart
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;   // 🔹 예전 서버 방식(주석 코드에서만 사용)
 import 'dart:convert';
 
 import '../api_config.dart';
+import 'local_data/local_data_loader.dart';        // ✅ 로컬 JSON 로더
 import 'eash.dart';            // ✅ EAsh DTO 사용
 import 'game.dart';
 
@@ -51,6 +52,11 @@ class _EAshListPageState extends State<EAshListPage> {
   }
 
   Future<List<EAsh>> fetchEAshes() async {
+    // 🔥 이제는 서버가 아니라, 로컬 JSON(assets/data/EAshv1.json)에서 불러온다.
+    return await LocalDataLoader.loadAshes();
+
+    /*
+    // 📌 예전: 백엔드 API에서 불러오던 방식 (참고용으로 남김)
     // ⭐ 1) 캐시가 이미 있으면 그대로 반환 (API 호출 안 함)
     if (_eAshCache != null) {
       return _eAshCache!;
@@ -61,7 +67,7 @@ class _EAshListPageState extends State<EAshListPage> {
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
       final List<EAsh> data =
-      body.map((dynamic item) => EAsh.fromJson(item)).toList();
+          body.map((dynamic item) => EAsh.fromJson(item)).toList();
 
       // ⭐ 2) 처음 로딩한 데이터 캐시에 저장
       _eAshCache = data;
@@ -69,6 +75,7 @@ class _EAshListPageState extends State<EAshListPage> {
     } else {
       throw Exception('EAsh 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
+    */
   }
 
   /// description 파싱:
@@ -312,7 +319,8 @@ class _EAshListPageState extends State<EAshListPage> {
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0), // 👉 여기서 오른쪽으로 살짝 밀기
+                                      padding:
+                                      const EdgeInsets.only(left: 8.0),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(

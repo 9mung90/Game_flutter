@@ -1,12 +1,11 @@
 // lib/pages/egesture_list_page.dart
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'dart:convert'; // (기존 http 버전에서 쓰던 것, 안 쓰이면 삭제해도 됨)
 
-import 'api_config.dart';
 import 'egesture.dart';
 import 'game.dart';
+import 'local_data/local_data_loader.dart'; // ⭐ 로컬 JSON 로더 추가
 
 /// 🔥 EGesture 전역 캐시 (이 파일 안에서만 사용)
 List<EGesture>? _eGestureCache;
@@ -45,25 +44,29 @@ class _EGestureListPageState extends State<EGestureListPage> {
   }
 
   Future<List<EGesture>> fetchEGestures() async {
-    // ⭐ 1) 캐시가 이미 있으면 API 호출 안 하고 바로 반환
+    // ⭐ 지금은 서버가 아니라 로컬 JSON(assets)을 사용
+    //   - LocalDataLoader.loadGestures() 안에서 캐시도 같이 처리
+    return LocalDataLoader.loadGestures();
+
+    /*
+    // 🔙 예전 서버 버전 (백업용)
     if (_eGestureCache != null) {
       return _eGestureCache!;
     }
 
-    // 서버 제스처 목록 엔드포인트
     final response = await http.get(Uri.parse('$apiBaseUrl/EGesture'));
 
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
       final List<EGesture> data =
-      body.map((dynamic item) => EGesture.fromJson(item)).toList();
+          body.map((dynamic item) => EGesture.fromJson(item)).toList();
 
-      // ⭐ 2) 처음 불러온 데이터를 캐시에 저장
       _eGestureCache = data;
       return data;
     } else {
       throw Exception('제스처 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
+    */
   }
 
   /// description 파싱 (EBone과 비슷하게 문장 단위로 나누기)
@@ -271,8 +274,7 @@ class _EGestureListPageState extends State<EGestureListPage> {
                     // 확장 영역: 상세 설명
                     if (isExpanded)
                       Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(8, 1, 12, 12),
+                        padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
                           crossAxisAlignment:
                           CrossAxisAlignment.stretch,
@@ -291,7 +293,7 @@ class _EGestureListPageState extends State<EGestureListPage> {
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0), // ← 설명 들여쓰기
+                                      padding: const EdgeInsets.only(left: 8.0),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(

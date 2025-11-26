@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'api_config.dart';
 import 'eetc.dart';
 import 'game.dart';
+import 'local_data/local_data_loader.dart'; // ⭐ 로컬 JSON 로더 추가
 
 /// 🔥 EEtc 전역 캐시 (이 파일 안에서만 사용)
 List<EEtc>? _eEtcCache;
@@ -49,6 +50,12 @@ class _EEtcListPageState extends State<EEtcListPage> {
   }
 
   Future<List<EEtc>> fetchEEtcs() async {
+    // ✅ 이제는 서버가 아니라 로컬 JSON(assets/data/EEtcv1.json)에서 로드
+    return LocalDataLoader.loadEtcs();
+
+    /*
+    // 🔥 [이전 버전] 서버에서 직접 불러오던 코드 (백업용으로 남겨둠)
+
     // 🔥 1) 이미 캐시가 있으면 API 호출 없이 바로 반환
     if (_eEtcCache != null) {
       return _eEtcCache!;
@@ -59,7 +66,7 @@ class _EEtcListPageState extends State<EEtcListPage> {
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
       final List<EEtc> data =
-      body.map((dynamic item) => EEtc.fromJson(item)).toList();
+          body.map((dynamic item) => EEtc.fromJson(item)).toList();
 
       // 🔥 2) 첫 로딩 시 결과를 캐시에 저장
       _eEtcCache = data;
@@ -67,6 +74,7 @@ class _EEtcListPageState extends State<EEtcListPage> {
     } else {
       throw Exception('기타 아이템(EEtc) 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
+    */
   }
 
   /// description 파싱:

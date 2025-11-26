@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'api_config.dart';
 import 'ebone.dart';
 import 'game.dart';
+import 'local_data/local_data_loader.dart'; // ⭐ 로컬 JSON 로더 추가
 
 /// EBone 전역 캐시 (이 파일 안에서만 사용)
 List<EBone>? _eBoneCache;
@@ -51,7 +52,13 @@ class _EBoneListPageState extends State<EBoneListPage> {
   }
 
   Future<List<EBone>> fetchEBones() async {
-    // 🔥 1) 캐시가 이미 있으면 API 호출 없이 바로 반환
+    // ✅ 이제는 로컬 JSON(assets/data/EBonev1.json)을 사용해서 불러온다.
+    return LocalDataLoader.loadBones();
+
+    /*
+    // 🔥 [이전 버전] 서버에서 EBone 데이터를 받아오던 코드 (백업용으로 보관)
+
+    // 1) 캐시가 이미 있으면 API 호출 없이 바로 반환
     if (_eBoneCache != null) {
       return _eBoneCache!;
     }
@@ -61,7 +68,7 @@ class _EBoneListPageState extends State<EBoneListPage> {
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
       final List<EBone> data =
-      body.map((dynamic item) => EBone.fromJson(item)).toList();
+          body.map((dynamic item) => EBone.fromJson(item)).toList();
 
       // 🔥 2) 최초 한 번 로딩한 데이터를 캐시에 저장
       _eBoneCache = data;
@@ -69,6 +76,7 @@ class _EBoneListPageState extends State<EBoneListPage> {
     } else {
       throw Exception('뼛가루 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
+    */
   }
 
   /// description 파싱:
@@ -362,7 +370,8 @@ class _EBoneListPageState extends State<EBoneListPage> {
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0), // 👉 여기서 오른쪽으로 살짝 밀기
+                                      padding:
+                                      const EdgeInsets.only(left: 8.0),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(
@@ -383,7 +392,8 @@ class _EBoneListPageState extends State<EBoneListPage> {
                             // --- bget이 있을 때만 표시 ---
                             if (hasBget)
                               Padding(
-                                padding: const EdgeInsets.only(left: 8.0), // 👈 설명이랑 같은 들여쓰기
+                                padding:
+                                const EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   bone.bget,
                                   style: TextStyle(

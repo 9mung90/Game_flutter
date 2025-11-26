@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'api_config.dart';
 import 'etalisman.dart';
 import 'game.dart';
+import 'local_data/local_data_loader.dart'; // ⭐ 로컬 JSON 로더 추가
 
 /// 🔥 ETalisman 전역 캐시 (이 파일 안에서만 사용)
 List<ETalisman>? _eTalismanCache;
@@ -49,7 +50,13 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
   }
 
   Future<List<ETalisman>> fetchETalismans() async {
-    // 🔥 1) 이미 캐시가 있으면 API 호출 없이 바로 반환
+    // ✅ 이제는 탈리스만 데이터도 로컬 JSON(ETalismanv1.json)에서 읽어온다.
+    return LocalDataLoader.loadTalismans();
+
+    /*
+    // 🔥 [이전 버전] 서버에서 탈리스만 데이터를 받아오던 코드 (백업용으로 남겨둠)
+
+    // 1) 이미 캐시가 있으면 API 호출 없이 바로 반환
     if (_eTalismanCache != null) {
       return _eTalismanCache!;
     }
@@ -59,14 +66,15 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
       final List<ETalisman> data =
-      body.map((dynamic item) => ETalisman.fromJson(item)).toList();
+          body.map((dynamic item) => ETalisman.fromJson(item)).toList();
 
-      // 🔥 2) 첫 로딩 결과를 캐시에 저장
+      // 2) 첫 로딩 결과를 캐시에 저장
       _eTalismanCache = data;
       return data;
     } else {
       throw Exception('탈리스만 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
+    */
   }
 
   /// description 파싱:
@@ -172,7 +180,7 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
           // 이름에 '◇' 있으면 DLC로 취급
           final bool isDlc = e.title.contains('◇');
 
-          // 🔥 전설 판정 규칙 (필요하면 더 추가 가능)
+          // 🔥 전설 판정 규칙
           //  - 제목에 '☆' 포함
           //  - 제목에 '전설' 이라는 단어 포함
           final bool isLegend =
@@ -271,8 +279,8 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                           // 오른쪽 텍스트 영역
                           Expanded(
                             child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 12.0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -328,7 +336,8 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0), // 👉 여기서 오른쪽으로 살짝 밀기
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0), // 👉 설명 들여쓰기
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(
@@ -343,11 +352,11 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                               ],
                             ),
 
-                            // 능력이 있을 때만: 2칸 띄우고 + 능력 내용
+                            // 능력이 있을 때만: 여백 + 능력 출력
                             if (hasAbility) ...[
                               const SizedBox(height: 16),
                               Padding(
-                                padding: const EdgeInsets.only(left: 8.0), // 👈 설명이랑 같은 들여쓰기
+                                padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   talisman.ability,
                                   style: TextStyle(

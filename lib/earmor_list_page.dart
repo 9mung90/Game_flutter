@@ -8,6 +8,7 @@ import 'api_config.dart';
 import 'earmor.dart';
 import 'game.dart';
 import 'detail_image_view_page.dart';
+import 'local_data/local_data_loader.dart'; // ✅ 추가: 로컬 JSON 로더
 
 /// ⭐ 파일 전역 캐시: 이 파일 안에서만 쓰이는 방어구 캐시
 List<EArmor>? _eArmorCache;
@@ -52,6 +53,11 @@ class _EArmorListPageState extends State<EArmorListPage> {
   }
 
   Future<List<EArmor>> fetchEArmors() async {
+    // 🔥 이제 방어구 데이터는 로컬 JSON(EArmorv1.json)에서 읽어온다.
+    //    (기존 서버 호출 코드는 아래에 주석으로 보관)
+    return LocalDataLoader.loadArmors();
+
+    /*
     // ⭐ 1) 캐시가 있으면 그대로 반환 (API 안 탐)
     if (_eArmorCache != null) {
       return _eArmorCache!;
@@ -62,7 +68,7 @@ class _EArmorListPageState extends State<EArmorListPage> {
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
       final List<EArmor> data =
-      body.map((dynamic item) => EArmor.fromJson(item)).toList();
+          body.map((dynamic item) => EArmor.fromJson(item)).toList();
 
       // ⭐ 3) 결과를 캐시에 저장
       _eArmorCache = data;
@@ -70,6 +76,7 @@ class _EArmorListPageState extends State<EArmorListPage> {
     } else {
       throw Exception('방어구 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
+    */
   }
 
   /// description 파싱:

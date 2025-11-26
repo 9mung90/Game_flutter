@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'api_config.dart';
 import 'espell.dart';
 import 'game.dart';
+import 'local_data/local_data_loader.dart'; // ⭐ 로컬 JSON 로더 추가
 
 /// 🔥 ESpell 전역 캐시 (이 파일 안에서만 사용)
 List<ESpell>? _eSpellCache;
@@ -56,7 +57,13 @@ class _ESpellListPageState extends State<ESpellListPage> {
   }
 
   Future<List<ESpell>> fetchESpells() async {
-    // 🔥 1) 이미 캐시가 있으면 API 호출 없이 바로 반환
+    // ✅ 지금은 로컬 JSON(assets/data/ESpellv1.json)을 사용해서 불러옴
+    return LocalDataLoader.loadSpells();
+
+    /*
+    // 🔥 [이전 버전] 서버에서 주문 데이터를 받아오던 코드 (백업용으로 남겨둠)
+
+    // 1) 이미 캐시가 있으면 API 호출 없이 바로 반환
     if (_eSpellCache != null) {
       return _eSpellCache!;
     }
@@ -67,15 +74,16 @@ class _ESpellListPageState extends State<ESpellListPage> {
     if (response.statusCode == 200) {
       final List<dynamic> body = json.decode(utf8.decode(response.bodyBytes));
       final List<ESpell> data =
-      body.map((dynamic item) => ESpell.fromJson(item)).toList();
+          body.map((dynamic item) => ESpell.fromJson(item)).toList();
 
-      // 🔥 2) 첫 로딩 결과를 캐시에 저장
+      // 2) 첫 로딩 결과를 캐시에 저장
       _eSpellCache = data;
       return data;
     } else {
       throw Exception(
           '주문(ESpell) 데이터를 불러오는 데 실패했습니다: ${response.statusCode}');
     }
+    */
   }
 
   /// description 파싱:
@@ -374,7 +382,8 @@ class _ESpellListPageState extends State<ESpellListPage> {
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0), // 👉 여기서 오른쪽으로 살짝 밀기
+                                      padding:
+                                      const EdgeInsets.only(left: 8.0),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(
