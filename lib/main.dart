@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
       },
 
       theme: ThemeData(
-        fontFamily: 'OptimusPrinceps',
+        fontFamily: 'GothicA1',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
       ),
 

@@ -328,7 +328,7 @@ class _ListTopState extends State<ListTop> {
         currentValue = _armorPartFilter;
         break;
       case 2:
-        title = '전투 기술 필터';
+        title = '전회 필터';
         iconAsset = 'assets/images/ash_Icon.png';
         options = const [
           '전체',
@@ -1500,7 +1500,7 @@ class _ListTopState extends State<ListTop> {
                         ),
                         const SizedBox(width: 8),
                         const Text(
-                          '전투 기술 필터',
+                          '전회 필터',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -2559,7 +2559,7 @@ class _ListTopState extends State<ListTop> {
                             : (_selectedIndex == 1
                             ? '방어구 본편/DLC 필터'
                             : (_selectedIndex == 2
-                            ? '전투 기술 본편/DLC 필터'
+                            ? '전회 본편/DLC 필터'
                             : (_selectedIndex == 3
                             ? '주문 전설/본편/DLC 필터'
                             : (_selectedIndex == 4
@@ -2682,7 +2682,7 @@ class _ListTopState extends State<ListTop> {
                   ),
                   _buildCategoryButton(
                     iconPath: 'assets/images/ash_Icon.png',
-                    label: '전투 기술',
+                    label: '전회',
                     index: 2,
                     currentIndex: _selectedIndex,
                     onTap: (index) {
@@ -2826,7 +2826,7 @@ Widget _buildCategoryButton({
   return GestureDetector(
     onTap: () => onTap(index),
     child: Container(
-      width: 50,
+      width: 62,
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       margin: const EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(
