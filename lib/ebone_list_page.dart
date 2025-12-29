@@ -307,8 +307,7 @@ class _EBoneListPageState extends State<EBoneListPage> {
                           // 오른쪽 텍스트 영역
                           Expanded(
                             child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 12.0),
+                              padding: const EdgeInsets.only(right: 12.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
