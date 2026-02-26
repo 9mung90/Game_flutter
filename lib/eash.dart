@@ -8,6 +8,7 @@ class EAsh {
   final String property;
   final String description;
   final String img;  // 목록에 표시될 기본 이미지
+  final String gif;
 
   EAsh({
     required this.id,
@@ -16,6 +17,7 @@ class EAsh {
     required this.property,
     required this.description,
     required this.img,
+    required this.gif,
 
   });
 
@@ -29,7 +31,7 @@ class EAsh {
       property: json['property'] ?? '속성 정보 없음',
       description: json['description'] ?? '설명이 없습니다.',
       img: json['img'] ?? '',
-
+      gif: json['gif'] ?? '',
     );
   }
 }

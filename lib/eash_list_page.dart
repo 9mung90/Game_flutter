@@ -45,6 +45,9 @@ class _EAshListPageState extends State<EAshListPage> {
   late Future<List<EAsh>> _futureEAshes;
   int? _expandedId; // 확장된 카드의 아이템 id
 
+  // ✅ 추가: 시전 모션(gif) 표시 여부를 아이템 id로 관리
+  int? _gifExpandedId;
+
   @override
   void initState() {
     super.initState();
@@ -217,6 +220,9 @@ class _EAshListPageState extends State<EAshListPage> {
             final ash = filtered[index];
             final isExpanded = _expandedId == ash.id;
 
+            // ✅ 추가: 현재 아이템의 gif 표시 여부
+            final bool showGif = _gifExpandedId == ash.id;
+
             // 설명을 규칙에 맞게 분리
             final List<String> descriptionLines =
             _splitDescriptionWithParens(ash.description);
@@ -234,7 +240,16 @@ class _EAshListPageState extends State<EAshListPage> {
               ),
               child: InkWell(
                 onTap: () => setState(() {
+                  // ✅ 기존 확장/축소 로직 유지 + 접을 때 gif도 같이 닫기만 추가
                   _expandedId = isExpanded ? null : ash.id;
+
+                  if (isExpanded) {
+                    if (_gifExpandedId == ash.id) {
+                      _gifExpandedId = null;
+                    }
+                  } else {
+                    _gifExpandedId = null;
+                  }
                 }),
                 child: Column(
                   children: [
@@ -244,8 +259,11 @@ class _EAshListPageState extends State<EAshListPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            onTap: () =>
-                                widget.showImageDialog(context, ash.img, ash.title),
+                            onTap: () => widget.showImageDialog(
+                              context,
+                              ash.img,
+                              ash.title,
+                            ),
                             child: Container(
                               margin: const EdgeInsets.only(left: 3),
                               width: screenWidth * 0.25,
@@ -283,8 +301,9 @@ class _EAshListPageState extends State<EAshListPage> {
                                       Text(
                                         ash.property, // 속성
                                         style: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 13),
+                                          color: Colors.grey[400],
+                                          fontSize: 13,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -298,28 +317,25 @@ class _EAshListPageState extends State<EAshListPage> {
                     ),
                     if (isExpanded)
                       Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(8, 1, 12, 12),
+                        padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.stretch,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const Divider(
-                                color: Colors.white24,
-                                height: 1,
-                                thickness: 0.5),
+                              color: Colors.white24,
+                              height: 1,
+                              thickness: 0.5,
+                            ),
                             const SizedBox(height: 10),
 
                             // 설명: 문장별로 나눠서 한 줄씩 + 줄마다 SizedBox
                             Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding:
-                                      const EdgeInsets.only(left: 8.0),
+                                      padding: const EdgeInsets.only(left: 8.0),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(
@@ -335,6 +351,50 @@ class _EAshListPageState extends State<EAshListPage> {
                             ),
 
                             const SizedBox(height: 12),
+
+                            // ✅ 추가: '시전 모션 보기' 버튼
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _gifExpandedId = showGif ? null : ash.id;
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  image: const DecorationImage(
+                                    image: AssetImage('assets/images/detailground.png'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    '시전 모션 보기',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            // ✅ 추가: JSON에 들어있는 gif URL(예: ash.gif)을 Image.network로 표시
+                            if (showGif) ...[
+                              const SizedBox(height: 10),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.network(
+                                  ash.gif, // ✅ EAsh에 실제로 있는 gif 필드명으로 맞추세요
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (c, e, s) => const Icon(
+                                    Icons.image_not_supported,
+                                    color: Colors.white24,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                       ),

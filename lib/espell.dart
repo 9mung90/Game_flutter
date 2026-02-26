@@ -11,6 +11,7 @@ class ESpell {
   final String need;
   final String description;
   final String img;  // 목록에 표시될 기본 이미지
+  final String gif;
 
   ESpell({
     required this.id,
@@ -22,7 +23,7 @@ class ESpell {
     required this.need,
     required this.description,
     required this.img,
-
+    required this.gif,
   });
 
   // JSON 데이터를 EWeapon 객체로 변환해주는 팩토리 생성자입니다.
@@ -38,7 +39,7 @@ class ESpell {
       need: json['need'] ?? '요구 스탯 없음',
       description: json['description'] ?? '설명이 없습니다.',
       img: json['img'] ?? '',
-
+      gif: json['gif'] ?? '',
     );
   }
 }

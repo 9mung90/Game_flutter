@@ -2,10 +2,6 @@
     <uses-permission
         android:name="android.permission.INTERNET" />
     <uses-permission
-        android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission
         android:name="android.permission.RECORD_AUDIO"/>
     <application
         android:label="황금 엘든위키"

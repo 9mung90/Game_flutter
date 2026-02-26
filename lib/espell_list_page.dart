@@ -50,6 +50,9 @@ class _ESpellListPageState extends State<ESpellListPage> {
   late Future<List<ESpell>> _futureESpells;
   int? _expandedId; // 확장된 카드의 아이템 id
 
+  // ✅ 추가: 시전 모션(gif) 표시 여부를 아이템 id로 관리
+  int? _gifExpandedId;
+
   @override
   void initState() {
     super.initState();
@@ -246,6 +249,9 @@ class _ESpellListPageState extends State<ESpellListPage> {
             final spell = filtered[index];
             final isExpanded = _expandedId == spell.id;
 
+            // ✅ 추가: 현재 아이템의 gif 표시 여부
+            final bool showGif = _gifExpandedId == spell.id;
+
             // 설명을 규칙에 맞게 분리
             final List<String> descriptionLines =
             _splitDescriptionWithParens(spell.description);
@@ -263,7 +269,16 @@ class _ESpellListPageState extends State<ESpellListPage> {
               ),
               child: InkWell(
                 onTap: () => setState(() {
+                  // ✅ 기존 확장/축소 로직 유지 + 접을 때 gif도 같이 닫기만 추가
                   _expandedId = isExpanded ? null : spell.id;
+
+                  if (isExpanded) {
+                    if (_gifExpandedId == spell.id) {
+                      _gifExpandedId = null;
+                    }
+                  } else {
+                    _gifExpandedId = null;
+                  }
                 }),
                 child: Column(
                   children: [
@@ -361,11 +376,9 @@ class _ESpellListPageState extends State<ESpellListPage> {
                     ),
                     if (isExpanded)
                       Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(8, 1, 12, 12),
+                        padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.stretch,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const Divider(
                               color: Colors.white24,
@@ -375,14 +388,12 @@ class _ESpellListPageState extends State<ESpellListPage> {
                             const SizedBox(height: 10),
                             // 설명: 문장별로 나눠서 한 줄씩 + 줄마다 SizedBox
                             Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding:
-                                      const EdgeInsets.only(left: 8.0),
+                                      padding: const EdgeInsets.only(left: 8.0),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(
@@ -397,6 +408,56 @@ class _ESpellListPageState extends State<ESpellListPage> {
                               ],
                             ),
                             const SizedBox(height: 12),
+
+                            // 현재 임시로 주석처리함 나중에 활성화
+                            // ✅ 추가: '시전 모션 보기' 버튼 (gif 토글)
+                            /*
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _gifExpandedId = showGif ? null : spell.id;
+                                });
+                              },
+                              child: Container(
+                                padding:
+                                const EdgeInsets.symmetric(vertical: 12),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/detailground.png'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    '시전 모션 보기',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            */
+                            
+
+                            // ✅ 추가: JSON에 들어있는 gif URL(예: spell.gif)을 Image.network로 표시
+                            if (showGif) ...[
+                              const SizedBox(height: 10),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.network(
+                                  spell.gif, // ✅ ESpell에 실제로 있는 gif 필드명으로 맞추세요
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (c, e, s) => const Icon(
+                                    Icons.image_not_supported,
+                                    color: Colors.white24,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                       ),

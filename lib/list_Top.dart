@@ -344,6 +344,7 @@ class _ListTopState extends State<ListTop> {
           '피',
           '냉기',
           '신비',
+          '전용 전투 기술',
           '없음',
         ];
         currentValue = _ashPropertyFilter;
