@@ -409,9 +409,7 @@ class _ESpellListPageState extends State<ESpellListPage> {
                             ),
                             const SizedBox(height: 12),
 
-                            // 현재 임시로 주석처리함 나중에 활성화
                             // ✅ 추가: '시전 모션 보기' 버튼 (gif 토글)
-                            /*
                             GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -440,7 +438,7 @@ class _ESpellListPageState extends State<ESpellListPage> {
                                 ),
                               ),
                             ),
-                            */
+
                             
 
                             // ✅ 추가: JSON에 들어있는 gif URL(예: spell.gif)을 Image.network로 표시

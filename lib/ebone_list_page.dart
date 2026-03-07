@@ -320,8 +320,9 @@ class _EBoneListPageState extends State<EBoneListPage> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 17,
                                     ),
-                                    softWrap: false,
-                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    maxLines: null,
+                                    overflow: TextOverflow.visible,
                                   ),
                                   const SizedBox(height: 4),
                                   // 메타 정보: 용도만 위에 표시
