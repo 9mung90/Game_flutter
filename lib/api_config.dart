@@ -1,2 +1,2 @@
 // api_config.dart
-const String apiBaseUrl = 'http://52.64.46.220:8080';
+const String apiBaseUrl = 'http://10.246.229.206:8080';

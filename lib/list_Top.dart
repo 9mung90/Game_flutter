@@ -26,6 +26,13 @@ import 'etalisman_list_page.dart';
 // ⭐ 제스처 리스트 페이지
 import 'egesture_list_page.dart';
 
+// ✅ 업데이트 알림용 추가 import
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:forspeech/app_version_info.dart';
+import 'package:forspeech/update_service.dart';
+
 // 웨폰 리스트 페이지 위의 이름/검색창/필터?
 class ListTop extends StatefulWidget {
   final Game game;
@@ -46,6 +53,10 @@ class _ListTopState extends State<ListTop> {
 
   String _searchQuery = '';
   int _selectedIndex = 0; // 0: 무기, 1: 방어구, 2: 전투 기술, ...
+
+  // ✅ 업데이트 알림용 상태 추가
+  bool _showUpdateNotice = false;
+  AppVersionInfo? _versionInfo;
 
   // 🔹 무기 전용 2단계 필터
   String _weaponMainFilter = '전체'; // 소형 무기 / 대형 무기 / 원거리 무기 / 촉매 / 방패 ...
@@ -115,6 +126,15 @@ class _ListTopState extends State<ListTop> {
         _searchQuery = _searchController.text;
       });
     });
+
+    /*
+    // ✅ 화면이 그려진 뒤 업데이트 알림 확인
+    // 현재는 서버가 없어서 주석처리
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkUpdateNotice();
+    });
+
+    */
   }
 
   @override
@@ -124,6 +144,176 @@ class _ListTopState extends State<ListTop> {
     _tabScrollController.dispose();
     _searchFocusNode.dispose(); // 🔥 FocusNode도 잊지 말고 해제 (메모리 누수 방지)
     super.dispose();
+  }
+
+  // ✅ 업데이트 알림 체크
+  Future<void> _checkUpdateNotice() async {
+    final versionInfo = await UpdateService.fetchVersionInfo();
+    if (versionInfo == null) return;
+
+    final packageInfo = await PackageInfo.fromPlatform();
+    final currentVersion = packageInfo.version;
+
+    final prefs = await SharedPreferences.getInstance();
+    final skippedVersion = prefs.getString('skip_version');
+
+    // 이미 다시 보지 않기 누른 버전이면 종료
+    if (skippedVersion == versionInfo.latestVersion) {
+      return;
+    }
+
+    // 서버 버전이 현재 앱 버전보다 높을 때만 표시
+    if (_isNewerVersion(versionInfo.latestVersion, currentVersion)) {
+      if (!mounted) return;
+      setState(() {
+        _versionInfo = versionInfo;
+        _showUpdateNotice = true;
+      });
+    }
+  }
+
+  // ✅ 버전 비교 함수
+  bool _isNewerVersion(String latest, String current) {
+    final latestParts = latest.split('.').map(int.parse).toList();
+    final currentParts = current.split('.').map(int.parse).toList();
+
+    final maxLength =
+    latestParts.length > currentParts.length ? latestParts.length : currentParts.length;
+
+    while (latestParts.length < maxLength) {
+      latestParts.add(0);
+    }
+    while (currentParts.length < maxLength) {
+      currentParts.add(0);
+    }
+
+    for (int i = 0; i < maxLength; i++) {
+      if (latestParts[i] > currentParts[i]) return true;
+      if (latestParts[i] < currentParts[i]) return false;
+    }
+
+    return false;
+  }
+
+  // ✅ 작은 업데이트 알림 박스
+  Widget _buildUpdateNoticeBox() {
+    if (_versionInfo == null) return const SizedBox.shrink();
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color.fromRGBO(33, 33, 33, 1),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: Colors.amberAccent.withOpacity(0.4),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.35),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.system_update_alt,
+                color: Colors.amberAccent,
+                size: 18,
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  _versionInfo!.title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _showUpdateNotice = false;
+                  });
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.white70,
+                    size: 18,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _versionInfo!.message,
+            style: const TextStyle(
+              color: Colors.white70,
+              fontSize: 12,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setString(
+                    'skip_version',
+                    _versionInfo!.latestVersion,
+                  );
+
+                  if (!mounted) return;
+                  setState(() {
+                    _showUpdateNotice = false;
+                  });
+                },
+                child: const Text(
+                  '다시 보지 않기',
+                  style: TextStyle(fontSize: 12),
+                ),
+              ),
+              const SizedBox(width: 4),
+              ElevatedButton(
+                onPressed: () async {
+                  final uri = Uri.parse(_versionInfo!.storeUrl);
+                  await launchUrl(
+                    uri,
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.amberAccent,
+                  foregroundColor: Colors.black,
+                  minimumSize: const Size(72, 32),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                ),
+                child: const Text(
+                  '업데이트',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   // ✅ 선택된 카테고리가 항상 화면 안에 들어오도록 스크롤
@@ -231,7 +421,6 @@ class _ListTopState extends State<ListTop> {
       case 2:
         return _ashPropertyFilter != '전체';
       case 3:
-      // 주문: spell 종류 / type 둘 중 하나라도 전체가 아니면 활성화
         return _spellKindFilter != '전체' || _spellTypeFilter != '전체';
       case 6:
         return _etcTypeFilter != '전체';
@@ -290,13 +479,11 @@ class _ListTopState extends State<ListTop> {
 
   // 🔹 공용 필터 선택 바텀시트 열기 (기존: 무기/방어구/전투기술/기타 타입 필터)
   void _openFilterSheet() {
-    // 무기 탭이라면 2단계 필터 시트로 분기
     if (_selectedIndex == 0) {
       _openWeaponFilterSheet();
       return;
     }
 
-    // 주문 탭은 spell/type 전용 필터 시트로 분기
     if (_selectedIndex == 3) {
       _openSpellFilterSheet();
       return;
@@ -398,7 +585,6 @@ class _ListTopState extends State<ListTop> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // 제목 + 대표 아이콘
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                 child: Row(
@@ -409,8 +595,7 @@ class _ListTopState extends State<ListTop> {
                         width: 22,
                         height: 22,
                         errorBuilder: (context, error, stackTrace) =>
-                        const Icon(Icons.broken_image,
-                            color: Colors.white70, size: 22),
+                        const Icon(Icons.broken_image, color: Colors.white70, size: 22),
                       ),
                       const SizedBox(width: 8),
                     ],
@@ -479,22 +664,16 @@ class _ListTopState extends State<ListTop> {
                           vertical: 10,
                         ),
                         decoration: BoxDecoration(
-                          color: isSelected
-                              ? Colors.grey[800]
-                              : Colors.transparent,
+                          color: isSelected ? Colors.grey[800] : Colors.transparent,
                         ),
                         child: Row(
                           children: [
                             Text(
                               option,
                               style: TextStyle(
-                                color: isSelected
-                                    ? Colors.white
-                                    : Colors.grey[300],
+                                color: isSelected ? Colors.white : Colors.grey[300],
                                 fontSize: 14,
-                                fontWeight: isSelected
-                                    ? FontWeight.w600
-                                    : FontWeight.normal,
+                                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                               ),
                             ),
                             const Spacer(),
@@ -518,17 +697,13 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
-  // 🔥 주문(ESpell) 전용: spell 이미지 + 상단 제목 + 마술/기도 단일 선택 + 아래 type 리스트
   void _openSpellFilterSheet() {
     if (_selectedIndex != 3) return;
 
-    // 🔹 종류(spell 컬럼) 두 가지 (원래 DB 값이 '마술/기도'가 아니라 '주문/기도'라면 여기 텍스트만 바꾸면 됨)
     const String magicKind = '마술';
     const String prayerKind = '기도';
 
-    // 🔹 종류별 type 리스트 (실제 DB의 type 값에 맞게 수정해서 써야 함!)
     const Map<String, List<String>> spellTypeOptionsByKind = {
-      // 마술일 때 type 목록
       magicKind: [
         '전체',
         '레아 루카리아 학원의 휘석',
@@ -543,7 +718,6 @@ class _ListTopState extends State<ListTop> {
         '가시',
         '죽음',
       ],
-      // 기도일 때 type 목록
       prayerKind: [
         '전체',
         '두 손가락',
@@ -566,7 +740,6 @@ class _ListTopState extends State<ListTop> {
         '신조',
         '신수',
       ],
-      // 전체일 때는 둘 다 섞어서 보여주고 싶으면 이렇게
       '전체': [
         '전체',
         '두 손가락',
@@ -615,14 +788,12 @@ class _ListTopState extends State<ListTop> {
         return StatefulBuilder(
           builder: (context, setModalState) {
             final List<String> currentTypeList =
-                spellTypeOptionsByKind[tempKind] ??
-                    spellTypeOptionsByKind['전체']!;
+                spellTypeOptionsByKind[tempKind] ?? spellTypeOptionsByKind['전체']!;
 
             return SafeArea(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // 🔹 맨 위: 아이콘 + 제목 + 초기화
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                     child: Row(
@@ -631,8 +802,7 @@ class _ListTopState extends State<ListTop> {
                           'assets/images/ESpell_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder: (context, error, stackTrace) =>
-                          const Icon(
+                          errorBuilder: (context, error, stackTrace) => const Icon(
                             Icons.broken_image,
                             color: Colors.white70,
                             size: 22,
@@ -650,7 +820,6 @@ class _ListTopState extends State<ListTop> {
                         const Spacer(),
                         TextButton(
                           onPressed: () {
-                            // 전체로 초기화
                             setModalState(() {
                               tempKind = '전체';
                               tempType = '전체';
@@ -669,11 +838,7 @@ class _ListTopState extends State<ListTop> {
                       ],
                     ),
                   ),
-
-                  // 🔹 첫 번째 구분선
                   const Divider(color: Colors.white24, height: 1),
-
-                  // 🔼 위: 마술 / 기도 중 하나 선택하는 체크박스 (단일 선택)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8, 4, 8, 0),
                     child: Column(
@@ -690,18 +855,16 @@ class _ListTopState extends State<ListTop> {
                           ),
                         ),
                         const SizedBox(height: 2),
-                        // 마술
                         CheckboxListTile(
                           dense: true,
-                          contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 8),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 8),
                           value: tempKind == magicKind,
                           onChanged: (v) {
                             final bool checked = v ?? false;
                             setModalState(() {
                               if (checked) {
                                 tempKind = magicKind;
-                                tempType = '전체'; // 종류 바뀌면 type은 전체로
+                                tempType = '전체';
                               } else {
                                 tempKind = '전체';
                                 tempType = '전체';
@@ -727,12 +890,9 @@ class _ListTopState extends State<ListTop> {
                           controlAffinity: ListTileControlAffinity.leading,
                           activeColor: Colors.amberAccent,
                         ),
-
-                        // 기도
                         CheckboxListTile(
                           dense: true,
-                          contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 8),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 8),
                           value: tempKind == prayerKind,
                           onChanged: (v) {
                             final bool checked = v ?? false;
@@ -768,12 +928,7 @@ class _ListTopState extends State<ListTop> {
                       ],
                     ),
                   ),
-
-                  // 🔹 두 번째 구분선
                   const Divider(color: Colors.white24, height: 1),
-
-
-
                   Flexible(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -796,21 +951,15 @@ class _ListTopState extends State<ListTop> {
                               horizontal: 16,
                               vertical: 10,
                             ),
-                            color: isSelected
-                                ? Colors.grey[800]
-                                : Colors.transparent,
+                            color: isSelected ? Colors.grey[800] : Colors.transparent,
                             child: Row(
                               children: [
                                 Text(
                                   option,
                                   style: TextStyle(
-                                    color: isSelected
-                                        ? Colors.white
-                                        : Colors.grey[300],
+                                    color: isSelected ? Colors.white : Colors.grey[300],
                                     fontSize: 13,
-                                    fontWeight: isSelected
-                                        ? FontWeight.w600
-                                        : FontWeight.normal,
+                                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                                   ),
                                 ),
                                 const Spacer(),
@@ -836,9 +985,7 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
-  // 🔥 무기 전용: 상위 / 하위 2단계 필터 시트 (기존)
   void _openWeaponFilterSheet() {
-    // 상위 분류(genre)
     const List<String> mainOptions = [
       '전체',
       '소형 무기',
@@ -848,7 +995,6 @@ class _ListTopState extends State<ListTop> {
       '방패',
     ];
 
-    // 🔥 상위 분류별 하위 타입(type) 목록
     const Map<String, List<String>> subOptions = {
       '소형 무기': [
         '단검',
@@ -914,7 +1060,6 @@ class _ListTopState extends State<ListTop> {
 
         return StatefulBuilder(
           builder: (context, setModalState) {
-            // 현재 상위 선택에 따라 하위 리스트 구성
             List<String> currentSubList = [];
             if (tempMain != '전체') {
               currentSubList = [
@@ -923,8 +1068,7 @@ class _ListTopState extends State<ListTop> {
               ];
             }
 
-            final double maxHeight =
-                MediaQuery.of(context).size.height * 0.6;
+            final double maxHeight = MediaQuery.of(context).size.height * 0.6;
 
             return SafeArea(
               child: SizedBox(
@@ -932,21 +1076,19 @@ class _ListTopState extends State<ListTop> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    // 상단 타이틀 + 초기화
                     Padding(
-                      padding:
-                      const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                       child: Row(
                         children: [
                           Image.asset(
                             'assets/images/weapon_Icon.png',
                             width: 22,
                             height: 22,
-                            errorBuilder:
-                                (context, error, stackTrace) =>
-                            const Icon(Icons.broken_image,
-                                color: Colors.white70,
-                                size: 22),
+                            errorBuilder: (context, error, stackTrace) => const Icon(
+                              Icons.broken_image,
+                              color: Colors.white70,
+                              size: 22,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           const Text(
@@ -960,7 +1102,6 @@ class _ListTopState extends State<ListTop> {
                           const Spacer(),
                           TextButton(
                             onPressed: () {
-                              // 상/하위 모두 초기화 + 부모 상태도 초기화
                               setModalState(() {
                                 tempMain = '전체';
                                 tempSub = '전체';
@@ -980,14 +1121,11 @@ class _ListTopState extends State<ListTop> {
                       ),
                     ),
                     const Divider(color: Colors.white24, height: 1),
-                    // 🔹 상단 바로 아래: 가로 꽉 차는, 세로 얇은 드롭다운
-                    if (tempMain != '전체' &&
-                        currentSubList.isNotEmpty)
+                    if (tempMain != '전체' && currentSubList.isNotEmpty)
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                            16, 10, 16, 8),
+                        padding: const EdgeInsets.fromLTRB(16, 10, 16, 8),
                         child: Container(
-                          height: 34, // 👈 세로 얇게
+                          height: 34,
                           decoration: BoxDecoration(
                             color: Colors.transparent,
                             borderRadius: BorderRadius.circular(8),
@@ -1008,22 +1146,16 @@ class _ListTopState extends State<ListTop> {
                               ),
                               items: currentSubList
                                   .map(
-                                    (option) =>
-                                    DropdownMenuItem<String>(
-                                      value: option,
-                                      child: Padding(
-                                        padding:
-                                        const EdgeInsets
-                                            .symmetric(
-                                          horizontal: 8.0,
-                                        ),
-                                        child: Text(
-                                          option,
-                                          overflow:
-                                          TextOverflow.ellipsis,
-                                        ),
-                                      ),
+                                    (option) => DropdownMenuItem<String>(
+                                  value: option,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text(
+                                      option,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
+                                  ),
+                                ),
                               )
                                   .toList(),
                               onChanged: (value) {
@@ -1032,8 +1164,7 @@ class _ListTopState extends State<ListTop> {
                                   tempSub = value;
                                 });
                                 setState(() {
-                                  _weaponMainFilter =
-                                      tempMain;
+                                  _weaponMainFilter = tempMain;
                                   _weaponSubFilter = tempSub;
                                 });
                               },
@@ -1043,15 +1174,12 @@ class _ListTopState extends State<ListTop> {
                       )
                     else
                       const SizedBox(height: 8),
-
-                    // 🔹 상위 분류 리스트 (render overflow 방지를 위해 Expanded 사용)
                     Expanded(
                       child: ListView.builder(
                         itemCount: mainOptions.length,
                         itemBuilder: (context, index) {
                           final option = mainOptions[index];
-                          final bool isSelected =
-                              option == tempMain;
+                          final bool isSelected = option == tempMain;
                           return InkWell(
                             onTap: () {
                               setModalState(() {
@@ -1059,41 +1187,31 @@ class _ListTopState extends State<ListTop> {
                                 tempSub = '전체';
                               });
                               setState(() {
-                                _weaponMainFilter =
-                                    tempMain;
-                                _weaponSubFilter =
-                                    tempSub;
+                                _weaponMainFilter = tempMain;
+                                _weaponSubFilter = tempSub;
                               });
                             },
                             child: Container(
-                              padding:
-                              const EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 10,
                               ),
-                              color: isSelected
-                                  ? Colors.grey[800]
-                                  : Colors.transparent,
+                              color: isSelected ? Colors.grey[800] : Colors.transparent,
                               child: Row(
                                 children: [
                                   Text(
                                     option,
                                     style: TextStyle(
-                                      color: isSelected
-                                          ? Colors.white
-                                          : Colors.grey[300],
+                                      color: isSelected ? Colors.white : Colors.grey[300],
                                       fontSize: 14,
-                                      fontWeight: isSelected
-                                          ? FontWeight.w600
-                                          : FontWeight.normal,
+                                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                                     ),
                                   ),
                                   const Spacer(),
                                   if (isSelected)
                                     const Icon(
                                       Icons.check,
-                                      color: Colors
-                                          .amberAccent,
+                                      color: Colors.amberAccent,
                                       size: 18,
                                     ),
                                 ],
@@ -1113,7 +1231,6 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
-  // 🔥 무기 전용: 강화/본편/DLC/전설 추가 필터 바텀시트
   void _openWeaponExtraFilterSheet() {
     if (_selectedIndex != 0) return;
 
@@ -1137,19 +1254,18 @@ class _ListTopState extends State<ListTop> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                        16, 12, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                     child: Row(
                       children: [
                         Image.asset(
                           'assets/images/weapon_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder:
-                              (context, error, stackTrace) =>
-                          const Icon(Icons.broken_image,
-                              color: Colors.white70,
-                              size: 22),
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            Icons.broken_image,
+                            color: Colors.white70,
+                            size: 22,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -1171,10 +1287,8 @@ class _ListTopState extends State<ListTop> {
                               tempDlc = false;
                             });
                             setState(() {
-                              _weaponFilterNormalEnhance =
-                              false;
-                              _weaponFilterSpecialEnhance =
-                              false;
+                              _weaponFilterNormalEnhance = false;
+                              _weaponFilterSpecialEnhance = false;
                               _weaponFilterLegend = false;
                               _weaponFilterBase = false;
                               _weaponFilterDlc = false;
@@ -1183,17 +1297,13 @@ class _ListTopState extends State<ListTop> {
                           },
                           child: const Text(
                             '초기화',
-                            style: TextStyle(
-                                color: Colors.grey),
+                            style: TextStyle(color: Colors.grey),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Divider(
-                      color: Colors.white24, height: 1),
-
-                  // 🔹 일반 / 특수 / 전설 (서로 배타적)
+                  const Divider(color: Colors.white24, height: 1),
                   CheckboxListTile(
                     value: tempNormal,
                     onChanged: (v) {
@@ -1206,23 +1316,18 @@ class _ListTopState extends State<ListTop> {
                         }
                       });
                       setState(() {
-                        _weaponFilterNormalEnhance =
-                            newValue;
+                        _weaponFilterNormalEnhance = newValue;
                         if (newValue) {
-                          _weaponFilterSpecialEnhance =
-                          false;
+                          _weaponFilterSpecialEnhance = false;
                           _weaponFilterLegend = false;
                         }
                       });
                     },
                     title: const Text(
                       '일반 강화',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   CheckboxListTile(
@@ -1237,23 +1342,18 @@ class _ListTopState extends State<ListTop> {
                         }
                       });
                       setState(() {
-                        _weaponFilterSpecialEnhance =
-                            newValue;
+                        _weaponFilterSpecialEnhance = newValue;
                         if (newValue) {
-                          _weaponFilterNormalEnhance =
-                          false;
+                          _weaponFilterNormalEnhance = false;
                           _weaponFilterLegend = false;
                         }
                       });
                     },
                     title: const Text(
                       '특수 강화',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   CheckboxListTile(
@@ -1270,28 +1370,19 @@ class _ListTopState extends State<ListTop> {
                       setState(() {
                         _weaponFilterLegend = newValue;
                         if (newValue) {
-                          _weaponFilterNormalEnhance =
-                          false;
-                          _weaponFilterSpecialEnhance =
-                          false;
+                          _weaponFilterNormalEnhance = false;
+                          _weaponFilterSpecialEnhance = false;
                         }
                       });
                     },
                     title: const Text(
                       '전설 무기',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
-
-                  const Divider(
-                      color: Colors.white24, height: 1),
-
-                  // 🔹 본편 / DLC
+                  const Divider(color: Colors.white24, height: 1),
                   CheckboxListTile(
                     value: tempBase,
                     onChanged: (v) {
@@ -1305,12 +1396,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       '본편',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   CheckboxListTile(
@@ -1326,12 +1414,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       'DLC (◇)',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   const SizedBox(height: 8),
@@ -1344,7 +1429,6 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
-  // 🔥 방어구 본편/DLC 추가 필터 바텀시트
   void _openArmorExtraFilterSheet() {
     if (_selectedIndex != 1) return;
 
@@ -1365,19 +1449,18 @@ class _ListTopState extends State<ListTop> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                        16, 12, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                     child: Row(
                       children: [
                         Image.asset(
                           'assets/images/armor_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder:
-                              (context, error, stackTrace) =>
-                          const Icon(Icons.broken_image,
-                              color: Colors.white70,
-                              size: 22),
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            Icons.broken_image,
+                            color: Colors.white70,
+                            size: 22,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -1403,15 +1486,13 @@ class _ListTopState extends State<ListTop> {
                           },
                           child: const Text(
                             '초기화',
-                            style: TextStyle(
-                                color: Colors.grey),
+                            style: TextStyle(color: Colors.grey),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Divider(
-                      color: Colors.white24, height: 1),
+                  const Divider(color: Colors.white24, height: 1),
                   CheckboxListTile(
                     value: tempBase,
                     onChanged: (v) {
@@ -1425,12 +1506,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       '본편',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   CheckboxListTile(
@@ -1446,12 +1524,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       'DLC (◇)',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   const SizedBox(height: 8),
@@ -1464,7 +1539,6 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
-  // 🔥 전투 기술 본편/DLC 추가 필터 바텀시트
   void _openAshExtraFilterSheet() {
     if (_selectedIndex != 2) return;
 
@@ -1485,19 +1559,18 @@ class _ListTopState extends State<ListTop> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                        16, 12, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                     child: Row(
                       children: [
                         Image.asset(
                           'assets/images/ash_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder:
-                              (context, error, stackTrace) =>
-                          const Icon(Icons.broken_image,
-                              color: Colors.white70,
-                              size: 22),
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            Icons.broken_image,
+                            color: Colors.white70,
+                            size: 22,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -1523,15 +1596,13 @@ class _ListTopState extends State<ListTop> {
                           },
                           child: const Text(
                             '초기화',
-                            style: TextStyle(
-                                color: Colors.grey),
+                            style: TextStyle(color: Colors.grey),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Divider(
-                      color: Colors.white24, height: 1),
+                  const Divider(color: Colors.white24, height: 1),
                   CheckboxListTile(
                     value: tempBase,
                     onChanged: (v) {
@@ -1545,12 +1616,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       '본편',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   CheckboxListTile(
@@ -1566,12 +1634,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       'DLC (◇)',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   const SizedBox(height: 8),
@@ -1584,7 +1649,6 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
-  // 🔥 주문(ESpell) 본편/DLC + 전설 추가 필터 바텀시트
   void _openSpellExtraFilterSheet() {
     if (_selectedIndex != 3) return;
 
@@ -1606,17 +1670,14 @@ class _ListTopState extends State<ListTop> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                        16, 12, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                     child: Row(
                       children: [
                         Image.asset(
                           'assets/images/ESpell_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder:
-                              (context, error, stackTrace) =>
-                          const Icon(
+                          errorBuilder: (context, error, stackTrace) => const Icon(
                             Icons.broken_image,
                             color: Colors.white70,
                             size: 22,
@@ -1648,17 +1709,13 @@ class _ListTopState extends State<ListTop> {
                           },
                           child: const Text(
                             '초기화',
-                            style: TextStyle(
-                                color: Colors.grey),
+                            style: TextStyle(color: Colors.grey),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Divider(
-                      color: Colors.white24, height: 1),
-
-                  // 🔹 전설 주문만 보기 (무기처럼 별도 섹션)
+                  const Divider(color: Colors.white24, height: 1),
                   CheckboxListTile(
                     value: tempLegend,
                     onChanged: (v) {
@@ -1672,19 +1729,12 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       '전설 주문만 보기',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
-
-                  const Divider(
-                      color: Colors.white24, height: 1),
-
-                  // 🔹 본편 / DLC
+                  const Divider(color: Colors.white24, height: 1),
                   CheckboxListTile(
                     value: tempBase,
                     onChanged: (v) {
@@ -1698,12 +1748,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       '본편',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   CheckboxListTile(
@@ -1719,12 +1766,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       'DLC (◇)',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   const SizedBox(height: 8),
@@ -1737,7 +1781,6 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
-  // 🔥 탈리스만(ETalisman) 본편/DLC 추가 필터 바텀시트
   void _openTalismanExtraFilterSheet() {
     if (_selectedIndex != 4) return;
 
@@ -1759,17 +1802,14 @@ class _ListTopState extends State<ListTop> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                        16, 12, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                     child: Row(
                       children: [
                         Image.asset(
                           'assets/images/ETalisman_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder:
-                              (context, error, stackTrace) =>
-                          const Icon(
+                          errorBuilder: (context, error, stackTrace) => const Icon(
                             Icons.broken_image,
                             color: Colors.white70,
                             size: 22,
@@ -1801,15 +1841,13 @@ class _ListTopState extends State<ListTop> {
                           },
                           child: const Text(
                             '초기화',
-                            style: TextStyle(
-                                color: Colors.grey),
+                            style: TextStyle(color: Colors.grey),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Divider(
-                      color: Colors.white24, height: 1),
+                  const Divider(color: Colors.white24, height: 1),
                   CheckboxListTile(
                     value: tempLegend,
                     onChanged: (v) {
@@ -1823,17 +1861,12 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       '전설',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
-                  const Divider(
-                      color: Colors.white24, height: 1),
+                  const Divider(color: Colors.white24, height: 1),
                   CheckboxListTile(
                     value: tempBase,
                     onChanged: (v) {
@@ -1847,12 +1880,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       '본편',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   CheckboxListTile(
@@ -1868,12 +1898,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       'DLC (◇)',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   const SizedBox(height: 8),
@@ -1886,7 +1913,6 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
-  // 🔥 뼛가루(EBone) 일반/특수/전설 + 본편/DLC 추가 필터 바텀시트
   void _openBoneExtraFilterSheet() {
     if (_selectedIndex != 5) return;
 
@@ -1910,18 +1936,14 @@ class _ListTopState extends State<ListTop> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                        16, 12, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                     child: Row(
                       children: [
-                        // 뼛가루 아이콘 (카테고리와 동일)
                         Image.asset(
                           'assets/images/ai_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder:
-                              (context, error, stackTrace) =>
-                          const Icon(
+                          errorBuilder: (context, error, stackTrace) => const Icon(
                             Icons.broken_image,
                             color: Colors.white70,
                             size: 22,
@@ -1947,10 +1969,8 @@ class _ListTopState extends State<ListTop> {
                               tempDlc = false;
                             });
                             setState(() {
-                              _boneFilterNormalEnhance =
-                              false;
-                              _boneFilterSpecialEnhance =
-                              false;
+                              _boneFilterNormalEnhance = false;
+                              _boneFilterSpecialEnhance = false;
                               _boneFilterLegend = false;
                               _boneFilterBase = false;
                               _boneFilterDlc = false;
@@ -1959,17 +1979,13 @@ class _ListTopState extends State<ListTop> {
                           },
                           child: const Text(
                             '초기화',
-                            style: TextStyle(
-                                color: Colors.grey),
+                            style: TextStyle(color: Colors.grey),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Divider(
-                      color: Colors.white24, height: 1),
-
-                  // 🔹 일반 / 특수 / 전설 (서로 배타적)
+                  const Divider(color: Colors.white24, height: 1),
                   CheckboxListTile(
                     value: tempNormal,
                     onChanged: (v) {
@@ -1982,23 +1998,18 @@ class _ListTopState extends State<ListTop> {
                         }
                       });
                       setState(() {
-                        _boneFilterNormalEnhance =
-                            newValue;
+                        _boneFilterNormalEnhance = newValue;
                         if (newValue) {
-                          _boneFilterSpecialEnhance =
-                          false;
+                          _boneFilterSpecialEnhance = false;
                           _boneFilterLegend = false;
                         }
                       });
                     },
                     title: const Text(
                       '일반 강화 뼛가루',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   CheckboxListTile(
@@ -2013,23 +2024,18 @@ class _ListTopState extends State<ListTop> {
                         }
                       });
                       setState(() {
-                        _boneFilterSpecialEnhance =
-                            newValue;
+                        _boneFilterSpecialEnhance = newValue;
                         if (newValue) {
-                          _boneFilterNormalEnhance =
-                          false;
+                          _boneFilterNormalEnhance = false;
                           _boneFilterLegend = false;
                         }
                       });
                     },
                     title: const Text(
                       '특수 강화 뼛가루',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   CheckboxListTile(
@@ -2046,28 +2052,19 @@ class _ListTopState extends State<ListTop> {
                       setState(() {
                         _boneFilterLegend = newValue;
                         if (newValue) {
-                          _boneFilterNormalEnhance =
-                          false;
-                          _boneFilterSpecialEnhance =
-                          false;
+                          _boneFilterNormalEnhance = false;
+                          _boneFilterSpecialEnhance = false;
                         }
                       });
                     },
                     title: const Text(
                       '전설 뼛가루',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
-
-                  const Divider(
-                      color: Colors.white24, height: 1),
-
-                  // 🔹 본편 / DLC
+                  const Divider(color: Colors.white24, height: 1),
                   CheckboxListTile(
                     value: tempBase,
                     onChanged: (v) {
@@ -2081,12 +2078,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       '본편',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   CheckboxListTile(
@@ -2102,12 +2096,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       'DLC (◇)',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   const SizedBox(height: 8),
@@ -2120,7 +2111,6 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
-  // 🔥 기타(EEtc) 본편/DLC 추가 필터 바텀시트
   void _openEtcExtraFilterSheet() {
     if (_selectedIndex != 6) return;
 
@@ -2141,17 +2131,14 @@ class _ListTopState extends State<ListTop> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                        16, 12, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                     child: Row(
                       children: [
                         Image.asset(
                           'assets/images/etc_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder:
-                              (context, error, stackTrace) =>
-                          const Icon(
+                          errorBuilder: (context, error, stackTrace) => const Icon(
                             Icons.broken_image,
                             color: Colors.white70,
                             size: 22,
@@ -2181,15 +2168,13 @@ class _ListTopState extends State<ListTop> {
                           },
                           child: const Text(
                             '초기화',
-                            style: TextStyle(
-                                color: Colors.grey),
+                            style: TextStyle(color: Colors.grey),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Divider(
-                      color: Colors.white24, height: 1),
+                  const Divider(color: Colors.white24, height: 1),
                   CheckboxListTile(
                     value: tempBase,
                     onChanged: (v) {
@@ -2203,12 +2188,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       '본편',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   CheckboxListTile(
@@ -2224,12 +2206,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       'DLC (◇)',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   const SizedBox(height: 8),
@@ -2242,7 +2221,6 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
-  // 🔥 제스처(EGesture) 본편/DLC 추가 필터 바텀시트
   void _openGestureExtraFilterSheet() {
     if (_selectedIndex != 7) return;
 
@@ -2263,17 +2241,14 @@ class _ListTopState extends State<ListTop> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                        16, 12, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                     child: Row(
                       children: [
                         Image.asset(
                           'assets/images/EGesture_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder:
-                              (context, error, stackTrace) =>
-                          const Icon(
+                          errorBuilder: (context, error, stackTrace) => const Icon(
                             Icons.broken_image,
                             color: Colors.white70,
                             size: 22,
@@ -2303,15 +2278,13 @@ class _ListTopState extends State<ListTop> {
                           },
                           child: const Text(
                             '초기화',
-                            style: TextStyle(
-                                color: Colors.grey),
+                            style: TextStyle(color: Colors.grey),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Divider(
-                      color: Colors.white24, height: 1),
+                  const Divider(color: Colors.white24, height: 1),
                   CheckboxListTile(
                     value: tempBase,
                     onChanged: (v) {
@@ -2325,12 +2298,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       '본편',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   CheckboxListTile(
@@ -2346,12 +2316,9 @@ class _ListTopState extends State<ListTop> {
                     },
                     title: const Text(
                       'DLC (◇)',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.amberAccent,
                   ),
                   const SizedBox(height: 8),
@@ -2382,7 +2349,6 @@ class _ListTopState extends State<ListTop> {
         ? Colors.grey[600]!
         : (filterActive ? Colors.amberAccent : Colors.grey[400]!);
 
-    // 🔥 현재 탭에 따라 추가 필터 아이콘 색상
     final Color extraFilterIconColor = _selectedIndex == 0
         ? (weaponExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
         : (_selectedIndex == 1
@@ -2390,36 +2356,25 @@ class _ListTopState extends State<ListTop> {
         : (_selectedIndex == 2
         ? (ashExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
         : (_selectedIndex == 3
-        ? (spellExtraActive
-        ? Colors.cyanAccent
-        : Colors.grey[400]!)
+        ? (spellExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
         : (_selectedIndex == 4
-        ? (talismanExtraActive
-        ? Colors.cyanAccent
-        : Colors.grey[400]!)
+        ? (talismanExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
         : (_selectedIndex == 5
-        ? (boneExtraActive
-        ? Colors.cyanAccent
-        : Colors.grey[400]!)
+        ? (boneExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
         : (_selectedIndex == 6
-        ? (etcExtraActive
-        ? Colors.cyanAccent
-        : Colors.grey[400]!)
+        ? (etcExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
         : (_selectedIndex == 7
-        ? (gestureExtraActive
-        ? Colors.cyanAccent
-        : Colors.grey[400]!)
+        ? (gestureExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
         : Colors.grey[700]!)))))));
 
-    // 각 카테고리별 콘텐츠 위젯 리스트
     final List<Widget> _pages = [
       EWeaponListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
         navigateToDetailViewer: _navigateToDetailViewer,
-        genreFilter: _weaponMainFilter, // 상위 분류
-        subTypeFilter: _weaponSubFilter, // 하위 분류
+        genreFilter: _weaponMainFilter,
+        subTypeFilter: _weaponSubFilter,
         filterNormalEnhance: _weaponFilterNormalEnhance,
         filterSpecialEnhance: _weaponFilterSpecialEnhance,
         filterLegend: _weaponFilterLegend,
@@ -2478,7 +2433,6 @@ class _ListTopState extends State<ListTop> {
         filterBase: _etcFilterBase,
         filterDlc: _etcFilterDlc,
       ),
-      // ⭐ 제스처 탭 페이지
       EGestureListPage(
         game: widget.game,
         searchQuery: _searchQuery,
@@ -2489,7 +2443,6 @@ class _ListTopState extends State<ListTop> {
     ];
 
     return WillPopScope(
-      // 🔥 안드로이드 뒤로가기 버튼 눌렀을 때 처리
       onWillPop: () async {
         if (_searchFocusNode.hasFocus) {
           _searchFocusNode.unfocus();
@@ -2527,10 +2480,12 @@ class _ListTopState extends State<ListTop> {
         ),
         body: Column(
           children: [
+            // ✅ 업데이트 알림 박스 추가
+            if (_showUpdateNotice && _versionInfo != null) _buildUpdateNoticeBox(),
+
             // 🔹 검색창
             Padding(
-              padding:
-              const EdgeInsets.fromLTRB(8, 8, 8, 5),
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 5),
               child: TextField(
                 controller: _searchController,
                 focusNode: _searchFocusNode,
@@ -2547,11 +2502,8 @@ class _ListTopState extends State<ListTop> {
                           icon: const Icon(Icons.clear),
                           color: Colors.white70,
                           tooltip: '검색어 지우기',
-                          onPressed: () =>
-                              _searchController.clear(),
+                          onPressed: () => _searchController.clear(),
                         ),
-
-                      // 🔥 추가 필터 아이콘 (무기/방어구/전투기술/주문/탈리스만/뼛가루/기타/제스처)
                       IconButton(
                         icon: const Icon(Icons.filter_alt_outlined),
                         color: extraFilterIconColor,
@@ -2565,16 +2517,11 @@ class _ListTopState extends State<ListTop> {
                             ? '주문 전설/본편/DLC 필터'
                             : (_selectedIndex == 4
                             ? '탈리스만 필터'
-                            : (_selectedIndex ==
-                            5
+                            : (_selectedIndex == 5
                             ? '뼛가루 필터'
-                            : (_selectedIndex ==
-                            6
+                            : (_selectedIndex == 6
                             ? '기타 아이템 본편/DLC 필터'
-                            : (_selectedIndex ==
-                            7
-                            ? '제스처 필터'
-                            : '추가 필터 없음'))))))),
+                            : (_selectedIndex == 7 ? '제스처 필터' : '추가 필터 없음'))))))),
                         onPressed: (_selectedIndex == 0 ||
                             _selectedIndex == 1 ||
                             _selectedIndex == 2 ||
@@ -2586,45 +2533,34 @@ class _ListTopState extends State<ListTop> {
                             ? () {
                           if (_selectedIndex == 0) {
                             _openWeaponExtraFilterSheet();
-                          } else if (_selectedIndex ==
-                              1) {
+                          } else if (_selectedIndex == 1) {
                             _openArmorExtraFilterSheet();
-                          } else if (_selectedIndex ==
-                              2) {
+                          } else if (_selectedIndex == 2) {
                             _openAshExtraFilterSheet();
-                          } else if (_selectedIndex ==
-                              3) {
+                          } else if (_selectedIndex == 3) {
                             _openSpellExtraFilterSheet();
-                          } else if (_selectedIndex ==
-                              4) {
+                          } else if (_selectedIndex == 4) {
                             _openTalismanExtraFilterSheet();
-                          } else if (_selectedIndex ==
-                              5) {
+                          } else if (_selectedIndex == 5) {
                             _openBoneExtraFilterSheet();
-                          } else if (_selectedIndex ==
-                              6) {
+                          } else if (_selectedIndex == 6) {
                             _openEtcExtraFilterSheet();
-                          } else if (_selectedIndex ==
-                              7) {
+                          } else if (_selectedIndex == 7) {
                             _openGestureExtraFilterSheet();
                           }
                         }
                             : null,
                       ),
-
-                      // 기존 필터 아이콘 (타입/부위/속성 필터)
                       IconButton(
                         icon: const Icon(Icons.filter_list),
                         color: filterIconColor,
                         tooltip: hasFilter ? '필터' : '필터 없음',
-                        onPressed:
-                        hasFilter ? _openFilterSheet : null,
+                        onPressed: hasFilter ? _openFilterSheet : null,
                       ),
                     ],
                   ),
                   filled: true,
-                  fillColor:
-                  const Color.fromRGBO(33, 33, 33, 1),
+                  fillColor: const Color.fromRGBO(33, 33, 33, 1),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
@@ -2633,11 +2569,9 @@ class _ListTopState extends State<ListTop> {
               ),
             ),
 
-            // 카테고리 버튼 줄
             Container(
               height: 60,
-              margin: const EdgeInsets.symmetric(
-                  horizontal: 3.0, vertical: 0.0),
+              margin: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 0.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
               ),
@@ -2831,9 +2765,7 @@ Widget _buildCategoryButton({
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       margin: const EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(
-        color: isSelected
-            ? Colors.grey[700]!.withOpacity(0.5)
-            : Colors.transparent,
+        color: isSelected ? Colors.grey[700]!.withOpacity(0.5) : Colors.transparent,
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Column(
@@ -2855,8 +2787,7 @@ Widget _buildCategoryButton({
             style: TextStyle(
               color: isSelected ? Colors.white : Colors.white70,
               fontSize: 12,
-              fontWeight:
-              isSelected ? FontWeight.bold : FontWeight.normal,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
