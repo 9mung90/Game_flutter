@@ -1,30 +1,30 @@
 // lib/pages/list_Top.dart (검색창 내부 필터 아이콘 + 바텀시트 + 필터 타이틀 앞 대표 이미지)
 
 import 'package:flutter/material.dart';
-import 'package:forspeech/eweapon_list_page.dart';
+import 'package:forspeech/page/eweapon_list_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:forspeech/api_config.dart';
-import 'package:forspeech/eweapon.dart';
-import 'package:forspeech/game.dart';
-import 'package:forspeech/detail_view_page.dart';
-import 'package:forspeech/detail_image_view_page.dart';
+import 'package:forspeech/DTO/eweapon.dart';
+import 'package:forspeech/DTO/game.dart';
+import 'package:forspeech/page/detail_view_page.dart';
+import 'package:forspeech/page/detail_image_view_page.dart';
 
-import 'package:forspeech/earmor.dart';
-import 'package:forspeech/earmor_list_page.dart';
+import 'package:forspeech/DTO/earmor.dart';
+import 'package:forspeech/page/earmor_list_page.dart';
 
-import 'package:forspeech/eash.dart';
-import 'package:forspeech/eash_list_page.dart';
+import 'package:forspeech/DTO/eash.dart';
+import 'package:forspeech/page/eash_list_page.dart';
 
-import 'package:forspeech/espell.dart';
-import 'package:forspeech/espell_list_page.dart';
+import 'package:forspeech/DTO/espell.dart';
+import 'package:forspeech/page/espell_list_page.dart';
 
-import 'ebone_list_page.dart';
-import 'eetc_list_page.dart';
-import 'etalisman_list_page.dart';
+import 'page/ebone_list_page.dart';
+import 'page/eetc_list_page.dart';
+import 'page/etalisman_list_page.dart';
 
 // ⭐ 제스처 리스트 페이지
-import 'egesture_list_page.dart';
+import 'page/egesture_list_page.dart';
 
 // ✅ 업데이트 알림용 추가 import
 import 'package:package_info_plus/package_info_plus.dart';

@@ -3,14 +3,15 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
-import '../eweapon.dart';
-import '../earmor.dart';
-import '../eash.dart';
-import '../espell.dart';
-import '../etalisman.dart'; // ⭐ 탈리스만 모델
-import '../ebone.dart';     // ⭐ 뼈(EBone) 모델
-import '../eetc.dart';      // ⭐ 기타(EEtc) 모델
-import '../egesture.dart';  // ⭐ 제스처(EGesture) 모델 추가
+import '../DTO/eweapon.dart';
+import '../DTO/earmor.dart';
+import '../DTO/eash.dart';
+import '../DTO/espell.dart';
+import '../DTO/etalisman.dart'; // ⭐ 탈리스만 모델
+import '../DTO/ebone.dart';     // ⭐ 뼈(EBone) 모델
+import '../DTO/eetc.dart';      // ⭐ 기타(EEtc) 모델
+import '../DTO/egesture.dart';  // ⭐ 제스처(EGesture) 모델 추가
+import '../DTO/weapon_detail.dart';
 
 /// 엘든 링 데이터들을 로컬 JSON(assets)에 담아두고
 /// 앱에서 불러오는 유틸 클래스
@@ -38,6 +39,8 @@ class LocalDataLoader {
 
   // 🔥 제스처(EGesture) 캐시
   static List<EGesture>? _gestureCache;
+
+  static List<weapondetail>? _weaponDetailCache;
 
   /// 무기 데이터 로드
   /// - 처음 한 번만 assets/data/EWeaponv1.json을 읽고
@@ -185,5 +188,25 @@ class LocalDataLoader {
         .toList();
 
     return _gestureCache!;
+  }
+
+
+
+  /// 무기 상세 데이터 로드
+  /// - 처음 한 번만 assets/data/weapon_detail.json 을 읽고
+  /// - 이후에는 메모리에 들고 있다가 그대로 반환
+  static Future<List<weapondetail>> loadWeaponDetails() async {
+    if (_weaponDetailCache != null) return _weaponDetailCache!;
+
+    final jsonString =
+    await rootBundle.loadString('assets/data/weapons.json');
+
+    final List<dynamic> jsonList = json.decode(jsonString);
+
+    _weaponDetailCache = jsonList
+        .map((e) => weapondetail.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+    return _weaponDetailCache!;
   }
 }

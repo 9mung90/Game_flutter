@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'api_config.dart';
-import 'game.dart';
-import 'etc.dart';
-import 'eweapon_list_page.dart';
+import 'DTO/game.dart';
+import 'DTO/etc.dart';
+import 'page/eweapon_list_page.dart';
 import 'list_Top.dart';
-import 'login_page.dart';
+import 'page/login_page.dart';
 import 'package:flutter/services.dart';
 
 // 메인페이지, 어차피 엘든링 말고는 작동 안함
