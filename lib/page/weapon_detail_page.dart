@@ -79,6 +79,96 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
 
 
 
+
+  String buildAttackTypeText(weapondetail item) {
+    final List<String> attackTypes = [];
+
+    if (item.isNormalAttackType.trim() == '1') {
+      attackTypes.add('일반');
+    }
+    if (item.isBlowAttackType.trim() == '1') {
+      attackTypes.add('타격');
+    }
+    if (item.isSlashAttackType.trim() == '1') {
+      attackTypes.add('참격');
+    }
+    if (item.isThrustAttackType.trim() == '1') {
+      attackTypes.add('관통');
+    }
+
+
+    if (attackTypes.isEmpty) {
+      return '-';
+    }
+
+    return attackTypes.join('/');
+  }
+
+
+  // 숫자 보정치를 E~S 등급으로 변환하는 함수
+  String convertScalingToGrade(String value) {
+    final int? numValue = int.tryParse(value.trim());
+
+    if (numValue == null) {
+      return '-';
+    }
+
+    if (numValue >= 175) {
+      return 'S';
+    } else if (numValue >= 140) {
+      return 'A';
+    } else if (numValue >= 90) {
+      return 'B';
+    } else if (numValue >= 60) {
+      return 'C';
+    } else if (numValue >= 25) {
+      return 'D';
+    } else if (numValue >= 1) {
+      return 'E';
+    } else {
+      return '-';
+    }
+  }
+
+  String convertRarity(String value) {
+    final int? rarityValue = int.tryParse(value.trim());
+
+    if (rarityValue == null) {
+      return '-';
+    }
+
+    switch (rarityValue) {
+      case 1:
+        return '일반';
+      case 2:
+        return '희귀';
+      case 3:
+        return '전설';
+      default:
+        return value;
+    }
+  }
+
+
+  String convertEnhance(String value) {
+    return value.trim() == '1' ? '가능' : '불가능';
+  }
+
+  String convertDualBlade(String value) {
+    return value.trim() == '1' ? '쌍수' : '한손/양손';
+  }
+
+
+  Widget _buildConditionalInfoRow(String label, String value) {
+    final String trimmed = value.trim();
+
+    if (trimmed == '1.0' || trimmed == '1' || trimmed.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return _buildInfoRow(label, 'x$value');
+  }
+
   Future<List<weapondetail>> fetchFilteredWeaponDetails() async {
     final List<weapondetail> allDetails =
     await LocalDataLoader.loadWeaponDetails();
@@ -141,7 +231,7 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 120,
+            width: 240,
             child: Text(
               label,
               style: const TextStyle(
@@ -154,6 +244,10 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
           Expanded(
             child: Text(
               value,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 13,
@@ -244,14 +338,6 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '무게 ${item.weight}  |  희귀도 ${item.rarity}',
-                            style: TextStyle(
-                              color: Colors.grey[400],
-                              fontSize: 13,
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -272,6 +358,7 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                     ),
                     const SizedBox(height: 10),
 
+                    /*
                     if (item.description.trim().isNotEmpty) ...[
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
@@ -286,6 +373,7 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                       ),
                       const SizedBox(height: 12),
                     ],
+                     */
 
                     Container(
                       padding: const EdgeInsets.all(12),
@@ -300,16 +388,18 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                           const Text(
                             '기본 정보',
                             style: TextStyle(
-                              color: Colors.amber,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           const SizedBox(height: 8),
+                          /*
                           _buildInfoRow('ID', item.id),
                           _buildInfoRow('정렬 ID', item.sortId),
                           _buildInfoRow('그룹 ID', item.sortGroupId),
+                           */
                           _buildInfoRow('무게', item.weight),
-                          _buildInfoRow('희귀도', item.rarity),
+                          _buildInfoRow('희귀도', convertRarity(item.rarity)),
                         ],
                       ),
                     ),
@@ -327,18 +417,18 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            '능력 보정',
+                            '능력 보정치 (강화 없는 상태)',
                             style: TextStyle(
-                              color: Colors.lightBlueAccent,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           const SizedBox(height: 8),
-                          _buildInfoRow('근력', item.correctStr),
-                          _buildInfoRow('기량', item.correctDex),
-                          _buildInfoRow('지력', item.correctInt),
-                          _buildInfoRow('신앙', item.correctFaith),
-                          _buildInfoRow('행운', item.correctLuck),
+                          _buildInfoRow('근력', convertScalingToGrade(item.correctStr)),
+                          _buildInfoRow('기량', convertScalingToGrade(item.correctDex)),
+                          _buildInfoRow('지력', convertScalingToGrade(item.correctInt)),
+                          _buildInfoRow('신앙', convertScalingToGrade(item.correctFaith)),
+                          _buildInfoRow('신비', convertScalingToGrade(item.correctLuck)),
                         ],
                       ),
                     ),
@@ -358,7 +448,7 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                           const Text(
                             '기본 공격력',
                             style: TextStyle(
-                              color: Colors.greenAccent,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -367,7 +457,7 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                           _buildInfoRow('마력', item.attackBaseMagic),
                           _buildInfoRow('화염', item.attackBaseFire),
                           _buildInfoRow('벼락', item.attackBaseThunder),
-                          _buildInfoRow('어둠', item.attackBaseDark),
+                          _buildInfoRow('신성', item.attackBaseDark),
                           _buildInfoRow('치명', item.attackBaseStamina),
                         ],
                       ),
@@ -388,7 +478,7 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                           const Text(
                             '가드 감소율',
                             style: TextStyle(
-                              color: Colors.deepOrangeAccent,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -397,7 +487,7 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                           _buildInfoRow('마력', item.magGuardCutRate),
                           _buildInfoRow('화염', item.fireGuardCutRate),
                           _buildInfoRow('벼락', item.thunGuardCutRate),
-                          _buildInfoRow('어둠', item.darkGuardCutRate),
+                          _buildInfoRow('신성', item.darkGuardCutRate),
                           _buildInfoRow('가드 강도', item.staminaGuardDef),
                         ],
                       ),
@@ -416,20 +506,20 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            '상태 이상 저항',
+                            '가드 시 상태 이상 내성',
                             style: TextStyle(
-                              color: Colors.purpleAccent,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           const SizedBox(height: 8),
                           _buildInfoRow('독', item.poisonGuardResist),
-                          _buildInfoRow('맹독', item.diseaseGuardResist),
+                          _buildInfoRow('부패', item.diseaseGuardResist),
                           _buildInfoRow('출혈', item.bloodGuardResist),
                           _buildInfoRow('수면', item.sleepGuardResist),
-                          _buildInfoRow('광기', item.madnessGuardResist),
+                          _buildInfoRow('발광', item.madnessGuardResist),
                           _buildInfoRow('동상', item.freezeGuardResist),
-                          _buildInfoRow('저주', item.curseGuardResist),
+                          _buildInfoRow('죽음', item.curseGuardResist),
                         ],
                       ),
                     ),
@@ -454,20 +544,17 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          _buildInfoRow('약공격 배율 A', item.weakA_DamageRate),
-                          _buildInfoRow('약공격 배율 B', item.weakB_DamageRate),
-                          _buildInfoRow('약공격 배율 C', item.weakC_DamageRate),
-                          _buildInfoRow('약공격 배율 D', item.weakD_DamageRate),
-                          _buildInfoRow('강인도 공격력', item.saWeaponDamage),
-                          _buildInfoRow('전투 기술 ID', item.swordArtsParamId),
-                          _buildInfoRow('스태미나 소모율', item.staminaConsumptionRate),
-                          _buildInfoRow('HP 회복량', item.wepRegainHp),
-                          _buildInfoRow('일반 공격 타입', item.isNormalAttackType),
-                          _buildInfoRow('타격 공격 타입', item.isBlowAttackType),
-                          _buildInfoRow('참격 공격 타입', item.isSlashAttackType),
-                          _buildInfoRow('관통 공격 타입', item.isThrustAttackType),
-                          _buildInfoRow('강화 가능', item.isEnhance),
-                          _buildInfoRow('쌍수 무기', item.isDualBlade),
+                          _buildConditionalInfoRow('별에서 온 자에 가하는 피해량 증가', item.weakA_DamageRate),
+                          _buildConditionalInfoRow('죽음에 사는 자에 가하는 피해량 증가', item.weakB_DamageRate),
+                          _buildConditionalInfoRow('고룡에 가하는 피해량 증가', item.weakC_DamageRate),
+                          _buildConditionalInfoRow('비룡에 가하는 피해량 증가', item.weakD_DamageRate),
+                          _buildInfoRow('무기의 기본 강인도 감쇄력', item.saWeaponDamage),
+                          //_buildInfoRow('전투 기술 ID', item.swordArtsParamId),
+                          _buildInfoRow('스태미나 소모량', item.staminaConsumptionRate),
+                          _buildInfoRow('리게인 (HP 회복량)', item.wepRegainHp),
+                          _buildInfoRow('공격 타입', buildAttackTypeText(item)),
+                          _buildInfoRow('인첸트(무기에 일시적 속성 부여)', convertEnhance(item.isEnhance)),
+                          _buildInfoRow('무기 운용 방식', convertDualBlade(item.isDualBlade)),
                         ],
                       ),
                     ),
@@ -490,8 +577,39 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(normalizeWeaponTitle(widget.weaponTitle)),
-        backgroundColor: Colors.black,
+        iconTheme: const IconThemeData(
+        color: Colors.white,
+        ),
+        title: Row(
+          children: [
+            const SizedBox(width: 6),
+            Expanded(
+              child: Transform.translate(
+                offset: const Offset(-14, 0),
+                child: Text(
+                  normalizeWeaponTitle(widget.weaponTitle),
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+            Transform.translate(
+              offset: const Offset(5, 0),
+              child: Image.asset(
+                'assets/images/smithy.png',
+                width: 65,
+                height: 65,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return const SizedBox(width: 28, height: 28);
+                },
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.grey[900],
       ),
       body: FutureBuilder<List<weapondetail>>(
         future: _futureFilteredDetails,
