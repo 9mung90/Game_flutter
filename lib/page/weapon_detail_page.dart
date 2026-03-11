@@ -150,6 +150,59 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
   }
 
 
+  String? _extractEffectKeyword(String? raw) {
+    if (raw == null) return null;
+
+    final text = raw.trim();
+    if (text.isEmpty || text == '-1') return null;
+
+    final List<String> parts = text.split(RegExp(r'\s+'));
+    if (parts.isEmpty) return null;
+
+    final keyword = parts.first.trim();
+    if (keyword.isEmpty || keyword == '-1') return null;
+
+    return keyword;
+  }
+
+  String? extractEffectKeyword(String? raw) {
+    if (raw == null) return null;
+
+    final text = raw.trim();
+    if (text.isEmpty || text == '-1') return null;
+
+    final int idx = text.indexOf('상태');
+
+    String keyword;
+    if (idx != -1) {
+      keyword = text.substring(0, idx).trim();
+    } else {
+      keyword = text.trim();
+    }
+    if (keyword.isEmpty || keyword == '-1') return null;
+
+    return keyword;
+  }
+
+  String buildSpEffectText(dynamic item) {
+    final effects = [
+      extractEffectKeyword(item.spEffectMsgId0),
+      extractEffectKeyword(item.spEffectMsgId1),
+      extractEffectKeyword(item.spEffectMsgId2),
+    ].whereType<String>().toList();
+
+    // 중복 제거
+    final uniqueEffects = effects.toSet().toList();
+
+    if (uniqueEffects.isEmpty) {
+      return '';
+    }
+
+    return uniqueEffects.join('/');
+  }
+
+
+
   String convertEnhance(String value) {
     return value.trim() == '1' ? '가능' : '불가능';
   }
@@ -231,7 +284,7 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 240,
+            width: 210,
             child: Text(
               label,
               style: const TextStyle(
@@ -398,6 +451,8 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                           _buildInfoRow('정렬 ID', item.sortId),
                           _buildInfoRow('그룹 ID', item.sortGroupId),
                            */
+                          if (buildSpEffectText(item).isNotEmpty)
+                            _buildInfoRow('상태 이상', buildSpEffectText(item)),
                           _buildInfoRow('무게', item.weight),
                           _buildInfoRow('희귀도', convertRarity(item.rarity)),
                         ],
@@ -545,7 +600,7 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
                           ),
                           const SizedBox(height: 8),
                           _buildConditionalInfoRow('별에서 온 자에 가하는 피해량 증가', item.weakA_DamageRate),
-                          _buildConditionalInfoRow('죽음에 사는 자에 가하는 피해량 증가', item.weakB_DamageRate),
+                          _buildConditionalInfoRow('언데드에 가하는 피해량 증가', item.weakB_DamageRate),
                           _buildConditionalInfoRow('고룡에 가하는 피해량 증가', item.weakC_DamageRate),
                           _buildConditionalInfoRow('비룡에 가하는 피해량 증가', item.weakD_DamageRate),
                           _buildInfoRow('무기의 기본 강인도 감쇄력', item.saWeaponDamage),
