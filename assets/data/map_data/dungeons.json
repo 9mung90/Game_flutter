@@ -6,7 +6,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "병을 버리는 마을"
   },
   {
     "name": "Abandoned Church",
@@ -15,7 +16,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "church"
+    "dungeon_type": "church",
+    "kor_name": "폐교회"
   },
   {
     "name": "Albinauric's Shack",
@@ -24,7 +26,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "shack"
+    "dungeon_type": "shack",
+    "kor_name": "백금의 오두막"
   },
   {
     "name": "Artist's Shack (Gravesite Plain)",
@@ -34,7 +37,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76800
+    "grace_flag": 76800,
+    "kor_name": "화가의 오두막"
   },
   {
     "name": "Belurat Gaol",
@@ -44,7 +48,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "gaol",
-    "grace_flag": 74100
+    "grace_flag": 74100,
+    "kor_name": "벨라트의 감옥"
   },
   {
     "name": "Belurat Tower Settlement",
@@ -54,7 +59,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "legacy_dungeon",
-    "grace_flag": 72001
+    "grace_flag": 72001,
+    "kor_name": "탑의 도시 벨라트"
   },
   {
     "name": "Bonny Gaol",
@@ -67,7 +73,8 @@
       41010800
     ],
     "dungeon_type": "gaol",
-    "grace_flag": 74101
+    "grace_flag": 74101,
+    "kor_name": "보니의 감옥"
   },
   {
     "name": "Bonny Village",
@@ -77,7 +84,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76903
+    "grace_flag": 76903,
+    "kor_name": "보니 마을"
   },
   {
     "name": "Castle Ensis",
@@ -87,7 +95,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76821
+    "grace_flag": 76821,
+    "kor_name": "엔시스 성채"
   },
   {
     "name": "Cathedral of Manus Metyr",
@@ -97,7 +106,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76906
+    "grace_flag": 76906,
+    "kor_name": "마누스 메테르 대교회"
   },
   {
     "name": "Church of Benediction",
@@ -106,7 +116,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "church"
+    "dungeon_type": "church",
+    "kor_name": "은혜의 교회"
   },
   {
     "name": "Church of Consolation",
@@ -115,7 +126,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "church"
+    "dungeon_type": "church",
+    "kor_name": "위로의 교회"
   },
   {
     "name": "Church of the Crusade",
@@ -124,7 +136,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "church"
+    "dungeon_type": "church",
+    "kor_name": "성전교회"
   },
   {
     "name": "Darklight Catacombs",
@@ -137,7 +150,8 @@
       2052430800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 74002
+    "grace_flag": 74002,
+    "kor_name": "어둠을 비추는 지하 묘지"
   },
   {
     "name": "Dragon's Pit",
@@ -150,7 +164,8 @@
       43010800
     ],
     "dungeon_type": "surface_poi",
-    "grace_flag": 74301
+    "grace_flag": 74301,
+    "kor_name": "용굴"
   },
   {
     "name": "Eastern Nameless Mausoleum",
@@ -159,7 +174,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "동쪽의 무명 영묘"
   },
   {
     "name": "Elder's Hovel",
@@ -168,7 +184,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "노인의 오두막"
   },
   {
     "name": "Ellac Greatbridge",
@@ -177,7 +194,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "에라크 대교"
   },
   {
     "name": "Enir-Ilim",
@@ -186,7 +204,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "legacy_dungeon"
+    "dungeon_type": "legacy_dungeon",
+    "kor_name": "에니르 일림"
   },
   {
     "name": "Finger Ruins of Dheo",
@@ -195,7 +214,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "데오의 손가락 유적"
   },
   {
     "name": "Finger Ruins of Miyr",
@@ -204,7 +224,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "미아의 손가락 유적"
   },
   {
     "name": "Finger Ruins of Rhia",
@@ -214,7 +235,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "ruins",
-    "grace_flag": 76834
+    "grace_flag": 76834,
+    "kor_name": "리아의 손가락 유적"
   },
   {
     "name": "Finger-Weaver's Hovel",
@@ -223,7 +245,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "손가락 짜는 자의 오두막"
   },
   {
     "name": "Fog Rift Catacombs",
@@ -236,7 +259,8 @@
       40000800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 74000
+    "grace_flag": 74000,
+    "kor_name": "안개 계곡의 지하 묘지"
   },
   {
     "name": "Fog Rift Fort",
@@ -245,7 +269,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "안개 계곡의 요새"
   },
   {
     "name": "Fort of Reprimand",
@@ -255,7 +280,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "fort",
-    "grace_flag": 76909
+    "grace_flag": 76909,
+    "kor_name": "징벌 요새"
   },
   {
     "name": "Grand Altar of Dragon Communion",
@@ -265,7 +291,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76840
+    "grace_flag": 76840,
+    "kor_name": "용찬의 대제단"
   },
   {
     "name": "Lamenter's Gaol",
@@ -278,7 +305,8 @@
       41020800
     ],
     "dungeon_type": "gaol",
-    "grace_flag": 74102
+    "grace_flag": 74102,
+    "kor_name": "한탄의 감옥"
   },
   {
     "name": "Midra's Manse",
@@ -287,7 +315,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "미드라의 저택"
   },
   {
     "name": "Moorth Ruins",
@@ -297,7 +326,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "ruins",
-    "grace_flag": 76902
+    "grace_flag": 76902,
+    "kor_name": "모스의 폐허"
   },
   {
     "name": "Northern Nameless Mausoleum",
@@ -306,7 +336,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "북쪽의 무명 영묘"
   },
   {
     "name": "Prospect Town",
@@ -315,7 +346,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "조망도시"
   },
   {
     "name": "Rabbath's Rise",
@@ -324,7 +356,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "rise"
+    "dungeon_type": "rise",
+    "kor_name": "라바스의 마술사탑"
   },
   {
     "name": "Remembrance Duplication Coffin (Finger Ruins of Dheo)",
@@ -333,7 +366,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "추억 복제 관(데오의 손가락 유적)"
   },
   {
     "name": "Remembrance Duplication Coffin (Finger Ruins of Rhia)",
@@ -343,7 +377,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "ruins",
-    "grace_flag": 76834
+    "grace_flag": 76834,
+    "kor_name": "추억 복제 관(리아의 손가락 유적)"
   },
   {
     "name": "Remembrance Duplication Coffin (Manus Metyr)",
@@ -352,7 +387,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "추억 복제 관(마누스 메테르 대교회)"
   },
   {
     "name": "Rivermouth Cave",
@@ -365,7 +401,8 @@
       43000800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 74300
+    "grace_flag": 74300,
+    "kor_name": "강 끝의 동굴"
   },
   {
     "name": "Ruined Forge Lava Intake",
@@ -375,7 +412,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "forge",
-    "grace_flag": 74200
+    "grace_flag": 74200,
+    "kor_name": "용암통의 대장장이 유적"
   },
   {
     "name": "Ruined Forge of Starfall Past",
@@ -388,7 +426,8 @@
       41000800
     ],
     "dungeon_type": "forge",
-    "grace_flag": 74202
+    "grace_flag": 74202,
+    "kor_name": "옛 운철의 대장장이 유적"
   },
   {
     "name": "Ruins of Unte",
@@ -397,7 +436,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "안테의 폐허"
   },
   {
     "name": "Run-Down Traveler's Rest",
@@ -406,7 +446,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "여행자의 오두막"
   },
   {
     "name": "Scadutree Chalice",
@@ -415,7 +456,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "그림자 나무의 성배"
   },
   {
     "name": "Scorched Ruins",
@@ -425,7 +467,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "ruins",
-    "grace_flag": 76801
+    "grace_flag": 76801,
+    "kor_name": "불에 탄 폐허"
   },
   {
     "name": "Scorpion River Catacombs",
@@ -438,7 +481,8 @@
       40010800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 74001
+    "grace_flag": 74001,
+    "kor_name": "전갈 강 지하 묘지"
   },
   {
     "name": "Shadow Keep",
@@ -448,7 +492,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "legacy_dungeon",
-    "grace_flag": 72102
+    "grace_flag": 72102,
+    "kor_name": "그림자의 성"
   },
   {
     "name": "Shaman Village",
@@ -457,7 +502,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "무녀의 마을"
   },
   {
     "name": "Southern Nameless Mausoleum",
@@ -466,7 +512,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "남쪽의 무명 영묘"
   },
   {
     "name": "Stone Coffin Fissure",
@@ -476,7 +523,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 72201
+    "grace_flag": 72201,
+    "kor_name": "석관의 큰 구멍"
   },
   {
     "name": "Suppressing Pillar",
@@ -485,7 +533,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "진정의 기둥"
   },
   {
     "name": "Taylew's Ruined Forge",
@@ -495,7 +544,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "forge",
-    "grace_flag": 74203
+    "grace_flag": 74203,
+    "kor_name": "테울의 대장장이 유적"
   },
   {
     "name": "Teleportation Coffin",
@@ -504,7 +554,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "전송 관"
   },
   {
     "name": "Temple Town Ruins",
@@ -514,7 +565,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "ruins",
-    "grace_flag": 76913
+    "grace_flag": 76913,
+    "kor_name": "신전도시 폐허"
   },
   {
     "name": "Village of Flies",
@@ -523,7 +575,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "파리의 마을"
   },
   {
     "name": "Waygate",
@@ -532,7 +585,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "waygate"
+    "dungeon_type": "waygate",
+    "kor_name": "전송문"
   },
   {
     "name": "Western Nameless Mausoleum",
@@ -541,7 +595,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "서쪽의 무명 영묘"
   },
   {
     "name": "Whipping Hut",
@@ -550,7 +605,8 @@
     "region": "dlc",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "채찍의 집"
   },
   {
     "name": "Auriza Hero's Grave",
@@ -563,7 +619,8 @@
       30100800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73010
+    "grace_flag": 73010,
+    "kor_name": "아우리자 영웅 묘지"
   },
   {
     "name": "Auriza Side Tomb",
@@ -573,7 +630,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 73013
+    "grace_flag": 73013,
+    "kor_name": "아우리자 부묘지"
   },
   {
     "name": "Divine Tower of East Altus",
@@ -582,7 +640,8 @@
     "region": "extra",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "divine_tower"
+    "dungeon_type": "divine_tower",
+    "kor_name": "동 알터 신수탑"
   },
   {
     "name": "Hermit Merchant's Shack",
@@ -592,7 +651,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76311
+    "grace_flag": 76311,
+    "kor_name": "속세를 떠난 상인의 오두막"
   },
   {
     "name": "Leyndell, Ashen Capital",
@@ -601,7 +661,8 @@
     "region": "extra",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "legacy_dungeon"
+    "dungeon_type": "legacy_dungeon",
+    "kor_name": "재의 도읍 로데일"
   },
   {
     "name": "Minor Erdtree",
@@ -611,7 +672,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "minor_erdtree",
-    "grace_flag": 73014
+    "grace_flag": 73014,
+    "kor_name": "작은 황금 나무"
   },
   {
     "name": "Subterranean Shunning-Grounds",
@@ -623,7 +685,8 @@
     "boss_flags": [
       9125
     ],
-    "dungeon_type": "legacy_dungeon"
+    "dungeon_type": "legacy_dungeon",
+    "kor_name": "흉조가 버려진 지하"
   },
   {
     "name": "Abandoned Cave",
@@ -636,7 +699,8 @@
       31200800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73120
+    "grace_flag": 73120,
+    "kor_name": "폐기 동굴"
   },
   {
     "name": "Academy Crystal Cave",
@@ -649,7 +713,8 @@
       31060800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73106
+    "grace_flag": 73106,
+    "kor_name": "학원 결정 동굴"
   },
   {
     "name": "Academy Gate Town",
@@ -659,7 +724,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76204
+    "grace_flag": 76204,
+    "kor_name": "학원 문 앞 마을"
   },
   {
     "name": "Ailing Village",
@@ -669,7 +735,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76154
+    "grace_flag": 76154,
+    "kor_name": "병자 마을"
   },
   {
     "name": "Ainsel River Well",
@@ -679,7 +746,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 71211
+    "grace_flag": 71211,
+    "kor_name": "에인세르 강 우물"
   },
   {
     "name": "Albinauric Rise",
@@ -688,7 +756,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "rise"
+    "dungeon_type": "rise",
+    "kor_name": "백금의 마술사탑"
   },
   {
     "name": "Altus Tunnel",
@@ -701,7 +770,8 @@
       32050800
     ],
     "dungeon_type": "tunnel",
-    "grace_flag": 73205
+    "grace_flag": 73205,
+    "kor_name": "알터 갱도"
   },
   {
     "name": "Apostate Derelict",
@@ -711,7 +781,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76653
+    "grace_flag": 76653,
+    "kor_name": "기교의 폐옥"
   },
   {
     "name": "Artist's Shack",
@@ -721,7 +792,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76103
+    "grace_flag": 76103,
+    "kor_name": "화가의 오두막"
   },
   {
     "name": "Artist's Shack (Limgrave)",
@@ -731,7 +803,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76103
+    "grace_flag": 76103,
+    "kor_name": "화가의 낡은 집"
   },
   {
     "name": "Auriza Hero's Grave",
@@ -744,7 +817,8 @@
       30100800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73010
+    "grace_flag": 73010,
+    "kor_name": "아우리자 영웅 묘지"
   },
   {
     "name": "Auriza Side Tomb",
@@ -754,7 +828,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 73013
+    "grace_flag": 73013,
+    "kor_name": "아우리자 부묘지"
   },
   {
     "name": "Bellum Church",
@@ -764,7 +839,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76208
+    "grace_flag": 76208,
+    "kor_name": "벨룸 교회"
   },
   {
     "name": "Bestial Sanctum",
@@ -774,7 +850,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76454
+    "grace_flag": 76454,
+    "kor_name": "짐승의 신전"
   },
   {
     "name": "Black Knife Catacombs",
@@ -788,7 +865,8 @@
       30050850
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73005
+    "grace_flag": 73005,
+    "kor_name": "검은 칼날의 지하 묘지"
   },
   {
     "name": "Boilprawn Shack",
@@ -798,7 +876,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76216
+    "grace_flag": 76216,
+    "kor_name": "새우 삶는 오두막"
   },
   {
     "name": "Bridge of Sacrifice",
@@ -808,7 +887,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76157
+    "grace_flag": 76157,
+    "kor_name": "제물 이송 대교"
   },
   {
     "name": "Caelem Ruins",
@@ -818,7 +898,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "ruins",
-    "grace_flag": 76403
+    "grace_flag": 76403,
+    "kor_name": "키렘 폐허"
   },
   {
     "name": "Caelid Catacombs",
@@ -831,7 +912,8 @@
       30150800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73015
+    "grace_flag": 73015,
+    "kor_name": "케일리드 지하 묘지"
   },
   {
     "name": "Caelid Waypoint Ruins",
@@ -840,7 +922,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "케일리드 역참터"
   },
   {
     "name": "Callu Baptismal Church",
@@ -849,7 +932,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "church"
+    "dungeon_type": "church",
+    "kor_name": "카르의 세례 교회"
   },
   {
     "name": "Caria Manor",
@@ -862,7 +946,8 @@
       9181
     ],
     "dungeon_type": "legacy_dungeon",
-    "grace_flag": 76214
+    "grace_flag": 76214,
+    "kor_name": "카리아 성관"
   },
   {
     "name": "Carian Study Hall",
@@ -871,7 +956,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "카리아 서원"
   },
   {
     "name": "Castle Morne",
@@ -884,7 +970,8 @@
       9180
     ],
     "dungeon_type": "legacy_dungeon",
-    "grace_flag": 76151
+    "grace_flag": 76151,
+    "kor_name": "몬 성"
   },
   {
     "name": "Castle Sol",
@@ -897,7 +984,8 @@
       9184
     ],
     "dungeon_type": "legacy_dungeon",
-    "grace_flag": 76522
+    "grace_flag": 76522,
+    "kor_name": "소르 성채"
   },
   {
     "name": "Cathedral of Dragon Communion",
@@ -907,7 +995,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76404
+    "grace_flag": 76404,
+    "kor_name": "대용찬 교회"
   },
   {
     "name": "Cathedral of Manus Celes",
@@ -917,7 +1006,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76251
+    "grace_flag": 76251,
+    "kor_name": "마누스 셀리스 대교회"
   },
   {
     "name": "Cave of the Forlorn",
@@ -930,7 +1020,8 @@
       31120800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73112
+    "grace_flag": 73112,
+    "kor_name": "기댈 동굴"
   },
   {
     "name": "Chapel of Anticipation",
@@ -939,7 +1030,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "church"
+    "dungeon_type": "church",
+    "kor_name": "왕을 기다리는 예배당"
   },
   {
     "name": "Chelona's Rise",
@@ -948,7 +1040,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "rise"
+    "dungeon_type": "rise",
+    "kor_name": "히에로나의 마술사탑"
   },
   {
     "name": "Church of Dragon Communion",
@@ -958,7 +1051,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76110
+    "grace_flag": 76110,
+    "kor_name": "용찬 교회"
   },
   {
     "name": "Church of Elleh",
@@ -968,7 +1062,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76100
+    "grace_flag": 76100,
+    "kor_name": "엘레의 교회"
   },
   {
     "name": "Church of Inhibition",
@@ -978,7 +1073,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76240
+    "grace_flag": 76240,
+    "kor_name": "진정의 교회"
   },
   {
     "name": "Church of Irith",
@@ -987,7 +1083,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "church"
+    "dungeon_type": "church",
+    "kor_name": "이리스 교회"
   },
   {
     "name": "Church of Pilgrimage",
@@ -997,7 +1094,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76150
+    "grace_flag": 76150,
+    "kor_name": "순례교회"
   },
   {
     "name": "Church of Repose",
@@ -1007,7 +1105,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76507
+    "grace_flag": 76507,
+    "kor_name": "안식 교회"
   },
   {
     "name": "Church of Vows",
@@ -1017,7 +1116,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76224
+    "grace_flag": 76224,
+    "kor_name": "맺음의 교회"
   },
   {
     "name": "Church of the Plague",
@@ -1027,7 +1127,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76418
+    "grace_flag": 76418,
+    "kor_name": "부패병의 교회"
   },
   {
     "name": "Cliffbottom Catacombs",
@@ -1040,7 +1141,8 @@
       30060800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73006
+    "grace_flag": 73006,
+    "kor_name": "절벽 아래 지하 묘지"
   },
   {
     "name": "Coastal Cave",
@@ -1053,7 +1155,8 @@
       31150800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73115
+    "grace_flag": 73115,
+    "kor_name": "해안 동굴"
   },
   {
     "name": "Consecrated Snowfield Catacombs",
@@ -1066,7 +1169,8 @@
       30190800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73019
+    "grace_flag": 73019,
+    "kor_name": "구별된 설원 지하 묘지"
   },
   {
     "name": "Converted Fringe Tower",
@@ -1075,7 +1179,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "개종된 변방의 탑"
   },
   {
     "name": "Converted Tower",
@@ -1085,7 +1190,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76237
+    "grace_flag": 76237,
+    "kor_name": "개종된 탑"
   },
   {
     "name": "Corpse-Stench Shack",
@@ -1094,7 +1200,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "shack"
+    "dungeon_type": "shack",
+    "kor_name": "시체 냄새가 나는 오두막"
   },
   {
     "name": "Craftsman's Shack",
@@ -1104,7 +1211,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76356
+    "grace_flag": 76356,
+    "kor_name": "장인의 오두막"
   },
   {
     "name": "Crumbling Farum Azula",
@@ -1116,7 +1224,8 @@
     "boss_flags": [
       9115
     ],
-    "dungeon_type": "legacy_dungeon"
+    "dungeon_type": "legacy_dungeon",
+    "kor_name": "무너지는 파름 아즈라"
   },
   {
     "name": "Cuckoo's Evergaol",
@@ -1125,7 +1234,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "gaol"
+    "dungeon_type": "gaol",
+    "kor_name": "뻐꾸기의 봉인감옥"
   },
   {
     "name": "Deathtouched Catacombs",
@@ -1135,7 +1245,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "catacomb",
-    "grace_flag": 73011
+    "grace_flag": 73011,
+    "kor_name": "죽음에 닿은 지하 묘지"
   },
   {
     "name": "Deep Ainsel Well",
@@ -1144,7 +1255,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "에인세르 강 깊은 우물"
   },
   {
     "name": "Deep Siofra Well",
@@ -1154,7 +1266,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76410
+    "grace_flag": 76410,
+    "kor_name": "시프라 강 안쪽 우물"
   },
   {
     "name": "Demi-human Forest Ruins",
@@ -1163,7 +1276,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "아인 숲 폐허"
   },
   {
     "name": "Divine Tower of Caelid",
@@ -1176,7 +1290,8 @@
       34130800
     ],
     "dungeon_type": "divine_tower",
-    "grace_flag": 73440
+    "grace_flag": 73440,
+    "kor_name": "케일리드 신수탑"
   },
   {
     "name": "Divine Tower of East Altus",
@@ -1185,7 +1300,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "divine_tower"
+    "dungeon_type": "divine_tower",
+    "kor_name": "동 알터 신수탑"
   },
   {
     "name": "Divine Tower of Limgrave",
@@ -1195,7 +1311,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "divine_tower",
-    "grace_flag": 73412
+    "grace_flag": 73412,
+    "kor_name": "림그레이브 신수탑"
   },
   {
     "name": "Divine Tower of Liurnia",
@@ -1205,7 +1322,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "divine_tower",
-    "grace_flag": 73422
+    "grace_flag": 73422,
+    "kor_name": "리에니에 신수탑"
   },
   {
     "name": "Divine Tower of West Altus",
@@ -1215,7 +1333,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "divine_tower",
-    "grace_flag": 73430
+    "grace_flag": 73430,
+    "kor_name": "서 알터 신수탑"
   },
   {
     "name": "Dominula, Windmill Village",
@@ -1225,7 +1344,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76308
+    "grace_flag": 76308,
+    "kor_name": "풍차 마을 도미눌라"
   },
   {
     "name": "Dragon-Burnt Ruins",
@@ -1234,7 +1354,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "용이 불태운 폐허"
   },
   {
     "name": "Dragonbarrow Cave",
@@ -1247,7 +1368,8 @@
       31100800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73110
+    "grace_flag": 73110,
+    "kor_name": "용총 동굴"
   },
   {
     "name": "Earthbore Cave",
@@ -1260,7 +1382,8 @@
       31010800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73101
+    "grace_flag": 73101,
+    "kor_name": "구멍을 내려가는 동굴"
   },
   {
     "name": "East Windmill Pasture",
@@ -1269,7 +1392,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "동쪽 풍차 목장"
   },
   {
     "name": "Elphael, Brace of the Haligtree",
@@ -1281,7 +1405,8 @@
     "boss_flags": [
       9120
     ],
-    "dungeon_type": "legacy_dungeon"
+    "dungeon_type": "legacy_dungeon",
+    "kor_name": "성수 버팀목 에브레펠"
   },
   {
     "name": "Enemy Caravan (Aluts Plateau)",
@@ -1290,7 +1415,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "적 수레"
   },
   {
     "name": "Enemy Caravan (Dragonbarrow)",
@@ -1299,7 +1425,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "적 수레"
   },
   {
     "name": "Enemy Caravan (Limgrave)",
@@ -1308,7 +1435,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "적 수레"
   },
   {
     "name": "Enemy Caravan (West Liurnia of the Lakes)",
@@ -1317,7 +1445,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "적 수레"
   },
   {
     "name": "Enemy Caravan 1 (Consecrated Snowfield)",
@@ -1327,7 +1456,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76550
+    "grace_flag": 76550,
+    "kor_name": "적 수레 1(구별된 설원)"
   },
   {
     "name": "Enemy Caravan 2 (Consecrated Snowfield)",
@@ -1337,7 +1467,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76550
+    "grace_flag": 76550,
+    "kor_name": "적 수레 2(구별된 설원)"
   },
   {
     "name": "First Church of Marika",
@@ -1347,7 +1478,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76505
+    "grace_flag": 76505,
+    "kor_name": "제1 마리카 교회"
   },
   {
     "name": "Flame Peak",
@@ -1356,7 +1488,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "불의 정상"
   },
   {
     "name": "Forest Lookout Tower",
@@ -1365,7 +1498,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "숲 감시탑"
   },
   {
     "name": "Forge of the Giants",
@@ -1375,7 +1509,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "forge",
-    "grace_flag": 76510
+    "grace_flag": 76510,
+    "kor_name": "거인의 불 가마"
   },
   {
     "name": "Forlorn Hound Evergaol",
@@ -1384,7 +1519,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "gaol"
+    "dungeon_type": "gaol",
+    "kor_name": "주인 잃은 사냥개의 봉인감옥"
   },
   {
     "name": "Forsaken Ruins",
@@ -1393,7 +1529,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "버려진 폐허"
   },
   {
     "name": "Fort Faroth",
@@ -1403,7 +1540,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "fort",
-    "grace_flag": 76453
+    "grace_flag": 76453,
+    "kor_name": "파로스 요새"
   },
   {
     "name": "Fort Gael",
@@ -1413,7 +1551,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "fort",
-    "grace_flag": 76402
+    "grace_flag": 76402,
+    "kor_name": "게르 요새"
   },
   {
     "name": "Fort Haight",
@@ -1423,7 +1562,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "fort",
-    "grace_flag": 76105
+    "grace_flag": 76105,
+    "kor_name": "하이트 요새"
   },
   {
     "name": "Fort Laiedd",
@@ -1432,7 +1572,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "fort"
+    "dungeon_type": "fort",
+    "kor_name": "라이드 요새"
   },
   {
     "name": "Fourth Church of Marika",
@@ -1442,7 +1583,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76162
+    "grace_flag": 76162,
+    "kor_name": "제4 마리카 교회"
   },
   {
     "name": "Frenzied Flame Village",
@@ -1452,7 +1594,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76239
+    "grace_flag": 76239,
+    "kor_name": "미친 불 마을"
   },
   {
     "name": "Frenzy-Flaming Tower",
@@ -1461,7 +1604,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "미친 불 등대"
   },
   {
     "name": "Fringefolk Hero's Grave",
@@ -1474,7 +1618,8 @@
       18000800,
       18000850
     ],
-    "dungeon_type": "catacomb"
+    "dungeon_type": "catacomb",
+    "kor_name": "변경의 영웅 묘지"
   },
   {
     "name": "Gael Tunnel",
@@ -1487,7 +1632,8 @@
       32070800
     ],
     "dungeon_type": "tunnel",
-    "grace_flag": 73207
+    "grace_flag": 73207,
+    "kor_name": "게르 갱도"
   },
   {
     "name": "Gaol Cave",
@@ -1500,7 +1646,8 @@
       31210800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73121
+    "grace_flag": 73121,
+    "kor_name": "감옥 동굴"
   },
   {
     "name": "Gatefront Ruins",
@@ -1510,7 +1657,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "ruins",
-    "grace_flag": 76111
+    "grace_flag": 76111,
+    "kor_name": "관문 앞 폐허"
   },
   {
     "name": "Gelmir Hero's Grave",
@@ -1523,7 +1671,8 @@
       30090800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73009
+    "grace_flag": 73009,
+    "kor_name": "겔미어 영웅 묘지"
   },
   {
     "name": "Giant-Conquering Hero's Grave",
@@ -1536,7 +1685,8 @@
       30170800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73017
+    "grace_flag": 73017,
+    "kor_name": "거인 전쟁의 영웅 묘지"
   },
   {
     "name": "Giants' Mountaintop Catacombs",
@@ -1549,7 +1699,8 @@
       30180800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73018
+    "grace_flag": 73018,
+    "kor_name": "거인 산령 지하 묘지"
   },
   {
     "name": "Golden Lineage Evergaol",
@@ -1558,7 +1709,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "gaol"
+    "dungeon_type": "gaol",
+    "kor_name": "황금 일족의 봉인감옥"
   },
   {
     "name": "Gowry's Shack",
@@ -1567,7 +1719,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "shack"
+    "dungeon_type": "shack",
+    "kor_name": "고리의 오두막"
   },
   {
     "name": "Grand Lift of Dectus",
@@ -1577,7 +1730,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76209
+    "grace_flag": 76209,
+    "kor_name": "덱타스 대승강기"
   },
   {
     "name": "Grand Lift of Rold",
@@ -1587,7 +1741,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76502
+    "grace_flag": 76502,
+    "kor_name": "로르드 대승강기"
   },
   {
     "name": "Groveside Cave",
@@ -1600,7 +1755,8 @@
       31030800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73103
+    "grace_flag": 73103,
+    "kor_name": "숲 옆 동굴"
   },
   {
     "name": "Guardians' Garrison",
@@ -1609,7 +1765,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "감시자들의 요새"
   },
   {
     "name": "Heretical Rise",
@@ -1618,7 +1775,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "rise"
+    "dungeon_type": "rise",
+    "kor_name": "이단의 마술사탑"
   },
   {
     "name": "Hermit Merchant's Shack",
@@ -1628,7 +1786,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76311
+    "grace_flag": 76311,
+    "kor_name": "속세를 떠난 상인의 오두막"
   },
   {
     "name": "Hermit Village",
@@ -1637,7 +1796,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "은자의 마을"
   },
   {
     "name": "Hermit's Shack",
@@ -1646,7 +1806,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "shack"
+    "dungeon_type": "shack",
+    "kor_name": "은자의 오두막"
   },
   {
     "name": "Hidden Path to the Haligtree",
@@ -1659,7 +1820,8 @@
       30200810
     ],
     "dungeon_type": "legacy_dungeon",
-    "grace_flag": 73020
+    "grace_flag": 73020,
+    "kor_name": "성수로 가는 숨은 길"
   },
   {
     "name": "Highroad Cave",
@@ -1672,7 +1834,8 @@
       31170800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73117
+    "grace_flag": 73117,
+    "kor_name": "높은 길 아래 동굴"
   },
   {
     "name": "Highway Lookout Tower",
@@ -1681,7 +1844,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "가도 감시탑"
   },
   {
     "name": "Highway Lookout Tower",
@@ -1690,7 +1854,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "가도 감시탑"
   },
   {
     "name": "Impaler's Catacombs",
@@ -1703,7 +1868,8 @@
       30010800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73001
+    "grace_flag": 73001,
+    "kor_name": "꼬챙이의 지하 묘지"
   },
   {
     "name": "Isolated Divine Tower",
@@ -1713,7 +1879,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "divine_tower",
-    "grace_flag": 73460
+    "grace_flag": 73460,
+    "kor_name": "고립된 신수탑"
   },
   {
     "name": "Isolated Merchant's Shack (Dragonbarrow)",
@@ -1723,7 +1890,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76451
+    "grace_flag": 76451,
+    "kor_name": "은둔 상인의 오두막"
   },
   {
     "name": "Isolated Merchant's Shack (Weeping Peninsula)",
@@ -1733,7 +1901,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76451
+    "grace_flag": 76451,
+    "kor_name": "은둔 상인의 오두막"
   },
   {
     "name": "Jarburg",
@@ -1743,7 +1912,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76245
+    "grace_flag": 76245,
+    "kor_name": "항아리 마을"
   },
   {
     "name": "Kingsrealm Ruins",
@@ -1752,7 +1922,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "왕가령 폐허"
   },
   {
     "name": "Lakeside Crystal Cave",
@@ -1765,7 +1936,8 @@
       31050800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73105
+    "grace_flag": 73105,
+    "kor_name": "호수 옆 결정 동굴"
   },
   {
     "name": "Laskyar Ruins",
@@ -1775,7 +1947,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "ruins",
-    "grace_flag": 76202
+    "grace_flag": 76202,
+    "kor_name": "라스카 폐허"
   },
   {
     "name": "Lenne's Rise",
@@ -1785,7 +1958,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "rise",
-    "grace_flag": 76455
+    "grace_flag": 76455,
+    "kor_name": "렌의 마술사탑"
   },
   {
     "name": "Leyndell Catacombs",
@@ -1798,7 +1972,8 @@
       35000850
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73503
+    "grace_flag": 73503,
+    "kor_name": "로데일 지하 묘지"
   },
   {
     "name": "Leyndell, Royal Capital",
@@ -1807,7 +1982,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "legacy_dungeon"
+    "dungeon_type": "legacy_dungeon",
+    "kor_name": "도읍 로데일"
   },
   {
     "name": "Limgrave Tunnels",
@@ -1820,7 +1996,8 @@
       32010800
     ],
     "dungeon_type": "tunnel",
-    "grace_flag": 73201
+    "grace_flag": 73201,
+    "kor_name": "림그레이브 갱도"
   },
   {
     "name": "Lord Contender's Evergaol",
@@ -1829,7 +2006,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "gaol"
+    "dungeon_type": "gaol",
+    "kor_name": "왕에 다가간 자의 봉인감옥"
   },
   {
     "name": "Lunar Estate Ruins",
@@ -1838,7 +2016,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "달의 귀족의 폐허"
   },
   {
     "name": "Lux Ruins",
@@ -1847,7 +2026,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "루크스의 폐허"
   },
   {
     "name": "Malefactor's Evergaol",
@@ -1856,7 +2036,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "gaol"
+    "dungeon_type": "gaol",
+    "kor_name": "도둑의 봉인감옥"
   },
   {
     "name": "Minor Erdtree (Altus Plateau)",
@@ -1866,7 +2047,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "minor_erdtree",
-    "grace_flag": 76301
+    "grace_flag": 76301,
+    "kor_name": "작은 황금 나무"
   },
   {
     "name": "Minor Erdtree (Caelid)",
@@ -1875,7 +2057,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "minor_erdtree"
+    "dungeon_type": "minor_erdtree",
+    "kor_name": "작은 황금 나무"
   },
   {
     "name": "Minor Erdtree (Capital Outskirts)",
@@ -1884,7 +2067,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "minor_erdtree"
+    "dungeon_type": "minor_erdtree",
+    "kor_name": "작은 황금 나무"
   },
   {
     "name": "Minor Erdtree (Consecrated Snowfield)",
@@ -1894,7 +2078,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "minor_erdtree",
-    "grace_flag": 76550
+    "grace_flag": 76550,
+    "kor_name": "작은 황금 나무"
   },
   {
     "name": "Minor Erdtree (Dragonbarrow)",
@@ -1903,7 +2088,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "minor_erdtree"
+    "dungeon_type": "minor_erdtree",
+    "kor_name": "작은 황금 나무"
   },
   {
     "name": "Minor Erdtree (Liurnia Northeast)",
@@ -1912,7 +2098,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "minor_erdtree"
+    "dungeon_type": "minor_erdtree",
+    "kor_name": "작은 황금 나무"
   },
   {
     "name": "Minor Erdtree (Liurnia Southwest)",
@@ -1921,7 +2108,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "minor_erdtree"
+    "dungeon_type": "minor_erdtree",
+    "kor_name": "작은 황금 나무"
   },
   {
     "name": "Minor Erdtree (Mistwood)",
@@ -1930,7 +2118,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "minor_erdtree"
+    "dungeon_type": "minor_erdtree",
+    "kor_name": "작은 황금 나무"
   },
   {
     "name": "Minor Erdtree (Mountaintops East)",
@@ -1939,7 +2128,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "minor_erdtree"
+    "dungeon_type": "minor_erdtree",
+    "kor_name": "작은 황금 나무"
   },
   {
     "name": "Minor Erdtree (Mt. Gelmir)",
@@ -1948,7 +2138,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "minor_erdtree"
+    "dungeon_type": "minor_erdtree",
+    "kor_name": "작은 황금 나무"
   },
   {
     "name": "Minor Erdtree (Weeping Peninsula)",
@@ -1957,7 +2148,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "minor_erdtree"
+    "dungeon_type": "minor_erdtree",
+    "kor_name": "작은 황금 나무"
   },
   {
     "name": "Minor Erdtree Catacombs",
@@ -1970,7 +2162,8 @@
       30140800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73014
+    "grace_flag": 73014,
+    "kor_name": "작은 황금 나무 지하 묘지"
   },
   {
     "name": "Minor Erdtree Church",
@@ -1980,16 +2173,18 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76310
+    "grace_flag": 76310,
+    "kor_name": "작은 황금 나무 교회"
   },
   {
     "name": "Miquella's Haligtree",
-    "lat": -48.0,
+    "lat": -48,
     "lng": 148.01,
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "legacy_dungeon"
+    "dungeon_type": "legacy_dungeon",
+    "kor_name": "미켈라의 성수"
   },
   {
     "name": "Mirage Rise",
@@ -1998,7 +2193,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "rise"
+    "dungeon_type": "rise",
+    "kor_name": "신기루의 마술사탑"
   },
   {
     "name": "Mistwood Ruins",
@@ -2007,7 +2203,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "안개 숲 폐허"
   },
   {
     "name": "Moonfolk Ruins",
@@ -2016,7 +2213,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "달의 민족의 폐허"
   },
   {
     "name": "Morne Tunnel",
@@ -2029,7 +2227,8 @@
       32000800
     ],
     "dungeon_type": "tunnel",
-    "grace_flag": 73200
+    "grace_flag": 73200,
+    "kor_name": "몬 갱도"
   },
   {
     "name": "Murkwater Catacombs",
@@ -2042,7 +2241,8 @@
       30040800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73004
+    "grace_flag": 73004,
+    "kor_name": "흐린 강의 지하 묘지"
   },
   {
     "name": "Murkwater Cave",
@@ -2055,7 +2255,8 @@
       31000800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73100
+    "grace_flag": 73100,
+    "kor_name": "흐린 강 동굴"
   },
   {
     "name": "Old Altus Tunnel",
@@ -2068,7 +2269,8 @@
       32040800
     ],
     "dungeon_type": "tunnel",
-    "grace_flag": 73204
+    "grace_flag": 73204,
+    "kor_name": "구 알터 갱도"
   },
   {
     "name": "Ordina, Liturgical Town",
@@ -2078,7 +2280,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76652
+    "grace_flag": 76652,
+    "kor_name": "전례 거리 오르디나"
   },
   {
     "name": "Oridys's Rise",
@@ -2087,7 +2290,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "rise"
+    "dungeon_type": "rise",
+    "kor_name": "오리티스의 마술사탑"
   },
   {
     "name": "Perfumer's Grotto",
@@ -2100,7 +2304,8 @@
       31180800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73118
+    "grace_flag": 73118,
+    "kor_name": "조향사의 은신 동굴"
   },
   {
     "name": "Perfumer's Ruins",
@@ -2109,7 +2314,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "조향사의 폐허"
   },
   {
     "name": "Purified Ruins",
@@ -2118,7 +2324,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "정화된 폐허"
   },
   {
     "name": "Ranni's Rise",
@@ -2128,7 +2335,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "rise",
-    "grace_flag": 76228
+    "grace_flag": 76228,
+    "kor_name": "라니의 마술사탑"
   },
   {
     "name": "Raya Lucaria Academy",
@@ -2137,7 +2345,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "legacy_dungeon"
+    "dungeon_type": "legacy_dungeon",
+    "kor_name": "마술학원 레아 루카리아"
   },
   {
     "name": "Raya Lucaria Crystal Tunnel",
@@ -2150,7 +2359,8 @@
       32020800
     ],
     "dungeon_type": "tunnel",
-    "grace_flag": 73202
+    "grace_flag": 73202,
+    "kor_name": "레아 루카리아 결정 갱도"
   },
   {
     "name": "Redmane Castle",
@@ -2163,7 +2373,8 @@
       9183
     ],
     "dungeon_type": "legacy_dungeon",
-    "grace_flag": 76419
+    "grace_flag": 76419,
+    "kor_name": "적사자성"
   },
   {
     "name": "Renna's Rise",
@@ -2172,7 +2383,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "rise"
+    "dungeon_type": "rise",
+    "kor_name": "레나의 마술사탑"
   },
   {
     "name": "Revenger's Shack",
@@ -2182,7 +2394,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76218
+    "grace_flag": 76218,
+    "kor_name": "복수자의 오두막"
   },
   {
     "name": "Ringleader's Evergaol",
@@ -2191,7 +2404,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "gaol"
+    "dungeon_type": "gaol",
+    "kor_name": "칼날 우두머리의 봉인감옥"
   },
   {
     "name": "Road's End Catacombs",
@@ -2201,7 +2415,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "catacomb",
-    "grace_flag": 73003
+    "grace_flag": 73003,
+    "kor_name": "막다른 길의 지하 묘지"
   },
   {
     "name": "Rose Church",
@@ -2210,7 +2425,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "church"
+    "dungeon_type": "church",
+    "kor_name": "장미 교회"
   },
   {
     "name": "Royal Grave Evergaol",
@@ -2219,7 +2435,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "gaol"
+    "dungeon_type": "gaol",
+    "kor_name": "왕가 묘지의 봉인감옥"
   },
   {
     "name": "Ruin-Strewn Precipice",
@@ -2232,7 +2449,8 @@
       9126
     ],
     "dungeon_type": "surface_poi",
-    "grace_flag": 73901
+    "grace_flag": 73901,
+    "kor_name": "옛 유적 절벽"
   },
   {
     "name": "Sage's Cave",
@@ -2246,7 +2464,8 @@
       31190850
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73119
+    "grace_flag": 73119,
+    "kor_name": "현자의 동굴"
   },
   {
     "name": "Sainted Hero's Grave",
@@ -2259,7 +2478,8 @@
       30080800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73008
+    "grace_flag": 73008,
+    "kor_name": "고귀한 자의 영웅 묘지"
   },
   {
     "name": "Sealed Tunnel",
@@ -2269,7 +2489,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "tunnel",
-    "grace_flag": 73431
+    "grace_flag": 73431,
+    "kor_name": "봉인된 갱도"
   },
   {
     "name": "Second Church of Marika",
@@ -2278,7 +2499,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "church"
+    "dungeon_type": "church",
+    "kor_name": "제2 마리카 교회"
   },
   {
     "name": "Seethewater Cave",
@@ -2291,7 +2513,8 @@
       31070800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73107
+    "grace_flag": 73107,
+    "kor_name": "끓는 강 동굴"
   },
   {
     "name": "Sellia Crystal Tunnel",
@@ -2301,7 +2524,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "tunnel",
-    "grace_flag": 73208
+    "grace_flag": 73208,
+    "kor_name": "사리아의 결정 갱도"
   },
   {
     "name": "Sellia Evergaol",
@@ -2310,7 +2534,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "gaol"
+    "dungeon_type": "gaol",
+    "kor_name": "사리아 봉인감옥"
   },
   {
     "name": "Sellia Gateway",
@@ -2319,7 +2544,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "사리아 정문"
   },
   {
     "name": "Sellia Hideaway",
@@ -2332,7 +2558,8 @@
       31110800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73111
+    "grace_flag": 73111,
+    "kor_name": "사리아의 은신 동굴"
   },
   {
     "name": "Sellia, Town of Sorcery",
@@ -2341,7 +2568,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "마술도시 사리아"
   },
   {
     "name": "Seluvis's Rise",
@@ -2350,7 +2578,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "rise"
+    "dungeon_type": "rise",
+    "kor_name": "셀브스의 마술사탑"
   },
   {
     "name": "Shack of the Lofty",
@@ -2359,7 +2588,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "shack"
+    "dungeon_type": "shack",
+    "kor_name": "고고한 자의 오두막"
   },
   {
     "name": "Shack of the Rotting",
@@ -2368,7 +2598,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "shack"
+    "dungeon_type": "shack",
+    "kor_name": "썩어가는 자의 오두막"
   },
   {
     "name": "Siofra River Well",
@@ -2378,7 +2609,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 71270
+    "grace_flag": 71270,
+    "kor_name": "시프라 강 우물"
   },
   {
     "name": "Slumbering Wolf's Shack",
@@ -2388,7 +2620,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76215
+    "grace_flag": 76215,
+    "kor_name": "늑대가 잠든 오두막"
   },
   {
     "name": "Smoldering Church",
@@ -2398,7 +2631,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76400
+    "grace_flag": 76400,
+    "kor_name": "그을림 교회"
   },
   {
     "name": "Spiritcaller Cave",
@@ -2410,7 +2644,8 @@
     "boss_flags": [
       30030800
     ],
-    "dungeon_type": "cave"
+    "dungeon_type": "cave",
+    "kor_name": "환혼 동굴"
   },
   {
     "name": "Stargazer's Ruins",
@@ -2419,7 +2654,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "천문대 폐허"
   },
   {
     "name": "Stillwater Cave",
@@ -2432,7 +2668,8 @@
       31040800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73104
+    "grace_flag": 73104,
+    "kor_name": "유수 동굴"
   },
   {
     "name": "Stormcaller Church",
@@ -2441,7 +2678,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "church"
+    "dungeon_type": "church",
+    "kor_name": "벼락 부름의 교회"
   },
   {
     "name": "Stormfoot Catacombs",
@@ -2454,7 +2692,8 @@
       30020800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73002
+    "grace_flag": 73002,
+    "kor_name": "폭풍 기슭의 지하 묘지"
   },
   {
     "name": "Stormgate",
@@ -2463,7 +2702,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "폭풍의 관문"
   },
   {
     "name": "Stormhill Evergaol",
@@ -2472,7 +2712,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "gaol"
+    "dungeon_type": "gaol",
+    "kor_name": "폭풍 언덕의 봉인감옥"
   },
   {
     "name": "Stormhill Shack",
@@ -2482,7 +2723,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76102
+    "grace_flag": 76102,
+    "kor_name": "폭풍 언덕의 낡은 집"
   },
   {
     "name": "Stormveil Castle",
@@ -2491,17 +2733,19 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "legacy_dungeon"
+    "dungeon_type": "legacy_dungeon",
+    "kor_name": "스톰빌 성"
   },
   {
     "name": "Stranded Graveyard",
     "lat": -195.76,
-    "lng": 103.0,
+    "lng": 103,
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 71801
+    "grace_flag": 71801,
+    "kor_name": "표류묘지"
   },
   {
     "name": "Street of Sages Ruins",
@@ -2510,7 +2754,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "현자 도시의 폐허"
   },
   {
     "name": "Subterranean Shunning-Grounds",
@@ -2522,7 +2767,8 @@
     "boss_flags": [
       9125
     ],
-    "dungeon_type": "legacy_dungeon"
+    "dungeon_type": "legacy_dungeon",
+    "kor_name": "흉조가 버려진 지하"
   },
   {
     "name": "Summonwater Village",
@@ -2532,7 +2778,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76119
+    "grace_flag": 76119,
+    "kor_name": "마중물 마을"
   },
   {
     "name": "Swamp Lookout Tower",
@@ -2541,7 +2788,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "늪 감시탑"
   },
   {
     "name": "Temple Quarter",
@@ -2551,7 +2799,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76241
+    "grace_flag": 76241,
+    "kor_name": "성당구획"
   },
   {
     "name": "Testu's Rise",
@@ -2560,7 +2809,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "rise"
+    "dungeon_type": "rise",
+    "kor_name": "테스의 마술사탑"
   },
   {
     "name": "The Four Belfries",
@@ -2570,7 +2820,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76227
+    "grace_flag": 76227,
+    "kor_name": "사종루"
   },
   {
     "name": "The Shaded Castle",
@@ -2582,7 +2833,8 @@
     "boss_flags": [
       9182
     ],
-    "dungeon_type": "legacy_dungeon"
+    "dungeon_type": "legacy_dungeon",
+    "kor_name": "그늘성"
   },
   {
     "name": "Third Church of Marika",
@@ -2592,7 +2844,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "church",
-    "grace_flag": 76104
+    "grace_flag": 76104,
+    "kor_name": "제3 마리카 교회"
   },
   {
     "name": "Tombsward Catacombs",
@@ -2605,7 +2858,8 @@
       30000800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73000
+    "grace_flag": 73000,
+    "kor_name": "영묘 들판 지하 묘지"
   },
   {
     "name": "Tombsward Cave",
@@ -2618,7 +2872,8 @@
       31020800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73102
+    "grace_flag": 73102,
+    "kor_name": "영묘 들판 동굴"
   },
   {
     "name": "Tombsward Ruins",
@@ -2628,7 +2883,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "ruins",
-    "grace_flag": 76152
+    "grace_flag": 76152,
+    "kor_name": "영묘 들판 폐허"
   },
   {
     "name": "Tower of Return",
@@ -2637,7 +2893,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "귀환의 탑"
   },
   {
     "name": "Unsightly Catacombs",
@@ -2647,7 +2904,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "catacomb",
-    "grace_flag": 73012
+    "grace_flag": 73012,
+    "kor_name": "추한 지하 묘지"
   },
   {
     "name": "Village of the Albinaurics",
@@ -2657,7 +2915,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76220
+    "grace_flag": 76220,
+    "kor_name": "백금 마을"
   },
   {
     "name": "Volcano Cave",
@@ -2670,7 +2929,8 @@
       31090800
     ],
     "dungeon_type": "cave",
-    "grace_flag": 73109
+    "grace_flag": 73109,
+    "kor_name": "화산 동굴"
   },
   {
     "name": "Volcano Manor",
@@ -2683,7 +2943,8 @@
       9129
     ],
     "dungeon_type": "legacy_dungeon",
-    "grace_flag": 71602
+    "grace_flag": 71602,
+    "kor_name": "화산관"
   },
   {
     "name": "Walking Mausoleum (Consecrated Snowfield)",
@@ -2693,7 +2954,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76550
+    "grace_flag": 76550,
+    "kor_name": "걷는 영묘"
   },
   {
     "name": "Walking Mausoleum (Liurnia of the Lakes Central)",
@@ -2702,7 +2964,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "걷는 영묘"
   },
   {
     "name": "Walking Mausoleum (Liurnia of the Lakes East)",
@@ -2711,7 +2974,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "걷는 영묘"
   },
   {
     "name": "Walking Mausoleum (Liurnia of the Lakes)",
@@ -2720,7 +2984,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "걷는 영묘"
   },
   {
     "name": "Walking Mausoleum (Mountaintops of the Giants)",
@@ -2729,7 +2994,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "걷는 영묘"
   },
   {
     "name": "Walking Mausoleum (Weeping Peninsula)",
@@ -2738,7 +3004,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "걷는 영묘"
   },
   {
     "name": "War-Dead Catacombs",
@@ -2751,7 +3018,8 @@
       30160800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73016
+    "grace_flag": 73016,
+    "kor_name": "영령들의 지하 묘지"
   },
   {
     "name": "Warmaster's Shack",
@@ -2761,7 +3029,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "shack",
-    "grace_flag": 76118
+    "grace_flag": 76118,
+    "kor_name": "전쟁 배움의 낡은 집"
   },
   {
     "name": "Waypoint Ruins",
@@ -2771,7 +3040,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "ruins",
-    "grace_flag": 76120
+    "grace_flag": 76120,
+    "kor_name": "역참터"
   },
   {
     "name": "Weeping Evergaol",
@@ -2780,7 +3050,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "gaol"
+    "dungeon_type": "gaol",
+    "kor_name": "흐느낌의 봉인감옥"
   },
   {
     "name": "West Windmill Pasture",
@@ -2789,7 +3060,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "서쪽 풍차 목장"
   },
   {
     "name": "Windmill Village Pasture",
@@ -2799,7 +3071,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 76308
+    "grace_flag": 76308,
+    "kor_name": "풍차 마을 목장"
   },
   {
     "name": "Witchbane Ruins",
@@ -2808,7 +3081,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "마녀 봉인의 폐허"
   },
   {
     "name": "Woodfolk Ruins",
@@ -2817,7 +3091,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "숲 백성의 폐허"
   },
   {
     "name": "Writheblood Ruins",
@@ -2826,7 +3101,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "피가 꿈틀거리는 폐허"
   },
   {
     "name": "Wyndham Catacombs",
@@ -2839,7 +3115,8 @@
       30070800
     ],
     "dungeon_type": "catacomb",
-    "grace_flag": 73007
+    "grace_flag": 73007,
+    "kor_name": "윈덤 지하 묘지"
   },
   {
     "name": "Wyndham Ruins",
@@ -2848,7 +3125,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "윈덤 폐허"
   },
   {
     "name": "Yelough Anix Ruins",
@@ -2857,7 +3135,8 @@
     "region": "surface",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "이엘로 아니스 폐허"
   },
   {
     "name": "Yelough Anix Tunnel",
@@ -2870,7 +3149,8 @@
       32110800
     ],
     "dungeon_type": "tunnel",
-    "grace_flag": 73211
+    "grace_flag": 73211,
+    "kor_name": "옐로 아니스 갱도"
   },
   {
     "name": "Zamor Ruins",
@@ -2880,7 +3160,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "ruins",
-    "grace_flag": 76501
+    "grace_flag": 76501,
+    "kor_name": "자미엘의 폐허"
   },
   {
     "name": "Grand Cloister",
@@ -2890,7 +3171,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 71218
+    "grace_flag": 71218,
+    "kor_name": "대회랑"
   },
   {
     "name": "Hallowhorn Grounds",
@@ -2899,7 +3181,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지"
   },
   {
     "name": "Hallowhorn Grounds",
@@ -2908,7 +3191,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지"
   },
   {
     "name": "Hallowhorn Grounds Altar (1)",
@@ -2917,7 +3201,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (2)",
@@ -2926,7 +3211,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (3)",
@@ -2935,7 +3221,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (4)",
@@ -2944,7 +3231,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (5)",
@@ -2953,7 +3241,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (6)",
@@ -2962,16 +3251,18 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (7)",
     "lat": -175.44,
-    "lng": 140.0,
+    "lng": 140,
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (8)",
@@ -2980,7 +3271,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (a)",
@@ -2989,7 +3281,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (b)",
@@ -2998,7 +3291,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (c)",
@@ -3007,7 +3301,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (d)",
@@ -3016,7 +3311,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (e)",
@@ -3025,7 +3321,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Hallowhorn Grounds Altar (f)",
@@ -3034,7 +3331,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "각해의 영지 제단"
   },
   {
     "name": "Mohgwyn Dynasty Mausoleum",
@@ -3047,7 +3345,8 @@
       9112,
       9174
     ],
-    "dungeon_type": "legacy_dungeon"
+    "dungeon_type": "legacy_dungeon",
+    "kor_name": "모그윈 왕조묘"
   },
   {
     "name": "Night's Sacred Ground",
@@ -3057,7 +3356,8 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 71226
+    "grace_flag": 71226,
+    "kor_name": "밤의 성역"
   },
   {
     "name": "Nokron, Eternal City",
@@ -3072,7 +3372,8 @@
       9134
     ],
     "dungeon_type": "surface_poi",
-    "grace_flag": 71271
+    "grace_flag": 71271,
+    "kor_name": "영원한 도읍 노크론"
   },
   {
     "name": "Nokstella, Eternal City",
@@ -3085,7 +3386,8 @@
       9109
     ],
     "dungeon_type": "surface_poi",
-    "grace_flag": 71215
+    "grace_flag": 71215,
+    "kor_name": "영원한 도읍 녹스텔라"
   },
   {
     "name": "Siofra Aqueduct",
@@ -3094,7 +3396,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "surface_poi"
+    "dungeon_type": "surface_poi",
+    "kor_name": "시프라 수도교"
   },
   {
     "name": "Uhl Palace Ruins",
@@ -3103,7 +3406,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "우르드의 왕조 유적"
   },
   {
     "name": "Uhl Palace Ruins",
@@ -3112,7 +3416,8 @@
     "region": "underground",
     "category": "dungeon",
     "type": "dungeon",
-    "dungeon_type": "ruins"
+    "dungeon_type": "ruins",
+    "kor_name": "우르드의 왕조 유적"
   },
   {
     "name": "Walking Mausoleum (Deeproot Depths)",
@@ -3122,6 +3427,7 @@
     "category": "dungeon",
     "type": "dungeon",
     "dungeon_type": "surface_poi",
-    "grace_flag": 71233
+    "grace_flag": 71233,
+    "kor_name": "걷는 영묘"
   }
 ]

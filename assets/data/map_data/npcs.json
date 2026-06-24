@@ -8,7 +8,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "대주교 유미르"
   },
   {
     "name": "Dragon Communion Priestess",
@@ -19,7 +20,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "용찬의 무녀"
   },
   {
     "name": "Dryleaf Dane",
@@ -30,7 +32,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "낙엽의 단"
   },
   {
     "name": "Fire Knight Queelign (NPC)",
@@ -41,7 +44,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "불의 기사 퀼라인"
   },
   {
     "name": "Freyja",
@@ -52,7 +56,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "프레이야"
   },
   {
     "name": "Ghost",
@@ -63,7 +68,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "영체"
   },
   {
     "name": "Ghost",
@@ -74,7 +80,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "영체"
   },
   {
     "name": "Hornsent",
@@ -85,7 +92,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "뿔인간"
   },
   {
     "name": "Hornsent",
@@ -96,7 +104,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "뿔인간"
   },
   {
     "name": "Hornsent (2nd Location)",
@@ -107,7 +116,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "뿔인간"
   },
   {
     "name": "Hornsent Grandam - Belurat Tower Settlement",
@@ -118,7 +128,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "뿔인간 노파"
   },
   {
     "name": "Igon",
@@ -129,7 +140,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "에이곤"
   },
   {
     "name": "Igon - Ruined Forge Lava Intake",
@@ -140,7 +152,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "에이곤"
   },
   {
     "name": "Jolan",
@@ -151,7 +164,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "욜란"
   },
   {
     "name": "Moore - Belurat Tower Settlement",
@@ -162,7 +176,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "무아"
   },
   {
     "name": "Needle Knight Leda (2nd Location)",
@@ -173,7 +188,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "침의 기사 레다"
   },
   {
     "name": "Redmane Freyja",
@@ -184,7 +200,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "적사자 프레이야"
   },
   {
     "name": "Sir Ansbach",
@@ -195,7 +212,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "순혈기사 안스바흐"
   },
   {
     "name": "Sir Ansbach - Belurat Tower Settlement",
@@ -206,7 +224,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "순혈기사 안스바흐"
   },
   {
     "name": "Sir Ansbach - Enir-Ilim",
@@ -217,7 +236,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "순혈기사 안스바흐"
   },
   {
     "name": "St. Trina - Stone Coffin Fissure",
@@ -228,7 +248,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "성녀 트리나"
   },
   {
     "name": "Thiollier",
@@ -239,7 +260,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "티에리에"
   },
   {
     "name": "Thiollier (2nd Location)  - Stone Coffin Fissure",
@@ -250,7 +272,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": null
+    "nearby_grace_flag": null,
+    "kor_name": "티에리에"
   },
   {
     "name": "Ancient Dragon-Man - Ruined Forge Lava Intake",
@@ -261,7 +284,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": 43010800
+    "boss_flag": 43010800,
+    "kor_name": "고룡인"
   },
   {
     "name": "Dryleaf Dane - Enir-Ilim",
@@ -272,7 +296,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "낙엽의 단"
   },
   {
     "name": "Fire Knight Queelign",
@@ -283,7 +308,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "불의 기사 퀼라인"
   },
   {
     "name": "Fire Knight Queelign - Belurat Tower Settlement",
@@ -294,7 +320,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "불의 기사 퀼라인"
   },
   {
     "name": "Greater Potentate",
@@ -305,7 +332,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "큰 항아리 도공"
   },
   {
     "name": "Greater Potentate",
@@ -316,7 +344,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "큰 항아리 도공"
   },
   {
     "name": "Greater Potentate",
@@ -327,7 +356,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "큰 항아리 도공"
   },
   {
     "name": "Hornsent",
@@ -338,7 +368,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "뿔인간"
   },
   {
     "name": "Logur, the Beast Claw",
@@ -349,7 +380,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "짐승 발톱 로거"
   },
   {
     "name": "Madding Hand (NPC)",
@@ -360,7 +392,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "미친 손"
   },
   {
     "name": "Moonrithyll, Carian Knight",
@@ -371,7 +404,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "카리아 기사 문리델"
   },
   {
     "name": "Moore (Enemy) - Enir-Ilim",
@@ -382,7 +416,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "무아"
   },
   {
     "name": "Needle Knight Leda - Enir-Ilim",
@@ -393,7 +428,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "침의 기사 레다"
   },
   {
     "name": "Redmane Freyja - Enir-Ilim",
@@ -404,7 +440,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "적사자 프레이야"
   },
   {
     "name": "Swordhand of Night Anna",
@@ -415,7 +452,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "밤의 검사 안나"
   },
   {
     "name": "Swordhand of Night Jolan",
@@ -426,7 +464,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "밤의 검사 욜란"
   },
   {
     "name": "Brother Corhyn",
@@ -437,7 +476,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71105
+    "nearby_grace_flag": 71105,
+    "kor_name": "콜린"
   },
   {
     "name": "Albus",
@@ -448,7 +488,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76250
+    "nearby_grace_flag": 76250,
+    "kor_name": "알버스"
   },
   {
     "name": "Bernahl (First Location)",
@@ -459,7 +500,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76118
+    "nearby_grace_flag": 76118,
+    "kor_name": "기사 베르나르"
   },
   {
     "name": "Bernahl (Second Location)",
@@ -470,7 +512,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71603
+    "nearby_grace_flag": 71603,
+    "kor_name": "기사 베르나르"
   },
   {
     "name": "Blackguard  (Second Location)",
@@ -481,7 +524,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71235
+    "nearby_grace_flag": 71235,
+    "kor_name": "불량배 빅 보기"
   },
   {
     "name": "Blackguard Big Boggart",
@@ -492,7 +536,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76216
+    "nearby_grace_flag": 76216,
+    "kor_name": "불량배 빅 보기"
   },
   {
     "name": "Blaidd (1st location)",
@@ -503,7 +548,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71270
+    "nearby_grace_flag": 71270,
+    "kor_name": "반 늑대 블라이드"
   },
   {
     "name": "Blaidd (2nd Location)",
@@ -514,7 +560,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76106
+    "nearby_grace_flag": 76106,
+    "kor_name": "반 늑대 블라이드"
   },
   {
     "name": "Blaidd (Ranni's Quest - Second Location)",
@@ -525,7 +572,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76419
+    "nearby_grace_flag": 76419,
+    "kor_name": "반 늑대 블라이드"
   },
   {
     "name": "Blaidd (Spectral)",
@@ -536,7 +584,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76247
+    "nearby_grace_flag": 76247,
+    "kor_name": "반 늑대 블라이드"
   },
   {
     "name": "Bloody Finger Hunter Yura (First Location)",
@@ -547,7 +596,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76113
+    "nearby_grace_flag": 76113,
+    "kor_name": "피 묻은 손가락 사냥꾼 유라"
   },
   {
     "name": "Bloody Finger Hunter Yura (Fourth Location)",
@@ -558,7 +608,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 73204
+    "nearby_grace_flag": 73204,
+    "kor_name": "피 묻은 손가락 사냥꾼 유라"
   },
   {
     "name": "Bloody Finger Hunter Yura (Second Location)",
@@ -569,18 +620,20 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76116
+    "nearby_grace_flag": 76116,
+    "kor_name": "피 묻은 손가락 사냥꾼 유라"
   },
   {
     "name": "Bloody Finger Hunter Yura (Third Location)",
-    "lat": -131.0,
+    "lat": -131,
     "lng": 56.26,
     "region": "surface",
     "category": "npc",
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76206
+    "nearby_grace_flag": 76206,
+    "kor_name": "피 묻은 손가락 사냥꾼 유라"
   },
   {
     "name": "Boc the Seamster (Fifth Location)",
@@ -591,7 +644,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76303
+    "nearby_grace_flag": 76303,
+    "kor_name": "아인 보크"
   },
   {
     "name": "Boc the Seamster (First Location)",
@@ -602,7 +656,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 73201
+    "nearby_grace_flag": 73201,
+    "kor_name": "아인 보크"
   },
   {
     "name": "Boc the Seamster (Fourth Location)",
@@ -613,7 +668,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76207
+    "nearby_grace_flag": 76207,
+    "kor_name": "아인 보크"
   },
   {
     "name": "Boc the Seamster (Second Location)",
@@ -624,7 +680,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 73115
+    "nearby_grace_flag": 73115,
+    "kor_name": "아인 보크"
   },
   {
     "name": "Boc the Seamster (Sixth Location)",
@@ -635,7 +692,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71102
+    "nearby_grace_flag": 71102,
+    "kor_name": "아인 보크"
   },
   {
     "name": "Boc the Seamster (Third Location)",
@@ -646,7 +704,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76200
+    "nearby_grace_flag": 76200,
+    "kor_name": "아인 보크"
   },
   {
     "name": "Brother Corhyn (First Location)",
@@ -657,7 +716,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76303
+    "nearby_grace_flag": 76303,
+    "kor_name": "콜린"
   },
   {
     "name": "Brother Corhyn (Fourth Location)",
@@ -668,7 +728,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76503
+    "nearby_grace_flag": 76503,
+    "kor_name": "콜린"
   },
   {
     "name": "Brother Corhyn (Third Location)",
@@ -679,7 +740,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71101
+    "nearby_grace_flag": 71101,
+    "kor_name": "콜린"
   },
   {
     "name": "D, Hunter of the Dead",
@@ -690,7 +752,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76119
+    "nearby_grace_flag": 76119,
+    "kor_name": "죽음을 사냥하는 자 D"
   },
   {
     "name": "D, Hunter of the Dead (Second Location)",
@@ -701,7 +764,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76119
+    "nearby_grace_flag": 76119,
+    "kor_name": "죽음을 사냥하는 자 D"
   },
   {
     "name": "Diallos",
@@ -712,7 +776,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76223
+    "nearby_grace_flag": 76223,
+    "kor_name": "디아로스"
   },
   {
     "name": "Diallos - Jarburg",
@@ -723,7 +788,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76245
+    "nearby_grace_flag": 76245,
+    "kor_name": "디아로스"
   },
   {
     "name": "Dung Eater (Subterranean Shunning-Grounds)",
@@ -734,7 +800,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 73501
+    "nearby_grace_flag": 73501,
+    "kor_name": "대변 먹는 자"
   },
   {
     "name": "Edgar (First Location)",
@@ -745,7 +812,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76158
+    "nearby_grace_flag": 76158,
+    "kor_name": "에드거"
   },
   {
     "name": "Finger Reader (Academy Bridge)",
@@ -756,7 +824,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76205
+    "nearby_grace_flag": 76205,
+    "kor_name": "손가락을 읽는 노파"
   },
   {
     "name": "Finger Reader (Altus Plateau)",
@@ -767,7 +836,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76304
+    "nearby_grace_flag": 76304,
+    "kor_name": "손가락을 읽는 노파"
   },
   {
     "name": "Finger Reader (Caelid)",
@@ -778,7 +848,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76409
+    "nearby_grace_flag": 76409,
+    "kor_name": "손가락을 읽는 노파"
   },
   {
     "name": "Finger Reader (Collapsed Bridge)",
@@ -789,7 +860,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 73410
+    "nearby_grace_flag": 73410,
+    "kor_name": "손가락을 읽는 노파"
   },
   {
     "name": "Finger Reader (Grand Lift of Rold)",
@@ -800,7 +872,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76501
+    "nearby_grace_flag": 76501,
+    "kor_name": "손가락을 읽는 노파"
   },
   {
     "name": "Finger Reader (Leyndell Capital City)",
@@ -811,7 +884,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76312
+    "nearby_grace_flag": 76312,
+    "kor_name": "손가락을 읽는 노파"
   },
   {
     "name": "Frustrated Spirit",
@@ -822,7 +896,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 73011
+    "nearby_grace_flag": 73011,
+    "kor_name": "절망한 영체"
   },
   {
     "name": "Gatekeeper Gostoc",
@@ -833,7 +908,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71008
+    "nearby_grace_flag": 71008,
+    "kor_name": "문지기 고스토크"
   },
   {
     "name": "Goldmask",
@@ -844,7 +920,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76307
+    "nearby_grace_flag": 76307,
+    "kor_name": "금가면 경"
   },
   {
     "name": "Goldmask (Second Location)",
@@ -855,7 +932,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71101
+    "nearby_grace_flag": 71101,
+    "kor_name": "금가면 경"
   },
   {
     "name": "Gowry",
@@ -866,7 +944,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71252
+    "nearby_grace_flag": 71252,
+    "kor_name": "고리"
   },
   {
     "name": "Gurranq, Beast Clergyman",
@@ -877,7 +956,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76454
+    "nearby_grace_flag": 76454,
+    "kor_name": "짐승 사제 그랭"
   },
   {
     "name": "Hermit Merchant",
@@ -888,7 +968,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76311
+    "nearby_grace_flag": 76311,
+    "kor_name": "은둔 상인"
   },
   {
     "name": "Hyetta (First Location)",
@@ -899,7 +980,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76200
+    "nearby_grace_flag": 76200,
+    "kor_name": "하이타"
   },
   {
     "name": "Hyetta (Fourth location)",
@@ -910,7 +992,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76235
+    "nearby_grace_flag": 76235,
+    "kor_name": "하이타"
   },
   {
     "name": "Hyetta (Second Location)",
@@ -921,7 +1004,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76202
+    "nearby_grace_flag": 76202,
+    "kor_name": "하이타"
   },
   {
     "name": "Hyetta (Third Location)",
@@ -932,7 +1016,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76222
+    "nearby_grace_flag": 76222,
+    "kor_name": "하이타"
   },
   {
     "name": "Irina (First Location)",
@@ -943,7 +1028,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76157
+    "nearby_grace_flag": 76157,
+    "kor_name": "일레나"
   },
   {
     "name": "Iron Fist Alexander (Fifth Location)",
@@ -954,7 +1040,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76245
+    "nearby_grace_flag": 76245,
+    "kor_name": "철권의 알렉산더"
   },
   {
     "name": "Iron Fist Alexander (First Location)",
@@ -965,7 +1052,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76117
+    "nearby_grace_flag": 76117,
+    "kor_name": "철권의 알렉산더"
   },
   {
     "name": "Iron Fist Alexander (Fourth Location)",
@@ -976,7 +1064,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76422
+    "nearby_grace_flag": 76422,
+    "kor_name": "철권의 알렉산더"
   },
   {
     "name": "Iron Fist Alexander (Second Location)",
@@ -987,7 +1076,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 73257
+    "nearby_grace_flag": 73257,
+    "kor_name": "철권의 알렉산더"
   },
   {
     "name": "Iron Fist Alexander (Sixth Location)",
@@ -998,7 +1088,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71604
+    "nearby_grace_flag": 71604,
+    "kor_name": "철권의 알렉산더"
   },
   {
     "name": "Iron Fist Alexander (Third Location)",
@@ -1009,7 +1100,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76419
+    "nearby_grace_flag": 76419,
+    "kor_name": "철권의 알렉산더"
   },
   {
     "name": "Isolated Merchant",
@@ -1020,7 +1112,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76162
+    "nearby_grace_flag": 76162,
+    "kor_name": "은둔 상인"
   },
   {
     "name": "Isolated Merchant (Raya Lucaria)",
@@ -1031,7 +1124,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76205
+    "nearby_grace_flag": 76205,
+    "kor_name": "은둔 상인"
   },
   {
     "name": "Isolated Merchant Dragonbarrow",
@@ -1042,7 +1136,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76450
+    "nearby_grace_flag": 76450,
+    "kor_name": "은둔 상인"
   },
   {
     "name": "Jar Bairn",
@@ -1053,7 +1148,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76245
+    "nearby_grace_flag": 76245,
+    "kor_name": "작은 항아리"
   },
   {
     "name": "Kenneth Haight (First Location)",
@@ -1064,7 +1160,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76114
+    "nearby_grace_flag": 76114,
+    "kor_name": "케네스 하이트"
   },
   {
     "name": "Kenneth Haight (Second Location)",
@@ -1075,7 +1172,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76105
+    "nearby_grace_flag": 76105,
+    "kor_name": "케네스 하이트"
   },
   {
     "name": "Latenna",
@@ -1086,7 +1184,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76215
+    "nearby_grace_flag": 76215,
+    "kor_name": "백금의 라티나"
   },
   {
     "name": "Merchant Kal",
@@ -1097,7 +1196,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76100
+    "nearby_grace_flag": 76100,
+    "kor_name": "방랑 상인 칼레"
   },
   {
     "name": "Millicent (First Location)",
@@ -1108,7 +1208,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76418
+    "nearby_grace_flag": 76418,
+    "kor_name": "밀리센트"
   },
   {
     "name": "Millicent (Fourth Location)",
@@ -1119,7 +1220,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76313
+    "nearby_grace_flag": 76313,
+    "kor_name": "밀리센트"
   },
   {
     "name": "Millicent (Second Location)",
@@ -1130,7 +1232,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71252
+    "nearby_grace_flag": 71252,
+    "kor_name": "밀리센트"
   },
   {
     "name": "Millicent (Third Location)",
@@ -1141,7 +1244,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76302
+    "nearby_grace_flag": 76302,
+    "kor_name": "밀리센트"
   },
   {
     "name": "Miriel, Pastor of Vows",
@@ -1152,7 +1256,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76224
+    "nearby_grace_flag": 76224,
+    "kor_name": "미리엘"
   },
   {
     "name": "Nepheli Loux (First Location)",
@@ -1163,7 +1268,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71006
+    "nearby_grace_flag": 71006,
+    "kor_name": "네펠리 루"
   },
   {
     "name": "Nepheli Loux (Second Location)",
@@ -1174,7 +1280,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76250
+    "nearby_grace_flag": 76250,
+    "kor_name": "네펠리 루"
   },
   {
     "name": "Nomadic Merchant Caelid South",
@@ -1185,7 +1292,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76411
+    "nearby_grace_flag": 76411,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "Nomadic Merchant Castle Morne Rampart",
@@ -1196,7 +1304,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76151
+    "nearby_grace_flag": 76151,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "Nomadic Merchant East Limgrave",
@@ -1207,7 +1316,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76105
+    "nearby_grace_flag": 76105,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "Nomadic Merchant Liurnia of the Lakes",
@@ -1218,7 +1328,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76201
+    "nearby_grace_flag": 76201,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "Nomadic Merchant Mountaintops East",
@@ -1229,7 +1340,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76503
+    "nearby_grace_flag": 76503,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "Nomadic Merchant Mt. Gelmir",
@@ -1240,7 +1352,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76352
+    "nearby_grace_flag": 76352,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "Nomadic Merchant North Limgrave",
@@ -1251,7 +1364,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 73004
+    "nearby_grace_flag": 73004,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "Nomadic Merchant North Liurnia of the Lakes",
@@ -1262,7 +1376,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76235
+    "nearby_grace_flag": 76235,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "Nomadic Merchant West Altus Plateau",
@@ -1273,7 +1388,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76304
+    "nearby_grace_flag": 76304,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "Nomadic Merchant West Limgrave",
@@ -1284,7 +1400,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 73115
+    "nearby_grace_flag": 73115,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "Patches (First Location)",
@@ -1295,7 +1412,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76203
+    "nearby_grace_flag": 76203,
+    "kor_name": "패치"
   },
   {
     "name": "Patches (Second Location)",
@@ -1306,7 +1424,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 73009
+    "nearby_grace_flag": 73009,
+    "kor_name": "패치"
   },
   {
     "name": "Patches (Third Location)",
@@ -1317,7 +1436,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71605
+    "nearby_grace_flag": 71605,
+    "kor_name": "패치"
   },
   {
     "name": "Pidia, Carian Servant",
@@ -1328,7 +1448,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76231
+    "nearby_grace_flag": 76231,
+    "kor_name": "피디"
   },
   {
     "name": "Primeval Sorcerer Azur",
@@ -1339,7 +1460,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76357
+    "nearby_grace_flag": 76357,
+    "kor_name": "원류의 마술사 아줄"
   },
   {
     "name": "Renna",
@@ -1350,7 +1472,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 73103
+    "nearby_grace_flag": 73103,
+    "kor_name": "눈의 마녀 레나"
   },
   {
     "name": "Roderika",
@@ -1361,7 +1484,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76102
+    "nearby_grace_flag": 76102,
+    "kor_name": "로데리카"
   },
   {
     "name": "Rya (First Location)",
@@ -1372,7 +1496,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76203
+    "nearby_grace_flag": 76203,
+    "kor_name": "라야"
   },
   {
     "name": "Rya (Second Location A)",
@@ -1383,7 +1508,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76302
+    "nearby_grace_flag": 76302,
+    "kor_name": "라야"
   },
   {
     "name": "Rya (Second Location B)",
@@ -1394,7 +1520,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76209
+    "nearby_grace_flag": 76209,
+    "kor_name": "라야"
   },
   {
     "name": "Rya (Second Location)",
@@ -1405,7 +1532,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71605
+    "nearby_grace_flag": 71605,
+    "kor_name": "라야"
   },
   {
     "name": "Seluvis",
@@ -1416,7 +1544,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76231
+    "nearby_grace_flag": 76231,
+    "kor_name": "셀브스"
   },
   {
     "name": "Seluvis (Spectral)",
@@ -1427,7 +1556,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76228
+    "nearby_grace_flag": 76228,
+    "kor_name": "셀브스"
   },
   {
     "name": "Shabriri",
@@ -1438,7 +1568,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76501
+    "nearby_grace_flag": 76501,
+    "kor_name": "샤브리리"
   },
   {
     "name": "Smithing Master Iji (Spectral)",
@@ -1449,7 +1580,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76228
+    "nearby_grace_flag": 76228,
+    "kor_name": "이지"
   },
   {
     "name": "Sorcerer Rogier (First Location)",
@@ -1460,7 +1592,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71006
+    "nearby_grace_flag": 71006,
+    "kor_name": "마술사 로지에르"
   },
   {
     "name": "Sorceress Sellen (First Location)",
@@ -1471,7 +1604,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76120
+    "nearby_grace_flag": 76120,
+    "kor_name": "마녀 셀렌"
   },
   {
     "name": "Sorceress Sellen (Second Location)",
@@ -1482,7 +1616,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76162
+    "nearby_grace_flag": 76162,
+    "kor_name": "마녀 셀렌"
   },
   {
     "name": "Sorceress Sellen (Third Location)",
@@ -1493,7 +1628,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76247
+    "nearby_grace_flag": 76247,
+    "kor_name": "마녀 셀렌"
   },
   {
     "name": "Tanith",
@@ -1504,7 +1640,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71605
+    "nearby_grace_flag": 71605,
+    "kor_name": "화산관의 주인 타니스"
   },
   {
     "name": "The Great-Jar",
@@ -1515,7 +1652,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 73014
+    "nearby_grace_flag": 73014,
+    "kor_name": "큰 항아리"
   },
   {
     "name": "Thops",
@@ -1526,7 +1664,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76200
+    "nearby_grace_flag": 76200,
+    "kor_name": "마술사 토푸스"
   },
   {
     "name": "Thops (Deceased)",
@@ -1537,7 +1676,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71218
+    "nearby_grace_flag": 71218,
+    "kor_name": "마술사 토푸스"
   },
   {
     "name": "Wandering Merchant Caelid Highway North",
@@ -1548,7 +1688,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76407
+    "nearby_grace_flag": 76407,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "War Counselor Iji",
@@ -1559,7 +1700,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76213
+    "nearby_grace_flag": 76213,
+    "kor_name": "이지"
   },
   {
     "name": "White-Faced Varre (First Location)",
@@ -1570,7 +1712,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76101
+    "nearby_grace_flag": 76101,
+    "kor_name": "백면 바레"
   },
   {
     "name": "White-Faced Varre (Second Location)",
@@ -1581,7 +1724,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71218
+    "nearby_grace_flag": 71218,
+    "kor_name": "백면 바레"
   },
   {
     "name": "Witch-Hunter Jerren (First Location)",
@@ -1592,7 +1736,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76419
+    "nearby_grace_flag": 76419,
+    "kor_name": "성주 제렌"
   },
   {
     "name": "Witch-Hunter Jerren (Second Location)",
@@ -1603,7 +1748,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76162
+    "nearby_grace_flag": 76162,
+    "kor_name": "성주 제렌"
   },
   {
     "name": "Witch-Hunter Jerren (Third Location)",
@@ -1614,7 +1760,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71400
+    "nearby_grace_flag": 71400,
+    "kor_name": "성주 제렌"
   },
   {
     "name": "Anastasia, Tarnished-Eater A",
@@ -1625,7 +1772,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "빛바랜 자를 먹는 아나스타시아"
   },
   {
     "name": "Anastasia, Tarnished-Eater B",
@@ -1636,7 +1784,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "빛바랜 자를 먹는 아나스타시아"
   },
   {
     "name": "Bloody Finger Nerijus",
@@ -1647,7 +1796,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "피 묻은 손가락 네리우스"
   },
   {
     "name": "Bloody Finger Okina",
@@ -1658,7 +1808,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "피 묻은 손가락 노인"
   },
   {
     "name": "Bloody Finger Ravenmount Assassin",
@@ -1669,7 +1820,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "피 묻은 손가락 까마귀산의 자객"
   },
   {
     "name": "Chief Guardian Arghanthy",
@@ -1680,7 +1832,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "감시자 우두머리 아간티"
   },
   {
     "name": "Dung Eater (Royal Capital Moat)",
@@ -1691,7 +1844,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "대변 먹는 자"
   },
   {
     "name": "Edgar the Revenger",
@@ -1702,7 +1856,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "복수자 에드거"
   },
   {
     "name": "Eleonora, Violet Bloody Finger",
@@ -1713,7 +1868,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "보라색 피 손가락 엘레오노라"
   },
   {
     "name": "Festering Fingerprint Vyke",
@@ -1724,7 +1880,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": 1053560800
+    "boss_flag": 1053560800,
+    "kor_name": "미친 불에 문드러진 바이크"
   },
   {
     "name": "Great Horned Tragoth",
@@ -1735,7 +1892,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "큰 뿔의 트라고스"
   },
   {
     "name": "Inquisitor Ghiza",
@@ -1746,7 +1904,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "책문관 기자"
   },
   {
     "name": "Juno Hoslow, Knight of Blood",
@@ -1757,7 +1916,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "피의 기사 유노 호슬로"
   },
   {
     "name": "Maleigh Marais, Shaded Castle Castellan",
@@ -1768,7 +1928,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "그늘의 성주 멀레이 마레"
   },
   {
     "name": "Millicent (NPC Invader)",
@@ -1779,7 +1940,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "밀리센트"
   },
   {
     "name": "Moongrum, Carian Knight",
@@ -1790,7 +1952,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "카리아 기사 문그램"
   },
   {
     "name": "Old Knight Istvan",
@@ -1801,7 +1964,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "옛 기사 이슈트반"
   },
   {
     "name": "Preceptor Miriam",
@@ -1812,7 +1976,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "마술 교수 미리암"
   },
   {
     "name": "Recusant Bernahl",
@@ -1823,7 +1988,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "기사 베르나르"
   },
   {
     "name": "Recusant Henricus",
@@ -1834,7 +2000,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "배율자 헨릭스"
   },
   {
     "name": "Rileigh the Idle",
@@ -1845,7 +2012,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "저물지 않는 라일리"
   },
   {
     "name": "Sanguine Noble",
@@ -1856,7 +2024,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": 1040530800
+    "boss_flag": 1040530800,
+    "kor_name": "피의 귀족"
   },
   {
     "name": "Vargram the Raging Wolf",
@@ -1867,7 +2036,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "늑대 전투광 바르글룸"
   },
   {
     "name": "Blaidd (Ranni's Quest - First Location)",
@@ -1878,7 +2048,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76405
+    "nearby_grace_flag": 76405,
+    "kor_name": "반 늑대 블라이드"
   },
   {
     "name": "D's Twin Brother",
@@ -1889,7 +2060,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76403
+    "nearby_grace_flag": 76403,
+    "kor_name": "죽음을 본 자 D"
   },
   {
     "name": "Imprisoned Merchant",
@@ -1900,7 +2072,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71253
+    "nearby_grace_flag": 71253,
+    "kor_name": "붙잡힌 상인"
   },
   {
     "name": "Nameless White Mask",
@@ -1911,7 +2084,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71251
+    "nearby_grace_flag": 71251,
+    "kor_name": "이름 없는 백면"
   },
   {
     "name": "Palm Reader",
@@ -1922,7 +2096,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71233
+    "nearby_grace_flag": 71233,
+    "kor_name": "손가락을 읽는 노파"
   },
   {
     "name": "Wandering Merchant Ainsel River",
@@ -1933,7 +2108,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 71213
+    "nearby_grace_flag": 71213,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "Wandering Merchant Siofra River",
@@ -1944,7 +2120,8 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "nearby_grace_flag": 76407
+    "nearby_grace_flag": 76407,
+    "kor_name": "방랑 상인"
   },
   {
     "name": "Baleful Shadow",
@@ -1955,6 +2132,7 @@
     "npc_id": null,
     "questline": null,
     "missable": false,
-    "boss_flag": null
+    "boss_flag": null,
+    "kor_name": "재앙의 그림자"
   }
 ]

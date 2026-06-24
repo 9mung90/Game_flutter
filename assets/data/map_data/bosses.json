@@ -9,7 +9,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "고룡 세네삭스"
   },
   {
     "name": "Ancient Dragon-Man - Dragon's Pit",
@@ -21,7 +22,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "고룡인 - 용굴"
   },
   {
     "name": "Base Serpent Messmer",
@@ -33,7 +35,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "사악한 뱀 메스메르"
   },
   {
     "name": "Bayle the Dread",
@@ -45,7 +48,8 @@
     "is_main": true,
     "type": "dlc",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "폭룡 베일"
   },
   {
     "name": "Black Knight Edreed",
@@ -57,7 +61,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "흑기사 에드레드"
   },
   {
     "name": "Black Knight Garrew",
@@ -69,7 +74,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "흑기사 가루"
   },
   {
     "name": "Chief Bloodfiend",
@@ -81,7 +87,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "혈귀의 우두머리"
   },
   {
     "name": "Commander Gaius",
@@ -93,7 +100,8 @@
     "is_main": false,
     "type": "dlc",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "노장 가이우스"
   },
   {
     "name": "Count Ymir, Mother of Fingers",
@@ -105,7 +113,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "손가락의 어머니 메티르"
   },
   {
     "name": "Curseblade Labirith - Bonny Gaol",
@@ -117,7 +126,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "주검사 라비리스 - 보니의 감옥"
   },
   {
     "name": "Dancer of Ranah",
@@ -129,7 +139,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "라나의 무희"
   },
   {
     "name": "Death Knight - Fog Rift Catacombs",
@@ -141,7 +152,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "죽음의 기사 - 안개 계곡의 지하 묘지"
   },
   {
     "name": "Death Knight - Scorpion River Catacombs",
@@ -153,7 +165,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "죽음의 기사 - 전갈 강 지하 묘지"
   },
   {
     "name": "Death Rite Bird - Charo's Hidden Grave",
@@ -165,7 +178,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "죽음 의례의 새 - 카로의 숨겨진 묘지"
   },
   {
     "name": "Demi-Human Queen Marigga",
@@ -177,7 +191,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "아인 여왕 마르가"
   },
   {
     "name": "Demi-Human Swordmaster Onze",
@@ -189,7 +204,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "아인 검성 온지"
   },
   {
     "name": "Devonia, Crucible Knight",
@@ -201,7 +217,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "도가니의 기사 데보니아"
   },
   {
     "name": "Divine Beast Dancing Lion - Ancient Ruins of Rauh",
@@ -213,7 +230,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "신수 사자무 - 라우프의 옛 유적"
   },
   {
     "name": "Divine Beast Dancing Lion - Belurat Tower Settlement",
@@ -225,7 +243,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "신수 사자무 - 탑의 도시 벨라트"
   },
   {
     "name": "Dryleaf Dane (Boss)",
@@ -237,7 +256,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "낙엽의 단"
   },
   {
     "name": "Fallingstar Beast",
@@ -249,7 +269,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "내리는 별의 짐승"
   },
   {
     "name": "Furnace Golem - Charo's Grave",
@@ -261,7 +282,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "불의 거인 화로"
   },
   {
     "name": "Furnace Golem - Ellac River",
@@ -273,7 +295,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "불의 거인 화로"
   },
   {
     "name": "Furnace Golem - Rauh Ancient Ruins, West",
@@ -285,7 +308,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "불의 거인 화로 - 라우프의 옛 유적 서쪽"
   },
   {
     "name": "Furnace Golem - Ruins of Unte",
@@ -297,7 +321,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "불의 거인 화로 - 안테의 폐허"
   },
   {
     "name": "Furnace Golem - Ruins of Unte",
@@ -309,7 +334,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "불의 거인 화로 - 안테의 폐허"
   },
   {
     "name": "Furnace Golem - Scadu Atlus",
@@ -321,7 +347,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "불의 거인 화로 - 그림자 알터"
   },
   {
     "name": "Furnace Golem - Scorched Ruins",
@@ -333,7 +360,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "불의 거인 화로 - 불에 탄 폐허"
   },
   {
     "name": "Furnace Golem - Shadow Keep",
@@ -345,7 +373,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "불의 거인 화로 - 그림자의 성"
   },
   {
     "name": "Ghost Troll",
@@ -357,7 +386,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "유령 트롤"
   },
   {
     "name": "Ghostflame Dragon",
@@ -369,7 +399,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "영혼 불꽃 용"
   },
   {
     "name": "Ghostflame Dragon - Cerulean Coast",
@@ -381,7 +412,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "영혼 불꽃 용 - 푸른 해안"
   },
   {
     "name": "Ghostflame Dragon - Greatbridge, North",
@@ -393,7 +425,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "영혼 불꽃 용 - 대교 북쪽"
   },
   {
     "name": "Golden Hippopotamus",
@@ -405,7 +438,8 @@
     "is_main": false,
     "type": "dlc",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "황금 하마"
   },
   {
     "name": "Jagged Peak Drake",
@@ -417,7 +451,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "톱니산의 비룡"
   },
   {
     "name": "Jori, Elder Inquisitor - Darklight Catacombs",
@@ -429,7 +464,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "고문 노인 이오리 - 어둠을 비추는 지하 묘지"
   },
   {
     "name": "Knight of the Solitary Gaol",
@@ -441,7 +477,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "고립 감옥의 기사"
   },
   {
     "name": "Kood, Captain of the Fire Knights",
@@ -453,7 +490,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "불의 기사 대장 쿠드"
   },
   {
     "name": "Lamenter - Lamenter's Gaol",
@@ -465,7 +503,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "한탄하는 사람 - 한탄의 감옥"
   },
   {
     "name": "Messmer the Impaler",
@@ -477,7 +516,8 @@
     "is_main": true,
     "type": "dlc",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "가시공 메스메르"
   },
   {
     "name": "Metyr, Mother of Fingers",
@@ -489,7 +529,8 @@
     "is_main": false,
     "type": "dlc",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "손가락의 어머니 메티르"
   },
   {
     "name": "Midra, Lord of Frenzied Flame",
@@ -501,7 +542,8 @@
     "is_main": false,
     "type": "dlc",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "미친 불의 왕 미드라"
   },
   {
     "name": "Promised Consort Radahn - Enir-Ilim",
@@ -513,7 +555,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "약속의 왕 라단 - 에니르 일림"
   },
   {
     "name": "Putrescent Knight - Stone Coffin Fissure",
@@ -525,7 +568,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "수렁의 기사 - 석관의 큰 구멍"
   },
   {
     "name": "Rakshasa",
@@ -537,7 +581,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "나찰"
   },
   {
     "name": "Ralva the Great Red Bear",
@@ -549,7 +594,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "큰 붉은곰 랄바"
   },
   {
     "name": "Red Bear",
@@ -561,7 +607,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "붉은곰"
   },
   {
     "name": "Rellana, Twin Moon Knight",
@@ -573,7 +620,8 @@
     "is_main": true,
     "type": "dlc",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "쌍월의 기사 렐라나"
   },
   {
     "name": "Romina, Saint of the Bud",
@@ -585,7 +633,8 @@
     "is_main": true,
     "type": "dlc",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "꽃봉오리의 성녀 로미나"
   },
   {
     "name": "Rugalea the Great Red Bear",
@@ -597,7 +646,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "큰 붉은곰 루가리아"
   },
   {
     "name": "Scadutree Avatar",
@@ -609,7 +659,8 @@
     "is_main": false,
     "type": "dlc",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "그림자 나무의 화신"
   },
   {
     "name": "Tibia Mariner",
@@ -621,7 +672,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "티비아의 배"
   },
   {
     "name": "Tree Sentinel",
@@ -633,7 +685,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "트리 가드"
   },
   {
     "name": "Ulcerated Tree Spirit",
@@ -645,7 +698,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "문드러진 나무령"
   },
   {
     "name": "Ulcerated Tree Spirit - Belurat Tower Settlement",
@@ -657,7 +711,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "문드러진 나무령 - 탑의 도시 벨라트"
   },
   {
     "name": "Radagon of the Golden Order",
@@ -669,7 +724,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "황금률 라다곤"
   },
   {
     "name": "Sir Gideon Ofnir, The All-Knowing",
@@ -681,7 +737,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "온 지혜의 기드온 오프닐 경"
   },
   {
     "name": "Valiant Gargoyle",
@@ -693,7 +750,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "영웅의 가고일"
   },
   {
     "name": "Abductor Virgins",
@@ -705,7 +763,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "납치하는 소녀 인형"
   },
   {
     "name": "Adan, Thief of Fire",
@@ -717,7 +776,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "불을 훔친 아단"
   },
   {
     "name": "Alabaster Lord",
@@ -729,7 +789,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "돌 피부의 백왕"
   },
   {
     "name": "Alecto, Black Knife Ringleader",
@@ -741,7 +802,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "검은 칼날의 우두머리 알렉토"
   },
   {
     "name": "Ancient Dragon Lansseax",
@@ -753,7 +815,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "고룡 란삭스"
   },
   {
     "name": "Ancient Dragon Lansseax (Altus Plateau)",
@@ -765,7 +828,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "고룡 란삭스"
   },
   {
     "name": "Ancient Hero of Zamor",
@@ -777,7 +841,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "자미엘의 옛 영웅"
   },
   {
     "name": "Ancient Hero of Zamor (Giant-Conquering Hero's Grave)",
@@ -789,7 +854,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "자미엘의 옛 영웅"
   },
   {
     "name": "Astel, Stars of Darkness",
@@ -801,7 +867,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "암흑의 별들 아스테르"
   },
   {
     "name": "Battlemage Hugues",
@@ -813,7 +880,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "전쟁마술사 유그"
   },
   {
     "name": "Beast Clergyman / Maliketh, The Black Blade",
@@ -825,7 +893,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "짐승 사제 / 흑검 말리케스"
   },
   {
     "name": "Beastman of Farum Azula (Dragonbarrow Cave)",
@@ -837,7 +906,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "파름 아즈라의 수인"
   },
   {
     "name": "Beastman of Farum Azula (Groveside Cave)",
@@ -849,7 +919,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "파름 아즈라의 수인"
   },
   {
     "name": "Bell Bearing Hunter",
@@ -861,7 +932,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "방울 사냥꾼"
   },
   {
     "name": "Bell Bearing Hunter (Church of Vows)",
@@ -873,7 +945,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "방울 사냥꾼"
   },
   {
     "name": "Bell Bearing Hunter (Isolated Merchant Dragonbarrow)",
@@ -885,7 +958,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "방울 사냥꾼"
   },
   {
     "name": "Black Blade Kindred",
@@ -897,19 +971,21 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "흑검의 권속"
   },
   {
     "name": "Black Blade Kindred B",
-    "lat": -95.0,
-    "lng": 142.0,
+    "lat": -95,
+    "lng": 142,
     "region": "surface",
     "category": "boss",
     "flag": 1051430800,
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "흑검의 권속"
   },
   {
     "name": "Black Knife Assassin",
@@ -921,7 +997,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "검은 칼날의 자객"
   },
   {
     "name": "Black Knife Assassin (Altus Plateau)",
@@ -933,7 +1010,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "검은 칼날의 자객"
   },
   {
     "name": "Black Knife Assassin (Liurnia of the Lakes East)",
@@ -945,7 +1023,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "검은 칼날의 자객"
   },
   {
     "name": "Black Knife Assassin (Sage's Cave)",
@@ -957,7 +1036,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "검은 칼날의 자객"
   },
   {
     "name": "Bloodhound Knight",
@@ -969,7 +1049,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "사냥개기사"
   },
   {
     "name": "Bloodhound Knight Darriwil",
@@ -981,7 +1062,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "사냥개기사 대리윌"
   },
   {
     "name": "Bols, Carian Knight",
@@ -993,7 +1075,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "카리아 기사 볼스"
   },
   {
     "name": "Borealis the Freezing Fog",
@@ -1005,7 +1088,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "얼어붙는 안개 볼레아리스"
   },
   {
     "name": "Cemetery Shade",
@@ -1017,7 +1101,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "묘소 그림자"
   },
   {
     "name": "Cemetery Shade (Black Knife Catacombs)",
@@ -1029,19 +1114,21 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "묘소 그림자"
   },
   {
     "name": "Cemetery Shade (Caelid)",
-    "lat": -191.0,
-    "lng": 140.0,
+    "lat": -191,
+    "lng": 140,
     "region": "surface",
     "category": "boss",
     "flag": 30150800,
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "묘소 그림자"
   },
   {
     "name": "Cleanrot Knight - Stillwater Cave",
@@ -1053,7 +1140,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "말레니아의 귀부기사 - 고인 물 동굴"
   },
   {
     "name": "Cleanrot Knight Duo (Abandoned Cave)",
@@ -1065,7 +1153,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "말레니아의 귀부기사"
   },
   {
     "name": "Commander Niall",
@@ -1077,7 +1166,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "노장 니아르"
   },
   {
     "name": "Commander O'Neil",
@@ -1089,7 +1179,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "노장 오닐"
   },
   {
     "name": "Crucible Knight",
@@ -1101,7 +1192,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "도가니의 기사"
   },
   {
     "name": "Crucible Knight & Crucible Knight Ordovis",
@@ -1113,19 +1205,21 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "도가니의 기사 & 도가니의 기사 오르도비스"
   },
   {
     "name": "Crucible Knight / Misbegotten Warrior",
-    "lat": -192.0,
-    "lng": 159.0,
+    "lat": -192,
+    "lng": 159,
     "region": "surface",
     "category": "boss",
     "flag": 1051360800,
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "도가니의 기사 / 혼종 전사"
   },
   {
     "name": "Crystalian (Ring Blade)",
@@ -1137,7 +1231,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "결정인(윤도)"
   },
   {
     "name": "Crystalians",
@@ -1149,7 +1244,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "결정인"
   },
   {
     "name": "Crystalians (Altus Plateau)",
@@ -1161,7 +1257,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "결정인"
   },
   {
     "name": "Crystalians (Trio - Sellia Hideaway)",
@@ -1173,7 +1270,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "결정인"
   },
   {
     "name": "Death Rite Bird (Caelid Swamp)",
@@ -1185,7 +1283,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "죽음 의례의 새"
   },
   {
     "name": "Death Rite Bird (Central Mountaintops of the Giants)",
@@ -1197,7 +1296,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "죽음 의례의 새"
   },
   {
     "name": "Death Rite Bird (Raya Lucaria Academy East)",
@@ -1209,19 +1309,21 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "죽음 의례의 새"
   },
   {
     "name": "Death Rite Bird (West Mountaintops of the Giants)",
-    "lat": -60.0,
-    "lng": 136.0,
+    "lat": -60,
+    "lng": 136,
     "region": "surface",
     "category": "boss",
     "flag": 1050570800,
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "죽음 의례의 새"
   },
   {
     "name": "Deathbird (Leyndell Capital Outskirts)",
@@ -1233,7 +1335,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "죽음의 새"
   },
   {
     "name": "Deathbird (Liurnia of the Lakes South)",
@@ -1245,7 +1348,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "죽음의 새"
   },
   {
     "name": "Deathbird (Stormhill)",
@@ -1257,7 +1361,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "죽음의 새"
   },
   {
     "name": "Deathbird (Weeping Peninsula)",
@@ -1269,7 +1374,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "죽음의 새"
   },
   {
     "name": "Decaying Ekzykes",
@@ -1281,7 +1387,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "썩어가는 엑디키스"
   },
   {
     "name": "Demi-Human Chief",
@@ -1293,7 +1400,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "아인 두목"
   },
   {
     "name": "Demi-Human Queen Gilika",
@@ -1305,7 +1413,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "아인 여왕 기리카"
   },
   {
     "name": "Demi-Human Queen Maggie",
@@ -1317,7 +1426,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "아인 여왕 마기"
   },
   {
     "name": "Demi-Human Queen Margot",
@@ -1329,7 +1439,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "아인 여왕 마고"
   },
   {
     "name": "Draconic Tree Sentinel",
@@ -1341,7 +1452,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "용의 트리 가드"
   },
   {
     "name": "Dragonlord Placidusax",
@@ -1353,7 +1465,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "용왕 플라키두삭스"
   },
   {
     "name": "Elder Dragon Greyoll",
@@ -1365,7 +1478,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "대노룡 그레이오르"
   },
   {
     "name": "Elemer of the Briar",
@@ -1377,7 +1491,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "철가시 엘레메르"
   },
   {
     "name": "Erdtree Avatar",
@@ -1389,7 +1504,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "황금 나무의 화신"
   },
   {
     "name": "Putrid Avatar (Minor Erdtree - Caelid)",
@@ -1401,7 +1517,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "부패한 화신"
   },
   {
     "name": "Erdtree Avatar (Leyndell)",
@@ -1413,7 +1530,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "황금 나무의 화신"
   },
   {
     "name": "Erdtree Avatar (Liurnia Northeast)",
@@ -1425,7 +1543,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "황금 나무의 화신"
   },
   {
     "name": "Erdtree Avatar (Mountaintops East)",
@@ -1437,7 +1556,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "황금 나무의 화신"
   },
   {
     "name": "Erdtree Burial Watchdog (Cliffbottom Catacombs)",
@@ -1449,7 +1569,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "환수의 파수견"
   },
   {
     "name": "Erdtree Burial Watchdog (Impaler's Catacombs)",
@@ -1461,7 +1582,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "환수의 파수견"
   },
   {
     "name": "Erdtree Burial Watchdog (Minor Erdtree Catacombs)",
@@ -1473,7 +1595,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "환수의 파수견"
   },
   {
     "name": "Erdtree Burial Watchdog (Stormfoot Catacombs)",
@@ -1485,7 +1608,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "환수의 파수견"
   },
   {
     "name": "Erdtree Burial Watchdog (Wyndham Catacombs)",
@@ -1497,7 +1621,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "환수의 파수견"
   },
   {
     "name": "Esgar, Priest of Blood",
@@ -1509,7 +1634,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "피의 사제 에스거"
   },
   {
     "name": "Fell Twins",
@@ -1521,7 +1647,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "흉조의 쌍둥이"
   },
   {
     "name": "Fire Giant",
@@ -1533,7 +1660,8 @@
     "is_main": true,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "불의 거인"
   },
   {
     "name": "Flying Dragon Agheel",
@@ -1545,7 +1673,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "비룡 아길"
   },
   {
     "name": "Flying Dragon Greyll",
@@ -1557,7 +1686,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "비룡 그레일"
   },
   {
     "name": "Frenzied Duelist",
@@ -1569,7 +1699,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "미친 투사"
   },
   {
     "name": "Full-Grown Fallingstar Beast",
@@ -1581,7 +1712,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "내리는 별의 짐승 성체"
   },
   {
     "name": "Giant Golem",
@@ -1593,7 +1725,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "가디언 골렘"
   },
   {
     "name": "Glintstone Dragon Adula (Cathedral of Manus Celes)",
@@ -1605,7 +1738,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "휘석룡 아듀라"
   },
   {
     "name": "Glintstone Dragon Adula (Three Sisters)",
@@ -1617,19 +1751,21 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "휘석룡 아듀라"
   },
   {
     "name": "Glintstone Dragon Smarag",
     "lat": -137.94,
-    "lng": 50.0,
+    "lng": 50,
     "region": "surface",
     "category": "boss",
     "flag": 1034450800,
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "휘석룡 스마라그"
   },
   {
     "name": "Godefroy the Grafted",
@@ -1641,7 +1777,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "접목의 고드플로어"
   },
   {
     "name": "Godfrey, First Elden Lord (Golden Shade)",
@@ -1653,7 +1790,8 @@
     "is_main": false,
     "type": "legacy",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "첫 왕 고드프리"
   },
   {
     "name": "Godrick the Grafted",
@@ -1665,7 +1803,8 @@
     "is_main": true,
     "type": "legacy",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "접목의 고드릭"
   },
   {
     "name": "Godskin Apostle",
@@ -1677,7 +1816,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "신의 살갗의 사도"
   },
   {
     "name": "Godskin Apostle (Caelid)",
@@ -1689,7 +1829,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "신의 살갗의 사도"
   },
   {
     "name": "Godskin Duo",
@@ -1701,7 +1842,8 @@
     "is_main": true,
     "type": "legacy",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "신의 살갗의 두 명"
   },
   {
     "name": "Godskin Noble (Divine Tower of Liurnia)",
@@ -1713,7 +1855,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "신의 살갗의 귀인"
   },
   {
     "name": "Godskin Noble(Volcano Manor)",
@@ -1725,7 +1868,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "신의 살갗의 귀인"
   },
   {
     "name": "Grafted Scion",
@@ -1737,7 +1881,8 @@
     "is_main": false,
     "type": "legacy",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "접목의 귀공자"
   },
   {
     "name": "Grafted Scion (Tutorial)",
@@ -1749,7 +1894,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "접목의 귀공자"
   },
   {
     "name": "Grave Warden Duelist (Auriza Side Tomb)",
@@ -1761,7 +1907,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "묘지기 투사"
   },
   {
     "name": "Grave Warden Duelist (Limgrave)",
@@ -1773,7 +1920,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "묘지기 투사"
   },
   {
     "name": "Great Wyrm Theodorix",
@@ -1785,7 +1933,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "대토룡 테오드릭스"
   },
   {
     "name": "Guardian Golem",
@@ -1797,7 +1946,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "가디언 골렘"
   },
   {
     "name": "Kindred of Rot",
@@ -1809,7 +1959,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "부패의 권속"
   },
   {
     "name": "Leonine Misbegotten",
@@ -1821,7 +1972,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "사자 혼종"
   },
   {
     "name": "Loretta, Knight of the Haligtree",
@@ -1833,7 +1985,8 @@
     "is_main": false,
     "type": "legacy",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "성수의 기사 로레타"
   },
   {
     "name": "Mad Pumpkin Head (Caelem Ruins)",
@@ -1845,7 +1998,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "호박머리 광병"
   },
   {
     "name": "Mad Pumpkin Head (Waypoint Ruins)",
@@ -1857,7 +2011,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "호박머리 광병"
   },
   {
     "name": "Magma Wyrm",
@@ -1869,7 +2024,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "용암토룡"
   },
   {
     "name": "Magma Wyrm (Mt Gelmir Lava Pool)",
@@ -1881,7 +2037,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "용암토룡"
   },
   {
     "name": "Magma Wyrm Makar",
@@ -1893,7 +2050,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "용암토룡 마카르"
   },
   {
     "name": "Malenia, Blade of Miquella",
@@ -1905,19 +2063,21 @@
     "is_main": true,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "미켈라의 칼날 말레니아"
   },
   {
     "name": "Margit, The Fell Omen (Leyndell)",
-    "lat": -91.0,
-    "lng": 105.0,
+    "lat": -91,
+    "lng": 105,
     "region": "surface",
     "category": "boss",
     "flag": 11000800,
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "끔찍한 흉조 멀기트"
   },
   {
     "name": "Margit, the Fell Omen",
@@ -1929,7 +2089,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "끔찍한 흉조 멀기트"
   },
   {
     "name": "Miranda the Blighted Bloom",
@@ -1941,7 +2102,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "병든 꽃 미란다"
   },
   {
     "name": "Misbegotten Crusader",
@@ -1953,7 +2115,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "혼종의 성기사"
   },
   {
     "name": "Misbegotten Warrior",
@@ -1965,7 +2128,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "혼종 전사"
   },
   {
     "name": "Mohg, the Omen",
@@ -1977,7 +2141,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "흉조의 아이 모그"
   },
   {
     "name": "Morgott, The Omen King",
@@ -1989,7 +2154,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "흉조의 왕 모르고트"
   },
   {
     "name": "Necromancer Garris",
@@ -2001,7 +2167,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "사술사 가레스"
   },
   {
     "name": "Night's Cavalry (Altus Plateau)",
@@ -2013,19 +2180,21 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "밤 기병"
   },
   {
     "name": "Night's Cavalry (Caelid)",
-    "lat": -186.0,
-    "lng": 144.0,
+    "lat": -186,
+    "lng": 144,
     "region": "surface",
     "category": "boss",
     "flag": 1049370800,
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "밤 기병"
   },
   {
     "name": "Night's Cavalry (Dragonbarrow East)",
@@ -2037,7 +2206,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "밤 기병"
   },
   {
     "name": "Night's Cavalry (Forbidden Lands)",
@@ -2049,7 +2219,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "밤 기병"
   },
   {
     "name": "Night's Cavalry (Limgrave)",
@@ -2061,7 +2232,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "밤 기병"
   },
   {
     "name": "Night's Cavalry (Liurnia of the Lakes North)",
@@ -2073,7 +2245,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "밤 기병"
   },
   {
     "name": "Night's Cavalry (Liurnia)",
@@ -2085,7 +2258,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "밤 기병"
   },
   {
     "name": "Night's Cavalry (Weeping Peninsula)",
@@ -2097,19 +2271,21 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "밤 기병"
   },
   {
     "name": "Night's Cavalry - 2x (Consecrated Snowfield)",
     "lat": -76.39,
-    "lng": 139.0,
+    "lng": 139,
     "region": "surface",
     "category": "boss",
     "flag": 1248550800,
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "밤 기병"
   },
   {
     "name": "Nox Swordstress & Nox Priest",
@@ -2121,7 +2297,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "녹스의 검사 & 녹스의 승려"
   },
   {
     "name": "Omenkiller",
@@ -2133,7 +2310,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "흉조잡이"
   },
   {
     "name": "Onyx Lord",
@@ -2145,7 +2323,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "돌 피부의 흑왕"
   },
   {
     "name": "Patches (Bossfight)",
@@ -2157,7 +2336,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "패치"
   },
   {
     "name": "Perfumer Tricia",
@@ -2169,7 +2349,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "조향사 트리샤"
   },
   {
     "name": "Putrid Avatar",
@@ -2181,7 +2362,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "부패한 화신"
   },
   {
     "name": "Putrid Grave Warden Duelist",
@@ -2193,7 +2375,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "부패한 묘지기 투사"
   },
   {
     "name": "Putrid Tree Spirit",
@@ -2205,31 +2388,34 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "부패한 나무령"
   },
   {
     "name": "Red Wolf of Radagon",
-    "lat": -138.0,
-    "lng": 57.0,
+    "lat": -138,
+    "lng": 57,
     "region": "surface",
     "category": "boss",
     "flag": 9117,
     "is_main": false,
     "type": "legacy",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "라다곤의 붉은 늑대"
   },
   {
     "name": "Red Wolf of the Champion",
-    "lat": -88.0,
-    "lng": 73.0,
+    "lat": -88,
+    "lng": 73,
     "region": "surface",
     "category": "boss",
     "flag": 30090800,
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "영웅의 붉은 늑대"
   },
   {
     "name": "Rennala, Queen of the Full Moon",
@@ -2241,7 +2427,8 @@
     "is_main": true,
     "type": "legacy",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "만월의 여왕 레날라"
   },
   {
     "name": "Roundtable Knight Vyke",
@@ -2253,7 +2440,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "원탁의 기사 바이크"
   },
   {
     "name": "Royal Knight Loretta",
@@ -2265,7 +2453,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "친위기사 로레타"
   },
   {
     "name": "Royal Revenant",
@@ -2277,7 +2466,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "왕족의 망령"
   },
   {
     "name": "Runebear",
@@ -2289,7 +2479,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "룬베어"
   },
   {
     "name": "Rykard, Lord of Blasphemy",
@@ -2301,7 +2492,8 @@
     "is_main": true,
     "type": "legacy",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "모독의 군주 라이커드"
   },
   {
     "name": "Sanguine Noble",
@@ -2313,7 +2505,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "피의 귀족"
   },
   {
     "name": "Scaly Misbegotten",
@@ -2325,7 +2518,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "비늘 혼종"
   },
   {
     "name": "Soldier of Godrick",
@@ -2337,7 +2531,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "고드릭의 군병"
   },
   {
     "name": "Spirit-Caller Snail",
@@ -2349,7 +2544,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "환혼 달팽이"
   },
   {
     "name": "Starscourge Radahn",
@@ -2361,7 +2557,8 @@
     "is_main": true,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "별 부수는 라단"
   },
   {
     "name": "Stonedigger Troll (Altus Plateau)",
@@ -2373,7 +2570,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "채석꾼 트롤"
   },
   {
     "name": "Stonedigger Troll (Limgrave)",
@@ -2385,7 +2583,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "채석꾼 트롤"
   },
   {
     "name": "Stray Mimic Tear",
@@ -2397,7 +2596,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "낙오된 화신의 물방울"
   },
   {
     "name": "Tibia Mariner (Liurnia of the Lakes)",
@@ -2409,7 +2609,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "티비아의 배"
   },
   {
     "name": "Tibia Mariner (Wyndham Ruins)",
@@ -2421,7 +2622,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "티비아의 배"
   },
   {
     "name": "Tree Sentinel (Limgrave)",
@@ -2433,7 +2635,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "트리 가드"
   },
   {
     "name": "Ulcerated Tree Spirit (Giants' Mountaintop Catacombs)",
@@ -2445,7 +2648,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "문드러진 나무령"
   },
   {
     "name": "Ulcerated Tree Spirit (Limgrave)",
@@ -2457,7 +2661,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "문드러진 나무령"
   },
   {
     "name": "Ulcerated Tree Spirit (Mt. Gelmir)",
@@ -2469,7 +2674,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "문드러진 나무령"
   },
   {
     "name": "Wormface",
@@ -2481,7 +2687,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "지렁이 얼굴"
   },
   {
     "name": "Ancestor Spirit",
@@ -2493,7 +2700,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "선조령"
   },
   {
     "name": "Astel, Naturalborn of the Void",
@@ -2505,7 +2713,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "암흑의 부산물 아스테르"
   },
   {
     "name": "Crucible Knight Siluria",
@@ -2517,7 +2726,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "도가니의 기사"
   },
   {
     "name": "Dragonkin Soldier",
@@ -2529,7 +2739,8 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "용인병"
   },
   {
     "name": "Dragonkin Soldier of Nokstella",
@@ -2541,19 +2752,21 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "녹스텔라의 용인병"
   },
   {
     "name": "Lichdragon Fortissax",
-    "lat": -93.0,
-    "lng": 118.0,
+    "lat": -93,
+    "lng": 118,
     "region": "underground",
     "category": "boss",
     "flag": 9111,
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "사룡 포르삭스"
   },
   {
     "name": "Mimic Tear",
@@ -2565,7 +2778,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "화신의 물방울"
   },
   {
     "name": "Mohg, Lord of Blood",
@@ -2577,7 +2791,8 @@
     "is_main": true,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "피의 군주 모그"
   },
   {
     "name": "Regal Ancestor Spirit",
@@ -2589,7 +2804,8 @@
     "is_main": false,
     "type": "dungeon",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "선조령의 왕"
   },
   {
     "name": "Valiant Gargoyle (Twinblade)",
@@ -2601,6 +2817,7 @@
     "is_main": false,
     "type": "field",
     "missable": false,
-    "missable_after": null
+    "missable_after": null,
+    "kor_name": "영웅의 가고일"
   }
 ]

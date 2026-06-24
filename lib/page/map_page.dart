@@ -1,10 +1,22 @@
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MapPage extends StatefulWidget {
-  const MapPage({super.key});
+  final String searchQuery;
+  final Set<String> enabledCategories;
+  final Set<String> enabledDetailKeys;
+  final String selectedRegion;
+
+  const MapPage({
+    super.key,
+    this.searchQuery = '',
+    this.enabledCategories = MapMarkerData.defaultCategoryKeys,
+    this.enabledDetailKeys = MapMarkerData.defaultDetailKeys,
+    this.selectedRegion = 'surface',
+  });
 
   @override
   State<MapPage> createState() => _MapPageState();
@@ -17,7 +29,13 @@ class _MapPageState extends State<MapPage> {
   static const double _dlcMapWidth = 4096.0;
   static const double _dlcMapHeight = 4964.0;
 
+  static const double _undergroundMapWidth = 4864.0;
+  static const double _undergroundMapHeight = 4608.0;
+
   static const double _markerSize = 26.0;
+  static const double _viewportPadding = 256.0;
+  static const double _viewportPanThreshold = 96.0;
+  static const double _viewportScaleThreshold = 0.05;
 
   // Surface map calibration values.
   // x = lng * scaleX + offsetX
@@ -32,67 +50,202 @@ class _MapPageState extends State<MapPage> {
   // x = lng * dlcScaleX + dlcOffsetX
   // y = -lat * dlcScaleY + dlcOffsetY
   static const double _dlcScaleX = 34.5793649786;
-  static const double _dlcOffsetX = -2440.8233632454;
+  static const double _dlcOffsetX = -2434.8233632454;
 
   static const double _dlcScaleY = 34.9537159451;
   static const double _dlcOffsetY = -2053.7393585445;
 
-  final TransformationController _controller = TransformationController();
-  late final Future<List<GraceMarker>> _gracesFuture = _loadGraces();
+  // Underground map calibration values.
+  // x = lng * undergroundScaleX + undergroundOffsetX
+  // y = -lat * undergroundScaleY + undergroundOffsetY
+  static const double _undergroundScaleX = 20.3724379686;
+  static const double _undergroundOffsetX = -191.2706415701;
 
-  String _selectedRegion = 'surface';
+  static const double _undergroundScaleY = 20.6869061697;
+  static const double _undergroundOffsetY = -362.6913367472;
+
+  final TransformationController _controller = TransformationController();
+  late final Future<List<MapMarkerData>> _markersFuture = _loadMarkers();
+
+  late String _selectedRegion;
+  double _lastViewportScale = 1.0;
+  Offset _lastViewportTranslation = Offset.zero;
 
   bool get _isDlcMap => _selectedRegion == 'dlc';
 
-  double get _currentMapWidth => _isDlcMap ? _dlcMapWidth : _mapWidth;
+  bool get _isUndergroundMap => _selectedRegion == 'underground';
 
-  double get _currentMapHeight => _isDlcMap ? _dlcMapHeight : _mapHeight;
+  double get _currentMapWidth => _isDlcMap
+      ? _dlcMapWidth
+      : (_isUndergroundMap ? _undergroundMapWidth : _mapWidth);
 
-  String get _currentMapAsset =>
-      _isDlcMap ? 'assets/images/map/dlc.png' : 'assets/images/map/map.jpg';
+  double get _currentMapHeight => _isDlcMap
+      ? _dlcMapHeight
+      : (_isUndergroundMap ? _undergroundMapHeight : _mapHeight);
+
+  String get _currentMapAsset => _isDlcMap
+      ? 'assets/images/map/dlc.png'
+      : (_isUndergroundMap
+            ? 'assets/images/map/underground.jpg'
+            : 'assets/images/map/map.jpg');
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedRegion = widget.selectedRegion;
+    _controller.addListener(_handleViewportChanged);
+  }
+
+  @override
+  void didUpdateWidget(covariant MapPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.selectedRegion != widget.selectedRegion) {
+      _selectedRegion = widget.selectedRegion;
+      _resetViewport();
+    }
+  }
 
   @override
   void dispose() {
+    _controller.removeListener(_handleViewportChanged);
     _controller.dispose();
     super.dispose();
   }
 
-  Future<List<GraceMarker>> _loadGraces() async {
-    final jsonString = await rootBundle.loadString(
-      'assets/data/map_data/graces.json',
-    );
-    final decoded = jsonDecode(jsonString) as List<dynamic>;
+  void _handleViewportChanged() {
+    final matrix = _controller.value;
+    final scale = matrix.getMaxScaleOnAxis();
+    final translationVector = matrix.getTranslation();
+    final translation = Offset(translationVector.x, translationVector.y);
 
-    return decoded
-        .map((item) => GraceMarker.fromJson(item as Map<String, dynamic>))
-        .toList();
+    if ((scale - _lastViewportScale).abs() > _viewportScaleThreshold ||
+        (translation - _lastViewportTranslation).distance >
+            _viewportPanThreshold) {
+      _lastViewportScale = scale;
+      _lastViewportTranslation = translation;
+      setState(() {});
+    }
   }
 
-  void _toggleMapRegion() {
-    setState(() {
-      _selectedRegion = _isDlcMap ? 'surface' : 'dlc';
-      _controller.value = Matrix4.identity();
-    });
+  Future<List<MapMarkerData>> _loadMarkers() async {
+    const markerFileNames = {
+      'bosses.json',
+      'dungeons.json',
+      'graces.json',
+      'items.json',
+      'npcs.json',
+      'waygates.json',
+    };
+    final manifestString = await rootBundle.loadString('AssetManifest.json');
+    final manifest = jsonDecode(manifestString) as Map<String, dynamic>;
+    final markerPaths =
+        manifest.keys
+            .where(
+              (path) => markerFileNames.contains(path.split('/').last),
+            )
+            .toList()
+          ..sort();
+
+    final markers = <MapMarkerData>[];
+
+    for (final path in markerPaths) {
+      final jsonString = await rootBundle.loadString(path);
+      final decoded = jsonDecode(jsonString);
+
+      if (decoded is! List) continue;
+
+      for (final item in decoded) {
+        if (item is! Map<String, dynamic>) continue;
+
+        final marker = MapMarkerData.tryFromJson(item, path);
+        if (marker != null) {
+          markers.add(marker);
+        }
+      }
+    }
+
+    return markers;
   }
 
-  void _showGraceName(GraceMarker grace) {
+  void _resetViewport() {
+    _lastViewportScale = 1.0;
+    _lastViewportTranslation = Offset.zero;
+    _controller.value = Matrix4.identity();
+  }
+
+  void _showMarkerInfo(MapMarkerData marker) {
+    final title = marker.displayName;
+    final details = <String>[
+      if (marker.hasKoreanName && marker.name.trim().isNotEmpty) marker.name,
+      marker.label,
+      marker.detailLabel,
+      if (marker.typeLabel != null) marker.typeLabel!,
+      if (marker.sourceLabel != null) marker.sourceLabel!,
+    ].join(' · ');
+
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: Text(grace.name),
-          duration: const Duration(seconds: 2),
+          content: Text(
+            details.isEmpty ? title : '$title\n$details',
+          ),
+          duration: const Duration(seconds: 3),
           behavior: SnackBarBehavior.floating,
         ),
       );
+  }
+
+  List<MapMarkerData> _visibleMarkers(
+    List<MapMarkerData> markers,
+    Size viewportSize,
+  ) {
+    final query = widget.searchQuery.trim().toLowerCase();
+    final viewportRect = _visibleMapRect(viewportSize);
+
+    return markers.where((marker) {
+      if (marker.region != _selectedRegion) return false;
+      if (!widget.enabledCategories.contains(marker.categoryKey)) return false;
+      if (!widget.enabledDetailKeys.contains(marker.detailKey)) return false;
+      if (!viewportRect.contains(marker.offset(_selectedRegion))) return false;
+      if (query.isEmpty) return true;
+
+      return marker.name.toLowerCase().contains(query) ||
+          marker.displayName.toLowerCase().contains(query);
+    }).toList();
+  }
+
+  Rect _visibleMapRect(Size viewportSize) {
+    if (viewportSize.isEmpty) {
+      return Rect.fromLTWH(0, 0, _currentMapWidth, _currentMapHeight);
+    }
+
+    final inverseMatrix = Matrix4.inverted(_controller.value);
+    final topLeft = MatrixUtils.transformPoint(inverseMatrix, Offset.zero);
+    final bottomRight = MatrixUtils.transformPoint(
+      inverseMatrix,
+      Offset(viewportSize.width, viewportSize.height),
+    );
+
+    final visibleRect = Rect.fromLTRB(
+      math.min(topLeft.dx, bottomRight.dx),
+      math.min(topLeft.dy, bottomRight.dy),
+      math.max(topLeft.dx, bottomRight.dx),
+      math.max(topLeft.dy, bottomRight.dy),
+    ).inflate(_viewportPadding);
+
+    return visibleRect.intersect(
+      Rect.fromLTWH(0, 0, _currentMapWidth, _currentMapHeight),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
-      child: FutureBuilder<List<GraceMarker>>(
-        future: _gracesFuture,
+      child: FutureBuilder<List<MapMarkerData>>(
+        future: _markersFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(
@@ -102,93 +255,71 @@ class _MapPageState extends State<MapPage> {
 
           if (snapshot.hasError) {
             return const Center(
-              child: Icon(
-                Icons.error_outline,
-                color: Colors.white,
-                size: 48,
-              ),
+              child: Icon(Icons.error_outline, color: Colors.white, size: 48),
             );
           }
 
-          final graces = (snapshot.data ?? const <GraceMarker>[])
-              .where((grace) => grace.region == _selectedRegion)
-              .toList();
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              final markers = _visibleMarkers(
+                snapshot.data ?? const <MapMarkerData>[],
+                constraints.biggest,
+              );
 
-          return Stack(
-            children: [
-              InteractiveViewer(
-                transformationController: _controller,
-                constrained: false,
-                minScale: 0.1,
-                maxScale: 8.0,
-                boundaryMargin: const EdgeInsets.all(80),
-                child: SizedBox(
-                  width: _currentMapWidth,
-                  height: _currentMapHeight,
-                  child: Listener(
-                    behavior: HitTestBehavior.opaque,
-                    onPointerDown: (event) {
-                      final p = event.localPosition;
-                      debugPrint(
-                        'MAP PIXEL => x: ${p.dx.toStringAsFixed(2)}, '
+              return Stack(
+                children: [
+                  InteractiveViewer(
+                    transformationController: _controller,
+                    constrained: false,
+                    minScale: 0.1,
+                    maxScale: 8.0,
+                    boundaryMargin: const EdgeInsets.all(80),
+                    child: SizedBox(
+                      width: _currentMapWidth,
+                      height: _currentMapHeight,
+                      child: Listener(
+                        behavior: HitTestBehavior.opaque,
+                        onPointerDown: (event) {
+                          final p = event.localPosition;
+                          debugPrint(
+                            'MAP PIXEL => x: ${p.dx.toStringAsFixed(2)}, '
                             'y: ${p.dy.toStringAsFixed(2)}',
-                      );
-                    },
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Image.asset(
-                          _currentMapAsset,
-                          width: _currentMapWidth,
-                          height: _currentMapHeight,
-                          fit: BoxFit.fill,
-                        ),
-                        for (final grace in graces)
-                          Positioned(
-                            left: grace.x(_selectedRegion) - _markerSize / 2,
-                            top: grace.y(_selectedRegion) - _markerSize / 2,
-                            width: _markerSize,
-                            height: _markerSize,
-                            child: Tooltip(
-                              message: grace.name,
-                              child: GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                onTap: () => _showGraceName(grace),
-                                child: Image.asset(
-                                  'assets/images/grace_Icon2.png',
-                                  fit: BoxFit.contain,
+                          );
+                        },
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Image.asset(
+                              _currentMapAsset,
+                              width: _currentMapWidth,
+                              height: _currentMapHeight,
+                              fit: BoxFit.fill,
+                            ),
+                            for (final marker in markers)
+                              Positioned(
+                                left:
+                                    marker.x(_selectedRegion) - _markerSize / 2,
+                                top:
+                                    marker.y(_selectedRegion) - _markerSize / 2,
+                                width: _markerSize,
+                                height: _markerSize,
+                                child: GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  onTap: () => _showMarkerInfo(marker),
+                                  child: _MapMarkerIcon(
+                                    marker: marker,
+                                    size: _markerSize,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 16,
-                right: 16,
-                child: SafeArea(
-                  child: ElevatedButton(
-                    onPressed: _toggleMapRegion,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xDD1B1B1B),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 12,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Color(0x99D8C080)),
+                          ],
+                        ),
                       ),
                     ),
-                    child: Text(_isDlcMap ? 'MAP' : 'DLC'),
                   ),
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           );
         },
       ),
@@ -196,23 +327,84 @@ class _MapPageState extends State<MapPage> {
   }
 }
 
-class GraceMarker {
+class MapMarkerData {
+  static const String graceKey = 'grace';
+  static const String bossKey = 'boss';
+  static const String dungeonKey = 'dungeon';
+  static const String itemKey = 'item';
+  static const String npcKey = 'npc';
+  static const String waygateKey = 'waygate';
+
+  static const Set<String> defaultCategoryKeys = {
+    graceKey,
+    bossKey,
+    dungeonKey,
+    itemKey,
+    npcKey,
+    waygateKey,
+  };
+
   final String name;
+  final String? korName;
   final double lat;
   final double lng;
-  final String? region;
+  final String region;
+  final String categoryKey;
+  final String label;
+  final String detailKey;
+  final String detailLabel;
+  final String? category;
+  final String? type;
+  final String? source;
 
-  const GraceMarker({
+  const MapMarkerData({
     required this.name,
+    required this.korName,
     required this.lat,
     required this.lng,
     required this.region,
+    required this.categoryKey,
+    required this.label,
+    required this.detailKey,
+    required this.detailLabel,
+    required this.category,
+    required this.type,
+    required this.source,
   });
+
+  String get displayName {
+    final value = korName?.trim();
+    return value == null || value.isEmpty ? name : value;
+  }
+
+  bool get hasKoreanName {
+    final value = korName?.trim();
+    return value != null && value.isNotEmpty && value != name;
+  }
+
+  String? get typeLabel {
+    final value = type?.trim();
+    if (value == null || value.isEmpty) return null;
+
+    final label = typeDisplayLabel(value);
+    return label == detailLabel ? null : label;
+  }
+
+  String? get sourceLabel {
+    final value = source?.trim();
+    if (value == null || value.isEmpty) return null;
+
+    return sourceDisplayLabel(value);
+  }
 
   double x(String region) {
     if (region == 'dlc') {
-      return lng * _MapPageState._dlcScaleX +
-          _MapPageState._dlcOffsetX;
+      return lng * _MapPageState._dlcScaleX + _MapPageState._dlcOffsetX;
+    }
+
+    if (region == 'underground') {
+      return lng * _MapPageState._undergroundScaleX +
+          _MapPageState._undergroundOffsetX;
     }
 
     return lng * _MapPageState._scaleX + _MapPageState._offsetX;
@@ -220,19 +412,468 @@ class GraceMarker {
 
   double y(String region) {
     if (region == 'dlc') {
-      return -lat * _MapPageState._dlcScaleY +
-          _MapPageState._dlcOffsetY;
+      return -lat * _MapPageState._dlcScaleY + _MapPageState._dlcOffsetY;
+    }
+
+    if (region == 'underground') {
+      return -lat * _MapPageState._undergroundScaleY +
+          _MapPageState._undergroundOffsetY;
     }
 
     return -lat * _MapPageState._scaleY + _MapPageState._offsetY;
   }
 
-  factory GraceMarker.fromJson(Map<String, dynamic> json) {
-    return GraceMarker(
-      name: json['name'] as String? ?? '',
-      lat: (json['lat'] as num).toDouble(),
-      lng: (json['lng'] as num).toDouble(),
-      region: json['region'] as String?,
+  Offset offset(String region) {
+    return Offset(x(region), y(region));
+  }
+
+  static MapMarkerData? tryFromJson(
+    Map<String, dynamic> json,
+    String sourcePath,
+  ) {
+    final name = json['name'] as String?;
+    final lat = json['lat'];
+    final lng = json['lng'];
+    final region = json['region'];
+
+    if (name == null ||
+        name.isEmpty ||
+        lat is! num ||
+        lng is! num ||
+        region is! String ||
+        (region != 'surface' && region != 'dlc' && region != 'underground')) {
+      return null;
+    }
+
+    final category = json['category'] as String?;
+    final korName = json['kor_name'] as String?;
+    final type = json['type'] as String?;
+    final subcategory = json['subcategory'] as String?;
+    final dungeonType = json['dungeon_type'] as String?;
+    final source = _sourceFileName(sourcePath);
+    final categoryKey = _categoryKey(source, category, type);
+    final detailKey = _detailKey(
+      categoryKey: categoryKey,
+      category: category,
+      type: type,
+      subcategory: subcategory,
+      dungeonType: dungeonType,
     );
+
+    if (!defaultCategoryKeys.contains(categoryKey)) {
+      return null;
+    }
+
+    return MapMarkerData(
+      name: name,
+      korName: korName,
+      lat: lat.toDouble(),
+      lng: lng.toDouble(),
+      region: region,
+      categoryKey: categoryKey,
+      label: categoryLabel(categoryKey),
+      detailKey: detailKey,
+      detailLabel: detailDisplayLabel(detailKey),
+      category: category,
+      type: type,
+      source: source,
+    );
+  }
+
+  static String categoryLabel(String categoryKey) {
+    switch (categoryKey) {
+      case graceKey:
+        return '축복';
+      case bossKey:
+        return '보스';
+      case dungeonKey:
+        return '던전';
+      case itemKey:
+        return '아이템';
+      case npcKey:
+        return 'NPC';
+      case waygateKey:
+        return '전송문';
+      default:
+        return categoryKey;
+    }
+  }
+
+  static String? categoryIconAsset(String categoryKey) {
+    switch (categoryKey) {
+      case graceKey:
+        return 'assets/images/map_assets/grace.png';
+      case bossKey:
+        return 'assets/images/map_assets/boss.webp';
+      case itemKey:
+        return 'assets/images/map_assets/item.png';
+      case npcKey:
+        return 'assets/images/map_assets/npc.png';
+      default:
+        return null;
+    }
+  }
+
+  static const List<MapMarkerDetailGroup> detailGroups = [
+    MapMarkerDetailGroup(title: '축복', keys: ['grace']),
+    MapMarkerDetailGroup(
+      title: '보스',
+      keys: ['boss:field', 'boss:dungeon', 'boss:legacy', 'boss:dlc'],
+    ),
+    MapMarkerDetailGroup(
+      title: '던전',
+      keys: [
+        'dungeon:surface_poi',
+        'dungeon:ruins',
+        'dungeon:church',
+        'dungeon:catacomb',
+        'dungeon:cave',
+        'dungeon:shack',
+        'dungeon:legacy_dungeon',
+        'dungeon:gaol',
+        'dungeon:rise',
+        'dungeon:minor_erdtree',
+        'dungeon:tunnel',
+        'dungeon:divine_tower',
+        'dungeon:fort',
+        'dungeon:forge',
+        'dungeon:waygate',
+      ],
+    ),
+    MapMarkerDetailGroup(
+      title: '아이템',
+      keys: [
+        'item:weapon',
+        'item:shield',
+        'item:armor',
+        'item:talisman',
+        'item:spell',
+        'item:ash_of_war',
+        'item:spirit_ash',
+        'item:key_item',
+        'item:consumable',
+        'item:upgrade_material',
+        'item:material',
+        'item:flask_upgrade',
+        'item:map_fragment',
+      ],
+    ),
+    MapMarkerDetailGroup(title: 'NPC', keys: ['npc:npc', 'npc:npc_invader']),
+    MapMarkerDetailGroup(title: '전송문', keys: ['waygate']),
+  ];
+
+  static const Set<String> defaultDetailKeys = {
+    'grace',
+    'boss:field',
+    'boss:dungeon',
+    'boss:legacy',
+    'boss:dlc',
+    'dungeon:surface_poi',
+    'dungeon:ruins',
+    'dungeon:church',
+    'dungeon:catacomb',
+    'dungeon:cave',
+    'dungeon:shack',
+    'dungeon:legacy_dungeon',
+    'dungeon:gaol',
+    'dungeon:rise',
+    'dungeon:minor_erdtree',
+    'dungeon:tunnel',
+    'dungeon:divine_tower',
+    'dungeon:fort',
+    'dungeon:forge',
+    'dungeon:waygate',
+    'item:weapon',
+    'item:shield',
+    'item:armor',
+    'item:talisman',
+    'item:spell',
+    'item:ash_of_war',
+    'item:spirit_ash',
+    'item:key_item',
+    'item:consumable',
+    'item:upgrade_material',
+    'item:material',
+    'item:flask_upgrade',
+    'item:map_fragment',
+    'npc:npc',
+    'npc:npc_invader',
+    'waygate',
+  };
+
+  static String detailDisplayLabel(String detailKey) {
+    switch (detailKey) {
+      case 'grace':
+        return '축복';
+      case 'boss:field':
+        return '필드 보스';
+      case 'boss:dungeon':
+        return '던전 보스';
+      case 'boss:legacy':
+        return '레거시 보스';
+      case 'boss:dlc':
+        return 'DLC 보스';
+      case 'dungeon:surface_poi':
+        return '지상 명소';
+      case 'dungeon:ruins':
+        return '폐허';
+      case 'dungeon:church':
+        return '교회';
+      case 'dungeon:catacomb':
+        return '지하 묘지';
+      case 'dungeon:cave':
+        return '동굴';
+      case 'dungeon:shack':
+        return '오두막';
+      case 'dungeon:legacy_dungeon':
+        return '레거시 던전';
+      case 'dungeon:gaol':
+        return '봉인 감옥';
+      case 'dungeon:rise':
+        return '마술사탑';
+      case 'dungeon:minor_erdtree':
+        return '작은 황금 나무';
+      case 'dungeon:tunnel':
+        return '갱도';
+      case 'dungeon:divine_tower':
+        return '신수탑';
+      case 'dungeon:fort':
+        return '요새';
+      case 'dungeon:forge':
+        return '용광로';
+      case 'dungeon:waygate':
+        return '던전 전송문';
+      case 'item:weapon':
+        return '무기';
+      case 'item:shield':
+        return '방패';
+      case 'item:armor':
+        return '방어구';
+      case 'item:talisman':
+        return '탈리스만';
+      case 'item:spell':
+        return '주문';
+      case 'item:ash_of_war':
+        return '전회';
+      case 'item:spirit_ash':
+        return '뼛가루';
+      case 'item:key_item':
+        return '주요 아이템';
+      case 'item:consumable':
+        return '소모품';
+      case 'item:upgrade_material':
+        return '강화 재료';
+      case 'item:material':
+        return '제작 재료';
+      case 'item:flask_upgrade':
+        return '성배병 강화';
+      case 'item:map_fragment':
+        return '지도 조각';
+      case 'npc:npc':
+        return 'NPC';
+      case 'npc:npc_invader':
+        return '침입자';
+      case 'waygate':
+        return '전송문';
+      default:
+        return detailKey;
+    }
+  }
+
+  static String typeDisplayLabel(String type) {
+    switch (type) {
+      case 'field':
+        return '필드';
+      case 'dungeon':
+        return '던전';
+      case 'legacy':
+        return '레거시';
+      case 'dlc':
+        return 'DLC';
+      case 'surface_poi':
+        return '지상 명소';
+      case 'ruins':
+        return '폐허';
+      case 'church':
+        return '교회';
+      case 'catacomb':
+        return '지하 묘지';
+      case 'cave':
+        return '동굴';
+      case 'shack':
+        return '오두막';
+      case 'legacy_dungeon':
+        return '레거시 던전';
+      case 'gaol':
+        return '봉인 감옥';
+      case 'rise':
+        return '마술사탑';
+      case 'minor_erdtree':
+        return '작은 황금 나무';
+      case 'tunnel':
+        return '갱도';
+      case 'divine_tower':
+        return '신수탑';
+      case 'fort':
+        return '요새';
+      case 'forge':
+        return '용광로';
+      case 'waygate':
+        return '전송문';
+      default:
+        return type;
+    }
+  }
+
+  static String sourceDisplayLabel(String source) {
+    switch (source) {
+      case 'graces.json':
+        return '축복 데이터';
+      case 'bosses.json':
+        return '보스 데이터';
+      case 'dungeons.json':
+        return '던전 데이터';
+      case 'items.json':
+        return '아이템 데이터';
+      case 'npcs.json':
+        return 'NPC 데이터';
+      case 'waygates.json':
+        return '전송문 데이터';
+      default:
+        return source;
+    }
+  }
+
+  static String _detailKey({
+    required String categoryKey,
+    String? category,
+    String? type,
+    String? subcategory,
+    String? dungeonType,
+  }) {
+    switch (categoryKey) {
+      case graceKey:
+        return 'grace';
+      case bossKey:
+        return 'boss:${type ?? 'field'}';
+      case dungeonKey:
+        return 'dungeon:${dungeonType ?? type ?? 'surface_poi'}';
+      case itemKey:
+        return 'item:${category ?? subcategory ?? 'item'}';
+      case npcKey:
+        return 'npc:${category ?? 'npc'}';
+      case waygateKey:
+        return 'waygate';
+      default:
+        return categoryKey;
+    }
+  }
+
+  static String _sourceFileName(String sourcePath) {
+    return sourcePath.split('/').last;
+  }
+
+  static String _categoryKey(String source, String? category, String? type) {
+    switch (source) {
+      case 'graces.json':
+        return graceKey;
+      case 'bosses.json':
+        return bossKey;
+      case 'dungeons.json':
+        return dungeonKey;
+      case 'items.json':
+        return itemKey;
+      case 'npcs.json':
+        return npcKey;
+      case 'waygates.json':
+        return waygateKey;
+    }
+
+    final value = '${category ?? ''} ${type ?? ''}'.toLowerCase();
+
+    if (value.contains('grace')) return graceKey;
+    if (value.contains('boss')) return bossKey;
+    if (value.contains('dungeon')) return dungeonKey;
+    if (value.contains('npc')) return npcKey;
+    if (value.contains('waygate')) return waygateKey;
+
+    if (value.contains('item') ||
+        value.contains('weapon') ||
+        value.contains('armor') ||
+        value.contains('talisman') ||
+        value.contains('spell') ||
+        value.contains('ash')) {
+      return itemKey;
+    }
+
+    return itemKey;
+  }
+}
+
+class MapMarkerDetailGroup {
+  final String title;
+  final List<String> keys;
+
+  const MapMarkerDetailGroup({required this.title, required this.keys});
+}
+
+class _MapMarkerIcon extends StatelessWidget {
+  final MapMarkerData marker;
+  final double size;
+
+  const _MapMarkerIcon({required this.marker, required this.size});
+
+  @override
+  Widget build(BuildContext context) {
+    final iconAsset = MapMarkerData.categoryIconAsset(marker.categoryKey);
+
+    if (iconAsset != null) {
+      return Center(
+        child: Image.asset(
+          iconAsset,
+          width: size * 0.72,
+          height: size * 0.72,
+          fit: BoxFit.contain,
+        ),
+      );
+    }
+
+    final color = _colorForCategory(marker.categoryKey);
+
+    return Center(
+      child: Container(
+        width: size * 0.72,
+        height: size * 0.72,
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.92),
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.white, width: 1.5),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black54,
+              blurRadius: 4,
+              offset: Offset(0, 1),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Color _colorForCategory(String categoryKey) {
+    switch (categoryKey) {
+      case MapMarkerData.bossKey:
+        return Colors.redAccent;
+      case MapMarkerData.dungeonKey:
+        return Colors.deepPurpleAccent;
+      case MapMarkerData.itemKey:
+        return Colors.lightBlueAccent;
+      case MapMarkerData.npcKey:
+        return Colors.greenAccent;
+      case MapMarkerData.waygateKey:
+        return Colors.orangeAccent;
+      default:
+        return Colors.white70;
+    }
   }
 }

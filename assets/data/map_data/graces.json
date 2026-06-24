@@ -5,7 +5,8 @@
     "lng": 137.1518122204492,
     "region": "dlc",
     "category": "grace",
-    "flag": 76860
+    "flag": 76860,
+    "kor_name": "나락의 숲"
   },
   {
     "name": "Ancient Ruins Base",
@@ -13,7 +14,8 @@
     "lng": 120.66007628290075,
     "region": "dlc",
     "category": "grace",
-    "flag": 76912
+    "flag": 76912,
+    "kor_name": "옛 유적 기슭"
   },
   {
     "name": "Ancient Ruins, Grand Stairway",
@@ -21,7 +23,8 @@
     "lng": 101.19941152782854,
     "region": "dlc",
     "category": "grace",
-    "flag": 76944
+    "flag": 76944,
+    "kor_name": "옛 유적 대계단"
   },
   {
     "name": "Behind the Fort of Reprimand",
@@ -29,7 +32,8 @@
     "lng": 130.67524718401572,
     "region": "dlc",
     "category": "grace",
-    "flag": 76910
+    "flag": 76910,
+    "kor_name": "징벌 요새 뒤쪽"
   },
   {
     "name": "Belurat Gaol",
@@ -37,7 +41,8 @@
     "lng": 103.30846094749589,
     "region": "dlc",
     "category": "grace",
-    "flag": 74100
+    "flag": 74100,
+    "kor_name": "벨라트의 감옥"
   },
   {
     "name": "Belurat Tower Settlement",
@@ -45,7 +50,8 @@
     "lng": 99.00402566668262,
     "region": "dlc",
     "category": "grace",
-    "flag": 72001
+    "flag": 72001,
+    "kor_name": "탑의 도시 벨라트"
   },
   {
     "name": "Bonny Gaol Site of Grace",
@@ -53,7 +59,8 @@
     "lng": 133.49793299328277,
     "region": "dlc",
     "category": "grace",
-    "flag": 74101
+    "flag": 74101,
+    "kor_name": "보니의 감옥"
   },
   {
     "name": "Bonny Village Site of Grace",
@@ -61,7 +68,8 @@
     "lng": 131.47246061620362,
     "region": "dlc",
     "category": "grace",
-    "flag": 76903
+    "flag": 76903,
+    "kor_name": "보니 마을"
   },
   {
     "name": "Bridge Leading to the Village",
@@ -69,7 +77,8 @@
     "lng": 140.04308816668262,
     "region": "dlc",
     "category": "grace",
-    "flag": 76904
+    "flag": 76904,
+    "kor_name": "마을로 이어지는 흔들다리"
   },
   {
     "name": "Castle Ensis Checkpoint",
@@ -77,7 +86,8 @@
     "lng": 118.73843547226284,
     "region": "dlc",
     "category": "grace",
-    "flag": 76821
+    "flag": 76821,
+    "kor_name": "엔시스 성채 관문"
   },
   {
     "name": "Castle Front",
@@ -85,7 +95,8 @@
     "lng": 115.81702456703528,
     "region": "dlc",
     "category": "grace",
-    "flag": 76813
+    "flag": 76813,
+    "kor_name": "성채 정면"
   },
   {
     "name": "Castle Watering Hole",
@@ -93,7 +104,8 @@
     "lng": 129.73114989832754,
     "region": "dlc",
     "category": "grace",
-    "flag": 76916
+    "flag": 76916,
+    "kor_name": "성 밑 물가"
   },
   {
     "name": "Castle-Lord's Chamber",
@@ -101,7 +113,8 @@
     "lng": 121.8425863921717,
     "region": "dlc",
     "category": "grace",
-    "flag": 76822
+    "flag": 76822,
+    "kor_name": "성주의 방"
   },
   {
     "name": "Cathedral of Manus Metyr",
@@ -109,7 +122,8 @@
     "lng": 138.58283377696034,
     "region": "dlc",
     "category": "grace",
-    "flag": 76906
+    "flag": 76906,
+    "kor_name": "마누스 메테르 대교회"
   },
   {
     "name": "Cerulean  Coast Cross",
@@ -117,7 +131,8 @@
     "lng": 123.55170438121188,
     "region": "dlc",
     "category": "grace",
-    "flag": 76835
+    "flag": 76835,
+    "kor_name": "푸른 해안의 십자"
   },
   {
     "name": "Cerulean Coast",
@@ -125,7 +140,8 @@
     "lng": 120.28090537021531,
     "region": "dlc",
     "category": "grace",
-    "flag": 76831
+    "flag": 76831,
+    "kor_name": "푸른 해안"
   },
   {
     "name": "Cerulean Coast West",
@@ -133,7 +149,8 @@
     "lng": 109.47157812214404,
     "region": "dlc",
     "category": "grace",
-    "flag": 76832
+    "flag": 76832,
+    "kor_name": "푸른 해안 서쪽"
   },
   {
     "name": "Charo's Hidden Grave",
@@ -141,7 +158,8 @@
     "lng": 120.81133239086776,
     "region": "dlc",
     "category": "grace",
-    "flag": 76841
+    "flag": 76841,
+    "kor_name": "카로의 숨겨진 묘지"
   },
   {
     "name": "Church District Entrance",
@@ -149,7 +167,8 @@
     "lng": 133.089928001051,
     "region": "dlc",
     "category": "grace",
-    "flag": 72106
+    "flag": 72106,
+    "kor_name": "교구 입구"
   },
   {
     "name": "Church District Highroad",
@@ -157,7 +176,8 @@
     "lng": 141.08225972742642,
     "region": "dlc",
     "category": "grace",
-    "flag": 76905
+    "flag": 76905,
+    "kor_name": "교구 가도"
   },
   {
     "name": "Church Ruins",
@@ -165,7 +185,8 @@
     "lng": 149.39805311749106,
     "region": "dlc",
     "category": "grace",
-    "flag": 76864
+    "flag": 76864,
+    "kor_name": "폐교회"
   },
   {
     "name": "Church of the Bud",
@@ -173,7 +194,8 @@
     "lng": 97.35560632485439,
     "region": "dlc",
     "category": "grace",
-    "flag": 76945
+    "flag": 76945,
+    "kor_name": "꽃봉오리의 교회"
   },
   {
     "name": "Church of the Bud, Main Entrance",
@@ -181,7 +203,8 @@
     "lng": 97.55133404485417,
     "region": "dlc",
     "category": "grace",
-    "flag": 76943
+    "flag": 76943,
+    "kor_name": "꽃봉오리의 교회 정문 앞"
   },
   {
     "name": "Cleansing Chamber Anteroom",
@@ -189,7 +212,8 @@
     "lng": 93.90258850916234,
     "region": "dlc",
     "category": "grace",
-    "flag": 72015
+    "flag": 72015,
+    "kor_name": "정화의 방 전실"
   },
   {
     "name": "Cliffroad Terminus",
@@ -197,7 +221,8 @@
     "lng": 104.45822013660349,
     "region": "dlc",
     "category": "grace",
-    "flag": 76804
+    "flag": 76804,
+    "kor_name": "절벽길 끝"
   },
   {
     "name": "Dark Chamber Entrance",
@@ -205,7 +230,8 @@
     "lng": 126.3165761800859,
     "region": "dlc",
     "category": "grace",
-    "flag": 72114
+    "flag": 72114,
+    "kor_name": "암실 앞"
   },
   {
     "name": "Darklight Catacombs Site of Grace",
@@ -213,7 +239,8 @@
     "lng": 139.2235587358344,
     "region": "dlc",
     "category": "grace",
-    "flag": 74002
+    "flag": 74002,
+    "kor_name": "어둠을 비추는 지하 묘지"
   },
   {
     "name": "Discussion Chamber",
@@ -221,7 +248,8 @@
     "lng": 127.62132365541035,
     "region": "dlc",
     "category": "grace",
-    "flag": 72800
+    "flag": 72800,
+    "kor_name": "대화실"
   },
   {
     "name": "Divided Falls",
@@ -229,7 +257,8 @@
     "lng": 125.51122752353318,
     "region": "dlc",
     "category": "grace",
-    "flag": 76861
+    "flag": 76861,
+    "kor_name": "주렴폭포"
   },
   {
     "name": "Divine GateFront Staircase",
@@ -237,7 +266,8 @@
     "lng": 97.44526390435816,
     "region": "dlc",
     "category": "grace",
-    "flag": 72016
+    "flag": 72016,
+    "kor_name": "신의 문 앞 계단"
   },
   {
     "name": "Dragon's Pit",
@@ -245,7 +275,8 @@
     "lng": 120.55084408129227,
     "region": "dlc",
     "category": "grace",
-    "flag": 74301
+    "flag": 74301,
+    "kor_name": "용굴"
   },
   {
     "name": "Dragon's Pit Terminus",
@@ -253,7 +284,8 @@
     "lng": 124.38748272139463,
     "region": "dlc",
     "category": "grace",
-    "flag": 74351
+    "flag": 74351,
+    "kor_name": "용굴 종단"
   },
   {
     "name": "Ellac River Cave",
@@ -261,7 +293,8 @@
     "lng": 117.48470299559303,
     "region": "dlc",
     "category": "grace",
-    "flag": 76812
+    "flag": 76812,
+    "kor_name": "에라크 강 동굴"
   },
   {
     "name": "Ellac River Downstream",
@@ -269,7 +302,8 @@
     "lng": 117.77716382402669,
     "region": "dlc",
     "category": "grace",
-    "flag": 76830
+    "flag": 76830,
+    "kor_name": "에라크 강 하류"
   },
   {
     "name": "Enir-Ilim: Outer Wall",
@@ -277,7 +311,8 @@
     "lng": 97.69495065752571,
     "region": "dlc",
     "category": "grace",
-    "flag": 72012
+    "flag": 72012,
+    "kor_name": "에니르 일림 외벽"
   },
   {
     "name": "Ensis Moongazing Grounds",
@@ -285,7 +320,8 @@
     "lng": 121.37150643735148,
     "region": "dlc",
     "category": "grace",
-    "flag": 76823
+    "flag": 76823,
+    "kor_name": "엔시스의 월견장"
   },
   {
     "name": "Finger Birthing Grounds",
@@ -293,7 +329,8 @@
     "lng": 138.12109375,
     "region": "dlc",
     "category": "grace",
-    "flag": 72500
+    "flag": 72500,
+    "kor_name": "손가락의 산실"
   },
   {
     "name": "Finger Ruins of Rhia",
@@ -301,7 +338,8 @@
     "lng": 134.63271958882643,
     "region": "dlc",
     "category": "grace",
-    "flag": 76834
+    "flag": 76834,
+    "kor_name": "리아의 손가락 유적"
   },
   {
     "name": "Fingerstone Hill",
@@ -309,7 +347,8 @@
     "lng": 145.59114178737892,
     "region": "dlc",
     "category": "grace",
-    "flag": 76936
+    "flag": 76936,
+    "kor_name": "손가락바위 언덕"
   },
   {
     "name": "First Rise",
@@ -317,7 +356,8 @@
     "lng": 98.75940471050315,
     "region": "dlc",
     "category": "grace",
-    "flag": 72013
+    "flag": 72013,
+    "kor_name": "제1탑"
   },
   {
     "name": "Fissure Cross",
@@ -325,7 +365,8 @@
     "lng": 123.26201434267044,
     "region": "dlc",
     "category": "grace",
-    "flag": 72202
+    "flag": 72202,
+    "kor_name": "큰 구멍의 십자"
   },
   {
     "name": "Fissure Depths",
@@ -333,7 +374,8 @@
     "lng": 128.3354450102348,
     "region": "dlc",
     "category": "grace",
-    "flag": 72204
+    "flag": 72204,
+    "kor_name": "큰 구멍 심부"
   },
   {
     "name": "Fissure Waypoint",
@@ -341,7 +383,8 @@
     "lng": 124.30198954069006,
     "region": "dlc",
     "category": "grace",
-    "flag": 72203
+    "flag": 72203,
+    "kor_name": "큰 구멍 중턱"
   },
   {
     "name": "Fog Rift Catacombs",
@@ -349,7 +392,8 @@
     "lng": 114.26974116363553,
     "region": "dlc",
     "category": "grace",
-    "flag": 74000
+    "flag": 74000,
+    "kor_name": "안개 계곡의 지하 묘지"
   },
   {
     "name": "Foot of the Jagged Peak",
@@ -357,7 +401,8 @@
     "lng": 142.52509670135274,
     "region": "dlc",
     "category": "grace",
-    "flag": 76850
+    "flag": 76850,
+    "kor_name": "톱니산 기슭"
   },
   {
     "name": "Forsaken Graveyard",
@@ -365,7 +410,8 @@
     "lng": 145.14163462113163,
     "region": "dlc",
     "category": "grace",
-    "flag": 76862
+    "flag": 76862,
+    "kor_name": "버려진 묘지"
   },
   {
     "name": "Fort of Reprimand Site of Grace",
@@ -373,7 +419,8 @@
     "lng": 130.14460550516358,
     "region": "dlc",
     "category": "grace",
-    "flag": 76909
+    "flag": 76909,
+    "kor_name": "징벌 요새"
   },
   {
     "name": "Garden of Deep Purple",
@@ -381,7 +428,8 @@
     "lng": 126.02696181546654,
     "region": "dlc",
     "category": "grace",
-    "flag": 72200
+    "flag": 72200,
+    "kor_name": "짙은 보랏빛 화원"
   },
   {
     "name": "Gate of Divinity",
@@ -389,7 +437,8 @@
     "lng": 96.0669888674374,
     "region": "dlc",
     "category": "grace",
-    "flag": 72010
+    "flag": 72010,
+    "kor_name": "신의 문"
   },
   {
     "name": "Grand Altar of Dragon Communion",
@@ -397,7 +446,8 @@
     "lng": 130.86107686802626,
     "region": "dlc",
     "category": "grace",
-    "flag": 76840
+    "flag": 76840,
+    "kor_name": "용찬의 대제단"
   },
   {
     "name": "Gravesite Plain",
@@ -405,7 +455,8 @@
     "lng": 112.2229475587187,
     "region": "dlc",
     "category": "grace",
-    "flag": 76800
+    "flag": 76800,
+    "kor_name": "묘지 평원"
   },
   {
     "name": "Greatbrdige, North",
@@ -413,7 +464,8 @@
     "lng": 109.57400883636447,
     "region": "dlc",
     "category": "grace",
-    "flag": 76805
+    "flag": 76805,
+    "kor_name": "대교 북쪽"
   },
   {
     "name": "Highroad Cross",
@@ -421,7 +473,8 @@
     "lng": 121.99526409134528,
     "region": "dlc",
     "category": "grace",
-    "flag": 76900
+    "flag": 76900,
+    "kor_name": "가도의 십자"
   },
   {
     "name": "Hinterland",
@@ -429,7 +482,8 @@
     "lng": 131.7448613998812,
     "region": "dlc",
     "category": "grace",
-    "flag": 76935
+    "flag": 76935,
+    "kor_name": "숨겨진 땅"
   },
   {
     "name": "Hinterland Bridge",
@@ -437,7 +491,8 @@
     "lng": 139.23060440847195,
     "region": "dlc",
     "category": "grace",
-    "flag": 76937
+    "flag": 76937,
+    "kor_name": "숨겨진 땅 다리"
   },
   {
     "name": "Jagged Peak Mountainside",
@@ -445,7 +500,8 @@
     "lng": 158.49383308029726,
     "region": "dlc",
     "category": "grace",
-    "flag": 76851
+    "flag": 76851,
+    "kor_name": "톱니산 중턱"
   },
   {
     "name": "Jagged Peak Summit",
@@ -453,7 +509,8 @@
     "lng": 159.6799257540288,
     "region": "dlc",
     "category": "grace",
-    "flag": 76852
+    "flag": 76852,
+    "kor_name": "톱니산 정상"
   },
   {
     "name": "Lamenter's Gaol",
@@ -461,7 +518,8 @@
     "lng": 113.12779045088317,
     "region": "dlc",
     "category": "grace",
-    "flag": 74102
+    "flag": 74102,
+    "kor_name": "한탄의 감옥"
   },
   {
     "name": "Main Gate Cross",
@@ -469,7 +527,8 @@
     "lng": 102.52725093104551,
     "region": "dlc",
     "category": "grace",
-    "flag": 76803
+    "flag": 76803,
+    "kor_name": "정문 앞의 십자"
   },
   {
     "name": "Main Gate Plaza",
@@ -477,7 +536,8 @@
     "lng": 125.629394620499,
     "region": "dlc",
     "category": "grace",
-    "flag": 72101
+    "flag": 72101,
+    "kor_name": "정문 광장"
   },
   {
     "name": "Manse Hall",
@@ -485,7 +545,8 @@
     "lng": 128.03546183855786,
     "region": "dlc",
     "category": "grace",
-    "flag": 72801
+    "flag": 72801,
+    "kor_name": "저택 응접실"
   },
   {
     "name": "Messmer's Dark Chamber",
@@ -493,7 +554,8 @@
     "lng": 125.9859964757357,
     "region": "dlc",
     "category": "grace",
-    "flag": 72110
+    "flag": 72110,
+    "kor_name": "메스메르의 암실"
   },
   {
     "name": "Midra's Library",
@@ -501,7 +563,8 @@
     "lng": 127.71484375,
     "region": "dlc",
     "category": "grace",
-    "flag": 72802
+    "flag": 72802,
+    "kor_name": "미드라의 서고"
   },
   {
     "name": "Moorth Highway, South Site of Grace",
@@ -509,7 +572,8 @@
     "lng": 128.3554973096783,
     "region": "dlc",
     "category": "grace",
-    "flag": 76908
+    "flag": 76908,
+    "kor_name": "모스 가도 남단"
   },
   {
     "name": "Moorth Ruins Site of Grace",
@@ -517,7 +581,8 @@
     "lng": 127.34026928920673,
     "region": "dlc",
     "category": "grace",
-    "flag": 76902
+    "flag": 76902,
+    "kor_name": "모스의 폐허"
   },
   {
     "name": "Pillar Path Cross",
@@ -525,7 +590,8 @@
     "lng": 123.48809838652895,
     "region": "dlc",
     "category": "grace",
-    "flag": 76810
+    "flag": 76810,
+    "kor_name": "기둥언덕의 십자"
   },
   {
     "name": "Pillar Path Waypoint",
@@ -533,7 +599,8 @@
     "lng": 121.5071079022075,
     "region": "dlc",
     "category": "grace",
-    "flag": 76811
+    "flag": 76811,
+    "kor_name": "기둥언덕 중턱"
   },
   {
     "name": "Rauh Ancient Ruins, East",
@@ -541,7 +608,8 @@
     "lng": 108.78543081906801,
     "region": "dlc",
     "category": "grace",
-    "flag": 76941
+    "flag": 76941,
+    "kor_name": "라우프의 옛 유적 동쪽"
   },
   {
     "name": "Rauh Ancient Ruins, West",
@@ -549,7 +617,8 @@
     "lng": 104.22328027897095,
     "region": "dlc",
     "category": "grace",
-    "flag": 76942
+    "flag": 76942,
+    "kor_name": "라우프의 옛 유적 서쪽"
   },
   {
     "name": "Ravine North",
@@ -557,7 +626,8 @@
     "lng": 104.46467239193018,
     "region": "dlc",
     "category": "grace",
-    "flag": 76914
+    "flag": 76914,
+    "kor_name": "협곡 북쪽"
   },
   {
     "name": "Recluses' River Downstream",
@@ -565,7 +635,8 @@
     "lng": 136.02107715119104,
     "region": "dlc",
     "category": "grace",
-    "flag": 76918
+    "flag": 76918,
+    "kor_name": "은자의 강 하류"
   },
   {
     "name": "Recluses' River Upstream",
@@ -573,7 +644,8 @@
     "lng": 133.27588936144795,
     "region": "dlc",
     "category": "grace",
-    "flag": 76917
+    "flag": 76917,
+    "kor_name": "은자의 강 상류"
   },
   {
     "name": "Rest of the Dread Dragon",
@@ -581,7 +653,8 @@
     "lng": 161.6608788098611,
     "region": "dlc",
     "category": "grace",
-    "flag": 76853
+    "flag": 76853,
+    "kor_name": "폭룡의 자리"
   },
   {
     "name": "Rivermouth Cave",
@@ -589,7 +662,8 @@
     "lng": 108.73870250525498,
     "region": "dlc",
     "category": "grace",
-    "flag": 74300
+    "flag": 74300,
+    "kor_name": "강 끝의 동굴"
   },
   {
     "name": "Ruined Forge Lava Intake",
@@ -597,7 +671,8 @@
     "lng": 120.25351926635898,
     "region": "dlc",
     "category": "grace",
-    "flag": 74200
+    "flag": 74200,
+    "kor_name": "용암통의 대장장이 유적"
   },
   {
     "name": "Ruined Forge of Starfall Past",
@@ -605,7 +680,8 @@
     "lng": 123.79303158129227,
     "region": "dlc",
     "category": "grace",
-    "flag": 74202
+    "flag": 74202,
+    "kor_name": "옛 운철의 대장장이 유적"
   },
   {
     "name": "Scadu Atlus, West",
@@ -613,7 +689,8 @@
     "lng": 116.76999677275636,
     "region": "dlc",
     "category": "grace",
-    "flag": 76907
+    "flag": 76907,
+    "kor_name": "그림자 알터 서쪽"
   },
   {
     "name": "Scadutree Base",
@@ -621,7 +698,8 @@
     "lng": 133.73638860384105,
     "region": "dlc",
     "category": "grace",
-    "flag": 76960
+    "flag": 76960,
+    "kor_name": "그림자 나무 기슭"
   },
   {
     "name": "Scaduview",
@@ -629,7 +707,8 @@
     "lng": 128.98654482155914,
     "region": "dlc",
     "category": "grace",
-    "flag": 76930
+    "flag": 76930,
+    "kor_name": "그림자를 우러르는 노대"
   },
   {
     "name": "Scaduview Cross Site of Grace",
@@ -637,7 +716,8 @@
     "lng": 134.1449653571102,
     "region": "dlc",
     "category": "grace",
-    "flag": 76911
+    "flag": 76911,
+    "kor_name": "그림자 나무를 향한 십자"
   },
   {
     "name": "Scorched Ruins",
@@ -645,7 +725,8 @@
     "lng": 114.84759627467557,
     "region": "dlc",
     "category": "grace",
-    "flag": 76801
+    "flag": 76801,
+    "kor_name": "불에 탄 폐허"
   },
   {
     "name": "Scorpion River Catacombs",
@@ -653,7 +734,8 @@
     "lng": 97.69877179103455,
     "region": "dlc",
     "category": "grace",
-    "flag": 74001
+    "flag": 74001,
+    "kor_name": "전갈 강 지하 묘지"
   },
   {
     "name": "Second Floor Chamber",
@@ -661,7 +743,8 @@
     "lng": 127.40253367186072,
     "region": "dlc",
     "category": "grace",
-    "flag": 72803
+    "flag": 72803,
+    "kor_name": "2층의 작은 방"
   },
   {
     "name": "Shadow Keep Main Gate",
@@ -669,7 +752,8 @@
     "lng": 125.38716285299762,
     "region": "dlc",
     "category": "grace",
-    "flag": 72102
+    "flag": 72102,
+    "kor_name": "그림자의 성 정문"
   },
   {
     "name": "Shadow Keep, Back Gate",
@@ -677,7 +761,8 @@
     "lng": 129.55829958531348,
     "region": "dlc",
     "category": "grace",
-    "flag": 76931
+    "flag": 76931,
+    "kor_name": "그림자의 성 뒷문"
   },
   {
     "name": "Small Private Altar",
@@ -685,7 +770,8 @@
     "lng": 101.08214959855486,
     "region": "dlc",
     "category": "grace",
-    "flag": 72002
+    "flag": 72002,
+    "kor_name": "민가의 작은 제단"
   },
   {
     "name": "Spiral Rise",
@@ -693,7 +779,8 @@
     "lng": 94.51953553395174,
     "region": "dlc",
     "category": "grace",
-    "flag": 72014
+    "flag": 72014,
+    "kor_name": "나선탑"
   },
   {
     "name": "Stagefront",
@@ -701,7 +788,8 @@
     "lng": 99.48839425791611,
     "region": "dlc",
     "category": "grace",
-    "flag": 72003
+    "flag": 72003,
+    "kor_name": "무대 앞"
   },
   {
     "name": "Stone Coffin Fissure",
@@ -709,7 +797,8 @@
     "lng": 119.39018295486774,
     "region": "dlc",
     "category": "grace",
-    "flag": 72201
+    "flag": 72201,
+    "kor_name": "석관의 큰 구멍"
   },
   {
     "name": "Storehouse, Back Section",
@@ -717,7 +806,8 @@
     "lng": 128.89411570668068,
     "region": "dlc",
     "category": "grace",
-    "flag": 72116
+    "flag": 72116,
+    "kor_name": "보관고 뒷 구획"
   },
   {
     "name": "Storehouse, First Floor",
@@ -725,7 +815,8 @@
     "lng": 128.36276860377444,
     "region": "dlc",
     "category": "grace",
-    "flag": 72111
+    "flag": 72111,
+    "kor_name": "보관고 1층"
   },
   {
     "name": "Storehouse, Fourth Floor",
@@ -733,7 +824,8 @@
     "lng": 127.76204004638092,
     "region": "dlc",
     "category": "grace",
-    "flag": 72112
+    "flag": 72112,
+    "kor_name": "보관고 4층"
   },
   {
     "name": "Storehouse, Loft",
@@ -741,7 +833,8 @@
     "lng": 128.90974356264852,
     "region": "dlc",
     "category": "grace",
-    "flag": 72117
+    "flag": 72117,
+    "kor_name": "보관고 다락"
   },
   {
     "name": "Storehouse, Seventh Floor",
@@ -749,7 +842,8 @@
     "lng": 127.99648358960884,
     "region": "dlc",
     "category": "grace",
-    "flag": 72113
+    "flag": 72113,
+    "kor_name": "보관고 7층"
   },
   {
     "name": "Sunken Chapel",
@@ -757,7 +851,8 @@
     "lng": 130.7144481984555,
     "region": "dlc",
     "category": "grace",
-    "flag": 72107
+    "flag": 72107,
+    "kor_name": "수몰된 예배당"
   },
   {
     "name": "Taylew's Ruined Forge",
@@ -765,7 +860,8 @@
     "lng": 121.80932344978066,
     "region": "dlc",
     "category": "grace",
-    "flag": 74203
+    "flag": 74203,
+    "kor_name": "테울의 대장장이 유적"
   },
   {
     "name": "Temple Town Ruins",
@@ -773,7 +869,8 @@
     "lng": 106.52239505392217,
     "region": "dlc",
     "category": "grace",
-    "flag": 76913
+    "flag": 76913,
+    "kor_name": "신전도시 폐허"
   },
   {
     "name": "The Fissure",
@@ -781,7 +878,8 @@
     "lng": 117.03921112995626,
     "region": "dlc",
     "category": "grace",
-    "flag": 76833
+    "flag": 76833,
+    "kor_name": "큰 구멍"
   },
   {
     "name": "Theatre of the Divine Beast",
@@ -789,7 +887,8 @@
     "lng": 100.1135331145238,
     "region": "dlc",
     "category": "grace",
-    "flag": 72000
+    "flag": 72000,
+    "kor_name": "신수 무대"
   },
   {
     "name": "Three-Path Cross",
@@ -797,7 +896,8 @@
     "lng": 110.54207483206909,
     "region": "dlc",
     "category": "grace",
-    "flag": 76802
+    "flag": 76802,
+    "kor_name": "세갈래 길의 십자"
   },
   {
     "name": "Tree-Worship Passage",
@@ -805,7 +905,8 @@
     "lng": 131.24610802983915,
     "region": "dlc",
     "category": "grace",
-    "flag": 72108
+    "flag": 72108,
+    "kor_name": "나무참배의 비밀 통로"
   },
   {
     "name": "Tree-Worship Sanctum",
@@ -813,7 +914,8 @@
     "lng": 132.70597454190275,
     "region": "dlc",
     "category": "grace",
-    "flag": 72109
+    "flag": 72109,
+    "kor_name": "나무참배 교회"
   },
   {
     "name": "Viaduct Minor Tower",
@@ -821,7 +923,8 @@
     "lng": 114.24495707480351,
     "region": "dlc",
     "category": "grace",
-    "flag": 76940
+    "flag": 76940,
+    "kor_name": "고가교의 작은 탑"
   },
   {
     "name": "West Rampart",
@@ -829,7 +932,8 @@
     "lng": 123.82427015742095,
     "region": "dlc",
     "category": "grace",
-    "flag": 72120
+    "flag": 72120,
+    "kor_name": "서쪽 성벽"
   },
   {
     "name": "Woodland Trail",
@@ -837,7 +941,8 @@
     "lng": 143.14414059579127,
     "region": "dlc",
     "category": "grace",
-    "flag": 76863
+    "flag": 76863,
+    "kor_name": "숲의 동물길"
   },
   {
     "name": "Auriza Hero's Grave",
@@ -845,7 +950,8 @@
     "lng": 121.10847,
     "region": "extra",
     "category": "grace",
-    "flag": 73010
+    "flag": 73010,
+    "kor_name": "아우리자 영웅 묘지"
   },
   {
     "name": "Auriza Side Tomb",
@@ -853,7 +959,8 @@
     "lng": 122.30923,
     "region": "extra",
     "category": "grace",
-    "flag": 73013
+    "flag": 73013,
+    "kor_name": "아우리자 부묘지"
   },
   {
     "name": "Capital Rampart",
@@ -861,7 +968,8 @@
     "lng": 118.571929,
     "region": "extra",
     "category": "grace",
-    "flag": 76314
+    "flag": 76314,
+    "kor_name": "도읍 성벽 앞"
   },
   {
     "name": "Cathedral of the Forsaken",
@@ -869,7 +977,8 @@
     "lng": 121.918303,
     "region": "extra",
     "category": "grace",
-    "flag": 73500
+    "flag": 73500,
+    "kor_name": "흉조가 버려진 대성당"
   },
   {
     "name": "Divine Tower of the East Altus",
@@ -877,7 +986,8 @@
     "lng": 134.808985,
     "region": "extra",
     "category": "grace",
-    "flag": 73451
+    "flag": 73451,
+    "kor_name": "동 알터 신수탑"
   },
   {
     "name": "East Capital Rampart",
@@ -885,7 +995,8 @@
     "lng": 119.16561,
     "region": "extra",
     "category": "grace",
-    "flag": 71102
+    "flag": 71102,
+    "kor_name": "도읍 동쪽 성벽"
   },
   {
     "name": "Erdtree Sanctuary",
@@ -893,7 +1004,8 @@
     "lng": 116.769971,
     "region": "extra",
     "category": "grace",
-    "flag": 71101
+    "flag": 71101,
+    "kor_name": "황금 나무의 대성당"
   },
   {
     "name": "Fractured Marika",
@@ -901,7 +1013,8 @@
     "lng": 123.996563,
     "region": "extra",
     "category": "grace",
-    "flag": 71900
+    "flag": 71900,
+    "kor_name": "무너져가는 마리카"
   },
   {
     "name": "Frenzied Flame Proscription",
@@ -909,7 +1022,8 @@
     "lng": 123.77872,
     "region": "extra",
     "category": "grace",
-    "flag": 73504
+    "flag": 73504,
+    "kor_name": "미친 불의 봉인"
   },
   {
     "name": "Great Waterfall Crest",
@@ -917,7 +1031,8 @@
     "lng": 124.348306,
     "region": "extra",
     "category": "grace",
-    "flag": 71232
+    "flag": 71232,
+    "kor_name": "대폭포 정상"
   },
   {
     "name": "Hermit Merchant's Shack",
@@ -925,7 +1040,8 @@
     "lng": 106.77861,
     "region": "extra",
     "category": "grace",
-    "flag": 76311
+    "flag": 76311,
+    "kor_name": "속세를 떠난 상인의 오두막"
   },
   {
     "name": "Leyndell Catacombs",
@@ -933,7 +1049,8 @@
     "lng": 116.924217,
     "region": "extra",
     "category": "grace",
-    "flag": 73503
+    "flag": 73503,
+    "kor_name": "로데일 지하 묘지"
   },
   {
     "name": "Leyndell, Capital of Ash",
@@ -941,7 +1058,8 @@
     "lng": 116.70626,
     "region": "extra",
     "category": "grace",
-    "flag": 71123
+    "flag": 71123,
+    "kor_name": "재의 도읍 로데일"
   },
   {
     "name": "Queen's Bedchamber",
@@ -949,7 +1067,8 @@
     "lng": 118.801351,
     "region": "extra",
     "category": "grace",
-    "flag": 71107
+    "flag": 71107,
+    "kor_name": "여왕의 규방"
   },
   {
     "name": "Underground Roadside",
@@ -957,7 +1076,8 @@
     "lng": 116.332352,
     "region": "extra",
     "category": "grace",
-    "flag": 73501
+    "flag": 73501,
+    "kor_name": "지하대로 옆"
   },
   {
     "name": "Abandoned Cave",
@@ -965,7 +1085,8 @@
     "lng": 140.51,
     "region": "surface",
     "category": "grace",
-    "flag": 73120
+    "flag": 73120,
+    "kor_name": "폐기 동굴"
   },
   {
     "name": "Abandoned Coffin",
@@ -973,7 +1094,8 @@
     "lng": 68.630208,
     "region": "surface",
     "category": "grace",
-    "flag": 76300
+    "flag": 76300,
+    "kor_name": "버려진 관"
   },
   {
     "name": "Abductor Virgin",
@@ -981,7 +1103,8 @@
     "lng": 70.477304,
     "region": "surface",
     "category": "grace",
-    "flag": 71606
+    "flag": 71606,
+    "kor_name": "납치하는 소녀 인형"
   },
   {
     "name": "Academy Crystal Cave",
@@ -989,7 +1112,8 @@
     "lng": 52.07463,
     "region": "surface",
     "category": "grace",
-    "flag": 73106
+    "flag": 73106,
+    "kor_name": "학원 결정 동굴"
   },
   {
     "name": "Academy Gate Town",
@@ -997,7 +1121,8 @@
     "lng": 68.393031,
     "region": "surface",
     "category": "grace",
-    "flag": 76204
+    "flag": 76204,
+    "kor_name": "학원 문 앞 마을"
   },
   {
     "name": "Aeonia Swamp Shore",
@@ -1005,7 +1130,8 @@
     "lng": 138.29173,
     "region": "surface",
     "category": "grace",
-    "flag": 76406
+    "flag": 76406,
+    "kor_name": "에오니아 늪가"
   },
   {
     "name": "Agheel Lake North",
@@ -1013,7 +1139,8 @@
     "lng": 105.430086,
     "region": "surface",
     "category": "grace",
-    "flag": 76108
+    "flag": 76108,
+    "kor_name": "아길 호수 북쪽"
   },
   {
     "name": "Agheel Lake South",
@@ -1021,7 +1148,8 @@
     "lng": 113.111805,
     "region": "surface",
     "category": "grace",
-    "flag": 76106
+    "flag": 76106,
+    "kor_name": "아길 호수 남쪽"
   },
   {
     "name": "Ailing Village Outskirts",
@@ -1029,7 +1157,8 @@
     "lng": 112.19531,
     "region": "surface",
     "category": "grace",
-    "flag": 76154
+    "flag": 76154,
+    "kor_name": "격리 마을 변두리"
   },
   {
     "name": "Altar South",
@@ -1037,7 +1166,8 @@
     "lng": 44.539334,
     "region": "surface",
     "category": "grace",
-    "flag": 76252
+    "flag": 76252,
+    "kor_name": "제단 남쪽"
   },
   {
     "name": "Altus Highway Junction",
@@ -1045,7 +1175,8 @@
     "lng": 84.93,
     "region": "surface",
     "category": "grace",
-    "flag": 76303
+    "flag": 76303,
+    "kor_name": "알터 가도 세갈래 길"
   },
   {
     "name": "Altus Plateau",
@@ -1053,7 +1184,8 @@
     "lng": 76.8,
     "region": "surface",
     "category": "grace",
-    "flag": 76301
+    "flag": 76301,
+    "kor_name": "알터 고원"
   },
   {
     "name": "Altus Tunnel",
@@ -1061,7 +1193,8 @@
     "lng": 93.11782,
     "region": "surface",
     "category": "grace",
-    "flag": 73205
+    "flag": 73205,
+    "kor_name": "알터 갱도"
   },
   {
     "name": "Ancient Snow Valley Ruins",
@@ -1069,7 +1202,8 @@
     "lng": 156.666802,
     "region": "surface",
     "category": "grace",
-    "flag": 76503
+    "flag": 76503,
+    "kor_name": "옛 유적의 설곡"
   },
   {
     "name": "Apostate Derelict",
@@ -1077,7 +1211,8 @@
     "lng": 133.6,
     "region": "surface",
     "category": "grace",
-    "flag": 76653
+    "flag": 76653,
+    "kor_name": "기교의 폐옥"
   },
   {
     "name": "Artist's Shack (Limgrave)",
@@ -1085,7 +1220,8 @@
     "lng": 114.68,
     "region": "surface",
     "category": "grace",
-    "flag": 76103
+    "flag": 76103,
+    "kor_name": "화가의 낡은 집"
   },
   {
     "name": "Artist's Shack (Liurnia)",
@@ -1093,7 +1229,8 @@
     "lng": 77.399713,
     "region": "surface",
     "category": "grace",
-    "flag": 76217
+    "flag": 76217,
+    "kor_name": "화가의 오두막"
   },
   {
     "name": "Astray from Caelid Highway North",
@@ -1101,7 +1238,8 @@
     "lng": 135.714649,
     "region": "surface",
     "category": "grace",
-    "flag": 76407
+    "flag": 76407,
+    "kor_name": "케일리드 가도 북쪽 변두리"
   },
   {
     "name": "Audience Pathway",
@@ -1109,7 +1247,8 @@
     "lng": 66.20876,
     "region": "surface",
     "category": "grace",
-    "flag": 71605
+    "flag": 71605,
+    "kor_name": "알현의 길"
   },
   {
     "name": "Auriza Hero's Grave",
@@ -1117,7 +1256,8 @@
     "lng": 121.615836,
     "region": "surface",
     "category": "grace",
-    "flag": 73010
+    "flag": 73010,
+    "kor_name": "아우리자 영웅 묘지"
   },
   {
     "name": "Auriza Side Tomb",
@@ -1125,7 +1265,8 @@
     "lng": 123.114,
     "region": "surface",
     "category": "grace",
-    "flag": 73013
+    "flag": 73013,
+    "kor_name": "아우리자 부묘지"
   },
   {
     "name": "Avenue Balcony",
@@ -1133,7 +1274,8 @@
     "lng": 115.524421,
     "region": "surface",
     "category": "grace",
-    "flag": 71104
+    "flag": 71104,
+    "kor_name": "대로 옆 노대"
   },
   {
     "name": "Behind Caria Manor",
@@ -1141,7 +1283,8 @@
     "lng": 61.494263,
     "region": "surface",
     "category": "grace",
-    "flag": 76238
+    "flag": 76238,
+    "kor_name": "카리아 성관 뒤편"
   },
   {
     "name": "Behind the Castle",
@@ -1149,15 +1292,17 @@
     "lng": 108.212797,
     "region": "surface",
     "category": "grace",
-    "flag": 76159
+    "flag": 76159,
+    "kor_name": "성 뒤편"
   },
   {
     "name": "Bellum Church",
-    "lat": -116.0,
+    "lat": -116,
     "lng": 64.2,
     "region": "surface",
     "category": "grace",
-    "flag": 76208
+    "flag": 76208,
+    "kor_name": "벨룸 교회"
   },
   {
     "name": "Beside the Crater-Pocked Glade",
@@ -1165,15 +1310,17 @@
     "lng": 118.473268,
     "region": "surface",
     "category": "grace",
-    "flag": 76155
+    "flag": 76155,
+    "kor_name": "구멍난 땅 옆"
   },
   {
     "name": "Beside the Great Bridge",
-    "lat": -122.0,
-    "lng": 218.0,
+    "lat": -122,
+    "lng": 218,
     "region": "surface",
     "category": "grace",
-    "flag": 71310
+    "flag": 71310,
+    "kor_name": "대도량 옆"
   },
   {
     "name": "Beside the Rampart Gaol",
@@ -1181,7 +1328,8 @@
     "lng": 107.683426,
     "region": "surface",
     "category": "grace",
-    "flag": 76160
+    "flag": 76160,
+    "kor_name": "성벽 감옥 옆"
   },
   {
     "name": "Bestial Sanctum",
@@ -1189,7 +1337,8 @@
     "lng": 156.044582,
     "region": "surface",
     "category": "grace",
-    "flag": 76454
+    "flag": 76454,
+    "kor_name": "짐승의 신전"
   },
   {
     "name": "Black Knife Catacombs",
@@ -1197,7 +1346,8 @@
     "lng": 80.215645,
     "region": "surface",
     "category": "grace",
-    "flag": 73005
+    "flag": 73005,
+    "kor_name": "검은 칼날의 지하 묘지"
   },
   {
     "name": "Boilprawn Shack",
@@ -1205,7 +1355,8 @@
     "lng": 66.313,
     "region": "surface",
     "category": "grace",
-    "flag": 76216
+    "flag": 76216,
+    "kor_name": "새우 삶는 오두막"
   },
   {
     "name": "Bower of Bounty",
@@ -1213,7 +1364,8 @@
     "lng": 88.58,
     "region": "surface",
     "category": "grace",
-    "flag": 76306
+    "flag": 76306,
+    "kor_name": "풍양의 숲"
   },
   {
     "name": "Bridge of Iniquity",
@@ -1221,7 +1373,8 @@
     "lng": 79.58723,
     "region": "surface",
     "category": "grace",
-    "flag": 76350
+    "flag": 76350,
+    "kor_name": "죄인교"
   },
   {
     "name": "Bridge of Sacrifice",
@@ -1229,7 +1382,8 @@
     "lng": 116.133434,
     "region": "surface",
     "category": "grace",
-    "flag": 76157
+    "flag": 76157,
+    "kor_name": "제물 이송 대교"
   },
   {
     "name": "Caelem Ruins",
@@ -1237,7 +1391,8 @@
     "lng": 134.946511,
     "region": "surface",
     "category": "grace",
-    "flag": 76403
+    "flag": 76403,
+    "kor_name": "키렘 폐허"
   },
   {
     "name": "Caelid Catacombs",
@@ -1245,7 +1400,8 @@
     "lng": 140.77,
     "region": "surface",
     "category": "grace",
-    "flag": 73015
+    "flag": 73015,
+    "kor_name": "케일리드 지하 묘지"
   },
   {
     "name": "Caelid Highway South",
@@ -1253,7 +1409,8 @@
     "lng": 135.21373,
     "region": "surface",
     "category": "grace",
-    "flag": 76405
+    "flag": 76405,
+    "kor_name": "케일리드 가도 남쪽"
   },
   {
     "name": "Capital Rampart",
@@ -1261,7 +1418,8 @@
     "lng": 118.44984,
     "region": "surface",
     "category": "grace",
-    "flag": 76314
+    "flag": 76314,
+    "kor_name": "도읍 성벽 앞"
   },
   {
     "name": "Castellan's Hall",
@@ -1269,7 +1427,8 @@
     "lng": 81.39524,
     "region": "surface",
     "category": "grace",
-    "flag": 76322
+    "flag": 76322,
+    "kor_name": "성주의 응접실"
   },
   {
     "name": "Castle Morne Lift",
@@ -1277,7 +1436,8 @@
     "lng": 109.480871,
     "region": "surface",
     "category": "grace",
-    "flag": 76158
+    "flag": 76158,
+    "kor_name": "몬 성 승강기 앞"
   },
   {
     "name": "Castle Morne Rampart",
@@ -1285,7 +1445,8 @@
     "lng": 115.161774,
     "region": "surface",
     "category": "grace",
-    "flag": 76151
+    "flag": 76151,
+    "kor_name": "몬 성문 앞"
   },
   {
     "name": "Castle Sol Main Gate",
@@ -1293,7 +1454,8 @@
     "lng": 156.143472,
     "region": "surface",
     "category": "grace",
-    "flag": 76522
+    "flag": 76522,
+    "kor_name": "소르 성채 정문"
   },
   {
     "name": "Castle Sol Rooftop",
@@ -1301,7 +1463,8 @@
     "lng": 157.907142,
     "region": "surface",
     "category": "grace",
-    "flag": 76524
+    "flag": 76524,
+    "kor_name": "소르 성채 옥상"
   },
   {
     "name": "Castleward Tunnel",
@@ -1309,7 +1472,8 @@
     "lng": 92.845684,
     "region": "surface",
     "category": "grace",
-    "flag": 71002
+    "flag": 71002,
+    "kor_name": "성으로 향하는 굴"
   },
   {
     "name": "Cathedral of Dragon Communion",
@@ -1317,7 +1481,8 @@
     "lng": 138.54,
     "region": "surface",
     "category": "grace",
-    "flag": 76404
+    "flag": 76404,
+    "kor_name": "대용찬 교회"
   },
   {
     "name": "Cathedral of Manus Celes",
@@ -1325,7 +1490,8 @@
     "lng": 56.66847,
     "region": "surface",
     "category": "grace",
-    "flag": 76251
+    "flag": 76251,
+    "kor_name": "마누스 셀리스 대교회"
   },
   {
     "name": "Cathedral of the Forsaken",
@@ -1333,7 +1499,8 @@
     "lng": 122.496,
     "region": "surface",
     "category": "grace",
-    "flag": 73500
+    "flag": 73500,
+    "kor_name": "흉조가 버려진 대성당"
   },
   {
     "name": "Cave of Knowledge",
@@ -1341,7 +1508,8 @@
     "lng": 102.307751,
     "region": "surface",
     "category": "grace",
-    "flag": 71800
+    "flag": 71800,
+    "kor_name": "배움의 동굴"
   },
   {
     "name": "Cave of the Forlorn",
@@ -1349,7 +1517,8 @@
     "lng": 148.598283,
     "region": "surface",
     "category": "grace",
-    "flag": 73112
+    "flag": 73112,
+    "kor_name": "기댈 동굴"
   },
   {
     "name": "Chair-Crypt of Sellia",
@@ -1357,15 +1526,17 @@
     "lng": 146.549638,
     "region": "surface",
     "category": "grace",
-    "flag": 76415
+    "flag": 76415,
+    "kor_name": "사리아의 의자묘"
   },
   {
     "name": "Chamber Outside the Plaza",
-    "lat": -196.0,
-    "lng": 159.0,
+    "lat": -196,
+    "lng": 159,
     "region": "surface",
     "category": "grace",
-    "flag": 76420
+    "flag": 76420,
+    "kor_name": "광장 앞 방"
   },
   {
     "name": "Church of Dragon Communion",
@@ -1373,7 +1544,8 @@
     "lng": 93.703003,
     "region": "surface",
     "category": "grace",
-    "flag": 76110
+    "flag": 76110,
+    "kor_name": "용찬 교회"
   },
   {
     "name": "Church of Elleh",
@@ -1381,7 +1553,8 @@
     "lng": 100.200443,
     "region": "surface",
     "category": "grace",
-    "flag": 76100
+    "flag": 76100,
+    "kor_name": "엘레의 교회"
   },
   {
     "name": "Church of Inhibition",
@@ -1389,7 +1562,8 @@
     "lng": 71.199639,
     "region": "surface",
     "category": "grace",
-    "flag": 76240
+    "flag": 76240,
+    "kor_name": "진정의 교회"
   },
   {
     "name": "Church of Pilgrimage",
@@ -1397,7 +1571,8 @@
     "lng": 105.224025,
     "region": "surface",
     "category": "grace",
-    "flag": 76150
+    "flag": 76150,
+    "kor_name": "순례교회"
   },
   {
     "name": "Church of Repose",
@@ -1405,7 +1580,8 @@
     "lng": 156.67,
     "region": "surface",
     "category": "grace",
-    "flag": 76507
+    "flag": 76507,
+    "kor_name": "안식 교회"
   },
   {
     "name": "Church of Vows",
@@ -1413,7 +1589,8 @@
     "lng": 69.676099,
     "region": "surface",
     "category": "grace",
-    "flag": 76224
+    "flag": 76224,
+    "kor_name": "맺음의 교회"
   },
   {
     "name": "Church of the Cuckoo",
@@ -1421,7 +1598,8 @@
     "lng": 54.660649,
     "region": "surface",
     "category": "grace",
-    "flag": 71402
+    "flag": 71402,
+    "kor_name": "뻐꾸기의 교회"
   },
   {
     "name": "Church of the Eclipse",
@@ -1429,7 +1607,8 @@
     "lng": 157.791741,
     "region": "surface",
     "category": "grace",
-    "flag": 76523
+    "flag": 76523,
+    "kor_name": "일식 교회"
   },
   {
     "name": "Church of the Plague",
@@ -1437,7 +1616,8 @@
     "lng": 151.10291,
     "region": "surface",
     "category": "grace",
-    "flag": 76418
+    "flag": 76418,
+    "kor_name": "부패병의 교회"
   },
   {
     "name": "Cliffbottom Catacombs",
@@ -1445,7 +1625,8 @@
     "lng": 83.793353,
     "region": "surface",
     "category": "grace",
-    "flag": 73006
+    "flag": 73006,
+    "kor_name": "절벽 아래 지하 묘지"
   },
   {
     "name": "Coastal Cave",
@@ -1453,7 +1634,8 @@
     "lng": 96.715394,
     "region": "surface",
     "category": "grace",
-    "flag": 73115
+    "flag": 73115,
+    "kor_name": "해안 동굴"
   },
   {
     "name": "Consecrated Snowfield",
@@ -1461,7 +1643,8 @@
     "lng": 141.678339,
     "region": "surface",
     "category": "grace",
-    "flag": 76550
+    "flag": 76550,
+    "kor_name": "구별된 설원"
   },
   {
     "name": "Consecrated Snowfield Catacombs",
@@ -1469,7 +1652,8 @@
     "lng": 148.873428,
     "region": "surface",
     "category": "grace",
-    "flag": 73019
+    "flag": 73019,
+    "kor_name": "구별된 설원 지하 묘지"
   },
   {
     "name": "Converted Tower",
@@ -1477,7 +1661,8 @@
     "lng": 48.227065,
     "region": "surface",
     "category": "grace",
-    "flag": 76237
+    "flag": 76237,
+    "kor_name": "개종된 탑"
   },
   {
     "name": "Craftsman's Shack",
@@ -1485,7 +1670,8 @@
     "lng": 66.504273,
     "region": "surface",
     "category": "grace",
-    "flag": 76356
+    "flag": 76356,
+    "kor_name": "장인의 오두막"
   },
   {
     "name": "Crumbling Beast Grave",
@@ -1493,7 +1679,8 @@
     "lng": 218.876914,
     "region": "surface",
     "category": "grace",
-    "flag": 71303
+    "flag": 71303,
+    "kor_name": "무너지는 짐승묘"
   },
   {
     "name": "Crumbling Beast Grave Depths",
@@ -1501,7 +1688,8 @@
     "lng": 214.074593,
     "region": "surface",
     "category": "grace",
-    "flag": 71304
+    "flag": 71304,
+    "kor_name": "무너지는 짐승묘 심부"
   },
   {
     "name": "Crystalline Woods",
@@ -1509,7 +1697,8 @@
     "lng": 51.455302,
     "region": "surface",
     "category": "grace",
-    "flag": 76243
+    "flag": 76243,
+    "kor_name": "결정의 숲"
   },
   {
     "name": "Deathtouched Catacombs",
@@ -1517,7 +1706,8 @@
     "lng": 104.750464,
     "region": "surface",
     "category": "grace",
-    "flag": 73011
+    "flag": 73011,
+    "kor_name": "죽음에 닿은 지하 묘지"
   },
   {
     "name": "Debate Parlour",
@@ -1525,7 +1715,8 @@
     "lng": 58.627136,
     "region": "surface",
     "category": "grace",
-    "flag": 71401
+    "flag": 71401,
+    "kor_name": "토론실"
   },
   {
     "name": "Deep Siofra Well",
@@ -1533,7 +1724,8 @@
     "lng": 140.786636,
     "region": "surface",
     "category": "grace",
-    "flag": 76410
+    "flag": 76410,
+    "kor_name": "시프라 강 안쪽 우물"
   },
   {
     "name": "Divine Bridge",
@@ -1541,7 +1733,8 @@
     "lng": 109.660531,
     "region": "surface",
     "category": "grace",
-    "flag": 71109
+    "flag": 71109,
+    "kor_name": "신수교"
   },
   {
     "name": "Divine Tower of Caelid: Basement",
@@ -1549,15 +1742,17 @@
     "lng": 147.239641,
     "region": "surface",
     "category": "grace",
-    "flag": 73440
+    "flag": 73440,
+    "kor_name": "케일리드 신수탑 지하"
   },
   {
     "name": "Divine Tower of Caelid: Center",
-    "lat": -163.0,
-    "lng": 147.0,
+    "lat": -163,
+    "lng": 147,
     "region": "surface",
     "category": "grace",
-    "flag": 73441
+    "flag": 73441,
+    "kor_name": "케일리드 신수탑 중턱"
   },
   {
     "name": "Divine Tower of Limgrave",
@@ -1565,7 +1760,8 @@
     "lng": 114.559258,
     "region": "surface",
     "category": "grace",
-    "flag": 73412
+    "flag": 73412,
+    "kor_name": "림그레이브 신수탑"
   },
   {
     "name": "Divine Tower of Liurnia",
@@ -1573,7 +1769,8 @@
     "lng": 92.66144,
     "region": "surface",
     "category": "grace",
-    "flag": 73422
+    "flag": 73422,
+    "kor_name": "리에니에 신수탑"
   },
   {
     "name": "Divine Tower of West Altus",
@@ -1581,7 +1778,8 @@
     "lng": 106.223,
     "region": "surface",
     "category": "grace",
-    "flag": 73430
+    "flag": 73430,
+    "kor_name": "서 알터 신수탑"
   },
   {
     "name": "Divine Tower of West Altus: Gate",
@@ -1589,15 +1787,17 @@
     "lng": 106.174932,
     "region": "surface",
     "category": "grace",
-    "flag": 73432
+    "flag": 73432,
+    "kor_name": "서 알터 신수탑 문 앞"
   },
   {
     "name": "Divine Tower of the East Altus: Gate",
-    "lat": -109.0,
-    "lng": 135.0,
+    "lat": -109,
+    "lng": 135,
     "region": "surface",
     "category": "grace",
-    "flag": 73450
+    "flag": 73450,
+    "kor_name": "동 알터 신수탑 문 앞"
   },
   {
     "name": "Dragon Temple",
@@ -1605,7 +1805,8 @@
     "lng": 214.59,
     "region": "surface",
     "category": "grace",
-    "flag": 71306
+    "flag": 71306,
+    "kor_name": "용성당"
   },
   {
     "name": "Dragon Temple Altar",
@@ -1613,7 +1814,8 @@
     "lng": 216.99,
     "region": "surface",
     "category": "grace",
-    "flag": 71302
+    "flag": 71302,
+    "kor_name": "용성당의 제단"
   },
   {
     "name": "Dragon Temple Lift",
@@ -1621,7 +1823,8 @@
     "lng": 214.455908,
     "region": "surface",
     "category": "grace",
-    "flag": 71308
+    "flag": 71308,
+    "kor_name": "용성당 승강기 앞"
   },
   {
     "name": "Dragon Temple Rooftop",
@@ -1629,7 +1832,8 @@
     "lng": 218.221505,
     "region": "surface",
     "category": "grace",
-    "flag": 71309
+    "flag": 71309,
+    "kor_name": "용성당 지붕 위"
   },
   {
     "name": "Dragon Temple Transept",
@@ -1637,7 +1841,8 @@
     "lng": 217.297,
     "region": "surface",
     "category": "grace",
-    "flag": 71307
+    "flag": 71307,
+    "kor_name": "용성당의 익랑"
   },
   {
     "name": "Dragonbarrow Cave",
@@ -1645,7 +1850,8 @@
     "lng": 158.590761,
     "region": "surface",
     "category": "grace",
-    "flag": 73110
+    "flag": 73110,
+    "kor_name": "용총 동굴"
   },
   {
     "name": "Dragonbarrow Fork",
@@ -1653,7 +1859,8 @@
     "lng": 152.891,
     "region": "surface",
     "category": "grace",
-    "flag": 76452
+    "flag": 76452,
+    "kor_name": "용총의 갈림길"
   },
   {
     "name": "Dragonbarrow West",
@@ -1661,15 +1868,17 @@
     "lng": 140.696548,
     "region": "surface",
     "category": "grace",
-    "flag": 76450
+    "flag": 76450,
+    "kor_name": "용총 서쪽"
   },
   {
     "name": "Dragonlord Placidusax",
     "lat": -126.344,
-    "lng": 217.0,
+    "lng": 217,
     "region": "surface",
     "category": "grace",
-    "flag": 71301
+    "flag": 71301,
+    "kor_name": "용왕 플라키두삭스"
   },
   {
     "name": "Drainage Channel",
@@ -1677,7 +1886,8 @@
     "lng": 149.99249,
     "region": "surface",
     "category": "grace",
-    "flag": 71503
+    "flag": 71503,
+    "kor_name": "배수로"
   },
   {
     "name": "Earthbore Cave",
@@ -1685,7 +1895,8 @@
     "lng": 111.679989,
     "region": "surface",
     "category": "grace",
-    "flag": 73101
+    "flag": 73101,
+    "kor_name": "구멍을 내려가는 동굴"
   },
   {
     "name": "East Capital Rampart",
@@ -1693,7 +1904,8 @@
     "lng": 119.013161,
     "region": "surface",
     "category": "grace",
-    "flag": 71102
+    "flag": 71102,
+    "kor_name": "도읍 동쪽 성벽"
   },
   {
     "name": "East Gate Bridge Trestle",
@@ -1701,7 +1913,8 @@
     "lng": 58.156,
     "region": "surface",
     "category": "grace",
-    "flag": 76242
+    "flag": 76242,
+    "kor_name": "동문 다리 교각"
   },
   {
     "name": "East Raya Lucaria Gate",
@@ -1709,7 +1922,8 @@
     "lng": 61.47438,
     "region": "surface",
     "category": "grace",
-    "flag": 76207
+    "flag": 76207,
+    "kor_name": "레아 루카리아 동문"
   },
   {
     "name": "Eastern Liurnia Lake Shore",
@@ -1717,7 +1931,8 @@
     "lng": 75.351,
     "region": "surface",
     "category": "grace",
-    "flag": 76223
+    "flag": 76223,
+    "kor_name": "리에니에 호수 동쪽"
   },
   {
     "name": "Eastern Tableland",
@@ -1725,7 +1940,8 @@
     "lng": 77.008755,
     "region": "surface",
     "category": "grace",
-    "flag": 76234
+    "flag": 76234,
+    "kor_name": "동부 대지"
   },
   {
     "name": "Elden Throne",
@@ -1733,7 +1949,8 @@
     "lng": 120.57,
     "region": "surface",
     "category": "grace",
-    "flag": 71100
+    "flag": 71100,
+    "kor_name": "엘데의 왕좌"
   },
   {
     "name": "Elphael Inner Wall",
@@ -1741,7 +1958,8 @@
     "lng": 146.370029,
     "region": "surface",
     "category": "grace",
-    "flag": 71502
+    "flag": 71502,
+    "kor_name": "에브레펠 내벽"
   },
   {
     "name": "Erdtree Sanctuary",
@@ -1749,7 +1967,8 @@
     "lng": 116.756256,
     "region": "surface",
     "category": "grace",
-    "flag": 71101
+    "flag": 71101,
+    "kor_name": "황금 나무의 대성당"
   },
   {
     "name": "Erdtree-Gazing Hill",
@@ -1757,7 +1976,8 @@
     "lng": 75.514,
     "region": "surface",
     "category": "grace",
-    "flag": 76302
+    "flag": 76302,
+    "kor_name": "황금 나무를 향한 언덕"
   },
   {
     "name": "Fallen Ruins of the Lake",
@@ -1765,7 +1985,8 @@
     "lng": 60.819587,
     "region": "surface",
     "category": "grace",
-    "flag": 76236
+    "flag": 76236,
+    "kor_name": "호수의 낙하 유적"
   },
   {
     "name": "Farum Greatbridge",
@@ -1773,7 +1994,8 @@
     "lng": 161.00752,
     "region": "surface",
     "category": "grace",
-    "flag": 76456
+    "flag": 76456,
+    "kor_name": "파름 대교"
   },
   {
     "name": "Fire Giant",
@@ -1781,7 +2003,8 @@
     "lng": 166.37947,
     "region": "surface",
     "category": "grace",
-    "flag": 76509
+    "flag": 76509,
+    "kor_name": "불의 거인"
   },
   {
     "name": "First Church of Marika",
@@ -1789,15 +2012,17 @@
     "lng": 174.34,
     "region": "surface",
     "category": "grace",
-    "flag": 76505
+    "flag": 76505,
+    "kor_name": "제1 마리카 교회"
   },
   {
     "name": "First Mt. Gelmir Campsite",
-    "lat": -85.0,
+    "lat": -85,
     "lng": 76.2,
     "region": "surface",
     "category": "grace",
-    "flag": 76351
+    "flag": 76351,
+    "kor_name": "겔미어 화산 일부 능선"
   },
   {
     "name": "Folly on the Lake",
@@ -1805,7 +2030,8 @@
     "lng": 58.258712,
     "region": "surface",
     "category": "grace",
-    "flag": 76219
+    "flag": 76219,
+    "kor_name": "호수의 폴리"
   },
   {
     "name": "Foot of the Forge",
@@ -1813,7 +2039,8 @@
     "lng": 161.33,
     "region": "surface",
     "category": "grace",
-    "flag": 76508
+    "flag": 76508,
+    "kor_name": "불 가마 기슭"
   },
   {
     "name": "Foot of the Four Belfries",
@@ -1821,7 +2048,8 @@
     "lng": 43.396296,
     "region": "surface",
     "category": "grace",
-    "flag": 76210
+    "flag": 76210,
+    "kor_name": "사종루 기슭"
   },
   {
     "name": "Forbidden Lands",
@@ -1829,7 +2057,8 @@
     "lng": 132.330675,
     "region": "surface",
     "category": "grace",
-    "flag": 76500
+    "flag": 76500,
+    "kor_name": "금역"
   },
   {
     "name": "Forest-Spanning Greatbridge",
@@ -1837,7 +2066,8 @@
     "lng": 91.266,
     "region": "surface",
     "category": "grace",
-    "flag": 76304
+    "flag": 76304,
+    "kor_name": "숲 건너는 대교"
   },
   {
     "name": "Forge of the Giants",
@@ -1845,7 +2075,8 @@
     "lng": 174.622265,
     "region": "surface",
     "category": "grace",
-    "flag": 76510
+    "flag": 76510,
+    "kor_name": "거인의 불 가마"
   },
   {
     "name": "Forsaken Depths",
@@ -1853,7 +2084,8 @@
     "lng": 118.531553,
     "region": "surface",
     "category": "grace",
-    "flag": 73502
+    "flag": 73502,
+    "kor_name": "흉조가 버려진 밑바닥"
   },
   {
     "name": "Fort Faroth",
@@ -1861,7 +2093,8 @@
     "lng": 154.862194,
     "region": "surface",
     "category": "grace",
-    "flag": 76453
+    "flag": 76453,
+    "kor_name": "파로스 요새"
   },
   {
     "name": "Fort Gael North",
@@ -1869,7 +2102,8 @@
     "lng": 128.97619,
     "region": "surface",
     "category": "grace",
-    "flag": 76402
+    "flag": 76402,
+    "kor_name": "게르 요새 북쪽"
   },
   {
     "name": "Fort Haight West",
@@ -1877,7 +2111,8 @@
     "lng": 122.980815,
     "region": "surface",
     "category": "grace",
-    "flag": 76105
+    "flag": 76105,
+    "kor_name": "하이트 요새 서쪽"
   },
   {
     "name": "Fortified Manor, First Floor",
@@ -1885,7 +2120,8 @@
     "lng": 112.328,
     "region": "surface",
     "category": "grace",
-    "flag": 71108
+    "flag": 71108,
+    "kor_name": "성관 1층"
   },
   {
     "name": "Fourth Church of Marika",
@@ -1893,7 +2129,8 @@
     "lng": 95.351895,
     "region": "surface",
     "category": "grace",
-    "flag": 76162
+    "flag": 76162,
+    "kor_name": "제4 마리카 교회"
   },
   {
     "name": "Freezing Lake",
@@ -1901,7 +2138,8 @@
     "lng": 164.588743,
     "region": "surface",
     "category": "grace",
-    "flag": 76504
+    "flag": 76504,
+    "kor_name": "빙결 호수"
   },
   {
     "name": "Frenzied Flame Proscription",
@@ -1909,7 +2147,8 @@
     "lng": 123.223109,
     "region": "surface",
     "category": "grace",
-    "flag": 73504
+    "flag": 73504,
+    "kor_name": "미친 불의 봉인"
   },
   {
     "name": "Frenzied Flame Village Outskirts",
@@ -1917,7 +2156,8 @@
     "lng": 77.26998,
     "region": "surface",
     "category": "grace",
-    "flag": 76239
+    "flag": 76239,
+    "kor_name": "미친 불 마을 변두리"
   },
   {
     "name": "Gael Tunnel",
@@ -1925,7 +2165,8 @@
     "lng": 128.043241,
     "region": "surface",
     "category": "grace",
-    "flag": 73207
+    "flag": 73207,
+    "kor_name": "게르 갱도"
   },
   {
     "name": "Gaol Cave",
@@ -1933,7 +2174,8 @@
     "lng": 132.16,
     "region": "surface",
     "category": "grace",
-    "flag": 73121
+    "flag": 73121,
+    "kor_name": "감옥 동굴"
   },
   {
     "name": "Gate Town Bridge",
@@ -1941,7 +2183,8 @@
     "lng": 77.477,
     "region": "surface",
     "category": "grace",
-    "flag": 76222
+    "flag": 76222,
+    "kor_name": "문 앞 마을 다리"
   },
   {
     "name": "Gate Town North",
@@ -1949,7 +2192,8 @@
     "lng": 62.305,
     "region": "surface",
     "category": "grace",
-    "flag": 76233
+    "flag": 76233,
+    "kor_name": "문 앞 마을 북쪽"
   },
   {
     "name": "Gatefront",
@@ -1957,7 +2201,8 @@
     "lng": 102.102529,
     "region": "surface",
     "category": "grace",
-    "flag": 76111
+    "flag": 76111,
+    "kor_name": "관문 앞"
   },
   {
     "name": "Gateside Chamber",
@@ -1965,7 +2210,8 @@
     "lng": 88.588752,
     "region": "surface",
     "category": "grace",
-    "flag": 71003
+    "flag": 71003,
+    "kor_name": "성문 옆 작은 방"
   },
   {
     "name": "Gelmir Hero's Grave",
@@ -1973,7 +2219,8 @@
     "lng": 72.057347,
     "region": "surface",
     "category": "grace",
-    "flag": 73009
+    "flag": 73009,
+    "kor_name": "겔미어 영웅 묘지"
   },
   {
     "name": "Giant's Mountaintop Catacombs",
@@ -1981,7 +2228,8 @@
     "lng": 151.239635,
     "region": "surface",
     "category": "grace",
-    "flag": 73018
+    "flag": 73018,
+    "kor_name": "거인 산령 지하 묘지"
   },
   {
     "name": "Giant-Conquering Hero's Grave",
@@ -1989,7 +2237,8 @@
     "lng": 149.121005,
     "region": "surface",
     "category": "grace",
-    "flag": 73017
+    "flag": 73017,
+    "kor_name": "거인 전쟁의 영웅 묘지"
   },
   {
     "name": "Giants' Gravepost",
@@ -1997,7 +2246,8 @@
     "lng": 161.931,
     "region": "surface",
     "category": "grace",
-    "flag": 76506
+    "flag": 76506,
+    "kor_name": "거인 묘표"
   },
   {
     "name": "Godrick the Grafted",
@@ -2005,7 +2255,8 @@
     "lng": 85.500353,
     "region": "surface",
     "category": "grace",
-    "flag": 71000
+    "flag": 71000,
+    "kor_name": "접목의 고드릭"
   },
   {
     "name": "Grand Lift of Dectus",
@@ -2013,7 +2264,8 @@
     "lng": 75.68111,
     "region": "surface",
     "category": "grace",
-    "flag": 76209
+    "flag": 76209,
+    "kor_name": "덱타스 대승강기"
   },
   {
     "name": "Grand Lift of Rold",
@@ -2021,7 +2273,8 @@
     "lng": 143.785505,
     "region": "surface",
     "category": "grace",
-    "flag": 76502
+    "flag": 76502,
+    "kor_name": "로르드 대승강기"
   },
   {
     "name": "Groveside Cave",
@@ -2029,7 +2282,8 @@
     "lng": 98.300597,
     "region": "surface",
     "category": "grace",
-    "flag": 73103
+    "flag": 73103,
+    "kor_name": "숲 옆 동굴"
   },
   {
     "name": "Guest Hall",
@@ -2037,7 +2291,8 @@
     "lng": 60.668,
     "region": "surface",
     "category": "grace",
-    "flag": 71604
+    "flag": 71604,
+    "kor_name": "영빈관"
   },
   {
     "name": "Haligtree Canopy",
@@ -2045,7 +2300,8 @@
     "lng": 146.612352,
     "region": "surface",
     "category": "grace",
-    "flag": 71506
+    "flag": 71506,
+    "kor_name": "성수의 높은 가지"
   },
   {
     "name": "Haligtree Promenade",
@@ -2053,7 +2309,8 @@
     "lng": 150.52,
     "region": "surface",
     "category": "grace",
-    "flag": 71505
+    "flag": 71505,
+    "kor_name": "성수의 대무대"
   },
   {
     "name": "Haligtree Roots",
@@ -2061,7 +2318,8 @@
     "lng": 149.13,
     "region": "surface",
     "category": "grace",
-    "flag": 71504
+    "flag": 71504,
+    "kor_name": "성수 최하층"
   },
   {
     "name": "Haligtree Town",
@@ -2069,7 +2327,8 @@
     "lng": 148.3,
     "region": "surface",
     "category": "grace",
-    "flag": 71507
+    "flag": 71507,
+    "kor_name": "성수 거리"
   },
   {
     "name": "Haligtree Town Plaza",
@@ -2077,7 +2336,8 @@
     "lng": 147.24,
     "region": "surface",
     "category": "grace",
-    "flag": 71508
+    "flag": 71508,
+    "kor_name": "성수 거리 광장"
   },
   {
     "name": "Heart of Aeonia",
@@ -2085,7 +2345,8 @@
     "lng": 143.75802,
     "region": "surface",
     "category": "grace",
-    "flag": 76412
+    "flag": 76412,
+    "kor_name": "에오니아 중심"
   },
   {
     "name": "Hermit Merchant's Shack",
@@ -2093,7 +2354,8 @@
     "lng": 107.516,
     "region": "surface",
     "category": "grace",
-    "flag": 76311
+    "flag": 76311,
+    "kor_name": "속세를 떠난 상인의 오두막"
   },
   {
     "name": "Hidden Path to the Haligtree",
@@ -2101,7 +2363,8 @@
     "lng": 142.571838,
     "region": "surface",
     "category": "grace",
-    "flag": 73020
+    "flag": 73020,
+    "kor_name": "성수로 가는 숨은 길"
   },
   {
     "name": "Highroad Cave",
@@ -2109,7 +2372,8 @@
     "lng": 108.714048,
     "region": "surface",
     "category": "grace",
-    "flag": 73117
+    "flag": 73117,
+    "kor_name": "높은 길 아래 동굴"
   },
   {
     "name": "Impaler's Catacombs",
@@ -2117,7 +2381,8 @@
     "lng": 119.479609,
     "region": "surface",
     "category": "grace",
-    "flag": 73001
+    "flag": 73001,
+    "kor_name": "꼬챙이의 지하 묘지"
   },
   {
     "name": "Impassable Greatbridge",
@@ -2125,7 +2390,8 @@
     "lng": 149.05246,
     "region": "surface",
     "category": "grace",
-    "flag": 76417
+    "flag": 76417,
+    "kor_name": "불락의 대교"
   },
   {
     "name": "Inner Aeonia",
@@ -2133,7 +2399,8 @@
     "lng": 143.05512,
     "region": "surface",
     "category": "grace",
-    "flag": 76413
+    "flag": 76413,
+    "kor_name": "에오니아 늪 심부"
   },
   {
     "name": "Inner Consecrated Snowfield",
@@ -2141,7 +2408,8 @@
     "lng": 141.781,
     "region": "surface",
     "category": "grace",
-    "flag": 76551
+    "flag": 76551,
+    "kor_name": "구별된 설원 심부"
   },
   {
     "name": "Isolated Divine Tower",
@@ -2149,7 +2417,8 @@
     "lng": 156.109,
     "region": "surface",
     "category": "grace",
-    "flag": 73460
+    "flag": 73460,
+    "kor_name": "고립된 신수탑"
   },
   {
     "name": "Isolated Merchant's Shack (Dragonbarrow)",
@@ -2157,7 +2426,8 @@
     "lng": 135.690235,
     "region": "surface",
     "category": "grace",
-    "flag": 76451
+    "flag": 76451,
+    "kor_name": "은둔 상인의 오두막"
   },
   {
     "name": "Isolated Merchant's Shack (Weeping Peninsula)",
@@ -2165,7 +2435,8 @@
     "lng": 93.882722,
     "region": "surface",
     "category": "grace",
-    "flag": 76156
+    "flag": 76156,
+    "kor_name": "은둔 상인의 오두막"
   },
   {
     "name": "Jarburg",
@@ -2173,7 +2444,8 @@
     "lng": 83.68,
     "region": "surface",
     "category": "grace",
-    "flag": 76245
+    "flag": 76245,
+    "kor_name": "항아리 마을"
   },
   {
     "name": "Lake-Facing Cliffs",
@@ -2181,7 +2453,8 @@
     "lng": 82.102865,
     "region": "surface",
     "category": "grace",
-    "flag": 76200
+    "flag": 76200,
+    "kor_name": "호수를 향한 절벽"
   },
   {
     "name": "Lakeside Crystal Cave",
@@ -2189,7 +2462,8 @@
     "lng": 65.964538,
     "region": "surface",
     "category": "grace",
-    "flag": 73105
+    "flag": 73105,
+    "kor_name": "호수 옆 결정 동굴"
   },
   {
     "name": "Laskyar Ruins",
@@ -2197,7 +2471,8 @@
     "lng": 73.24,
     "region": "surface",
     "category": "grace",
-    "flag": 76202
+    "flag": 76202,
+    "kor_name": "라스카 폐허"
   },
   {
     "name": "Lenne's Rise",
@@ -2205,7 +2480,8 @@
     "lng": 163.91397,
     "region": "surface",
     "category": "grace",
-    "flag": 76455
+    "flag": 76455,
+    "kor_name": "렌의 마술사탑"
   },
   {
     "name": "Liftside Chamber",
@@ -2213,7 +2489,8 @@
     "lng": 85.168084,
     "region": "surface",
     "category": "grace",
-    "flag": 71006
+    "flag": 71006,
+    "kor_name": "승강기측 방"
   },
   {
     "name": "Limgrave Tower Bridge",
@@ -2221,7 +2498,8 @@
     "lng": 90.250392,
     "region": "surface",
     "category": "grace",
-    "flag": 73410
+    "flag": 73410,
+    "kor_name": "림그레이브 신수탑 교량"
   },
   {
     "name": "Limgrave Tunnels",
@@ -2229,7 +2507,8 @@
     "lng": 104.821763,
     "region": "surface",
     "category": "grace",
-    "flag": 73201
+    "flag": 73201,
+    "kor_name": "림그레이브 갱도"
   },
   {
     "name": "Liurnia Highway North",
@@ -2237,7 +2516,8 @@
     "lng": 81.735548,
     "region": "surface",
     "category": "grace",
-    "flag": 76221
+    "flag": 76221,
+    "kor_name": "리에니에 가도 북쪽"
   },
   {
     "name": "Liurnia Highway South",
@@ -2245,7 +2525,8 @@
     "lng": 82.29843,
     "region": "surface",
     "category": "grace",
-    "flag": 76244
+    "flag": 76244,
+    "kor_name": "리에니에 가도 남쪽"
   },
   {
     "name": "Liurnia Lake Shore",
@@ -2253,7 +2534,8 @@
     "lng": 77.063722,
     "region": "surface",
     "category": "grace",
-    "flag": 76201
+    "flag": 76201,
+    "kor_name": "리에니에 호숫가"
   },
   {
     "name": "Liurnia Tower Bridge",
@@ -2261,7 +2543,8 @@
     "lng": 83.395446,
     "region": "surface",
     "category": "grace",
-    "flag": 73421
+    "flag": 73421,
+    "kor_name": "리에니에 신수탑 교량"
   },
   {
     "name": "Lower Capital Church",
@@ -2269,7 +2552,8 @@
     "lng": 114.604822,
     "region": "surface",
     "category": "grace",
-    "flag": 71103
+    "flag": 71103,
+    "kor_name": "도읍 하층 교회"
   },
   {
     "name": "Magma Wyrm",
@@ -2277,7 +2561,8 @@
     "lng": 68.1343,
     "region": "surface",
     "category": "grace",
-    "flag": 73900
+    "flag": 73900,
+    "kor_name": "용암 토룡"
   },
   {
     "name": "Main Academy Gate",
@@ -2285,7 +2570,8 @@
     "lng": 55.477598,
     "region": "surface",
     "category": "grace",
-    "flag": 76206
+    "flag": 76206,
+    "kor_name": "학원 정문 앞"
   },
   {
     "name": "Main Caria Manor Gate",
@@ -2293,7 +2579,8 @@
     "lng": 57.225098,
     "region": "surface",
     "category": "grace",
-    "flag": 76214
+    "flag": 76214,
+    "kor_name": "카리아 성관 정문"
   },
   {
     "name": "Malenia, Goddess of Rot",
@@ -2301,7 +2588,8 @@
     "lng": 146.386515,
     "region": "surface",
     "category": "grace",
-    "flag": 71500
+    "flag": 71500,
+    "kor_name": "부패의 여신 말레니아"
   },
   {
     "name": "Maliketh, the Black Blade",
@@ -2309,7 +2597,8 @@
     "lng": 222.86936,
     "region": "surface",
     "category": "grace",
-    "flag": 71300
+    "flag": 71300,
+    "kor_name": "흑검 말리케스"
   },
   {
     "name": "Manor Lower Level",
@@ -2317,7 +2606,8 @@
     "lng": 55.635558,
     "region": "surface",
     "category": "grace",
-    "flag": 76231
+    "flag": 76231,
+    "kor_name": "성관 하층"
   },
   {
     "name": "Manor Upper Level",
@@ -2325,7 +2615,8 @@
     "lng": 59.874359,
     "region": "surface",
     "category": "grace",
-    "flag": 76230
+    "flag": 76230,
+    "kor_name": "성관 상층"
   },
   {
     "name": "Margit, the Fell Omen",
@@ -2333,15 +2624,17 @@
     "lng": 91.395637,
     "region": "surface",
     "category": "grace",
-    "flag": 71001
+    "flag": 71001,
+    "kor_name": "끔찍한 흉조 멀기트"
   },
   {
     "name": "Mausoleum Compound",
-    "lat": -122.0,
-    "lng": 71.0,
+    "lat": -122,
+    "lng": 71,
     "region": "surface",
     "category": "grace",
-    "flag": 76226
+    "flag": 76226,
+    "kor_name": "영묘 무리"
   },
   {
     "name": "Minor Erdtree Catacombs",
@@ -2349,7 +2642,8 @@
     "lng": 129.255949,
     "region": "surface",
     "category": "grace",
-    "flag": 73014
+    "flag": 73014,
+    "kor_name": "작은 황금 나무 지하 묘지"
   },
   {
     "name": "Minor Erdtree Church",
@@ -2357,7 +2651,8 @@
     "lng": 103.776819,
     "region": "surface",
     "category": "grace",
-    "flag": 76310
+    "flag": 76310,
+    "kor_name": "작은 황금 나무 교회"
   },
   {
     "name": "Mistwood Outskirts",
@@ -2365,7 +2660,8 @@
     "lng": 116.60938,
     "region": "surface",
     "category": "grace",
-    "flag": 76114
+    "flag": 76114,
+    "kor_name": "안개 숲 변두리"
   },
   {
     "name": "Moonlight Altar",
@@ -2373,7 +2669,8 @@
     "lng": 51.120127,
     "region": "surface",
     "category": "grace",
-    "flag": 76250
+    "flag": 76250,
+    "kor_name": "월광의 제단"
   },
   {
     "name": "Morne Moangrave",
@@ -2381,7 +2678,8 @@
     "lng": 105.910299,
     "region": "surface",
     "category": "grace",
-    "flag": 76161
+    "flag": 76161,
+    "kor_name": "몬의 한탄묘"
   },
   {
     "name": "Morne Tunnel",
@@ -2389,7 +2687,8 @@
     "lng": 108.384438,
     "region": "surface",
     "category": "grace",
-    "flag": 73200
+    "flag": 73200,
+    "kor_name": "몬 갱도"
   },
   {
     "name": "Murkwater Catacombs",
@@ -2397,7 +2696,8 @@
     "lng": 110.119994,
     "region": "surface",
     "category": "grace",
-    "flag": 73004
+    "flag": 73004,
+    "kor_name": "흐린 강의 지하 묘지"
   },
   {
     "name": "Murkwater Cave",
@@ -2405,7 +2705,8 @@
     "lng": 108.29,
     "region": "surface",
     "category": "grace",
-    "flag": 73100
+    "flag": 73100,
+    "kor_name": "흐린 강 동굴"
   },
   {
     "name": "Murkwater Coast",
@@ -2413,7 +2714,8 @@
     "lng": 109.887881,
     "region": "surface",
     "category": "grace",
-    "flag": 76116
+    "flag": 76116,
+    "kor_name": "흐린 강 기슭"
   },
   {
     "name": "Ninth Mt. Gelmir Campsite",
@@ -2421,7 +2723,8 @@
     "lng": 66.44824,
     "region": "surface",
     "category": "grace",
-    "flag": 76352
+    "flag": 76352,
+    "kor_name": "겔미어 화산 구부 능선"
   },
   {
     "name": "Northern Liurnia Lake Shore",
@@ -2429,7 +2732,8 @@
     "lng": 49.286943,
     "region": "surface",
     "category": "grace",
-    "flag": 76212
+    "flag": 76212,
+    "kor_name": "리에니에 호수 북쪽"
   },
   {
     "name": "Old Altus Tunnel",
@@ -2437,7 +2741,8 @@
     "lng": 79.104204,
     "region": "surface",
     "category": "grace",
-    "flag": 73204
+    "flag": 73204,
+    "kor_name": "구 알터 갱도"
   },
   {
     "name": "Ordina, Liturgical Town",
@@ -2445,7 +2750,8 @@
     "lng": 138.7,
     "region": "surface",
     "category": "grace",
-    "flag": 76652
+    "flag": 76652,
+    "kor_name": "전례 거리 오르디나"
   },
   {
     "name": "Outer Wall Battleground",
@@ -2453,7 +2759,8 @@
     "lng": 105.655388,
     "region": "surface",
     "category": "grace",
-    "flag": 76312
+    "flag": 76312,
+    "kor_name": "외곽 전장터"
   },
   {
     "name": "Outer Wall Phantom Tree",
@@ -2461,7 +2768,8 @@
     "lng": 99.411918,
     "region": "surface",
     "category": "grace",
-    "flag": 76309
+    "flag": 76309,
+    "kor_name": "외곽 환영 나무"
   },
   {
     "name": "Perfumer's Grotto",
@@ -2469,7 +2777,8 @@
     "lng": 96.216,
     "region": "surface",
     "category": "grace",
-    "flag": 73118
+    "flag": 73118,
+    "kor_name": "조향사의 은신 동굴"
   },
   {
     "name": "Prayer Room",
@@ -2477,7 +2786,8 @@
     "lng": 148.97,
     "region": "surface",
     "category": "grace",
-    "flag": 71501
+    "flag": 71501,
+    "kor_name": "기도실"
   },
   {
     "name": "Primeval Sorcerer Azur",
@@ -2485,7 +2795,8 @@
     "lng": 70.57512,
     "region": "surface",
     "category": "grace",
-    "flag": 76357
+    "flag": 76357,
+    "kor_name": "원류의 마술사 아줄"
   },
   {
     "name": "Prison Town Church",
@@ -2493,7 +2804,8 @@
     "lng": 62.34137,
     "region": "surface",
     "category": "grace",
-    "flag": 71603
+    "flag": 71603,
+    "kor_name": "감옥 거리 교회"
   },
   {
     "name": "Queen's Bedchamber",
@@ -2501,7 +2813,8 @@
     "lng": 119.168,
     "region": "surface",
     "category": "grace",
-    "flag": 71107
+    "flag": 71107,
+    "kor_name": "여왕의 규방"
   },
   {
     "name": "Rampart Tower",
@@ -2509,7 +2822,8 @@
     "lng": 85.11789,
     "region": "surface",
     "category": "grace",
-    "flag": 71005
+    "flag": 71005,
+    "kor_name": "성벽 탑"
   },
   {
     "name": "Rampartside Path",
@@ -2517,7 +2831,8 @@
     "lng": 97.523,
     "region": "surface",
     "category": "grace",
-    "flag": 76305
+    "flag": 76305,
+    "kor_name": "성벽을 따라 난 샛길"
   },
   {
     "name": "Ranni's Chamber",
@@ -2525,7 +2840,8 @@
     "lng": 49.133105,
     "region": "surface",
     "category": "grace",
-    "flag": 76247
+    "flag": 76247,
+    "kor_name": "라니의 방"
   },
   {
     "name": "Ranni's Rise",
@@ -2533,7 +2849,8 @@
     "lng": 49.160032,
     "region": "surface",
     "category": "grace",
-    "flag": 76228
+    "flag": 76228,
+    "kor_name": "라니의 마술사탑"
   },
   {
     "name": "Ravine-Veiled Village",
@@ -2541,7 +2858,8 @@
     "lng": 73.512004,
     "region": "surface",
     "category": "grace",
-    "flag": 76229
+    "flag": 76229,
+    "kor_name": "계곡에 숨은 마을"
   },
   {
     "name": "Raya Lucaria Crystal Tunnel",
@@ -2549,15 +2867,17 @@
     "lng": 67.397903,
     "region": "surface",
     "category": "grace",
-    "flag": 73202
+    "flag": 73202,
+    "kor_name": "레아 루카리아 결정 갱도"
   },
   {
     "name": "Raya Lucaria Grand Library",
-    "lat": -134.0,
-    "lng": 55.0,
+    "lat": -134,
+    "lng": 55,
     "region": "surface",
     "category": "grace",
-    "flag": 71400
+    "flag": 71400,
+    "kor_name": "레아 루카리아 대서고"
   },
   {
     "name": "Rear Gael Tunnel Entrance",
@@ -2565,7 +2885,8 @@
     "lng": 125.3125,
     "region": "surface",
     "category": "grace",
-    "flag": 73257
+    "flag": 73257,
+    "kor_name": "게르 갱도 뒷문"
   },
   {
     "name": "Redmane Castle Plaza",
@@ -2573,7 +2894,8 @@
     "lng": 159.141,
     "region": "surface",
     "category": "grace",
-    "flag": 76419
+    "flag": 76419,
+    "kor_name": "적사자성 광장"
   },
   {
     "name": "Revenger's Shack",
@@ -2581,7 +2903,8 @@
     "lng": 44.86239,
     "region": "surface",
     "category": "grace",
-    "flag": 76218
+    "flag": 76218,
+    "kor_name": "복수자의 오두막"
   },
   {
     "name": "Road of Iniquity",
@@ -2589,7 +2912,8 @@
     "lng": 63.22,
     "region": "surface",
     "category": "grace",
-    "flag": 76353
+    "flag": 76353,
+    "kor_name": "죄인 이송용 길"
   },
   {
     "name": "Road of Iniquity Side Path",
@@ -2597,7 +2921,8 @@
     "lng": 90.254811,
     "region": "surface",
     "category": "grace",
-    "flag": 76307
+    "flag": 76307,
+    "kor_name": "죄인 이송용 길 옆"
   },
   {
     "name": "Road to the Manor",
@@ -2605,7 +2930,8 @@
     "lng": 52.924561,
     "region": "surface",
     "category": "grace",
-    "flag": 76213
+    "flag": 76213,
+    "kor_name": "성관으로 가는 길"
   },
   {
     "name": "Road's End Catacombs",
@@ -2613,7 +2939,8 @@
     "lng": 45.091716,
     "region": "surface",
     "category": "grace",
-    "flag": 73003
+    "flag": 73003,
+    "kor_name": "막다른 길의 지하 묘지"
   },
   {
     "name": "Rotview Balcony",
@@ -2621,7 +2948,8 @@
     "lng": 128.101498,
     "region": "surface",
     "category": "grace",
-    "flag": 76401
+    "flag": 76401,
+    "kor_name": "부패를 향한 노대"
   },
   {
     "name": "Royal Moongazing Grounds",
@@ -2629,7 +2957,8 @@
     "lng": 55.802725,
     "region": "surface",
     "category": "grace",
-    "flag": 76232
+    "flag": 76232,
+    "kor_name": "왕가의 월견장"
   },
   {
     "name": "Ruin-Strewn Precipice",
@@ -2637,7 +2966,8 @@
     "lng": 73.992,
     "region": "surface",
     "category": "grace",
-    "flag": 73901
+    "flag": 73901,
+    "kor_name": "옛 유적 절벽"
   },
   {
     "name": "Ruin-Strewn Precipice Overlook",
@@ -2645,7 +2975,8 @@
     "lng": 70.742,
     "region": "surface",
     "category": "grace",
-    "flag": 73902
+    "flag": 73902,
+    "kor_name": "옛 유적 절벽 맞은편"
   },
   {
     "name": "Ruined Labyrinth",
@@ -2653,7 +2984,8 @@
     "lng": 73.5057,
     "region": "surface",
     "category": "grace",
-    "flag": 76225
+    "flag": 76225,
+    "kor_name": "유적 미로"
   },
   {
     "name": "Rykard, Lord of Blasphemy",
@@ -2661,7 +2993,8 @@
     "lng": 67.0056,
     "region": "surface",
     "category": "grace",
-    "flag": 71600
+    "flag": 71600,
+    "kor_name": "모독의 군주 라이커드"
   },
   {
     "name": "Sage's Cave",
@@ -2669,7 +3002,8 @@
     "lng": 71.356,
     "region": "surface",
     "category": "grace",
-    "flag": 73119
+    "flag": 73119,
+    "kor_name": "현자의 동굴"
   },
   {
     "name": "Sainted Hero's Grave",
@@ -2677,7 +3011,8 @@
     "lng": 88.7,
     "region": "surface",
     "category": "grace",
-    "flag": 73008
+    "flag": 73008,
+    "kor_name": "고귀한 자의 영웅 묘지"
   },
   {
     "name": "Saintsbridge",
@@ -2685,7 +3020,8 @@
     "lng": 107.888276,
     "region": "surface",
     "category": "grace",
-    "flag": 76117
+    "flag": 76117,
+    "kor_name": "성인 다리"
   },
   {
     "name": "Scenic Isle",
@@ -2693,7 +3029,8 @@
     "lng": 67.88,
     "region": "surface",
     "category": "grace",
-    "flag": 76203
+    "flag": 76203,
+    "kor_name": "조망섬"
   },
   {
     "name": "Schoolhouse Classroom",
@@ -2701,7 +3038,8 @@
     "lng": 58.050843,
     "region": "surface",
     "category": "grace",
-    "flag": 71403
+    "flag": 71403,
+    "kor_name": "배움터의 방"
   },
   {
     "name": "Sealed Tunnel",
@@ -2709,7 +3047,8 @@
     "lng": 105.2,
     "region": "surface",
     "category": "grace",
-    "flag": 73431
+    "flag": 73431,
+    "kor_name": "봉인된 갱도"
   },
   {
     "name": "Seaside Ruins",
@@ -2717,7 +3056,8 @@
     "lng": 106.943373,
     "region": "surface",
     "category": "grace",
-    "flag": 76113
+    "flag": 76113,
+    "kor_name": "바다에 면한 옛 유적"
   },
   {
     "name": "Secluded Cell",
@@ -2725,7 +3065,8 @@
     "lng": 87.180332,
     "region": "surface",
     "category": "grace",
-    "flag": 71007
+    "flag": 71007,
+    "kor_name": "후미진 작은 방"
   },
   {
     "name": "Seethewater Cave",
@@ -2733,7 +3074,8 @@
     "lng": 69.08207,
     "region": "surface",
     "category": "grace",
-    "flag": 73107
+    "flag": 73107,
+    "kor_name": "끓는 강 동굴"
   },
   {
     "name": "Seethewater River",
@@ -2741,7 +3083,8 @@
     "lng": 71.656,
     "region": "surface",
     "category": "grace",
-    "flag": 76354
+    "flag": 76354,
+    "kor_name": "끓는 강"
   },
   {
     "name": "Seethewater Terminus",
@@ -2749,7 +3092,8 @@
     "lng": 60.227714,
     "region": "surface",
     "category": "grace",
-    "flag": 76355
+    "flag": 76355,
+    "kor_name": "끓는 강 종단"
   },
   {
     "name": "Sellia Backstreets",
@@ -2757,7 +3101,8 @@
     "lng": 147.862074,
     "region": "surface",
     "category": "grace",
-    "flag": 76414
+    "flag": 76414,
+    "kor_name": "사리아 거리 뒤쪽"
   },
   {
     "name": "Sellia Crystal Tunnel",
@@ -2765,7 +3110,8 @@
     "lng": 143.677488,
     "region": "surface",
     "category": "grace",
-    "flag": 73208
+    "flag": 73208,
+    "kor_name": "사리아의 결정 갱도"
   },
   {
     "name": "Sellia Hideaway",
@@ -2773,7 +3119,8 @@
     "lng": 154.538656,
     "region": "surface",
     "category": "grace",
-    "flag": 73111
+    "flag": 73111,
+    "kor_name": "사리아의 은신 동굴"
   },
   {
     "name": "Sellia Under-Stair",
@@ -2781,7 +3128,8 @@
     "lng": 146.82302,
     "region": "surface",
     "category": "grace",
-    "flag": 76416
+    "flag": 76416,
+    "kor_name": "사리아 거리 계단 아래"
   },
   {
     "name": "Shaded Castle Inner Gate",
@@ -2789,7 +3137,8 @@
     "lng": 81.1783,
     "region": "surface",
     "category": "grace",
-    "flag": 76321
+    "flag": 76321,
+    "kor_name": "그늘성 안쪽 문"
   },
   {
     "name": "Shaded Castle Ramparts",
@@ -2797,7 +3146,8 @@
     "lng": 82.850676,
     "region": "surface",
     "category": "grace",
-    "flag": 76320
+    "flag": 76320,
+    "kor_name": "그늘성 성벽"
   },
   {
     "name": "Slumbering Wolf's Shack",
@@ -2805,7 +3155,8 @@
     "lng": 66.04,
     "region": "surface",
     "category": "grace",
-    "flag": 76215
+    "flag": 76215,
+    "kor_name": "늑대가 잠든 오두막"
   },
   {
     "name": "Smoldering Church",
@@ -2813,7 +3164,8 @@
     "lng": 125.149204,
     "region": "surface",
     "category": "grace",
-    "flag": 76400
+    "flag": 76400,
+    "kor_name": "그을림 교회"
   },
   {
     "name": "Smoldering Wall",
@@ -2821,7 +3173,8 @@
     "lng": 136.094138,
     "region": "surface",
     "category": "grace",
-    "flag": 76409
+    "flag": 76409,
+    "kor_name": "그을림의 벽"
   },
   {
     "name": "Snow Valley Ruins Overlook",
@@ -2829,15 +3182,17 @@
     "lng": 159.688,
     "region": "surface",
     "category": "grace",
-    "flag": 76521
+    "flag": 76521,
+    "kor_name": "옛 유적 계곡 절벽 위"
   },
   {
     "name": "Sorcerer's Isle",
-    "lat": -124.0,
-    "lng": 53.0,
+    "lat": -124,
+    "lng": 53,
     "region": "surface",
     "category": "grace",
-    "flag": 76211
+    "flag": 76211,
+    "kor_name": "마술사탑의 작은 섬"
   },
   {
     "name": "South Raya Lucaria Gate",
@@ -2845,7 +3200,8 @@
     "lng": 60.430761,
     "region": "surface",
     "category": "grace",
-    "flag": 76205
+    "flag": 76205,
+    "kor_name": "레아 루카리아 남문"
   },
   {
     "name": "South of the Lookout Tower",
@@ -2853,7 +3209,8 @@
     "lng": 113.215477,
     "region": "surface",
     "category": "grace",
-    "flag": 76153
+    "flag": 76153,
+    "kor_name": "감시탑 남쪽"
   },
   {
     "name": "Southern Aeonia Swamp Bank",
@@ -2861,7 +3218,8 @@
     "lng": 144.65932,
     "region": "surface",
     "category": "grace",
-    "flag": 76411
+    "flag": 76411,
+    "kor_name": "에오니아 늪 남쪽"
   },
   {
     "name": "Spiritcaller's Cave",
@@ -2869,7 +3227,8 @@
     "lng": 167.660433,
     "region": "surface",
     "category": "grace",
-    "flag": 73122
+    "flag": 73122,
+    "kor_name": "환혼 동굴"
   },
   {
     "name": "Starscourge Radahn",
@@ -2877,7 +3236,8 @@
     "lng": 160.52514,
     "region": "surface",
     "category": "grace",
-    "flag": 76422
+    "flag": 76422,
+    "kor_name": "별 부수는 라단"
   },
   {
     "name": "Stillwater Cave",
@@ -2885,7 +3245,8 @@
     "lng": 82.159122,
     "region": "surface",
     "category": "grace",
-    "flag": 73104
+    "flag": 73104,
+    "kor_name": "유수 동굴"
   },
   {
     "name": "Stormfoot Catacombs",
@@ -2893,7 +3254,8 @@
     "lng": 95.44,
     "region": "surface",
     "category": "grace",
-    "flag": 73002
+    "flag": 73002,
+    "kor_name": "폭풍 기슭의 지하 묘지"
   },
   {
     "name": "Stormhill Shack",
@@ -2901,7 +3263,8 @@
     "lng": 94.980798,
     "region": "surface",
     "category": "grace",
-    "flag": 76102
+    "flag": 76102,
+    "kor_name": "폭풍 언덕의 낡은 집"
   },
   {
     "name": "Stormveil Cliffside",
@@ -2909,7 +3272,8 @@
     "lng": 87.098222,
     "region": "surface",
     "category": "grace",
-    "flag": 71004
+    "flag": 71004,
+    "kor_name": "스톰빌 절벽"
   },
   {
     "name": "Stormveil Main Gate",
@@ -2917,7 +3281,8 @@
     "lng": 89.752664,
     "region": "surface",
     "category": "grace",
-    "flag": 71008
+    "flag": 71008,
+    "kor_name": "스톰빌 정문"
   },
   {
     "name": "Stranded Graveyard",
@@ -2925,7 +3290,8 @@
     "lng": 101.185587,
     "region": "surface",
     "category": "grace",
-    "flag": 71801
+    "flag": 71801,
+    "kor_name": "표류묘지"
   },
   {
     "name": "Study Hall Entrance",
@@ -2933,7 +3299,8 @@
     "lng": 81.219718,
     "region": "surface",
     "category": "grace",
-    "flag": 73420
+    "flag": 73420,
+    "kor_name": "서원 입구"
   },
   {
     "name": "Subterranean Inquisition Chamber",
@@ -2941,7 +3308,8 @@
     "lng": 68.24622,
     "region": "surface",
     "category": "grace",
-    "flag": 71607
+    "flag": 71607,
+    "kor_name": "땅 밑 책문소"
   },
   {
     "name": "Summonwater Village Outskirts",
@@ -2949,7 +3317,8 @@
     "lng": 116.2,
     "region": "surface",
     "category": "grace",
-    "flag": 76119
+    "flag": 76119,
+    "kor_name": "마중물 마을 변두리"
   },
   {
     "name": "Tempest-Facing Balcony",
@@ -2957,7 +3326,8 @@
     "lng": 214.31,
     "region": "surface",
     "category": "grace",
-    "flag": 71305
+    "flag": 71305,
+    "kor_name": "회오리를 향한 노대"
   },
   {
     "name": "Temple Quarter",
@@ -2965,7 +3335,8 @@
     "lng": 50.4,
     "region": "surface",
     "category": "grace",
-    "flag": 76241
+    "flag": 76241,
+    "kor_name": "성당구획"
   },
   {
     "name": "Temple of Eiglay",
@@ -2973,7 +3344,8 @@
     "lng": 65.20087,
     "region": "surface",
     "category": "grace",
-    "flag": 71601
+    "flag": 71601,
+    "kor_name": "에이그레이 성당"
   },
   {
     "name": "The First Step",
@@ -2981,7 +3353,8 @@
     "lng": 100.316924,
     "region": "surface",
     "category": "grace",
-    "flag": 76101
+    "flag": 76101,
+    "kor_name": "인도의 시작"
   },
   {
     "name": "The Four Belfries",
@@ -2989,15 +3362,17 @@
     "lng": 46.480694,
     "region": "surface",
     "category": "grace",
-    "flag": 76227
+    "flag": 76227,
+    "kor_name": "사종루"
   },
   {
     "name": "The Ravine",
-    "lat": -113.0,
-    "lng": 61.0,
+    "lat": -113,
+    "lng": 61,
     "region": "surface",
     "category": "grace",
-    "flag": 76235
+    "flag": 76235,
+    "kor_name": "계곡 바닥"
   },
   {
     "name": "Third Church of Marika",
@@ -3005,7 +3380,8 @@
     "lng": 123.635299,
     "region": "surface",
     "category": "grace",
-    "flag": 76104
+    "flag": 76104,
+    "kor_name": "제3 마리카 교회"
   },
   {
     "name": "Tombsward",
@@ -3013,7 +3389,8 @@
     "lng": 103.618119,
     "region": "surface",
     "category": "grace",
-    "flag": 76152
+    "flag": 76152,
+    "kor_name": "영묘 들판"
   },
   {
     "name": "Tombsward Catacombs",
@@ -3021,7 +3398,8 @@
     "lng": 103.759886,
     "region": "surface",
     "category": "grace",
-    "flag": 73000
+    "flag": 73000,
+    "kor_name": "영묘 들판 지하 묘지"
   },
   {
     "name": "Tombsward Cave",
@@ -3029,7 +3407,8 @@
     "lng": 98.04179,
     "region": "surface",
     "category": "grace",
-    "flag": 73102
+    "flag": 73102,
+    "kor_name": "영묘 들판 동굴"
   },
   {
     "name": "Underground Roadside",
@@ -3037,7 +3416,8 @@
     "lng": 116.010481,
     "region": "surface",
     "category": "grace",
-    "flag": 73501
+    "flag": 73501,
+    "kor_name": "지하대로 옆"
   },
   {
     "name": "Unsightly Catacombs",
@@ -3045,7 +3425,8 @@
     "lng": 62.024095,
     "region": "surface",
     "category": "grace",
-    "flag": 73012
+    "flag": 73012,
+    "kor_name": "추한 지하 묘지"
   },
   {
     "name": "Village of the Albinaurics",
@@ -3053,7 +3434,8 @@
     "lng": 51.760557,
     "region": "surface",
     "category": "grace",
-    "flag": 76220
+    "flag": 76220,
+    "kor_name": "백금 마을"
   },
   {
     "name": "Volcano Cave",
@@ -3061,7 +3443,8 @@
     "lng": 68.416885,
     "region": "surface",
     "category": "grace",
-    "flag": 73109
+    "flag": 73109,
+    "kor_name": "화산 동굴"
   },
   {
     "name": "Volcano Manor",
@@ -3069,7 +3452,8 @@
     "lng": 65.05065,
     "region": "surface",
     "category": "grace",
-    "flag": 71602
+    "flag": 71602,
+    "kor_name": "화산관"
   },
   {
     "name": "War-Dead Catacombs",
@@ -3077,7 +3461,8 @@
     "lng": 162.6,
     "region": "surface",
     "category": "grace",
-    "flag": 73016
+    "flag": 73016,
+    "kor_name": "영령들의 지하 묘지"
   },
   {
     "name": "Warmaster's Shack",
@@ -3085,7 +3470,8 @@
     "lng": 101.387544,
     "region": "surface",
     "category": "grace",
-    "flag": 76118
+    "flag": 76118,
+    "kor_name": "전쟁 배움의 낡은 집"
   },
   {
     "name": "Waypoint Ruins Cellar",
@@ -3093,7 +3479,8 @@
     "lng": 114.474125,
     "region": "surface",
     "category": "grace",
-    "flag": 76120
+    "flag": 76120,
+    "kor_name": "역참터 지하실"
   },
   {
     "name": "West Capital Rampart",
@@ -3101,7 +3488,8 @@
     "lng": 114.98,
     "region": "surface",
     "category": "grace",
-    "flag": 71105
+    "flag": 71105,
+    "kor_name": "도읍 서쪽 성벽"
   },
   {
     "name": "Whiteridge Road",
@@ -3109,7 +3497,8 @@
     "lng": 164.19,
     "region": "surface",
     "category": "grace",
-    "flag": 76520
+    "flag": 76520,
+    "kor_name": "눈 능선길"
   },
   {
     "name": "Windmill Heights",
@@ -3117,7 +3506,8 @@
     "lng": 99.585699,
     "region": "surface",
     "category": "grace",
-    "flag": 76313
+    "flag": 76313,
+    "kor_name": "풍차 마을 고지대"
   },
   {
     "name": "Windmill Village",
@@ -3125,7 +3515,8 @@
     "lng": 97.47,
     "region": "surface",
     "category": "grace",
-    "flag": 76308
+    "flag": 76308,
+    "kor_name": "풍차 마을"
   },
   {
     "name": "Wyndham Catacombs",
@@ -3133,7 +3524,8 @@
     "lng": 72.940388,
     "region": "surface",
     "category": "grace",
-    "flag": 73007
+    "flag": 73007,
+    "kor_name": "윈덤 지하 묘지"
   },
   {
     "name": "Yelough Anix Tunnel",
@@ -3141,7 +3533,8 @@
     "lng": 133.693052,
     "region": "surface",
     "category": "grace",
-    "flag": 73211
+    "flag": 73211,
+    "kor_name": "옐로 아니스 갱도"
   },
   {
     "name": "Zamor Ruins",
@@ -3149,7 +3542,8 @@
     "lng": 146.29969,
     "region": "surface",
     "category": "grace",
-    "flag": 76501
+    "flag": 76501,
+    "kor_name": "자미엘의 폐허"
   },
   {
     "name": "Across the Roots",
@@ -3157,7 +3551,8 @@
     "lng": 116.879443,
     "region": "underground",
     "category": "grace",
-    "flag": 71235
+    "flag": 71235,
+    "kor_name": "뿌리 너머"
   },
   {
     "name": "Ainsel River Downstream",
@@ -3165,7 +3560,8 @@
     "lng": 67.418195,
     "region": "underground",
     "category": "grace",
-    "flag": 71213
+    "flag": 71213,
+    "kor_name": "에인세르 강 하류"
   },
   {
     "name": "Ainsel River Main",
@@ -3173,7 +3569,8 @@
     "lng": 75.90301,
     "region": "underground",
     "category": "grace",
-    "flag": 71214
+    "flag": 71214,
+    "kor_name": "에인세르 강 본류"
   },
   {
     "name": "Ainsel River Sluice Gate",
@@ -3181,7 +3578,8 @@
     "lng": 72.914,
     "region": "underground",
     "category": "grace",
-    "flag": 71212
+    "flag": 71212,
+    "kor_name": "에인세르 강 수문"
   },
   {
     "name": "Ainsel River Well Depths",
@@ -3189,7 +3587,8 @@
     "lng": 77.567149,
     "region": "underground",
     "category": "grace",
-    "flag": 71211
+    "flag": 71211,
+    "kor_name": "에인세르 강 우물 아래"
   },
   {
     "name": "Ancestral Woods",
@@ -3197,7 +3596,8 @@
     "lng": 128.488495,
     "region": "underground",
     "category": "grace",
-    "flag": 71224
+    "flag": 71224,
+    "kor_name": "선조령의 숲"
   },
   {
     "name": "Aqueduct-Facing Cliffs",
@@ -3205,7 +3605,8 @@
     "lng": 132.316801,
     "region": "underground",
     "category": "grace",
-    "flag": 71225
+    "flag": 71225,
+    "kor_name": "수도교를 향한 절벽"
   },
   {
     "name": "Astel, Naturalborn of the Void",
@@ -3213,7 +3614,8 @@
     "lng": 48.69081,
     "region": "underground",
     "category": "grace",
-    "flag": 71240
+    "flag": 71240,
+    "kor_name": "암흑의 부산물 아스테르"
   },
   {
     "name": "Below the Well",
@@ -3221,7 +3623,8 @@
     "lng": 140.925041,
     "region": "underground",
     "category": "grace",
-    "flag": 71227
+    "flag": 71227,
+    "kor_name": "안쪽 우물 아래"
   },
   {
     "name": "Cocoon of the Empyrean",
@@ -3229,7 +3632,8 @@
     "lng": 145.688,
     "region": "underground",
     "category": "grace",
-    "flag": 71250
+    "flag": 71250,
+    "kor_name": "반신이 잠든 고치"
   },
   {
     "name": "Deeproot Depths",
@@ -3237,7 +3641,8 @@
     "lng": 113.828,
     "region": "underground",
     "category": "grace",
-    "flag": 71233
+    "flag": 71233,
+    "kor_name": "깊은 뿌리 밑바닥"
   },
   {
     "name": "Dragonkin Soldier of Nokstella",
@@ -3245,7 +3650,8 @@
     "lng": 65.109314,
     "region": "underground",
     "category": "grace",
-    "flag": 71210
+    "flag": 71210,
+    "kor_name": "녹스텔라의 용인병"
   },
   {
     "name": "Dynasty Mausoleum Entrance",
@@ -3253,7 +3659,8 @@
     "lng": 149.528133,
     "region": "underground",
     "category": "grace",
-    "flag": 71252
+    "flag": 71252,
+    "kor_name": "왕조묘 입구"
   },
   {
     "name": "Dynasty Mausoleum Midpoint",
@@ -3261,7 +3668,8 @@
     "lng": 148.195,
     "region": "underground",
     "category": "grace",
-    "flag": 71253
+    "flag": 71253,
+    "kor_name": "왕조묘 중턱"
   },
   {
     "name": "Grand Cloister",
@@ -3269,7 +3677,8 @@
     "lng": 57.40648,
     "region": "underground",
     "category": "grace",
-    "flag": 71218
+    "flag": 71218,
+    "kor_name": "대회랑"
   },
   {
     "name": "Great Waterfall Basin",
@@ -3277,7 +3686,8 @@
     "lng": 132.71962,
     "region": "underground",
     "category": "grace",
-    "flag": 71220
+    "flag": 71220,
+    "kor_name": "대폭포"
   },
   {
     "name": "Great Waterfall Crest",
@@ -3285,7 +3695,8 @@
     "lng": 124.305,
     "region": "underground",
     "category": "grace",
-    "flag": 71232
+    "flag": 71232,
+    "kor_name": "대폭포 정상"
   },
   {
     "name": "Lake of Rot Shoreside",
@@ -3293,7 +3704,8 @@
     "lng": 60.198049,
     "region": "underground",
     "category": "grace",
-    "flag": 71216
+    "flag": 71216,
+    "kor_name": "부패한 호숫가"
   },
   {
     "name": "Mimic Tear",
@@ -3301,7 +3713,8 @@
     "lng": 128.805972,
     "region": "underground",
     "category": "grace",
-    "flag": 71221
+    "flag": 71221,
+    "kor_name": "화신의 물방울"
   },
   {
     "name": "Night's Sacred Ground",
@@ -3309,7 +3722,8 @@
     "lng": 127.2935,
     "region": "underground",
     "category": "grace",
-    "flag": 71226
+    "flag": 71226,
+    "kor_name": "밤의 성역"
   },
   {
     "name": "Nokron, Eternal City",
@@ -3317,7 +3731,8 @@
     "lng": 121.299656,
     "region": "underground",
     "category": "grace",
-    "flag": 71271
+    "flag": 71271,
+    "kor_name": "영원한 도읍 노크론"
   },
   {
     "name": "Nokstella Waterfall Basin",
@@ -3325,7 +3740,8 @@
     "lng": 61.82156,
     "region": "underground",
     "category": "grace",
-    "flag": 71219
+    "flag": 71219,
+    "kor_name": "녹스텔라 폭포"
   },
   {
     "name": "Nokstella, Eternal City",
@@ -3333,7 +3749,8 @@
     "lng": 68.515494,
     "region": "underground",
     "category": "grace",
-    "flag": 71215
+    "flag": 71215,
+    "kor_name": "영원한 도읍 녹스텔라"
   },
   {
     "name": "Palace Approach Ledge-Road",
@@ -3341,7 +3758,8 @@
     "lng": 154.502017,
     "region": "underground",
     "category": "grace",
-    "flag": 71251
+    "flag": 71251,
+    "kor_name": "왕조에 이르는 절벽길"
   },
   {
     "name": "Prince of Death's Throne",
@@ -3349,7 +3767,8 @@
     "lng": 118.79351,
     "region": "underground",
     "category": "grace",
-    "flag": 71230
+    "flag": 71230,
+    "kor_name": "죽음의 왕자의 자리"
   },
   {
     "name": "Siofra River Bank",
@@ -3357,7 +3776,8 @@
     "lng": 130.582834,
     "region": "underground",
     "category": "grace",
-    "flag": 71222
+    "flag": 71222,
+    "kor_name": "시프라 강 강가"
   },
   {
     "name": "Siofra River Well Depths",
@@ -3365,7 +3785,8 @@
     "lng": 122.572832,
     "region": "underground",
     "category": "grace",
-    "flag": 71270
+    "flag": 71270,
+    "kor_name": "시프라 강 우물 아래"
   },
   {
     "name": "The Nameless Eternal City",
@@ -3373,7 +3794,8 @@
     "lng": 111.457443,
     "region": "underground",
     "category": "grace",
-    "flag": 71234
+    "flag": 71234,
+    "kor_name": "이름 없는 영원한 도읍"
   },
   {
     "name": "Worshippers' Woods",
@@ -3381,6 +3803,7 @@
     "lng": 138.730923,
     "region": "underground",
     "category": "grace",
-    "flag": 71223
+    "flag": 71223,
+    "kor_name": "신봉자의 숲"
   }
 ]

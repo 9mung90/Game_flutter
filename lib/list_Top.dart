@@ -118,6 +118,12 @@ class _ListTopState extends State<ListTop> {
   bool _gestureFilterBase = false;
   bool _gestureFilterDlc = false;
 
+  Set<String> _enabledMapMarkerCategories = {
+    ...MapMarkerData.defaultCategoryKeys,
+  };
+  Set<String> _enabledMapMarkerDetailKeys = <String>{};
+  String _selectedMapRegion = 'surface';
+
   @override
   void initState() {
     super.initState();
@@ -179,8 +185,9 @@ class _ListTopState extends State<ListTop> {
     final latestParts = latest.split('.').map(int.parse).toList();
     final currentParts = current.split('.').map(int.parse).toList();
 
-    final maxLength =
-    latestParts.length > currentParts.length ? latestParts.length : currentParts.length;
+    final maxLength = latestParts.length > currentParts.length
+        ? latestParts.length
+        : currentParts.length;
 
     while (latestParts.length < maxLength) {
       latestParts.add(0);
@@ -248,11 +255,7 @@ class _ListTopState extends State<ListTop> {
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(4.0),
-                  child: Icon(
-                    Icons.close,
-                    color: Colors.white70,
-                    size: 18,
-                  ),
+                  child: Icon(Icons.close, color: Colors.white70, size: 18),
                 ),
               ),
             ],
@@ -283,19 +286,13 @@ class _ListTopState extends State<ListTop> {
                     _showUpdateNotice = false;
                   });
                 },
-                child: const Text(
-                  '다시 보지 않기',
-                  style: TextStyle(fontSize: 12),
-                ),
+                child: const Text('다시 보지 않기', style: TextStyle(fontSize: 12)),
               ),
               const SizedBox(width: 4),
               ElevatedButton(
                 onPressed: () async {
                   final uri = Uri.parse(_versionInfo!.storeUrl);
-                  await launchUrl(
-                    uri,
-                    mode: LaunchMode.externalApplication,
-                  );
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.amberAccent,
@@ -305,10 +302,7 @@ class _ListTopState extends State<ListTop> {
                 ),
                 child: const Text(
                   '업데이트',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -326,7 +320,8 @@ class _ListTopState extends State<ListTop> {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     final int visualIndex = index == 8 ? 0 : index + 1;
-    double targetOffset = itemWidth * visualIndex - (screenWidth - itemWidth) / 2;
+    double targetOffset =
+        itemWidth * visualIndex - (screenWidth - itemWidth) / 2;
 
     if (targetOffset < 0) targetOffset = 0;
 
@@ -343,9 +338,9 @@ class _ListTopState extends State<ListTop> {
   // 이미지 다이얼로그
   void _showImageDialog(BuildContext context, String imageUrl, String title) {
     if (imageUrl.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('상세 이미지가 없습니다.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('상세 이미지가 없습니다.')));
       return;
     }
 
@@ -363,10 +358,7 @@ class _ListTopState extends State<ListTop> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.asset(
-                    'assets/images/background.png',
-                    fit: BoxFit.fill,
-                  ),
+                  Image.asset('assets/images/background.png', fit: BoxFit.fill),
                   Center(
                     child: SizedBox(
                       width: 170,
@@ -395,11 +387,7 @@ class _ListTopState extends State<ListTop> {
     if (item is EWeapon) {
       Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => DetailViewerPage(
-            weapon: item,
-          ),
-        ),
+        MaterialPageRoute(builder: (context) => DetailViewerPage(weapon: item)),
       );
     }
   }
@@ -410,7 +398,8 @@ class _ListTopState extends State<ListTop> {
         _selectedIndex == 1 || // 방어구
         _selectedIndex == 2 || // 전투 기술(EAsh)
         _selectedIndex == 3 || // 주문(ESpell) spell/type 필터
-        _selectedIndex == 6; // 기타(EEtc) 타입 필터
+        _selectedIndex == 6 || // 기타(EEtc) 타입 필터
+        _selectedIndex == 8; // 지도 마커 필터
     // ⭐ 뼛가루(index 5), 제스처(index 7)는 "추가 필터"만 있음
   }
 
@@ -427,6 +416,8 @@ class _ListTopState extends State<ListTop> {
         return _spellKindFilter != '전체' || _spellTypeFilter != '전체';
       case 6:
         return _etcTypeFilter != '전체';
+      case 8:
+        return _isMapDetailFilterActive();
       default:
         return false;
     }
@@ -480,8 +471,83 @@ class _ListTopState extends State<ListTop> {
     return _gestureFilterBase || _gestureFilterDlc;
   }
 
+  bool _isMapDetailFilterActive() {
+    return _enabledMapMarkerDetailKeys.length !=
+        MapMarkerData.defaultDetailKeys.length;
+  }
+
+  bool _isMapRegionFilterActive() {
+    return _selectedMapRegion != 'surface';
+  }
+
+  String _mapRegionLabel(String region) {
+    switch (region) {
+      case 'dlc':
+        return 'DLC';
+      case 'underground':
+        return '지하';
+      default:
+        return '지상';
+    }
+  }
+
+  String _extraFilterTooltip() {
+    switch (_selectedIndex) {
+      case 0:
+        return '무기 강화/본편/DLC/전설 필터';
+      case 1:
+        return '방어구 본편/DLC 필터';
+      case 2:
+        return '전회 본편/DLC 필터';
+      case 3:
+        return '주문 전설/본편/DLC 필터';
+      case 4:
+        return '탈리스만 필터';
+      case 5:
+        return '뼛가루 필터';
+      case 6:
+        return '기타 아이템 본편/DLC 필터';
+      case 7:
+        return '제스처 필터';
+      case 8:
+        return '맵 선택: ${_mapRegionLabel(_selectedMapRegion)}';
+      default:
+        return '추가 필터 없음';
+    }
+  }
+
+  VoidCallback? _extraFilterAction() {
+    switch (_selectedIndex) {
+      case 0:
+        return _openWeaponExtraFilterSheet;
+      case 1:
+        return _openArmorExtraFilterSheet;
+      case 2:
+        return _openAshExtraFilterSheet;
+      case 3:
+        return _openSpellExtraFilterSheet;
+      case 4:
+        return _openTalismanExtraFilterSheet;
+      case 5:
+        return _openBoneExtraFilterSheet;
+      case 6:
+        return _openEtcExtraFilterSheet;
+      case 7:
+        return _openGestureExtraFilterSheet;
+      case 8:
+        return _openMapRegionSheet;
+      default:
+        return null;
+    }
+  }
+
   // 🔹 공용 필터 선택 바텀시트 열기 (기존: 무기/방어구/전투기술/기타 타입 필터)
   void _openFilterSheet() {
+    if (_selectedIndex == 8) {
+      _openMapDetailFilterSheet();
+      return;
+    }
+
     if (_selectedIndex == 0) {
       _openWeaponFilterSheet();
       return;
@@ -493,9 +559,9 @@ class _ListTopState extends State<ListTop> {
     }
 
     if (!_hasFilterForCurrentTab()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('이 카테고리는 아직 필터가 없습니다.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('이 카테고리는 아직 필터가 없습니다.')));
       return;
     }
 
@@ -508,13 +574,7 @@ class _ListTopState extends State<ListTop> {
       case 1:
         title = '방어구 필터';
         iconAsset = 'assets/images/armor_Icon.png';
-        options = const [
-          '전체',
-          '투구',
-          '갑옷',
-          '장갑',
-          '각반',
-        ];
+        options = const ['전체', '투구', '갑옷', '장갑', '각반'];
         currentValue = _armorPartFilter;
         break;
       case 2:
@@ -598,7 +658,11 @@ class _ListTopState extends State<ListTop> {
                         width: 22,
                         height: 22,
                         errorBuilder: (context, error, stackTrace) =>
-                        const Icon(Icons.broken_image, color: Colors.white70, size: 22),
+                            const Icon(
+                              Icons.broken_image,
+                              color: Colors.white70,
+                              size: 22,
+                            ),
                       ),
                       const SizedBox(width: 8),
                     ],
@@ -667,16 +731,22 @@ class _ListTopState extends State<ListTop> {
                           vertical: 10,
                         ),
                         decoration: BoxDecoration(
-                          color: isSelected ? Colors.grey[800] : Colors.transparent,
+                          color: isSelected
+                              ? Colors.grey[800]
+                              : Colors.transparent,
                         ),
                         child: Row(
                           children: [
                             Text(
                               option,
                               style: TextStyle(
-                                color: isSelected ? Colors.white : Colors.grey[300],
+                                color: isSelected
+                                    ? Colors.white
+                                    : Colors.grey[300],
                                 fontSize: 14,
-                                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.normal,
                               ),
                             ),
                             const Spacer(),
@@ -698,6 +768,241 @@ class _ListTopState extends State<ListTop> {
         );
       },
     );
+  }
+
+  void _openMapRegionSheet() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color.fromRGBO(33, 33, 33, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Padding(
+                padding: EdgeInsets.fromLTRB(16, 14, 16, 8),
+                child: Row(
+                  children: [
+                    Icon(Icons.map_outlined, color: Colors.amberAccent),
+                    SizedBox(width: 8),
+                    Text(
+                      '맵 선택',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(color: Colors.white24, height: 1),
+              for (final region in const ['surface', 'underground', 'dlc'])
+                RadioListTile<String>(
+                  value: region,
+                  groupValue: _selectedMapRegion,
+                  activeColor: Colors.amberAccent,
+                  title: Text(
+                    _mapRegionLabel(region),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  onChanged: (value) {
+                    if (value == null) return;
+                    setState(() {
+                      _selectedMapRegion = value;
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _openMapDetailFilterSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: const Color.fromRGBO(33, 33, 33, 1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        var tempEnabled = {..._enabledMapMarkerDetailKeys};
+        final maxHeight = MediaQuery.of(context).size.height * 0.75;
+
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return SafeArea(
+              child: SizedBox(
+                height: maxHeight,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 14, 8, 8),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.tune, color: Colors.amberAccent),
+                          const SizedBox(width: 8),
+                          const Expanded(
+                            child: Text(
+                              '지도 필터',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              setModalState(() {
+                                tempEnabled = {
+                                  ...MapMarkerData.defaultDetailKeys,
+                                };
+                              });
+                              setState(() {
+                                _enabledMapMarkerDetailKeys = {
+                                  ...MapMarkerData.defaultDetailKeys,
+                                };
+                              });
+                            },
+                            child: const Text(
+                              '전체',
+                              style: TextStyle(color: Colors.amberAccent),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              setModalState(() {
+                                tempEnabled = <String>{};
+                              });
+                              setState(() {
+                                _enabledMapMarkerDetailKeys = <String>{};
+                              });
+                            },
+                            child: const Text(
+                              '끄기',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Divider(color: Colors.white24, height: 1),
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          for (final group in MapMarkerData.detailGroups) ...[
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 12, 8, 2),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      group.title,
+                                      style: const TextStyle(
+                                        color: Colors.amberAccent,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      setModalState(() {
+                                        tempEnabled.addAll(group.keys);
+                                      });
+                                      setState(() {
+                                        _enabledMapMarkerDetailKeys = {
+                                          ...tempEnabled,
+                                        };
+                                      });
+                                    },
+                                    child: const Text(
+                                      '전체',
+                                      style: TextStyle(
+                                        color: Colors.amberAccent,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      setModalState(() {
+                                        tempEnabled.removeAll(group.keys);
+                                      });
+                                      setState(() {
+                                        _enabledMapMarkerDetailKeys = {
+                                          ...tempEnabled,
+                                        };
+                                      });
+                                    },
+                                    child: const Text(
+                                      '끄기',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            for (final detailKey in group.keys)
+                              CheckboxListTile(
+                                value: tempEnabled.contains(detailKey),
+                                onChanged: (v) {
+                                  final checked = v ?? false;
+                                  setModalState(() {
+                                    if (checked) {
+                                      tempEnabled.add(detailKey);
+                                    } else {
+                                      tempEnabled.remove(detailKey);
+                                    }
+                                  });
+                                  setState(() {
+                                    _enabledMapMarkerDetailKeys = {
+                                      ...tempEnabled,
+                                    };
+                                  });
+                                },
+                                activeColor: Colors.amberAccent,
+                                checkColor: Colors.black,
+                                dense: true,
+                                title: Text(
+                                  MapMarkerData.detailDisplayLabel(detailKey),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                          ],
+                          const SizedBox(height: 8),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget? _buildMapFilterIcon(String categoryKey) {
+    final iconAsset = MapMarkerData.categoryIconAsset(categoryKey);
+    if (iconAsset == null) return null;
+
+    return Image.asset(iconAsset, width: 20, height: 20, fit: BoxFit.contain);
   }
 
   void _openSpellFilterSheet() {
@@ -791,7 +1096,8 @@ class _ListTopState extends State<ListTop> {
         return StatefulBuilder(
           builder: (context, setModalState) {
             final List<String> currentTypeList =
-                spellTypeOptionsByKind[tempKind] ?? spellTypeOptionsByKind['전체']!;
+                spellTypeOptionsByKind[tempKind] ??
+                spellTypeOptionsByKind['전체']!;
 
             return SafeArea(
               child: Column(
@@ -805,11 +1111,12 @@ class _ListTopState extends State<ListTop> {
                           'assets/images/ESpell_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.broken_image,
-                            color: Colors.white70,
-                            size: 22,
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
+                                Icons.broken_image,
+                                color: Colors.white70,
+                                size: 22,
+                              ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -860,7 +1167,9 @@ class _ListTopState extends State<ListTop> {
                         const SizedBox(height: 2),
                         CheckboxListTile(
                           dense: true,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                          ),
                           value: tempKind == magicKind,
                           onChanged: (v) {
                             final bool checked = v ?? false;
@@ -885,17 +1194,16 @@ class _ListTopState extends State<ListTop> {
                           },
                           title: const Text(
                             magicKind,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                            ),
+                            style: TextStyle(color: Colors.white, fontSize: 13),
                           ),
                           controlAffinity: ListTileControlAffinity.leading,
                           activeColor: Colors.amberAccent,
                         ),
                         CheckboxListTile(
                           dense: true,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                          ),
                           value: tempKind == prayerKind,
                           onChanged: (v) {
                             final bool checked = v ?? false;
@@ -920,10 +1228,7 @@ class _ListTopState extends State<ListTop> {
                           },
                           title: const Text(
                             prayerKind,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                            ),
+                            style: TextStyle(color: Colors.white, fontSize: 13),
                           ),
                           controlAffinity: ListTileControlAffinity.leading,
                           activeColor: Colors.amberAccent,
@@ -954,15 +1259,21 @@ class _ListTopState extends State<ListTop> {
                               horizontal: 16,
                               vertical: 10,
                             ),
-                            color: isSelected ? Colors.grey[800] : Colors.transparent,
+                            color: isSelected
+                                ? Colors.grey[800]
+                                : Colors.transparent,
                             child: Row(
                               children: [
                                 Text(
                                   option,
                                   style: TextStyle(
-                                    color: isSelected ? Colors.white : Colors.grey[300],
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.grey[300],
                                     fontSize: 13,
-                                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                                    fontWeight: isSelected
+                                        ? FontWeight.w600
+                                        : FontWeight.normal,
                                   ),
                                 ),
                                 const Spacer(),
@@ -1031,24 +1342,9 @@ class _ListTopState extends State<ListTop> {
         '도끼창',
         '낫',
       ],
-      '원거리 무기': [
-        '소형 활',
-        '활',
-        '대궁',
-        '석궁',
-        '발리스타',
-      ],
-      '촉매': [
-        '지팡이',
-        '성인',
-        '횃불',
-      ],
-      '방패': [
-        '소형 방패',
-        '중형 방패',
-        '대형 방패',
-        '관통 방패',
-      ],
+      '원거리 무기': ['소형 활', '활', '대궁', '석궁', '발리스타'],
+      '촉매': ['지팡이', '성인', '횃불'],
+      '방패': ['소형 방패', '중형 방패', '대형 방패', '관통 방패'],
     };
 
     showModalBottomSheet(
@@ -1065,10 +1361,7 @@ class _ListTopState extends State<ListTop> {
           builder: (context, setModalState) {
             List<String> currentSubList = [];
             if (tempMain != '전체') {
-              currentSubList = [
-                '전체',
-                ...(subOptions[tempMain] ?? []),
-              ];
+              currentSubList = ['전체', ...(subOptions[tempMain] ?? [])];
             }
 
             final double maxHeight = MediaQuery.of(context).size.height * 0.6;
@@ -1087,11 +1380,12 @@ class _ListTopState extends State<ListTop> {
                             'assets/images/weapon_Icon.png',
                             width: 22,
                             height: 22,
-                            errorBuilder: (context, error, stackTrace) => const Icon(
-                              Icons.broken_image,
-                              color: Colors.white70,
-                              size: 22,
-                            ),
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(
+                                  Icons.broken_image,
+                                  color: Colors.white70,
+                                  size: 22,
+                                ),
                           ),
                           const SizedBox(width: 8),
                           const Text(
@@ -1132,10 +1426,7 @@ class _ListTopState extends State<ListTop> {
                           decoration: BoxDecoration(
                             color: Colors.transparent,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: Colors.white24,
-                              width: 1,
-                            ),
+                            border: Border.all(color: Colors.white24, width: 1),
                           ),
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
@@ -1150,16 +1441,18 @@ class _ListTopState extends State<ListTop> {
                               items: currentSubList
                                   .map(
                                     (option) => DropdownMenuItem<String>(
-                                  value: option,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                    child: Text(
-                                      option,
-                                      overflow: TextOverflow.ellipsis,
+                                      value: option,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0,
+                                        ),
+                                        child: Text(
+                                          option,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              )
+                                  )
                                   .toList(),
                               onChanged: (value) {
                                 if (value == null) return;
@@ -1199,15 +1492,21 @@ class _ListTopState extends State<ListTop> {
                                 horizontal: 16,
                                 vertical: 10,
                               ),
-                              color: isSelected ? Colors.grey[800] : Colors.transparent,
+                              color: isSelected
+                                  ? Colors.grey[800]
+                                  : Colors.transparent,
                               child: Row(
                                 children: [
                                   Text(
                                     option,
                                     style: TextStyle(
-                                      color: isSelected ? Colors.white : Colors.grey[300],
+                                      color: isSelected
+                                          ? Colors.white
+                                          : Colors.grey[300],
                                       fontSize: 14,
-                                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                                      fontWeight: isSelected
+                                          ? FontWeight.w600
+                                          : FontWeight.normal,
                                     ),
                                   ),
                                   const Spacer(),
@@ -1264,11 +1563,12 @@ class _ListTopState extends State<ListTop> {
                           'assets/images/weapon_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.broken_image,
-                            color: Colors.white70,
-                            size: 22,
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
+                                Icons.broken_image,
+                                color: Colors.white70,
+                                size: 22,
+                              ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -1459,11 +1759,12 @@ class _ListTopState extends State<ListTop> {
                           'assets/images/armor_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.broken_image,
-                            color: Colors.white70,
-                            size: 22,
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
+                                Icons.broken_image,
+                                color: Colors.white70,
+                                size: 22,
+                              ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -1569,11 +1870,12 @@ class _ListTopState extends State<ListTop> {
                           'assets/images/ash_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.broken_image,
-                            color: Colors.white70,
-                            size: 22,
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
+                                Icons.broken_image,
+                                color: Colors.white70,
+                                size: 22,
+                              ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -1680,11 +1982,12 @@ class _ListTopState extends State<ListTop> {
                           'assets/images/ESpell_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.broken_image,
-                            color: Colors.white70,
-                            size: 22,
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
+                                Icons.broken_image,
+                                color: Colors.white70,
+                                size: 22,
+                              ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -1812,11 +2115,12 @@ class _ListTopState extends State<ListTop> {
                           'assets/images/ETalisman_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.broken_image,
-                            color: Colors.white70,
-                            size: 22,
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
+                                Icons.broken_image,
+                                color: Colors.white70,
+                                size: 22,
+                              ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -1946,11 +2250,12 @@ class _ListTopState extends State<ListTop> {
                           'assets/images/ai_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.broken_image,
-                            color: Colors.white70,
-                            size: 22,
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
+                                Icons.broken_image,
+                                color: Colors.white70,
+                                size: 22,
+                              ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -2141,11 +2446,12 @@ class _ListTopState extends State<ListTop> {
                           'assets/images/etc_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.broken_image,
-                            color: Colors.white70,
-                            size: 22,
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
+                                Icons.broken_image,
+                                color: Colors.white70,
+                                size: 22,
+                              ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -2251,11 +2557,12 @@ class _ListTopState extends State<ListTop> {
                           'assets/images/EGesture_Icon.png',
                           width: 22,
                           height: 22,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.broken_image,
-                            color: Colors.white70,
-                            size: 22,
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
+                                Icons.broken_image,
+                                color: Colors.white70,
+                                size: 22,
+                              ),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -2352,23 +2659,18 @@ class _ListTopState extends State<ListTop> {
         ? Colors.grey[600]!
         : (filterActive ? Colors.amberAccent : Colors.grey[400]!);
 
-    final Color extraFilterIconColor = _selectedIndex == 0
-        ? (weaponExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
-        : (_selectedIndex == 1
-        ? (armorExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
-        : (_selectedIndex == 2
-        ? (ashExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
-        : (_selectedIndex == 3
-        ? (spellExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
-        : (_selectedIndex == 4
-        ? (talismanExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
-        : (_selectedIndex == 5
-        ? (boneExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
-        : (_selectedIndex == 6
-        ? (etcExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
-        : (_selectedIndex == 7
-        ? (gestureExtraActive ? Colors.cyanAccent : Colors.grey[400]!)
-        : Colors.grey[700]!)))))));
+    final Color extraFilterIconColor = switch (_selectedIndex) {
+      0 => weaponExtraActive ? Colors.cyanAccent : Colors.grey[400]!,
+      1 => armorExtraActive ? Colors.cyanAccent : Colors.grey[400]!,
+      2 => ashExtraActive ? Colors.cyanAccent : Colors.grey[400]!,
+      3 => spellExtraActive ? Colors.cyanAccent : Colors.grey[400]!,
+      4 => talismanExtraActive ? Colors.cyanAccent : Colors.grey[400]!,
+      5 => boneExtraActive ? Colors.cyanAccent : Colors.grey[400]!,
+      6 => etcExtraActive ? Colors.cyanAccent : Colors.grey[400]!,
+      7 => gestureExtraActive ? Colors.cyanAccent : Colors.grey[400]!,
+      8 => _isMapRegionFilterActive() ? Colors.cyanAccent : Colors.grey[400]!,
+      _ => Colors.grey[700]!,
+    };
 
     final List<Widget> _pages = [
       EWeaponListPage(
@@ -2443,7 +2745,12 @@ class _ListTopState extends State<ListTop> {
         filterBase: _gestureFilterBase,
         filterDlc: _gestureFilterDlc,
       ),
-      const MapPage(),
+      MapPage(
+        searchQuery: _searchQuery,
+        enabledCategories: _enabledMapMarkerCategories,
+        enabledDetailKeys: _enabledMapMarkerDetailKeys,
+        selectedRegion: _selectedMapRegion,
+      ),
     ];
 
     return WillPopScope(
@@ -2485,7 +2792,8 @@ class _ListTopState extends State<ListTop> {
         body: Column(
           children: [
             // ✅ 업데이트 알림 박스 추가
-            if (_showUpdateNotice && _versionInfo != null) _buildUpdateNoticeBox(),
+            if (_showUpdateNotice && _versionInfo != null)
+              _buildUpdateNoticeBox(),
 
             // 🔹 검색창
             Padding(
@@ -2511,52 +2819,11 @@ class _ListTopState extends State<ListTop> {
                       IconButton(
                         icon: const Icon(Icons.filter_alt_outlined),
                         color: extraFilterIconColor,
-                        tooltip: _selectedIndex == 0
-                            ? '무기 강화/본편/DLC/전설 필터'
-                            : (_selectedIndex == 1
-                            ? '방어구 본편/DLC 필터'
-                            : (_selectedIndex == 2
-                            ? '전회 본편/DLC 필터'
-                            : (_selectedIndex == 3
-                            ? '주문 전설/본편/DLC 필터'
-                            : (_selectedIndex == 4
-                            ? '탈리스만 필터'
-                            : (_selectedIndex == 5
-                            ? '뼛가루 필터'
-                            : (_selectedIndex == 6
-                            ? '기타 아이템 본편/DLC 필터'
-                            : (_selectedIndex == 7 ? '제스처 필터' : '추가 필터 없음'))))))),
-                        onPressed: (_selectedIndex == 0 ||
-                            _selectedIndex == 1 ||
-                            _selectedIndex == 2 ||
-                            _selectedIndex == 3 ||
-                            _selectedIndex == 4 ||
-                            _selectedIndex == 5 ||
-                            _selectedIndex == 6 ||
-                            _selectedIndex == 7)
-                            ? () {
-                          if (_selectedIndex == 0) {
-                            _openWeaponExtraFilterSheet();
-                          } else if (_selectedIndex == 1) {
-                            _openArmorExtraFilterSheet();
-                          } else if (_selectedIndex == 2) {
-                            _openAshExtraFilterSheet();
-                          } else if (_selectedIndex == 3) {
-                            _openSpellExtraFilterSheet();
-                          } else if (_selectedIndex == 4) {
-                            _openTalismanExtraFilterSheet();
-                          } else if (_selectedIndex == 5) {
-                            _openBoneExtraFilterSheet();
-                          } else if (_selectedIndex == 6) {
-                            _openEtcExtraFilterSheet();
-                          } else if (_selectedIndex == 7) {
-                            _openGestureExtraFilterSheet();
-                          }
-                        }
-                            : null,
+                        tooltip: _extraFilterTooltip(),
+                        onPressed: _extraFilterAction(),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.filter_list),
+                        icon: const Icon(Icons.tune),
                         color: filterIconColor,
                         tooltip: hasFilter ? '필터' : '필터 없음',
                         onPressed: hasFilter ? _openFilterSheet : null,
@@ -2575,7 +2842,10 @@ class _ListTopState extends State<ListTop> {
 
             Container(
               height: 60,
-              margin: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 0.0),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 3.0,
+                vertical: 0.0,
+              ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
               ),
@@ -2584,7 +2854,7 @@ class _ListTopState extends State<ListTop> {
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
                   _buildCategoryButton(
-                    iconPath: 'assets/images/weapon_Icon.png',
+                    iconPath: 'assets/images/map_assets/map_Icon.png',
                     label: '맵',
                     index: 8,
                     currentIndex: _selectedIndex,
@@ -2790,7 +3060,9 @@ Widget _buildCategoryButton({
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       margin: const EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(
-        color: isSelected ? Colors.grey[700]!.withOpacity(0.5) : Colors.transparent,
+        color: isSelected
+            ? Colors.grey[700]!.withOpacity(0.5)
+            : Colors.transparent,
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Column(
