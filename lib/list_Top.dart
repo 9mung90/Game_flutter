@@ -22,6 +22,7 @@ import 'package:forspeech/page/espell_list_page.dart';
 import 'page/ebone_list_page.dart';
 import 'page/eetc_list_page.dart';
 import 'page/etalisman_list_page.dart';
+import 'page/map_page.dart';
 
 // ⭐ 제스처 리스트 페이지
 import 'page/egesture_list_page.dart';
@@ -120,6 +121,7 @@ class _ListTopState extends State<ListTop> {
   @override
   void initState() {
     super.initState();
+    _selectedIndex = _pageController.initialPage;
 
     _searchController.addListener(() {
       setState(() {
@@ -323,7 +325,8 @@ class _ListTopState extends State<ListTop> {
     const double itemWidth = 58.0;
     final double screenWidth = MediaQuery.of(context).size.width;
 
-    double targetOffset = itemWidth * index - (screenWidth - itemWidth) / 2;
+    final int visualIndex = index == 8 ? 0 : index + 1;
+    double targetOffset = itemWidth * visualIndex - (screenWidth - itemWidth) / 2;
 
     if (targetOffset < 0) targetOffset = 0;
 
@@ -2440,6 +2443,7 @@ class _ListTopState extends State<ListTop> {
         filterBase: _gestureFilterBase,
         filterDlc: _gestureFilterDlc,
       ),
+      const MapPage(),
     ];
 
     return WillPopScope(
@@ -2579,6 +2583,24 @@ class _ListTopState extends State<ListTop> {
                 controller: _tabScrollController,
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
+                  _buildCategoryButton(
+                    iconPath: 'assets/images/weapon_Icon.png',
+                    label: '맵',
+                    index: 8,
+                    currentIndex: _selectedIndex,
+                    onTap: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                        _searchController.clear();
+                      });
+                      _pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeInOut,
+                      );
+                      _scrollToCategory(index);
+                    },
+                  ),
                   _buildCategoryButton(
                     iconPath: 'assets/images/weapon_Icon.png',
                     label: '무기',
@@ -2732,6 +2754,9 @@ class _ListTopState extends State<ListTop> {
             Expanded(
               child: PageView(
                 controller: _pageController,
+                physics: _selectedIndex == 8
+                    ? const NeverScrollableScrollPhysics()
+                    : const PageScrollPhysics(),
                 onPageChanged: (index) {
                   setState(() {
                     _selectedIndex = index;

@@ -72,8 +72,10 @@ flutter:
   assets:
     - assets/fonts/
     - assets/images/
+    - assets/images/map/
     - assets/images/attribute/
     - assets/data/
+    - assets/data/map_data/
 
   fonts:
     - family: GothicA1
