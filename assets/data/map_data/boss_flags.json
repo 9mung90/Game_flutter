@@ -1,0 +1,1574 @@
+{
+  "9100": {
+    "name": "Margit, the Fell Omen",
+    "region": "stormhill",
+    "is_main": true,
+    "type": "field"
+  },
+  "9101": {
+    "name": "Godrick the Grafted",
+    "region": "stormveil",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "9103": {
+    "name": "Grafted Scion",
+    "region": "stormveil",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "9104": {
+    "name": "Morgott, the Omen King",
+    "region": "leyndell",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "9105": {
+    "name": "Godfrey, First Elden Lord (Golden Shade)",
+    "region": "leyndell",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "9106": {
+    "name": "Sir Gideon Ofnir, the All-Knowing",
+    "region": "leyndell_ash",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "9107": {
+    "name": "Hoarah Loux, Warrior",
+    "region": "leyndell_ash",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "9108": {
+    "name": "Astel, Naturalborn of the Void",
+    "region": "underground",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9109": {
+    "name": "Dragonkin Soldier of Nokstella",
+    "region": "underground",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9110": {
+    "name": "Valiant Gargoyles",
+    "region": "underground",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9111": {
+    "name": "Lichdragon Fortissax",
+    "region": "underground",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9112": {
+    "name": "Mohg, Lord of Blood",
+    "region": "underground",
+    "is_main": true,
+    "type": "dungeon"
+  },
+  "9114": {
+    "name": "Godskin Duo",
+    "region": "farum_azula",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "9115": {
+    "name": "Dragonlord Placidusax",
+    "region": "farum_azula",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9116": {
+    "name": "Maliketh, the Black Blade",
+    "region": "farum_azula",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "9117": {
+    "name": "Red Wolf of Radagon",
+    "region": "raya_lucaria",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "9118": {
+    "name": "Rennala, Queen of the Full Moon",
+    "region": "raya_lucaria",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "9119": {
+    "name": "Loretta, Knight of the Haligtree",
+    "region": "haligtree",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "9120": {
+    "name": "Malenia, Blade of Miquella",
+    "region": "haligtree",
+    "is_main": true,
+    "type": "dungeon"
+  },
+  "9121": {
+    "name": "Godskin Noble (Volcano Manor)",
+    "region": "volcano_manor",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "9122": {
+    "name": "Rykard, Lord of Blasphemy",
+    "region": "volcano_manor",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "9123": {
+    "name": "Elden Beast",
+    "region": "leyndell_ash",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "9125": {
+    "name": "Mohg, the Omen",
+    "region": "leyndell",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9126": {
+    "name": "Magma Wyrm Makar",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9128": {
+    "name": "Ulcerated Tree Spirit (Limgrave)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9129": {
+    "name": "Abductor Virgins",
+    "region": "volcano_manor",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9130": {
+    "name": "Starscourge Radahn",
+    "region": "caelid",
+    "is_main": true,
+    "type": "field"
+  },
+  "9131": {
+    "name": "Fire Giant",
+    "region": "mountaintops",
+    "is_main": true,
+    "type": "field"
+  },
+  "9132": {
+    "name": "Ancestor Spirit",
+    "region": "underground",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9133": {
+    "name": "Regal Ancestor Spirit",
+    "region": "underground",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9134": {
+    "name": "Mimic Tear",
+    "region": "underground",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9135": {
+    "name": "Fia's Champions",
+    "region": "underground",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9140": {
+    "name": "Divine Beast Dancing Lion",
+    "region": "dlc",
+    "is_main": true,
+    "type": "dlc"
+  },
+  "9143": {
+    "name": "Promised Consort Radahn",
+    "region": "dlc",
+    "is_main": true,
+    "type": "dlc"
+  },
+  "9144": {
+    "name": "Golden Hippopotamus",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dlc"
+  },
+  "9146": {
+    "name": "Messmer the Impaler",
+    "region": "dlc",
+    "is_main": true,
+    "type": "dlc"
+  },
+  "9148": {
+    "name": "Putrescent Knight",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dlc"
+  },
+  "9155": {
+    "name": "Metyr, Mother of Fingers",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dlc"
+  },
+  "9156": {
+    "name": "Midra, Lord of Frenzied Flame",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dlc"
+  },
+  "9160": {
+    "name": "Romina, Saint of the Bud",
+    "region": "dlc",
+    "is_main": true,
+    "type": "dlc"
+  },
+  "9161": {
+    "name": "Jori, Elder Inquisitor",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dlc"
+  },
+  "9162": {
+    "name": "Scadutree Avatar",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dlc"
+  },
+  "9164": {
+    "name": "Commander Gaius",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dlc"
+  },
+  "9173": {
+    "name": "Godskin Apostle (Dragonbarrow)",
+    "region": "dragonbarrow",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9174": {
+    "name": "Fell Twins",
+    "region": "capital_outskirts",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9180": {
+    "name": "Leonine Misbegotten",
+    "region": "weeping_peninsula",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9181": {
+    "name": "Royal Knight Loretta",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9182": {
+    "name": "Elemer of the Briar",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9183": {
+    "name": "Crucible Knight & Misbegotten Warrior",
+    "region": "caelid",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9184": {
+    "name": "Commander Niall",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "9190": {
+    "name": "Rellana, Twin Moon Knight",
+    "region": "dlc",
+    "is_main": true,
+    "type": "dlc"
+  },
+  "10000800": {
+    "name": "Godrick the Grafted",
+    "region": "stormhill",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "10000850": {
+    "name": "Margit, the Fell Omen",
+    "region": "stormhill",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "10010800": {
+    "name": "Grafted Scion (Chapel of Anticipation)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "field"
+  },
+  "11000800": {
+    "name": "Morgott, the Omen King",
+    "region": "leyndell",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "11000850": {
+    "name": "Godfrey, First Elden Lord (Golden Shade)",
+    "region": "leyndell",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "11050800": {
+    "name": "Hoarah Loux, Warrior",
+    "region": "leyndell",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "11050850": {
+    "name": "Sir Gideon Ofnir, the All-Knowing",
+    "region": "leyndell",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "12010800": {
+    "name": "Dragonkin Soldier of Nokstella",
+    "region": "underground",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "12010850": {
+    "name": "Dragonkin Soldier (Lake of Rot)",
+    "region": "underground",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "12020390": {
+    "name": "Crucible Knight",
+    "region": "underground",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "12020800": {
+    "name": "Valiant Gargoyles",
+    "region": "underground",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "12020830": {
+    "name": "Dragonkin Soldier of Nokron",
+    "region": "underground",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "12020850": {
+    "name": "Mimic Tear",
+    "region": "underground",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "12030800": {
+    "name": "Fia's Champions",
+    "region": "underground",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "12030850": {
+    "name": "Lichdragon Fortissax",
+    "region": "underground",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "12040800": {
+    "name": "Astel, Naturalborn of the Void",
+    "region": "underground",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "12050800": {
+    "name": "Mohg, Lord of Blood",
+    "region": "underground",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "12080800": {
+    "name": "Ancestor Spirit",
+    "region": "underground",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "12090800": {
+    "name": "Regal Ancestor Spirit",
+    "region": "underground",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "13000800": {
+    "name": "Maliketh, the Black Blade",
+    "region": "farum_azula",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "13000830": {
+    "name": "Dragonlord Placidusax",
+    "region": "farum_azula",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "13000850": {
+    "name": "Godskin Duo",
+    "region": "farum_azula",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "14000800": {
+    "name": "Rennala, Queen of the Full Moon",
+    "region": "liurnia",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "14000850": {
+    "name": "Red Wolf of Radagon",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "15000800": {
+    "name": "Malenia, Blade of Miquella",
+    "region": "haligtree",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "15000850": {
+    "name": "Loretta, Knight of the Haligtree",
+    "region": "haligtree",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "16000800": {
+    "name": "Rykard, Lord of Blasphemy",
+    "region": "altus",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "16000850": {
+    "name": "Godskin Noble",
+    "region": "altus",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "16000860": {
+    "name": "Abductor Virgins",
+    "region": "altus",
+    "is_main": false,
+    "type": "legacy"
+  },
+  "18000800": {
+    "name": "Ulcerated Tree Spirit (Fringefolk Hero's Grave)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "18000850": {
+    "name": "Soldier of Godrick (Fringefolk Hero's Grave)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "19000800": {
+    "name": "Radagon / Elden Beast",
+    "region": "leyndell",
+    "is_main": true,
+    "type": "legacy"
+  },
+  "20000800": {
+    "name": "Divine Beast Dancing Lion",
+    "region": "dlc",
+    "is_main": true,
+    "type": "dungeon"
+  },
+  "20010800": {
+    "name": "Promised Consort Radahn",
+    "region": "dlc",
+    "is_main": true,
+    "type": "dungeon"
+  },
+  "21000850": {
+    "name": "Golden Hippopotamus",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "21010800": {
+    "name": "Messmer the Impaler",
+    "region": "dlc",
+    "is_main": true,
+    "type": "dungeon"
+  },
+  "22000800": {
+    "name": "Putrescent Knight",
+    "region": "dlc",
+    "is_main": true,
+    "type": "dungeon"
+  },
+  "25000800": {
+    "name": "Metyr, Mother of Fingers",
+    "region": "dlc",
+    "is_main": true,
+    "type": "dungeon"
+  },
+  "28000800": {
+    "name": "Midra, Lord of Frenzied Flame",
+    "region": "dlc",
+    "is_main": true,
+    "type": "dungeon"
+  },
+  "30000800": {
+    "name": "Cemetery Shade (Tombsward Catacombs)",
+    "region": "weeping_peninsula",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30010800": {
+    "name": "Erdtree Burial Watchdog (Impaler's Catacombs)",
+    "region": "weeping_peninsula",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30020800": {
+    "name": "Erdtree Burial Watchdog (Stormfoot Catacombs)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30030800": {
+    "name": "Spirit-Caller Snail",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30040800": {
+    "name": "Grave Warden Duelist (Murkwater Catacombs)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30050800": {
+    "name": "Cemetery Shade (Black Knife Catacombs)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30050850": {
+    "name": "Black Knife Assassin (Black Knife Catacombs)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30060800": {
+    "name": "Erdtree Burial Watchdog (Cliffbottom Catacombs)",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30070800": {
+    "name": "Erdtree Burial Watchdog (Wyndham Catacombs)",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30080800": {
+    "name": "Ancient Hero of Zamor (Sainted Hero's Grave)",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30090800": {
+    "name": "Red Wolf of the Champion (Gelmir Hero's Grave)",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30100800": {
+    "name": "Crucible Knight Ordovis & Crucible Knight",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30110800": {
+    "name": "Black Knife Assassin",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30120800": {
+    "name": "Perfumer Tricia & Misbegotten Warrior",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30130800": {
+    "name": "Grave Warden Duelist",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30140800": {
+    "name": "Erdtree Burial Watchdog (Minor Erdtree Catacombs)",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30150800": {
+    "name": "Cemetery Shade (Caelid Catacombs)",
+    "region": "caelid",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30160800": {
+    "name": "Putrid Tree Spirit (War-Dead Catacombs)",
+    "region": "caelid",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30170800": {
+    "name": "Ancient Hero of Zamor (Giant-Conquering Hero's Grave)",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30180800": {
+    "name": "Ulcerated Tree Spirit (Giants' Mountaintop Catacombs)",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30190800": {
+    "name": "Putrid Grave Warden Duelist (Consecrated Snowfield Catacombs)",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "30200810": {
+    "name": "Stray Mimic Tear (Hidden Path to Haligtree)",
+    "region": "haligtree",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31000800": {
+    "name": "Patches (Murkwater Cave)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31010800": {
+    "name": "Runebear (Earthbore Cave)",
+    "region": "weeping_peninsula",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31020800": {
+    "name": "Miranda the Blighted Bloom (Tombsward Cave)",
+    "region": "weeping_peninsula",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31030800": {
+    "name": "Beastman of Farum Azula (Groveside Cave)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31040800": {
+    "name": "Cleanrot Knight (Stillwater Cave)",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31050800": {
+    "name": "Bloodhound Knight (Lakeside Crystal Cave)",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31060800": {
+    "name": "Crystalians (Academy Crystal Cave)",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31070800": {
+    "name": "Kindred of Rot (Seethewater Cave)",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31090800": {
+    "name": "Demi-Human Queen Margot (Volcano Cave)",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31100800": {
+    "name": "Beastman of Farum Azula (Dragonbarrow Cave)",
+    "region": "dragonbarrow",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31110800": {
+    "name": "Putrid Crystalians (Sellia Hideaway)",
+    "region": "caelid",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31120800": {
+    "name": "Misbegotten Crusader (Cave of the Forlorn)",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31150800": {
+    "name": "Demi-Human Chief (Coastal Cave)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31170800": {
+    "name": "Guardian Golem (Highroad Cave)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31180800": {
+    "name": "Omenkiller (Perfumer's Grotto)",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31190800": {
+    "name": "Black Knife Assassin (Sage's Cave)",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31190850": {
+    "name": "Necromancer Garris (Sage's Cave)",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31200800": {
+    "name": "Cleanrot Knight (Abandoned Cave)",
+    "region": "caelid",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31210800": {
+    "name": "Frenzied Duelist (Gaol Cave)",
+    "region": "caelid",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "31220800": {
+    "name": "Spirit-Caller Snail",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "32000800": {
+    "name": "Scaly Misbegotten (Morne Tunnel)",
+    "region": "weeping_peninsula",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "32010800": {
+    "name": "Stonedigger Troll (Limgrave Tunnels)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "32020800": {
+    "name": "Crystalian Ringblade (Raya Lucaria Crystal Tunnel)",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "32040800": {
+    "name": "Stonedigger Troll (Old Altus Tunnel)",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "32050800": {
+    "name": "Crystalians (Altus Tunnel)",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "32070800": {
+    "name": "Magma Wyrm (Gael Tunnel)",
+    "region": "caelid",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "32080800": {
+    "name": "Fallingstar Beast",
+    "region": "caelid",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "32110800": {
+    "name": "Astel, Stars of Darkness (Yelough Anix Tunnel)",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "34120800": {
+    "name": "Onyx Lord",
+    "region": "altus",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "34130800": {
+    "name": "Godskin Apostle (Divine Tower of Caelid)",
+    "region": "dragonbarrow",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "34140850": {
+    "name": "Fell Twins",
+    "region": "capital_outskirts",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "35000800": {
+    "name": "Mohg, The Omen",
+    "region": "leyndell",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "35000850": {
+    "name": "Esgar, Priest of Blood",
+    "region": "underground",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "39200800": {
+    "name": "Magma Wyrm Makar",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "40000800": {
+    "name": "Death Knight (Fog Rift Catacombs)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "40010800": {
+    "name": "Death Knight (Scorpion River Catacombs)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "41000800": {
+    "name": "Demi-Human Swordmaster Onze",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "41010800": {
+    "name": "Curseblade Labirith (Bonny Gaol)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "41020800": {
+    "name": "Lamenter (Lamenter's Gaol)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "43000800": {
+    "name": "Chief Bloodfiend (Rivermouth Cave)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "43010800": {
+    "name": "Ancient Dragon-Man (Dragon's Pit)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "1033420800": {
+    "name": "Alecto, Black Knife Ringleader",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1033430800": {
+    "name": "Erdtree Avatar (Minor Erdtree - Liurnia SW)",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1033450800": {
+    "name": "Bols, Carian Knight",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1034420800": {
+    "name": "Glintstone Dragon Adula (Three Sisters)",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1034450800": {
+    "name": "Glintstone Dragon Smarag",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1034480800": {
+    "name": "Royal Revenant (Kingsrealm Ruins)",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1034500800": {
+    "name": "Glintstone Dragon Adula (Moonfolk Ruins)",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1035420800": {
+    "name": "Omenkiller (Village of the Albinaurics)",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1035500800": {
+    "name": "Royal Knight Loretta",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1035530800": {
+    "name": "Magma Wyrm (Seethewater Terminus)",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1036450800": {
+    "name": "Death Rite Bird",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1036450850": {
+    "name": "Black Knife Assassin (Liurnia of the Lakes East)",
+    "region": "surface",
+    "is_main": false,
+    "type": "field"
+  },
+  "1036480800": {
+    "name": "Night's Cavalry",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1036500800": {
+    "name": "Onyx Lord",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1036540800": {
+    "name": "Full-Grown Fallingstar Beast (Mt. Gelmir)",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1037420800": {
+    "name": "Death Rite Bird",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1037460800": {
+    "name": "Bell Bearing Hunter (Church of Vows)",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1037510800": {
+    "name": "Ancient Dragon Lansseax",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1037530800": {
+    "name": "Demi-Human Queen Maggie",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1037540810": {
+    "name": "Ulcerated Tree Spirit (Minor Erdtree Mt. Gelmir)",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1038410800": {
+    "name": "Adan, Thief of Fire",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1038480800": {
+    "name": "Erdtree Avatar (Minor Erdtree - Liurnia NE)",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1038510800": {
+    "name": "Demi-Human Queen",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1038520800": {
+    "name": "Tibia Mariner",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1039430800": {
+    "name": "Night's Cavalry",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1039440800": {
+    "name": "Tibia Mariner",
+    "region": "liurnia",
+    "is_main": false,
+    "type": "field"
+  },
+  "1039500800": {
+    "name": "Godefroy the Grafted (Golden Lineage Evergaol)",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1039520850": {
+    "name": "Night's Cavalry (Altus Plateau)",
+    "region": "surface",
+    "is_main": false,
+    "type": "field"
+  },
+  "1039540800": {
+    "name": "Elemer of the Briar",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1040520800": {
+    "name": "Black Knife Assassin",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1040520850": {
+    "name": "Black Knife Assassin (Altus Plateau)",
+    "region": "surface",
+    "is_main": false,
+    "type": "field"
+  },
+  "1040530800": {
+    "name": "Sanguine Noble (Writheblood Ruins)",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1041500800": {
+    "name": "Fallingstar Beast",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1041510800": {
+    "name": "Tree Sentinels (Duo)",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1041520800": {
+    "name": "Ancient Dragon Lansseax (Altus Plateau)",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1041530800": {
+    "name": "Wormface",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1042330800": {
+    "name": "Ancient Hero of Zamor",
+    "region": "weeping_peninsula",
+    "is_main": false,
+    "type": "field"
+  },
+  "1042360800": {
+    "name": "Tree Sentinel",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "field"
+  },
+  "1042370800": {
+    "name": "Crucible Knight",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "field"
+  },
+  "1042380800": {
+    "name": "Death Rite Bird",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "field"
+  },
+  "1042380850": {
+    "name": "Bell Bearing Hunter",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "field"
+  },
+  "1042550800": {
+    "name": "Godskin Apostle",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1043300800": {
+    "name": "Leonine Misbegotten",
+    "region": "weeping_peninsula",
+    "is_main": false,
+    "type": "field"
+  },
+  "1043330800": {
+    "name": "Erdtree Avatar",
+    "region": "weeping_peninsula",
+    "is_main": false,
+    "type": "field"
+  },
+  "1043360800": {
+    "name": "Flying Dragon Agheel",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "field"
+  },
+  "1043370800": {
+    "name": "Night's Cavalry (Agheel Lake North)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "field"
+  },
+  "1043530800": {
+    "name": "Bell Bearing Hunter",
+    "region": "altus",
+    "is_main": false,
+    "type": "field"
+  },
+  "1044320800": {
+    "name": "Death Rite Bird",
+    "region": "weeping_peninsula",
+    "is_main": false,
+    "type": "field"
+  },
+  "1044320850": {
+    "name": "Night's Cavalry",
+    "region": "weeping_peninsula",
+    "is_main": false,
+    "type": "field"
+  },
+  "1044350800": {
+    "name": "Bloodhound Knight Darriwil",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "field"
+  },
+  "1044360800": {
+    "name": "Mad Pumpkin Head (Waypoint Ruins)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "field"
+  },
+  "1045390800": {
+    "name": "Tibia Mariner (Summonwater Village)",
+    "region": "limgrave",
+    "is_main": false,
+    "type": "field"
+  },
+  "1045520800": {
+    "name": "Draconic Tree Sentinel (Capital Rampart)",
+    "region": "leyndell",
+    "is_main": false,
+    "type": "field"
+  },
+  "1047400800": {
+    "name": "Putrid Avatar (Minor Erdtree - Caelid)",
+    "region": "caelid",
+    "is_main": false,
+    "type": "field"
+  },
+  "1048370800": {
+    "name": "Decaying Ekzykes",
+    "region": "caelid",
+    "is_main": false,
+    "type": "field"
+  },
+  "1048400800": {
+    "name": "Mad Pumpkin Head (Caelem Ruins)",
+    "region": "caelid",
+    "is_main": false,
+    "type": "field"
+  },
+  "1048410800": {
+    "name": "Bell Bearing Hunter",
+    "region": "dragonbarrow",
+    "is_main": false,
+    "type": "field"
+  },
+  "1048510800": {
+    "name": "Night's Cavalry",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "field"
+  },
+  "1048570800": {
+    "name": "Death Rite Bird",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "field"
+  },
+  "1049370800": {
+    "name": "Night's Cavalry",
+    "region": "caelid",
+    "is_main": false,
+    "type": "field"
+  },
+  "1049370850": {
+    "name": "Death Rite Bird",
+    "region": "caelid",
+    "is_main": false,
+    "type": "field"
+  },
+  "1049380800": {
+    "name": "Commander O'Neil (East Aeonia Swamp)",
+    "region": "caelid",
+    "is_main": false,
+    "type": "field"
+  },
+  "1049390800": {
+    "name": "Nox Swordstress & Nox Priest",
+    "region": "caelid",
+    "is_main": false,
+    "type": "field"
+  },
+  "1049390850": {
+    "name": "Battlemage Hugues",
+    "region": "caelid",
+    "is_main": false,
+    "type": "field"
+  },
+  "1049520800": {
+    "name": "Black Blade Kindred",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "field"
+  },
+  "1050400800": {
+    "name": "Elder Dragon Greyoll",
+    "region": "surface",
+    "is_main": false,
+    "type": "field"
+  },
+  "1050560800": {
+    "name": "Great Wyrm Theodorix",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "field"
+  },
+  "1050570800": {
+    "name": "Death Rite Bird",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "field"
+  },
+  "1050570850": {
+    "name": "Putrid Avatar",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "field"
+  },
+  "1051360800": {
+    "name": "Crucible Knight & Misbegotten Warrior",
+    "region": "caelid",
+    "is_main": false,
+    "type": "field"
+  },
+  "1051400800": {
+    "name": "Putrid Avatar (Minor Erdtree - Dragonbarrow)",
+    "region": "dragonbarrow",
+    "is_main": false,
+    "type": "field"
+  },
+  "1051430800": {
+    "name": "Black Blade Kindred",
+    "region": "dragonbarrow",
+    "is_main": false,
+    "type": "field"
+  },
+  "1051570800": {
+    "name": "Commander Niall",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "field"
+  },
+  "1052410800": {
+    "name": "Flying Dragon Greyll",
+    "region": "caelid",
+    "is_main": false,
+    "type": "field"
+  },
+  "1052410850": {
+    "name": "Night's Cavalry",
+    "region": "dragonbarrow",
+    "is_main": false,
+    "type": "field"
+  },
+  "1052520800": {
+    "name": "Fire Giant",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "field"
+  },
+  "1052560800": {
+    "name": "Erdtree Avatar",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "field"
+  },
+  "1053560800": {
+    "name": "Roundtable Knight Vyke",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "field"
+  },
+  "1248550800": {
+    "name": "Night's Cavalry",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "field"
+  },
+  "1252380800": {
+    "name": "Starscourge Radahn",
+    "region": "caelid",
+    "is_main": false,
+    "type": "field"
+  },
+  "1254560800": {
+    "name": "Borealis, the Freezing Fog",
+    "region": "mountaintops",
+    "is_main": false,
+    "type": "field"
+  },
+  "2044450800": {
+    "name": "Romina, Saint of the Bud",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2044470800": {
+    "name": "Rugalea the Great Red Bear",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2045440800": {
+    "name": "Ghostflame Dragon (Gravesite Plain)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2046380800": {
+    "name": "Dancer of Ranah",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2046400800": {
+    "name": "Demi-Human Queen Marigga",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2046410800": {
+    "name": "Knight of the Solitary Gaol",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2046450800": {
+    "name": "Red Bear",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2046460800": {
+    "name": "Divine Beast Dancing Lion (Gravesite Plain)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2047390800": {
+    "name": "Death Rite Bird (Cerulean Coast)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2047450800": {
+    "name": "Black Knight Garrew",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2048380850": {
+    "name": "Ghostflame Dragon (Scadu Altus)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2048440800": {
+    "name": "Rellana, Twin Moon Knight",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2049410800": {
+    "name": "Jagged Peak Drake",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2049430800": {
+    "name": "Ghostflame Dragon (Scadu Altus 2)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2049430850": {
+    "name": "Black Knight Edreed",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2049450800": {
+    "name": "Ralva the Great Red Bear",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2049480800": {
+    "name": "Commander Gaius",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2050470800": {
+    "name": "Tree Sentinel",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2050470850": {
+    "name": "Dryleaf Dane (Boss)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2050480800": {
+    "name": "Scadutree Avatar",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2050480860": {
+    "name": "Tree Sentinel",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2051440800": {
+    "name": "Rakshasa",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2051450800": {
+    "name": "Count Ymir, Mother of Fingers",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2052400800": {
+    "name": "Jagged Peak Drake",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2052430800": {
+    "name": "Jori, Elder Inquisitor (Darklight Catacombs)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "dungeon"
+  },
+  "2052480800": {
+    "name": "Fallingstar Beast (DLC)",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2054390800": {
+    "name": "Bayle the Dread",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  },
+  "2054390850": {
+    "name": "Ancient Dragon Senessax",
+    "region": "dlc",
+    "is_main": false,
+    "type": "field"
+  }
+}
