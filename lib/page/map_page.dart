@@ -139,11 +139,12 @@ class _MapPageState extends State<MapPage> {
     };
     final manifestString = await rootBundle.loadString('AssetManifest.json');
     final manifest = jsonDecode(manifestString) as Map<String, dynamic>;
+    final markerAssetResolver = MapRegionMarkerAssetResolver.fromManifest(
+      manifest,
+    );
     final markerPaths =
         manifest.keys
-            .where(
-              (path) => markerFileNames.contains(path.split('/').last),
-            )
+            .where((path) => markerFileNames.contains(path.split('/').last))
             .toList()
           ..sort();
 
@@ -158,14 +159,44 @@ class _MapPageState extends State<MapPage> {
       for (final item in decoded) {
         if (item is! Map<String, dynamic>) continue;
 
-        final marker = MapMarkerData.tryFromJson(item, path);
+        final marker = MapMarkerData.tryFromJson(
+          item,
+          path,
+          markerAssetResolver: markerAssetResolver,
+        );
         if (marker != null) {
           markers.add(marker);
         }
       }
     }
 
-    return markers;
+    final markerAssetUseCounts = <String, int>{};
+    for (final marker in markers) {
+      final markerAssetPath = marker.markerAssetPath;
+      if (markerAssetPath == null) continue;
+
+      markerAssetUseCounts[markerAssetPath] =
+          (markerAssetUseCounts[markerAssetPath] ?? 0) + 1;
+    }
+
+    return [
+      for (final marker in markers)
+        _withAssetUseScale(marker, markerAssetUseCounts),
+    ];
+  }
+
+  static MapMarkerData _withAssetUseScale(
+    MapMarkerData marker,
+    Map<String, int> markerAssetUseCounts,
+  ) {
+    final markerAssetPath = marker.markerAssetPath;
+    final isSingleUseAsset =
+        markerAssetPath != null && markerAssetUseCounts[markerAssetPath] == 1;
+    final scale = isSingleUseAsset
+        ? MapMarkerData.singleUseMarkerAssetScale
+        : MapMarkerData.defaultMarkerAssetScale;
+
+    return marker.withMarkerAssetScale(scale);
   }
 
   void _resetViewport() {
@@ -188,9 +219,7 @@ class _MapPageState extends State<MapPage> {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: Text(
-            details.isEmpty ? title : '$title\n$details',
-          ),
+          content: Text(details.isEmpty ? title : '$title\n$details'),
           duration: const Duration(seconds: 3),
           behavior: SnackBarBehavior.floating,
         ),
@@ -295,23 +324,34 @@ class _MapPageState extends State<MapPage> {
                               height: _currentMapHeight,
                               fit: BoxFit.fill,
                             ),
-                            for (final marker in markers)
-                              Positioned(
-                                left:
-                                    marker.x(_selectedRegion) - _markerSize / 2,
-                                top:
-                                    marker.y(_selectedRegion) - _markerSize / 2,
-                                width: _markerSize,
-                                height: _markerSize,
-                                child: GestureDetector(
-                                  behavior: HitTestBehavior.opaque,
-                                  onTap: () => _showMarkerInfo(marker),
-                                  child: _MapMarkerIcon(
-                                    marker: marker,
-                                    size: _markerSize,
-                                  ),
-                                ),
+                            for (final marker in markers) ...[
+                              Builder(
+                                builder: (context) {
+                                  final markerSize = marker.visualSize(
+                                    _markerSize,
+                                  );
+
+                                  return Positioned(
+                                    left:
+                                        marker.x(_selectedRegion) -
+                                        markerSize / 2,
+                                    top:
+                                        marker.y(_selectedRegion) -
+                                        markerSize / 2,
+                                    width: markerSize,
+                                    height: markerSize,
+                                    child: GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () => _showMarkerInfo(marker),
+                                      child: _MapMarkerIcon(
+                                        marker: marker,
+                                        size: markerSize,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
+                            ],
                           ],
                         ),
                       ),
@@ -356,6 +396,11 @@ class MapMarkerData {
   final String? category;
   final String? type;
   final String? source;
+  final String? markerAssetPath;
+  final double markerAssetScale;
+
+  static const double defaultMarkerAssetScale = 1.0;
+  static const double singleUseMarkerAssetScale = 4.0;
 
   const MapMarkerData({
     required this.name,
@@ -370,6 +415,8 @@ class MapMarkerData {
     required this.category,
     required this.type,
     required this.source,
+    required this.markerAssetPath,
+    required this.markerAssetScale,
   });
 
   String get displayName {
@@ -427,10 +474,36 @@ class MapMarkerData {
     return Offset(x(region), y(region));
   }
 
+  double visualSize(double baseSize) {
+    return markerAssetPath == null ? baseSize : baseSize * markerAssetScale;
+  }
+
+  MapMarkerData withMarkerAssetScale(double scale) {
+    if (markerAssetScale == scale) return this;
+
+    return MapMarkerData(
+      name: name,
+      korName: korName,
+      lat: lat,
+      lng: lng,
+      region: region,
+      categoryKey: categoryKey,
+      label: label,
+      detailKey: detailKey,
+      detailLabel: detailLabel,
+      category: category,
+      type: type,
+      source: source,
+      markerAssetPath: markerAssetPath,
+      markerAssetScale: scale,
+    );
+  }
+
   static MapMarkerData? tryFromJson(
     Map<String, dynamic> json,
-    String sourcePath,
-  ) {
+    String sourcePath, {
+    MapRegionMarkerAssetResolver? markerAssetResolver,
+  }) {
     final name = json['name'] as String?;
     final lat = json['lat'];
     final lng = json['lng'];
@@ -464,6 +537,14 @@ class MapMarkerData {
       return null;
     }
 
+    final markerAssetMatch = categoryKey == dungeonKey
+        ? markerAssetResolver?.resolve(
+            name: name,
+            korName: korName,
+            region: region,
+          )
+        : null;
+
     return MapMarkerData(
       name: name,
       korName: korName,
@@ -477,6 +558,9 @@ class MapMarkerData {
       category: category,
       type: type,
       source: source,
+      markerAssetPath: markerAssetMatch?.path,
+      markerAssetScale:
+          markerAssetMatch?.scale ?? MapMarkerData.defaultMarkerAssetScale,
     );
   }
 
@@ -810,6 +894,303 @@ class MapMarkerData {
   }
 }
 
+class MapRegionMarkerAssetResolver {
+  static const String _assetRoot = 'assets/images/map_assets/';
+  static const Set<String> _imageExtensions = {'png', 'jpg', 'jpeg', 'webp'};
+
+  static const Map<String, String> _specialSharedAssets = {
+    '왕조유적': 'Ruin Palace',
+    '대회랑': 'Ruin Palace',
+    '각해의 영지': 'Ruin Palace',
+    '영원한 도읍 노크론': 'nok',
+    '밤의 성역': 'nok',
+    '시프라 수도교': 'nok',
+    '영원한 도읍 녹스텔라': 'nok',
+  };
+
+  static const Map<String, List<String>> _koreanAssetNameHints = {
+    '영웅 묘지': ["hero's grave", 'heros grave'],
+    '지하 묘지': ['catacombs'],
+    '묘지': ['catacombs'],
+    '동굴': ['cave'],
+    '마을': ['village'],
+    '오두막': ['shack'],
+    '갱도': ['tunnel', 'tunnels'],
+    '폐허': ['ruins'],
+    '교회': ['church'],
+    '요새': ['fort'],
+    '탑': ['tower'],
+  };
+  static final RegExp _dlcShackNamePattern = RegExp(
+    r'\b(hovel|rest|hut)\b',
+  );
+
+  final Map<String, _MapRegionMarkerAsset> _assetsByBaseName;
+  final List<_MapRegionMarkerAsset> _assets;
+
+  const MapRegionMarkerAssetResolver._({
+    required Map<String, _MapRegionMarkerAsset> assetsByBaseName,
+    required List<_MapRegionMarkerAsset> assets,
+  }) : _assetsByBaseName = assetsByBaseName,
+       _assets = assets;
+
+  factory MapRegionMarkerAssetResolver.fromManifest(
+    Map<String, dynamic> manifest,
+  ) {
+    final assets =
+        manifest.keys
+            .where(_isSupportedAssetPath)
+            .map(_MapRegionMarkerAsset.fromPath)
+            .toList()
+          ..sort((a, b) {
+            final lengthCompare = b.lookupName.length.compareTo(
+              a.lookupName.length,
+            );
+            return lengthCompare != 0
+                ? lengthCompare
+                : a.baseName.compareTo(b.baseName);
+          });
+
+    return MapRegionMarkerAssetResolver._(
+      assetsByBaseName: {
+        for (final asset in assets) asset.normalizedBaseName: asset,
+      },
+      assets: assets,
+    );
+  }
+
+  MapRegionMarkerAssetMatch? resolve({
+    required String name,
+    required String? korName,
+    required String region,
+  }) {
+    final names = _normalizedNames(name, korName, region: region);
+    final isDlc = region == 'dlc';
+
+    for (final entry in _specialSharedAssets.entries) {
+      if (names.contains(_normalize(entry.key))) {
+        return _matchForBaseName(
+          entry.value,
+          scale: MapMarkerData.defaultMarkerAssetScale,
+        );
+      }
+    }
+
+    // Generic matching priority:
+    // 1. Exact region/dungeon name to asset base name, ignoring extension/case.
+    // 2. Partial match where the asset base name, or a safe English variant
+    //    such as Tunnel/Tunnels, is contained in the region name; DLC maps
+    //    prefer an otherwise matching "_dlc" asset.
+    for (final normalizedName in names) {
+      final exactMatch = _assetsByBaseName[normalizedName];
+      if (exactMatch != null) {
+        return MapRegionMarkerAssetMatch(
+          path: exactMatch.path,
+          scale: MapMarkerData.defaultMarkerAssetScale,
+        );
+      }
+    }
+
+    _MapRegionMarkerAsset? bestMatch;
+    var ambiguous = false;
+    var bestMatchLength = 0;
+
+    for (final asset in _assets) {
+      final matchLength = asset.matchLengthIn(names);
+      if (matchLength == null) {
+        continue;
+      }
+
+      if (bestMatch == null) {
+        bestMatch = asset;
+        bestMatchLength = matchLength;
+        ambiguous = false;
+        continue;
+      }
+
+      if (matchLength < bestMatchLength) {
+        continue;
+      }
+
+      if (matchLength > bestMatchLength) {
+        bestMatch = asset;
+        bestMatchLength = matchLength;
+        ambiguous = false;
+        continue;
+      }
+
+      if (asset.isDlcVariant != bestMatch.isDlcVariant) {
+        if (asset.isDlcVariant == isDlc) bestMatch = asset;
+        ambiguous = false;
+        continue;
+      }
+
+      if (asset.path != bestMatch.path) {
+        ambiguous = true;
+      }
+    }
+
+    return ambiguous || bestMatch == null
+        ? null
+        : MapRegionMarkerAssetMatch(
+            path: bestMatch.path,
+            scale: MapMarkerData.defaultMarkerAssetScale,
+          );
+  }
+
+  static bool _isSupportedAssetPath(String path) {
+    if (!path.startsWith(_assetRoot)) return false;
+
+    final fileName = path.split('/').last;
+    final extension = _extension(fileName);
+    return _imageExtensions.contains(extension);
+  }
+
+  static Set<String> _normalizedNames(
+    String name,
+    String? korName, {
+    required String region,
+  }) {
+    final normalizedName = _normalize(name);
+    final normalizedKorName = korName == null ? null : _normalize(korName);
+
+    return {
+      ..._nameVariants(normalizedName),
+      if (region == 'dlc') ..._dlcNameVariants(normalizedName),
+      if (normalizedKorName != null && normalizedKorName.isNotEmpty) ...[
+        ..._nameVariants(normalizedKorName),
+        if (region == 'dlc') ..._dlcNameVariants(normalizedKorName),
+      ],
+    }..remove('');
+  }
+
+  MapRegionMarkerAssetMatch? _matchForBaseName(
+    String baseName, {
+    required double scale,
+  }) {
+    final asset = _assetsByBaseName[_normalize(baseName)];
+    return asset == null
+        ? null
+        : MapRegionMarkerAssetMatch(path: asset.path, scale: scale);
+  }
+
+  static String _normalize(String value) {
+    return value.trim().toLowerCase();
+  }
+
+  static Set<String> _nameVariants(String value) {
+    final variants = <String>{value};
+
+    if (_isAscii(value)) {
+      final withoutApostrophes = value.replaceAll(RegExp("[`']"), '');
+      variants.add(withoutApostrophes);
+    } else {
+      for (final entry in _koreanAssetNameHints.entries) {
+        if (value.contains(entry.key)) {
+          variants.addAll(entry.value);
+        }
+      }
+    }
+
+    return variants;
+  }
+
+  static Set<String> _dlcNameVariants(String value) {
+    return _dlcShackNamePattern.hasMatch(value)
+        ? const {'shack'}
+        : const <String>{};
+  }
+
+  static Set<String> _lookupVariants(String value) {
+    final variants = _nameVariants(value);
+
+    if (!_isAscii(value)) return variants;
+
+    for (final variant in variants.toList()) {
+      if (variant.length > 3 && variant.endsWith('ies')) {
+        variants.add('${variant.substring(0, variant.length - 3)}y');
+      } else if (variant.length > 2 && variant.endsWith('s')) {
+        variants.add(variant.substring(0, variant.length - 1));
+      }
+    }
+
+    return variants..remove('');
+  }
+
+  static bool _isAscii(String value) {
+    return value.codeUnits.every((codeUnit) => codeUnit <= 0x7f);
+  }
+
+  static String _extension(String fileName) {
+    final dotIndex = fileName.lastIndexOf('.');
+    if (dotIndex < 0 || dotIndex == fileName.length - 1) return '';
+    return fileName.substring(dotIndex + 1).toLowerCase();
+  }
+}
+
+class MapRegionMarkerAssetMatch {
+  final String path;
+  final double scale;
+
+  const MapRegionMarkerAssetMatch({required this.path, required this.scale});
+}
+
+class _MapRegionMarkerAsset {
+  final String path;
+  final String baseName;
+  final String normalizedBaseName;
+  final String lookupName;
+  final Set<String> lookupNames;
+  final bool isDlcVariant;
+
+  const _MapRegionMarkerAsset({
+    required this.path,
+    required this.baseName,
+    required this.normalizedBaseName,
+    required this.lookupName,
+    required this.lookupNames,
+    required this.isDlcVariant,
+  });
+
+  int? matchLengthIn(Set<String> names) {
+    int? bestLength;
+
+    for (final lookupName in lookupNames) {
+      if (!names.any((name) => name.contains(lookupName))) {
+        continue;
+      }
+
+      if (bestLength == null || lookupName.length > bestLength) {
+        bestLength = lookupName.length;
+      }
+    }
+
+    return bestLength;
+  }
+
+  factory _MapRegionMarkerAsset.fromPath(String path) {
+    final fileName = path.split('/').last;
+    final dotIndex = fileName.lastIndexOf('.');
+    final baseName = dotIndex < 0 ? fileName : fileName.substring(0, dotIndex);
+    final normalizedBaseName = MapRegionMarkerAssetResolver._normalize(
+      baseName,
+    );
+    final isDlcVariant = normalizedBaseName.endsWith('_dlc');
+    final lookupName = isDlcVariant
+        ? normalizedBaseName.substring(0, normalizedBaseName.length - 4)
+        : normalizedBaseName;
+
+    return _MapRegionMarkerAsset(
+      path: path,
+      baseName: baseName,
+      normalizedBaseName: normalizedBaseName,
+      lookupName: lookupName,
+      lookupNames: MapRegionMarkerAssetResolver._lookupVariants(lookupName),
+      isDlcVariant: isDlcVariant,
+    );
+  }
+}
+
 class MapMarkerDetailGroup {
   final String title;
   final List<String> keys;
@@ -825,6 +1206,19 @@ class _MapMarkerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final markerAsset = marker.markerAssetPath;
+
+    if (markerAsset != null) {
+      return Center(
+        child: Image.asset(
+          markerAsset,
+          width: size,
+          height: size,
+          fit: BoxFit.contain,
+        ),
+      );
+    }
+
     final iconAsset = MapMarkerData.categoryIconAsset(marker.categoryKey);
 
     if (iconAsset != null) {
