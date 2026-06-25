@@ -30,11 +30,14 @@ class ESpellListPage extends StatefulWidget {
   final String spellKindFilter;
   final String spellTypeFilter;
 
+  final ValueChanged<String>? showOnMap;
+
   const ESpellListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
+    this.showOnMap,
     required this.filterBase,
     required this.filterDlc,
     this.filterLegend = false,
@@ -442,6 +445,34 @@ class _ESpellListPageState extends State<ESpellListPage> {
                             
 
                             // ✅ 추가: JSON에 들어있는 gif URL(예: spell.gif)을 Image.network로 표시
+                            if (widget.showOnMap != null) ...[
+                              const SizedBox(height: 8),
+                              GestureDetector(
+                                onTap: () => widget.showOnMap!(spell.title),
+                                child: Container(
+                                  padding:
+                                  const EdgeInsets.symmetric(vertical: 12),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/detailground.png'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      '지도에서 보기',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+
                             if (showGif) ...[
                               const SizedBox(height: 10),
                               ClipRRect(

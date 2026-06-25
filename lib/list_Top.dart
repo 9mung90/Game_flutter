@@ -1,6 +1,7 @@
 // lib/pages/list_Top.dart (검색창 내부 필터 아이콘 + 바텀시트 + 필터 타이틀 앞 대표 이미지)
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:forspeech/page/eweapon_list_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -123,6 +124,8 @@ class _ListTopState extends State<ListTop> {
   };
   Set<String> _enabledMapMarkerDetailKeys = <String>{};
   String _selectedMapRegion = 'surface';
+  MapFocusRequest? _mapFocusRequest;
+  int _mapFocusRequestId = 0;
 
   @override
   void initState() {
@@ -392,6 +395,133 @@ class _ListTopState extends State<ListTop> {
     }
   }
 
+  Future<void> _showItemOnMap(
+    String title,
+    Set<String> allowedDetailKeys,
+  ) async {
+    final match = await _findMapItemMarker(title, allowedDetailKeys);
+    if (!mounted) return;
+
+    if (match == null) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(content: Text('"$title" 지도 위치를 찾을 수 없습니다.')),
+        );
+      return;
+    }
+
+    _searchController.text = match.displayName;
+
+    setState(() {
+      _selectedIndex = 8;
+      _selectedMapRegion = match.region;
+      _enabledMapMarkerCategories = {MapMarkerData.itemKey};
+      _enabledMapMarkerDetailKeys = {match.detailKey};
+      _mapFocusRequest = MapFocusRequest(
+        id: ++_mapFocusRequestId,
+        name: match.name,
+        korName: match.korName,
+        region: match.region,
+        detailKey: match.detailKey,
+      );
+    });
+
+    _pageController.animateToPage(
+      8,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+    );
+    _scrollToCategory(8);
+  }
+
+  Future<_MapItemMarkerMatch?> _findMapItemMarker(
+    String title,
+    Set<String> allowedDetailKeys,
+  ) async {
+    final jsonString = await rootBundle.loadString(
+      'assets/data/map_data/items.json',
+    );
+    final decoded = jsonDecode(jsonString);
+    if (decoded is! List) return null;
+
+    final titleNames = _mapItemNameVariants(title);
+    _MapItemMarkerMatch? fallback;
+
+    for (final item in decoded) {
+      if (item is! Map<String, dynamic>) continue;
+
+      final name = item['name'] as String?;
+      final korName = item['kor_name'] as String?;
+      final region = item['region'] as String?;
+      final lat = item['lat'];
+      final lng = item['lng'];
+      final category = item['category'] as String?;
+      final subcategory = item['subcategory'] as String?;
+      final detailKey = 'item:${category ?? subcategory ?? 'item'}';
+
+      if (name == null ||
+          name.isEmpty ||
+          region == null ||
+          lat is! num ||
+          lng is! num ||
+          (lat == 0 && lng == 0) ||
+          !allowedDetailKeys.contains(detailKey)) {
+        continue;
+      }
+
+      final markerNames = {
+        ..._mapItemNameVariants(name),
+        if (korName != null) ..._mapItemNameVariants(korName),
+      };
+
+      if (!titleNames.any(markerNames.contains)) continue;
+
+      final match = _MapItemMarkerMatch(
+        name: name,
+        korName: korName,
+        region: region,
+        detailKey: detailKey,
+      );
+
+      if (korName != null &&
+          _mapItemNameVariants(korName).containsAll(titleNames)) {
+        return match;
+      }
+
+      fallback ??= match;
+    }
+
+    return fallback;
+  }
+
+  Set<String> _mapItemNameVariants(String value) {
+    final full = _normalizeMapItemName(value);
+    final beforeDash = _normalizeMapItemName(value.split(' - ').first);
+    final beforeParen = _normalizeMapItemName(value.split('(').first);
+    final beforeBracket = _normalizeMapItemName(value.split('[').first);
+
+    return {
+      full,
+      beforeDash,
+      beforeParen,
+      beforeBracket,
+    }..remove('');
+  }
+
+  String _normalizeMapItemName(String value) {
+    var result = value.toLowerCase();
+    const ashPrefix = '\uC804\uD68C';
+    result = result.replaceAll(RegExp('$ashPrefix\\s*[:\uFF1A]\\s*'), '');
+    result = result.replaceAll(
+      RegExp('[\u25C7\u25C6\u25CB\u25CF\u2606\u2605]'),
+      '',
+    );
+    result = result.replaceAll('\uFF0B', '+');
+    result = result.replaceAll(RegExp(r'\s*\+\s*'), '+');
+    result = result.replaceAll(RegExp(r'\s+'), '');
+    return result.trim();
+  }
   // 🔹 현재 탭에 "기존 필터"(리스트 필터)가 있는지 여부
   bool _hasFilterForCurrentTab() {
     return _selectedIndex == 0 || // 무기
@@ -975,12 +1105,34 @@ class _ListTopState extends State<ListTop> {
                                 activeColor: Colors.amberAccent,
                                 checkColor: Colors.black,
                                 dense: true,
-                                title: Text(
-                                  MapMarkerData.detailDisplayLabel(detailKey),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                  ),
+                                title: Row(
+                                  children: [
+                                    if (MapMarkerData.detailIconAsset(
+                                          detailKey,
+                                        ) !=
+                                        null) ...[
+                                      Image.asset(
+                                        MapMarkerData.detailIconAsset(
+                                          detailKey,
+                                        )!,
+                                        width: 20,
+                                        height: 20,
+                                        fit: BoxFit.contain,
+                                      ),
+                                      const SizedBox(width: 8),
+                                    ],
+                                    Expanded(
+                                      child: Text(
+                                        MapMarkerData.detailDisplayLabel(
+                                          detailKey,
+                                        ),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                           ],
@@ -2678,6 +2830,10 @@ class _ListTopState extends State<ListTop> {
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
         navigateToDetailViewer: _navigateToDetailViewer,
+        showOnMap: (title) => _showItemOnMap(
+          title,
+          const {'item:weapon', 'item:shield'},
+        ),
         genreFilter: _weaponMainFilter,
         subTypeFilter: _weaponSubFilter,
         filterNormalEnhance: _weaponFilterNormalEnhance,
@@ -2706,6 +2862,10 @@ class _ListTopState extends State<ListTop> {
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
+        showOnMap: (title) => _showItemOnMap(
+          title,
+          const {'item:spell'},
+        ),
         filterBase: _spellFilterBase,
         filterDlc: _spellFilterDlc,
         filterLegend: _spellFilterLegend,
@@ -2716,6 +2876,10 @@ class _ListTopState extends State<ListTop> {
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
+        showOnMap: (title) => _showItemOnMap(
+          title,
+          const {'item:talisman'},
+        ),
         filterBase: _talismanFilterBase,
         filterDlc: _talismanFilterDlc,
         filterLegend: _talismanFilterLegend,
@@ -2750,6 +2914,7 @@ class _ListTopState extends State<ListTop> {
         enabledCategories: _enabledMapMarkerCategories,
         enabledDetailKeys: _enabledMapMarkerDetailKeys,
         selectedRegion: _selectedMapRegion,
+        focusRequest: _mapFocusRequest,
       ),
     ];
 
@@ -3044,6 +3209,25 @@ class _ListTopState extends State<ListTop> {
 }
 
 // 공용 카테고리 버튼
+class _MapItemMarkerMatch {
+  final String name;
+  final String? korName;
+  final String region;
+  final String detailKey;
+
+  const _MapItemMarkerMatch({
+    required this.name,
+    required this.korName,
+    required this.region,
+    required this.detailKey,
+  });
+
+  String get displayName {
+    final value = korName?.trim();
+    return value == null || value.isEmpty ? name : value;
+  }
+}
+
 Widget _buildCategoryButton({
   required String iconPath,
   required String label,

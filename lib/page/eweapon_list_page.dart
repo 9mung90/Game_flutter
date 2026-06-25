@@ -32,12 +32,15 @@ class EWeaponListPage extends StatefulWidget {
   final bool filterBase;            // 본편 무기
   final bool filterDlc;             // DLC 무기
 
+  final ValueChanged<String>? showOnMap;
+
   const EWeaponListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
     required this.navigateToDetailViewer,
+    this.showOnMap,
     required this.genreFilter,
     required this.subTypeFilter,
     this.filterNormalEnhance = false,
@@ -503,6 +506,33 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                 ),
                               ),
                             ),
+                            if (widget.showOnMap != null) ...[
+                              const SizedBox(height: 8),
+                              GestureDetector(
+                                onTap: () => widget.showOnMap!(weapon.title),
+                                child: Container(
+                                  padding:
+                                  const EdgeInsets.symmetric(vertical: 12),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/detailground.png'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      '지도에서 보기',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                       ),

@@ -9,6 +9,7 @@ class MapPage extends StatefulWidget {
   final Set<String> enabledCategories;
   final Set<String> enabledDetailKeys;
   final String selectedRegion;
+  final MapFocusRequest? focusRequest;
 
   const MapPage({
     super.key,
@@ -16,6 +17,7 @@ class MapPage extends StatefulWidget {
     this.enabledCategories = MapMarkerData.defaultCategoryKeys,
     this.enabledDetailKeys = MapMarkerData.defaultDetailKeys,
     this.selectedRegion = 'surface',
+    this.focusRequest,
   });
 
   @override
@@ -70,6 +72,7 @@ class _MapPageState extends State<MapPage> {
   late String _selectedRegion;
   double _lastViewportScale = 1.0;
   Offset _lastViewportTranslation = Offset.zero;
+  int? _handledFocusRequestId;
 
   bool get _isDlcMap => _selectedRegion == 'dlc';
 
@@ -190,6 +193,10 @@ class _MapPageState extends State<MapPage> {
     Map<String, int> markerAssetUseCounts,
   ) {
     final markerAssetPath = marker.markerAssetPath;
+    if (markerAssetPath != null && _usesDefaultScale(markerAssetPath)) {
+      return marker.withMarkerAssetScale(MapMarkerData.defaultMarkerAssetScale);
+    }
+
     final isSingleUseAsset =
         markerAssetPath != null && markerAssetUseCounts[markerAssetPath] == 1;
     final scale = isSingleUseAsset
@@ -199,6 +206,13 @@ class _MapPageState extends State<MapPage> {
     return marker.withMarkerAssetScale(scale);
   }
 
+  static bool _usesDefaultScale(String markerAssetPath) {
+    final fileName = markerAssetPath.split('/').last;
+    final dotIndex = fileName.lastIndexOf('.');
+    final baseName = dotIndex < 0 ? fileName : fileName.substring(0, dotIndex);
+    return baseName == 'Divine Tower' || baseName == 'Rise';
+  }
+
   void _resetViewport() {
     _lastViewportScale = 1.0;
     _lastViewportTranslation = Offset.zero;
@@ -206,24 +220,65 @@ class _MapPageState extends State<MapPage> {
   }
 
   void _showMarkerInfo(MapMarkerData marker) {
-    final title = marker.displayName;
-    final details = <String>[
+    final names = <String>[
+      marker.displayName,
       if (marker.hasKoreanName && marker.name.trim().isNotEmpty) marker.name,
-      marker.label,
-      marker.detailLabel,
-      if (marker.typeLabel != null) marker.typeLabel!,
-      if (marker.sourceLabel != null) marker.sourceLabel!,
-    ].join(' · ');
+    ].join('\n');
 
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: Text(details.isEmpty ? title : '$title\n$details'),
+          content: Text(names),
           duration: const Duration(seconds: 3),
           behavior: SnackBarBehavior.floating,
         ),
       );
+  }
+
+  void _focusMarkerIfNeeded(
+    List<MapMarkerData> markers,
+    Size viewportSize,
+  ) {
+    final request = widget.focusRequest;
+    if (request == null ||
+        request.id == _handledFocusRequestId ||
+        viewportSize.isEmpty) {
+      return;
+    }
+
+    MapMarkerData? marker;
+    for (final candidate in markers) {
+      if (candidate.region != request.region) continue;
+      if (candidate.detailKey != request.detailKey) continue;
+      if (candidate.name != request.name ||
+          candidate.korName != request.korName) {
+        continue;
+      }
+      marker = candidate;
+      break;
+    }
+
+    if (marker == null) return;
+
+    final targetMarker = marker;
+    _handledFocusRequestId = request.id;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _selectedRegion != request.region) return;
+
+      const targetScale = 2.0;
+      final point = targetMarker.offset(_selectedRegion);
+      final viewportCenter = Offset(
+        viewportSize.width / 2,
+        viewportSize.height / 2,
+      );
+      final translation = viewportCenter - point * targetScale;
+
+      _controller.value = Matrix4.identity()
+        ..translate(translation.dx, translation.dy)
+        ..scale(targetScale);
+      _showMarkerInfo(targetMarker);
+    });
   }
 
   List<MapMarkerData> _visibleMarkers(
@@ -290,6 +345,11 @@ class _MapPageState extends State<MapPage> {
 
           return LayoutBuilder(
             builder: (context, constraints) {
+              _focusMarkerIfNeeded(
+                snapshot.data ?? const <MapMarkerData>[],
+                constraints.biggest,
+              );
+
               final markers = _visibleMarkers(
                 snapshot.data ?? const <MapMarkerData>[],
                 constraints.biggest,
@@ -367,6 +427,22 @@ class _MapPageState extends State<MapPage> {
   }
 }
 
+class MapFocusRequest {
+  final int id;
+  final String name;
+  final String? korName;
+  final String region;
+  final String detailKey;
+
+  const MapFocusRequest({
+    required this.id,
+    required this.name,
+    required this.korName,
+    required this.region,
+    required this.detailKey,
+  });
+}
+
 class MapMarkerData {
   static const String graceKey = 'grace';
   static const String bossKey = 'boss';
@@ -399,8 +475,9 @@ class MapMarkerData {
   final String? markerAssetPath;
   final double markerAssetScale;
 
-  static const double defaultMarkerAssetScale = 1.0;
-  static const double singleUseMarkerAssetScale = 4.0;
+  static const double defaultMarkerAssetScale = 2.0;
+  static const double singleUseMarkerAssetScale = 32 / 9;
+  static const double itemMarkerScale = 1.0;
 
   const MapMarkerData({
     required this.name,
@@ -475,7 +552,11 @@ class MapMarkerData {
   }
 
   double visualSize(double baseSize) {
-    return markerAssetPath == null ? baseSize : baseSize * markerAssetScale;
+    if (markerAssetPath != null) {
+      return baseSize * markerAssetScale;
+    }
+
+    return categoryKey == itemKey ? baseSize * itemMarkerScale : baseSize;
   }
 
   MapMarkerData withMarkerAssetScale(double scale) {
@@ -589,13 +670,53 @@ class MapMarkerData {
         return 'assets/images/map_assets/grace.png';
       case bossKey:
         return 'assets/images/map_assets/boss.webp';
-      case itemKey:
-        return 'assets/images/map_assets/item.png';
       case npcKey:
         return 'assets/images/map_assets/npc.png';
       default:
         return null;
     }
+  }
+
+  static String? detailIconAsset(String detailKey) {
+    switch (detailKey) {
+      case 'grace':
+        return 'assets/images/map_assets/grace.png';
+      case 'item:weapon':
+        return 'assets/images/map_assets/weapon.png';
+      case 'item:shield':
+        return 'assets/images/map_assets/shield.png';
+      case 'item:armor':
+        return 'assets/images/map_assets/armor.png';
+      case 'item:talisman':
+        return 'assets/images/map_assets/talisman.png';
+      case 'item:spell':
+        return 'assets/images/map_assets/spell.png';
+      case 'item:ash_of_war':
+        return 'assets/images/map_assets/ash.png';
+      case 'item:key_item':
+        return 'assets/images/map_assets/important.png';
+      case 'item:consumable':
+        return 'assets/images/map_assets/use.png';
+      case 'item:upgrade_material':
+        return 'assets/images/map_assets/upgrade.png';
+      case 'item:material':
+        return 'assets/images/map_assets/make.png';
+      case 'item:flask_upgrade':
+        return 'assets/images/map_assets/restore.png';
+      case 'item:map_fragment':
+        return 'assets/images/map_assets/map.png';
+      case 'npc:npc':
+        return 'assets/images/map_assets/npc.png';
+      case 'npc:npc_invader':
+        return 'assets/images/map_assets/Invader.png';
+      default:
+        return null;
+    }
+  }
+
+  static String? markerIconAsset(MapMarkerData marker) {
+    return detailIconAsset(marker.detailKey) ??
+        categoryIconAsset(marker.categoryKey);
   }
 
   static const List<MapMarkerDetailGroup> detailGroups = [
@@ -633,7 +754,6 @@ class MapMarkerData {
         'item:talisman',
         'item:spell',
         'item:ash_of_war',
-        'item:spirit_ash',
         'item:key_item',
         'item:consumable',
         'item:upgrade_material',
@@ -673,7 +793,6 @@ class MapMarkerData {
     'item:talisman',
     'item:spell',
     'item:ash_of_war',
-    'item:spirit_ash',
     'item:key_item',
     'item:consumable',
     'item:upgrade_material',
@@ -739,8 +858,6 @@ class MapMarkerData {
         return '주문';
       case 'item:ash_of_war':
         return '전회';
-      case 'item:spirit_ash':
-        return '뼛가루';
       case 'item:key_item':
         return '주요 아이템';
       case 'item:consumable':
@@ -908,6 +1025,12 @@ class MapRegionMarkerAssetResolver {
     '영원한 도읍 녹스텔라': 'nok',
   };
 
+  static const Map<String, String> _koreanAssetOverrides = {
+    '각해의 영지 제단': 'Suppressing Pillar',
+    '성당구획': 'Academy Gate Town',
+    '마중물 마을': 'Ruins',
+  };
+
   static const Map<String, List<String>> _koreanAssetNameHints = {
     '영웅 묘지': ["hero's grave", 'heros grave'],
     '지하 묘지': ['catacombs'],
@@ -919,7 +1042,8 @@ class MapRegionMarkerAssetResolver {
     '폐허': ['ruins'],
     '교회': ['church'],
     '요새': ['fort'],
-    '탑': ['tower'],
+    '신수탑': ['divine tower'],
+    '마술사탑': ['rise'],
   };
   static final RegExp _dlcShackNamePattern = RegExp(
     r'\b(hovel|rest|hut)\b',
@@ -964,17 +1088,44 @@ class MapRegionMarkerAssetResolver {
     required String? korName,
     required String region,
   }) {
-    final names = _normalizedNames(name, korName, region: region);
     final isDlc = region == 'dlc';
+    final normalizedKorName = korName == null ? null : _normalize(korName);
+
+    if (normalizedKorName != null) {
+      final overrideAsset = _koreanAssetOverrides[normalizedKorName];
+      if (overrideAsset != null) {
+        return _matchForBaseName(
+          overrideAsset,
+          scale: MapMarkerData.defaultMarkerAssetScale,
+        );
+      }
+    }
+
+    final englishNames = _normalizedNameSet(name, region: region);
+    final englishMatch = _resolveAssetMatch(englishNames, isDlc: isDlc);
+    if (englishMatch != null) {
+      return englishMatch;
+    }
+
+    final koreanNames = _normalizedNameSet(korName, region: region);
 
     for (final entry in _specialSharedAssets.entries) {
-      if (names.contains(_normalize(entry.key))) {
+      if (koreanNames.contains(_normalize(entry.key))) {
         return _matchForBaseName(
           entry.value,
           scale: MapMarkerData.defaultMarkerAssetScale,
         );
       }
     }
+
+    return _resolveAssetMatch(koreanNames, isDlc: isDlc);
+  }
+
+  MapRegionMarkerAssetMatch? _resolveAssetMatch(
+    Set<String> names, {
+    required bool isDlc,
+  }) {
+    if (names.isEmpty) return null;
 
     // Generic matching priority:
     // 1. Exact region/dungeon name to asset base name, ignoring extension/case.
@@ -1046,21 +1197,15 @@ class MapRegionMarkerAssetResolver {
     return _imageExtensions.contains(extension);
   }
 
-  static Set<String> _normalizedNames(
-    String name,
-    String? korName, {
-    required String region,
-  }) {
-    final normalizedName = _normalize(name);
-    final normalizedKorName = korName == null ? null : _normalize(korName);
+  static Set<String> _normalizedNameSet(String? value, {required String region}) {
+    if (value == null) return const <String>{};
+
+    final normalizedValue = _normalize(value);
+    if (normalizedValue.isEmpty) return const <String>{};
 
     return {
-      ..._nameVariants(normalizedName),
-      if (region == 'dlc') ..._dlcNameVariants(normalizedName),
-      if (normalizedKorName != null && normalizedKorName.isNotEmpty) ...[
-        ..._nameVariants(normalizedKorName),
-        if (region == 'dlc') ..._dlcNameVariants(normalizedKorName),
-      ],
+      ..._nameVariants(normalizedValue),
+      if (region == 'dlc') ..._dlcNameVariants(normalizedValue),
     }..remove('');
   }
 
@@ -1219,9 +1364,33 @@ class _MapMarkerIcon extends StatelessWidget {
       );
     }
 
-    final iconAsset = MapMarkerData.categoryIconAsset(marker.categoryKey);
+    final iconAsset = MapMarkerData.markerIconAsset(marker);
 
     if (iconAsset != null) {
+      if (marker.categoryKey == MapMarkerData.itemKey ||
+          marker.detailKey == 'npc:npc_invader') {
+        return Center(
+          child: Container(
+            width: size * 0.88,
+            height: size * 0.88,
+            padding: EdgeInsets.all(size * 0.08),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.58),
+              borderRadius: BorderRadius.circular(size * 0.18),
+              border: Border.all(color: Colors.white, width: 2),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black87,
+                  blurRadius: 5,
+                  offset: Offset(0, 1),
+                ),
+              ],
+            ),
+            child: Image.asset(iconAsset, fit: BoxFit.contain),
+          ),
+        );
+      }
+
       return Center(
         child: Image.asset(
           iconAsset,
@@ -1240,7 +1409,12 @@ class _MapMarkerIcon extends StatelessWidget {
         height: size * 0.72,
         decoration: BoxDecoration(
           color: color.withOpacity(0.92),
-          shape: BoxShape.circle,
+          shape: marker.categoryKey == MapMarkerData.waygateKey
+              ? BoxShape.rectangle
+              : BoxShape.circle,
+          borderRadius: marker.categoryKey == MapMarkerData.waygateKey
+              ? BorderRadius.circular(size * 0.08)
+              : null,
           border: Border.all(color: Colors.white, width: 1.5),
           boxShadow: const [
             BoxShadow(
