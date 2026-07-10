@@ -27,12 +27,16 @@ class EArmorListPage extends StatefulWidget {
   //  - filterDlc : DLC 방어구 (이름에 ◇ 포함)
   final bool filterBase;
   final bool filterDlc;
+  final ValueChanged<String>? showOnMap;
+  final bool Function(String armorSetName)? canShowOnMap;
 
   const EArmorListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
+    this.showOnMap,
+    this.canShowOnMap,
     required this.partFilter,  // 🔹 기존 필터
     this.filterBase = true,    // 🔥 기본값: 본편만 ON
     this.filterDlc = false,    // 🔥 기본값: DLC OFF
@@ -355,6 +359,32 @@ class _EArmorListPageState extends State<EArmorListPage> {
                             ),
 
                             const SizedBox(height: 12),
+                            if (widget.showOnMap != null &&
+                                (widget.canShowOnMap?.call(armor.aset) ??
+                                    true)) ...[
+                              GestureDetector(
+                                onTap: () => widget.showOnMap!(armor.aset),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    image: const DecorationImage(
+                                      image: AssetImage('assets/images/detailground.png'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      '지도에서 보기',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                       ),

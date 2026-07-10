@@ -31,6 +31,7 @@ class ESpellListPage extends StatefulWidget {
   final String spellTypeFilter;
 
   final ValueChanged<String>? showOnMap;
+  final bool Function(String title)? canShowOnMap;
 
   const ESpellListPage({
     super.key,
@@ -38,6 +39,7 @@ class ESpellListPage extends StatefulWidget {
     required this.searchQuery,
     required this.showImageDialog,
     this.showOnMap,
+    this.canShowOnMap,
     required this.filterBase,
     required this.filterDlc,
     this.filterLegend = false,
@@ -445,7 +447,9 @@ class _ESpellListPageState extends State<ESpellListPage> {
                             
 
                             // ✅ 추가: JSON에 들어있는 gif URL(예: spell.gif)을 Image.network로 표시
-                            if (widget.showOnMap != null) ...[
+                            if (widget.showOnMap != null &&
+                                (widget.canShowOnMap?.call(spell.title) ??
+                                    true)) ...[
                               const SizedBox(height: 8),
                               GestureDetector(
                                 onTap: () => widget.showOnMap!(spell.title),

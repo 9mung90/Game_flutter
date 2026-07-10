@@ -46,8 +46,20 @@ class ListTop extends StatefulWidget {
 }
 
 class _ListTopState extends State<ListTop> {
+  static const List<int> _pageTabOrder = [8, 0, 1, 2, 3, 4, 5, 6, 7];
+
+  static int _pageIndexForTab(int tabIndex) {
+    final pageIndex = _pageTabOrder.indexOf(tabIndex);
+    return pageIndex == -1 ? 0 : pageIndex;
+  }
+
+  static int _tabIndexForPage(int pageIndex) {
+    if (pageIndex < 0 || pageIndex >= _pageTabOrder.length) return 0;
+    return _pageTabOrder[pageIndex];
+  }
+
   final TextEditingController _searchController = TextEditingController();
-  final PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 1);
   final ScrollController _tabScrollController = ScrollController();
 
   // 🔥 검색창 포커스 제어용 FocusNode 추가
@@ -126,17 +138,20 @@ class _ListTopState extends State<ListTop> {
   String _selectedMapRegion = 'surface';
   MapFocusRequest? _mapFocusRequest;
   int _mapFocusRequestId = 0;
+  Set<String> _availableMapItemKeys = <String>{};
 
   @override
   void initState() {
     super.initState();
-    _selectedIndex = _pageController.initialPage;
+    _selectedIndex = _tabIndexForPage(_pageController.initialPage);
 
     _searchController.addListener(() {
       setState(() {
         _searchQuery = _searchController.text;
       });
     });
+
+    _loadAvailableMapItemKeys();
 
     /*
     // ✅ 화면이 그려진 뒤 업데이트 알림 확인
@@ -428,7 +443,7 @@ class _ListTopState extends State<ListTop> {
     });
 
     _pageController.animateToPage(
-      8,
+      _pageIndexForTab(8),
       duration: const Duration(milliseconds: 250),
       curve: Curves.easeInOut,
     );
@@ -458,7 +473,7 @@ class _ListTopState extends State<ListTop> {
       final lng = item['lng'];
       final category = item['category'] as String?;
       final subcategory = item['subcategory'] as String?;
-      final detailKey = 'item:${category ?? subcategory ?? 'item'}';
+      final detailKey = "item:${category ?? subcategory ?? 'item'}";
 
       if (name == null ||
           name.isEmpty ||
@@ -493,6 +508,250 @@ class _ListTopState extends State<ListTop> {
     }
 
     return fallback;
+  }
+
+  Future<List<_MapItemMarkerMatch>> _findMapItemMarkers(
+    String title,
+    Set<String> allowedDetailKeys,
+  ) async {
+    final jsonString = await rootBundle.loadString(
+      'assets/data/map_data/items.json',
+    );
+    final decoded = jsonDecode(jsonString);
+    if (decoded is! List) return const [];
+
+    final titleNames = _mapItemNameVariants(title);
+    final matches = <_MapItemMarkerMatch>[];
+
+    for (final item in decoded) {
+      if (item is! Map<String, dynamic>) continue;
+
+      final name = item['name'] as String?;
+      final korName = item['kor_name'] as String?;
+      final region = item['region'] as String?;
+      final lat = item['lat'];
+      final lng = item['lng'];
+      final category = item['category'] as String?;
+      final subcategory = item['subcategory'] as String?;
+      final detailKey = "item:${category ?? subcategory ?? 'item'}";
+
+      if (name == null ||
+          name.isEmpty ||
+          region == null ||
+          lat is! num ||
+          lng is! num ||
+          (lat == 0 && lng == 0) ||
+          !allowedDetailKeys.contains(detailKey)) {
+        continue;
+      }
+
+      final markerNames = {
+        ..._mapItemNameVariants(name),
+        if (korName != null) ..._mapItemNameVariants(korName),
+      };
+
+      if (!titleNames.any(markerNames.contains)) continue;
+
+      matches.add(
+        _MapItemMarkerMatch(
+          name: name,
+          korName: korName,
+          region: region,
+          detailKey: detailKey,
+        ),
+      );
+    }
+
+    return matches;
+  }
+
+  Future<void> _showConsumableOnMap(String title) async {
+    final matches = await _findMapItemMarkers(title, const {'item:consumable'});
+    if (!mounted) return;
+
+    if (matches.isEmpty) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(content: Text('"$title" 지도 위치를 찾을 수 없습니다.')),
+        );
+      return;
+    }
+
+    if (matches.length == 1) {
+      await _showItemOnMap(title, const {'item:consumable'});
+      return;
+    }
+
+    const regionPriority = ['surface', 'underground', 'dlc'];
+    final regionCounts = <String, int>{};
+    for (final match in matches) {
+      regionCounts[match.region] = (regionCounts[match.region] ?? 0) + 1;
+    }
+
+    var selectedRegion = matches.first.region;
+    var selectedCount = regionCounts[selectedRegion] ?? 0;
+    for (final region in regionPriority) {
+      final count = regionCounts[region] ?? 0;
+      if (count > selectedCount) {
+        selectedRegion = region;
+        selectedCount = count;
+      }
+    }
+
+    _searchController.text = title
+        .replaceAll(RegExp('[\u25C7\u25C6\u25CB\u25CF\u2606\u2605]'), '')
+        .trim();
+
+    setState(() {
+      _selectedIndex = 8;
+      _selectedMapRegion = selectedRegion;
+      _enabledMapMarkerCategories = {MapMarkerData.itemKey};
+      _enabledMapMarkerDetailKeys = {'item:consumable'};
+      _mapFocusRequest = null;
+    });
+
+    _pageController.animateToPage(
+      _pageIndexForTab(8),
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+    );
+    _scrollToCategory(8);
+  }
+
+  Future<_MapItemMarkerMatch?> _findArmorSetMarker(String armorSetName) async {
+    final setName = _normalizeMapItemName(armorSetName);
+    if (setName.isEmpty || setName == _normalizeMapItemName('없음')) {
+      return null;
+    }
+
+    final raw = await rootBundle.loadString('assets/data/map_data/items.json');
+    final decoded = jsonDecode(raw);
+    if (decoded is! List) return null;
+
+    for (final item in decoded) {
+      if (item is! Map<String, dynamic>) continue;
+      if (item['category'] != 'armor') continue;
+
+      final korName = item['kor_name'] as String?;
+      if (korName == null || !korName.contains(' 세트')) continue;
+
+      final markerSetName = _normalizeMapItemName(korName.split(' 세트').first);
+      if (markerSetName != setName) continue;
+
+      final name = item['name'] as String?;
+      final region = item['region'] as String?;
+      if (name == null || name.isEmpty || region == null || region.isEmpty) {
+        continue;
+      }
+
+      return _MapItemMarkerMatch(
+        name: name,
+        korName: korName,
+        region: region,
+        detailKey: 'item:armor',
+      );
+    }
+
+    return null;
+  }
+
+  Future<void> _showArmorSetOnMap(String armorSetName) async {
+    final match = await _findArmorSetMarker(armorSetName);
+    if (!mounted) return;
+
+    if (match == null) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(content: Text('"$armorSetName" 방어구 세트 위치를 찾을 수 없습니다.')),
+        );
+      return;
+    }
+
+    _searchController.text = match.displayName;
+
+    setState(() {
+      _selectedIndex = 8;
+      _selectedMapRegion = match.region;
+      _enabledMapMarkerCategories = {MapMarkerData.itemKey};
+      _enabledMapMarkerDetailKeys = {match.detailKey};
+      _mapFocusRequest = MapFocusRequest(
+        id: ++_mapFocusRequestId,
+        name: match.name,
+        korName: match.korName,
+        region: match.region,
+        detailKey: match.detailKey,
+      );
+    });
+
+    _pageController.animateToPage(
+      _pageIndexForTab(8),
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+    );
+    _scrollToCategory(8);
+  }
+
+  Future<void> _loadAvailableMapItemKeys() async {
+    final raw = await rootBundle.loadString('assets/data/map_data/items.json');
+    final decoded = jsonDecode(raw);
+    if (decoded is! List) return;
+
+    final keys = <String>{};
+    for (final item in decoded) {
+      if (item is! Map<String, dynamic>) continue;
+
+      final category = item['category'] as String?;
+      final subcategory = item['subcategory'] as String?;
+      final detailKey = "item:${category ?? subcategory ?? 'item'}";
+
+      for (final value in [item['name'], item['kor_name']]) {
+        if (value is! String) continue;
+        for (final variant in _mapItemNameVariants(value)) {
+          keys.add(_mapAvailabilityKey(detailKey, variant));
+        }
+      }
+
+      final korName = item['kor_name'] as String?;
+      if (category == 'armor' &&
+          korName != null &&
+          korName.contains(' 세트')) {
+        final setName = _normalizeMapItemName(korName.split(' 세트').first);
+        if (setName.isNotEmpty) {
+          keys.add(_mapAvailabilityKey('armor_set', setName));
+        }
+      }
+    }
+
+    if (!mounted) return;
+    setState(() {
+      _availableMapItemKeys = keys;
+    });
+  }
+
+  String _mapAvailabilityKey(String detailKey, String normalizedName) {
+    return '$detailKey|$normalizedName';
+  }
+
+  bool _hasMapItem(String title, Set<String> allowedDetailKeys) {
+    for (final variant in _mapItemNameVariants(title)) {
+      for (final detailKey in allowedDetailKeys) {
+        if (_availableMapItemKeys.contains(
+          _mapAvailabilityKey(detailKey, variant),
+        )) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  bool _hasArmorSetMapItem(String armorSetName) {
+    final setName = _normalizeMapItemName(armorSetName);
+    return setName.isNotEmpty &&
+        setName != _normalizeMapItemName('없음') &&
+        _availableMapItemKeys.contains(_mapAvailabilityKey('armor_set', setName));
   }
 
   Set<String> _mapItemNameVariants(String value) {
@@ -2825,12 +3084,23 @@ class _ListTopState extends State<ListTop> {
     };
 
     final List<Widget> _pages = [
+      MapPage(
+        searchQuery: _searchQuery,
+        enabledCategories: _enabledMapMarkerCategories,
+        enabledDetailKeys: _enabledMapMarkerDetailKeys,
+        selectedRegion: _selectedMapRegion,
+        focusRequest: _mapFocusRequest,
+      ),
       EWeaponListPage(
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
         navigateToDetailViewer: _navigateToDetailViewer,
         showOnMap: (title) => _showItemOnMap(
+          title,
+          const {'item:weapon', 'item:shield'},
+        ),
+        canShowOnMap: (title) => _hasMapItem(
           title,
           const {'item:weapon', 'item:shield'},
         ),
@@ -2846,6 +3116,8 @@ class _ListTopState extends State<ListTop> {
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
+        showOnMap: _showArmorSetOnMap,
+        canShowOnMap: _hasArmorSetMapItem,
         partFilter: _armorPartFilter,
         filterBase: _armorFilterBase,
         filterDlc: _armorFilterDlc,
@@ -2854,6 +3126,14 @@ class _ListTopState extends State<ListTop> {
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
+        showOnMap: (title) => _showItemOnMap(
+          title,
+          const {'item:ash_of_war'},
+        ),
+        canShowOnMap: (title) => _hasMapItem(
+          title,
+          const {'item:ash_of_war'},
+        ),
         propertyFilter: _ashPropertyFilter,
         filterBase: _ashFilterBase,
         filterDlc: _ashFilterDlc,
@@ -2863,6 +3143,10 @@ class _ListTopState extends State<ListTop> {
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
         showOnMap: (title) => _showItemOnMap(
+          title,
+          const {'item:spell'},
+        ),
+        canShowOnMap: (title) => _hasMapItem(
           title,
           const {'item:spell'},
         ),
@@ -2877,6 +3161,10 @@ class _ListTopState extends State<ListTop> {
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
         showOnMap: (title) => _showItemOnMap(
+          title,
+          const {'item:talisman'},
+        ),
+        canShowOnMap: (title) => _hasMapItem(
           title,
           const {'item:talisman'},
         ),
@@ -2898,6 +3186,11 @@ class _ListTopState extends State<ListTop> {
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
+        showOnMap: _showConsumableOnMap,
+        canShowOnMap: (title) => _hasMapItem(
+          title,
+          const {'item:consumable'},
+        ),
         typeFilter: _etcTypeFilter,
         filterBase: _etcFilterBase,
         filterDlc: _etcFilterDlc,
@@ -2908,13 +3201,6 @@ class _ListTopState extends State<ListTop> {
         showImageDialog: _showImageDialog,
         filterBase: _gestureFilterBase,
         filterDlc: _gestureFilterDlc,
-      ),
-      MapPage(
-        searchQuery: _searchQuery,
-        enabledCategories: _enabledMapMarkerCategories,
-        enabledDetailKeys: _enabledMapMarkerDetailKeys,
-        selectedRegion: _selectedMapRegion,
-        focusRequest: _mapFocusRequest,
       ),
     ];
 
@@ -3029,7 +3315,7 @@ class _ListTopState extends State<ListTop> {
                         _searchController.clear();
                       });
                       _pageController.animateToPage(
-                        index,
+                        _pageIndexForTab(index),
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
@@ -3047,7 +3333,7 @@ class _ListTopState extends State<ListTop> {
                         _searchController.clear();
                       });
                       _pageController.animateToPage(
-                        index,
+                        _pageIndexForTab(index),
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
@@ -3065,7 +3351,7 @@ class _ListTopState extends State<ListTop> {
                         _searchController.clear();
                       });
                       _pageController.animateToPage(
-                        index,
+                        _pageIndexForTab(index),
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
@@ -3083,7 +3369,7 @@ class _ListTopState extends State<ListTop> {
                         _searchController.clear();
                       });
                       _pageController.animateToPage(
-                        index,
+                        _pageIndexForTab(index),
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
@@ -3101,7 +3387,7 @@ class _ListTopState extends State<ListTop> {
                         _searchController.clear();
                       });
                       _pageController.animateToPage(
-                        index,
+                        _pageIndexForTab(index),
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
@@ -3119,7 +3405,7 @@ class _ListTopState extends State<ListTop> {
                         _searchController.clear();
                       });
                       _pageController.animateToPage(
-                        index,
+                        _pageIndexForTab(index),
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
@@ -3137,7 +3423,7 @@ class _ListTopState extends State<ListTop> {
                         _searchController.clear();
                       });
                       _pageController.animateToPage(
-                        index,
+                        _pageIndexForTab(index),
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
@@ -3155,7 +3441,7 @@ class _ListTopState extends State<ListTop> {
                         _searchController.clear();
                       });
                       _pageController.animateToPage(
-                        index,
+                        _pageIndexForTab(index),
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
@@ -3173,7 +3459,7 @@ class _ListTopState extends State<ListTop> {
                         _searchController.clear();
                       });
                       _pageController.animateToPage(
-                        index,
+                        _pageIndexForTab(index),
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
@@ -3193,10 +3479,11 @@ class _ListTopState extends State<ListTop> {
                     ? const NeverScrollableScrollPhysics()
                     : const PageScrollPhysics(),
                 onPageChanged: (index) {
+                  final tabIndex = _tabIndexForPage(index);
                   setState(() {
-                    _selectedIndex = index;
+                    _selectedIndex = tabIndex;
                   });
-                  _scrollToCategory(index);
+                  _scrollToCategory(tabIndex);
                 },
                 children: _pages,
               ),

@@ -25,11 +25,16 @@ class EEtcListPage extends StatefulWidget {
   final bool filterBase; // 본편
   final bool filterDlc;  // DLC
 
+  final ValueChanged<String>? showOnMap;
+  final bool Function(String title)? canShowOnMap;
+
   const EEtcListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
+    this.showOnMap,
+    this.canShowOnMap,
     this.typeFilter = '전체',   // 기본: 전체 타입
     this.filterBase = true,    // 기본: 본편 ON
     this.filterDlc = false,    // 기본: DLC OFF
@@ -357,6 +362,35 @@ class _EEtcListPageState extends State<EEtcListPage> {
                                 ),
                               ),
                               const SizedBox(height: 12),
+                            ],
+                            if (widget.showOnMap != null &&
+                                (widget.canShowOnMap?.call(etc.title) ??
+                                    true)) ...[
+                              const SizedBox(height: 8),
+                              GestureDetector(
+                                onTap: () => widget.showOnMap!(etc.title),
+                                child: Container(
+                                  padding:
+                                  const EdgeInsets.symmetric(vertical: 12),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/detailground.png'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      '지도에서 보기',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ],
                         ),

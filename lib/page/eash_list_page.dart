@@ -27,12 +27,17 @@ class EAshListPage extends StatefulWidget {
   final bool filterBase; // 본편 전투 기술
   final bool filterDlc;  // DLC 전투 기술
 
+  final ValueChanged<String>? showOnMap;
+  final bool Function(String title)? canShowOnMap;
+
   const EAshListPage({
     super.key,
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
     required this.propertyFilter,
+    this.showOnMap,
+    this.canShowOnMap,
     this.filterBase = true,   // 기본: 본편 ON
     this.filterDlc = false,   // 기본: DLC OFF
   });
@@ -219,6 +224,8 @@ class _EAshListPageState extends State<EAshListPage> {
           itemBuilder: (context, index) {
             final ash = filtered[index];
             final isExpanded = _expandedId == ash.id;
+            final canShowOnMap =
+                widget.showOnMap != null && ash.property.trim() != '전용 전투 기술';
 
             // ✅ 추가: 현재 아이템의 gif 표시 여부
             final bool showGif = _gifExpandedId == ash.id;
@@ -381,6 +388,34 @@ class _EAshListPageState extends State<EAshListPage> {
                             ),
 
                             // ✅ 추가: JSON에 들어있는 gif URL(예: ash.gif)을 Image.network로 표시
+                            if (canShowOnMap &&
+                                (widget.canShowOnMap?.call(ash.title) ??
+                                    true)) ...[
+                              const SizedBox(height: 8),
+                              GestureDetector(
+                                onTap: () => widget.showOnMap!(ash.title),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    image: const DecorationImage(
+                                      image: AssetImage('assets/images/detailground.png'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      '지도에서 보기',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+
                             if (showGif) ...[
                               const SizedBox(height: 10),
                               ClipRRect(

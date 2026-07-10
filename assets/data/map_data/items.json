@@ -11513,7 +11513,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Quality",
-    "kor_name": "전회: 결의"
+    "kor_name": "전회: 디터미네이션"
   },
   {
     "name": "Ash of War: Double Slash",
@@ -11590,7 +11590,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Sacred",
-    "kor_name": "전회: 황금의 추락"
+    "kor_name": "전회: 황금의 드롭 어택"
   },
   {
     "name": "Ash of War: Golden Vow",
@@ -11667,7 +11667,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Occult",
-    "kor_name": "전회: 생명력 강탈권"
+    "kor_name": "전회: 명탈권"
   },
   {
     "name": "Ash of War: Lightning Ram",
@@ -11722,7 +11722,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Standard",
-    "kor_name": "전회: 강한 사격"
+    "kor_name": "전회: 강화 사격"
   },
   {
     "name": "Ash of War: Phantom Slash",
@@ -11810,7 +11810,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Quality",
-    "kor_name": "전회: 왕기사의 결의"
+    "kor_name": "전회: 도읍 기사의 결의"
   },
   {
     "name": "Ash of War: Sacred Blade",
@@ -11843,7 +11843,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Sacred",
-    "kor_name": "전회: 성률의 빛고리"
+    "kor_name": "전회: 성스러운 빛고리"
   },
   {
     "name": "Ash of War: Seppuku",
@@ -11865,7 +11865,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Sacred",
-    "kor_name": "전회: 함께하는 성률"
+    "kor_name": "전회: 성률 공유"
   },
   {
     "name": "Ash of War: Shield Bash",
@@ -11876,7 +11876,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Standard",
-    "kor_name": "전회: 실드 배시"
+    "kor_name": "전회: 방패 공격"
   },
   {
     "name": "Ash of War: Shield Crash",
@@ -11898,7 +11898,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Standard",
-    "kor_name": "전회: 하늘 쏘기"
+    "kor_name": "전회: 허공에 쏘기"
   },
   {
     "name": "Ash of War: Spectral Lance",
@@ -11909,7 +11909,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Occult",
-    "kor_name": "전회: 영체의 창"
+    "kor_name": "전회: 환영창"
   },
   {
     "name": "Ash of War: Stamp (Sweep)",
@@ -11920,7 +11920,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Heavy",
-    "kor_name": "전회: 버티기(휩쓸기)"
+    "kor_name": "전회: 파고들어 회전 베기"
   },
   {
     "name": "Ash of War: Storm Assault",
@@ -11942,7 +11942,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Quality",
-    "kor_name": "전회: 폭풍의 발 구르기"
+    "kor_name": "전회: 남각"
   },
   {
     "name": "Ash of War: Storm Wall",
@@ -28128,7 +28128,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Standard",
-    "kor_name": "전회: 마력의 사격"
+    "kor_name": "전회: 추적 사격"
   },
   {
     "name": "Ash of War: Golden Land",

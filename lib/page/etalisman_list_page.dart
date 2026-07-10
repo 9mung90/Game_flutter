@@ -26,6 +26,7 @@ class ETalismanListPage extends StatefulWidget {
   final bool filterLegend; // 전설만 보기 여부
 
   final ValueChanged<String>? showOnMap;
+  final bool Function(String title)? canShowOnMap;
 
   const ETalismanListPage({
     super.key,
@@ -33,6 +34,7 @@ class ETalismanListPage extends StatefulWidget {
     required this.searchQuery,
     required this.showImageDialog,
     this.showOnMap,
+    this.canShowOnMap,
     required this.filterBase,
     required this.filterDlc,
     this.filterLegend = false, // 🔥 기본값: 전설 필터 OFF
@@ -370,7 +372,9 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                               ),
                               const SizedBox(height: 12),
                             ],
-                            if (widget.showOnMap != null) ...[
+                            if (widget.showOnMap != null &&
+                                (widget.canShowOnMap?.call(talisman.title) ??
+                                    true)) ...[
                               const SizedBox(height: 8),
                               GestureDetector(
                                 onTap: () => widget.showOnMap!(talisman.title),

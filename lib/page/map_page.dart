@@ -10,6 +10,7 @@ class MapPage extends StatefulWidget {
   final Set<String> enabledDetailKeys;
   final String selectedRegion;
   final MapFocusRequest? focusRequest;
+  final bool showFullscreenButton;
 
   const MapPage({
     super.key,
@@ -18,6 +19,7 @@ class MapPage extends StatefulWidget {
     this.enabledDetailKeys = MapMarkerData.defaultDetailKeys,
     this.selectedRegion = 'surface',
     this.focusRequest,
+    this.showFullscreenButton = true,
   });
 
   @override
@@ -38,6 +40,10 @@ class _MapPageState extends State<MapPage> {
   static const double _viewportPadding = 256.0;
   static const double _viewportPanThreshold = 96.0;
   static const double _viewportScaleThreshold = 0.05;
+  static const double _minScale = 0.1;
+  static const double _maxScale = 8.0;
+  static const double _doubleTapZoomScale = 2.5;
+  static const double _doubleTapZoomOutThreshold = 1.5;
 
   // Surface map calibration values.
   // x = lng * scaleX + offsetX
@@ -73,6 +79,9 @@ class _MapPageState extends State<MapPage> {
   double _lastViewportScale = 1.0;
   Offset _lastViewportTranslation = Offset.zero;
   int? _handledFocusRequestId;
+  Offset? _doubleTapPosition;
+  bool _needsDefaultViewport = true;
+  MapMarkerData? _selectedMarker;
 
   bool get _isDlcMap => _selectedRegion == 'dlc';
 
@@ -105,7 +114,7 @@ class _MapPageState extends State<MapPage> {
 
     if (oldWidget.selectedRegion != widget.selectedRegion) {
       _selectedRegion = widget.selectedRegion;
-      _resetViewport();
+      _needsDefaultViewport = true;
     }
   }
 
@@ -213,27 +222,157 @@ class _MapPageState extends State<MapPage> {
     return baseName == 'Divine Tower' || baseName == 'Rise';
   }
 
-  void _resetViewport() {
-    _lastViewportScale = 1.0;
-    _lastViewportTranslation = Offset.zero;
-    _controller.value = Matrix4.identity();
+  double _defaultViewportScale(Size viewportSize) {
+    return _minScale;
+  }
+
+  Matrix4 _defaultViewportMatrix(Size viewportSize) {
+    final scale = _defaultViewportScale(viewportSize);
+    final translation = Offset(
+      (viewportSize.width - _currentMapWidth * scale) / 2,
+      (viewportSize.height - _currentMapHeight * scale) / 2,
+    );
+
+    return Matrix4.identity()
+      ..translate(translation.dx, translation.dy)
+      ..scale(scale);
+  }
+
+  void _applyDefaultViewportIfNeeded(Size viewportSize) {
+    if (!_needsDefaultViewport || viewportSize.isEmpty) return;
+
+    _needsDefaultViewport = false;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      final matrix = _defaultViewportMatrix(viewportSize);
+      final translationVector = matrix.getTranslation();
+
+      _lastViewportScale = matrix.getMaxScaleOnAxis();
+      _lastViewportTranslation = Offset(
+        translationVector.x,
+        translationVector.y,
+      );
+      _controller.value = matrix;
+    });
+  }
+
+  void _handleDoubleTapDown(TapDownDetails details) {
+    _doubleTapPosition = details.localPosition;
+  }
+
+  void _handleDoubleTap() {
+    final tapPosition = _doubleTapPosition;
+    if (tapPosition == null) return;
+
+    final currentScale = _controller.value.getMaxScaleOnAxis();
+    final targetScale = currentScale >= _doubleTapZoomOutThreshold
+        ? 1.0
+        : _doubleTapZoomScale.clamp(_minScale, _maxScale).toDouble();
+    final scenePoint = _controller.toScene(tapPosition);
+    final translation = tapPosition - scenePoint * targetScale;
+
+    _controller.value = Matrix4.identity()
+      ..translate(translation.dx, translation.dy)
+      ..scale(targetScale);
+  }
+
+  Future<void> _openFullscreenMap() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => _FullscreenMapPage(
+          searchQuery: widget.searchQuery,
+          enabledCategories: widget.enabledCategories,
+          enabledDetailKeys: widget.enabledDetailKeys,
+          selectedRegion: _selectedRegion,
+          focusRequest: widget.focusRequest,
+        ),
+      ),
+    );
   }
 
   void _showMarkerInfo(MapMarkerData marker) {
-    final names = <String>[
-      marker.displayName,
-      if (marker.hasKoreanName && marker.name.trim().isNotEmpty) marker.name,
-    ].join('\n');
+    setState(() {
+      _selectedMarker = marker;
+    });
+  }
 
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(names),
-          duration: const Duration(seconds: 3),
-          behavior: SnackBarBehavior.floating,
+  Widget _buildMarkerInfoCard(MapMarkerData marker) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        setState(() {
+          _selectedMarker = null;
+        });
+      },
+      child: SafeArea(
+        minimum: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+        child: Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.white24, width: 0.8),
+            image: const DecorationImage(
+              image: AssetImage('assets/images/background.png'),
+              fit: BoxFit.cover,
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black54,
+                blurRadius: 14,
+                offset: Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    _MapMarkerIcon(marker: marker, size: 28),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        marker.displayName,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                if (marker.hasKoreanName &&
+                    marker.name.trim().isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    marker.name,
+                    style: TextStyle(
+                      color: Colors.grey[300],
+                      fontSize: 13,
+                      height: 1.3,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 10),
+                Text(
+                  marker.detailLabel,
+                  style: TextStyle(
+                    color: Colors.amber[200],
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-      );
+      ),
+    );
   }
 
   void _focusMarkerIfNeeded(
@@ -345,6 +484,7 @@ class _MapPageState extends State<MapPage> {
 
           return LayoutBuilder(
             builder: (context, constraints) {
+              _applyDefaultViewportIfNeeded(constraints.biggest);
               _focusMarkerIfNeeded(
                 snapshot.data ?? const <MapMarkerData>[],
                 constraints.biggest,
@@ -357,71 +497,182 @@ class _MapPageState extends State<MapPage> {
 
               return Stack(
                 children: [
-                  InteractiveViewer(
-                    transformationController: _controller,
-                    constrained: false,
-                    minScale: 0.1,
-                    maxScale: 8.0,
-                    boundaryMargin: const EdgeInsets.all(80),
-                    child: SizedBox(
-                      width: _currentMapWidth,
-                      height: _currentMapHeight,
-                      child: Listener(
-                        behavior: HitTestBehavior.opaque,
-                        onPointerDown: (event) {
-                          final p = event.localPosition;
-                          debugPrint(
-                            'MAP PIXEL => x: ${p.dx.toStringAsFixed(2)}, '
-                            'y: ${p.dy.toStringAsFixed(2)}',
-                          );
-                        },
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Image.asset(
-                              _currentMapAsset,
-                              width: _currentMapWidth,
-                              height: _currentMapHeight,
-                              fit: BoxFit.fill,
-                            ),
-                            for (final marker in markers) ...[
-                              Builder(
-                                builder: (context) {
-                                  final markerSize = marker.visualSize(
-                                    _markerSize,
-                                  );
-
-                                  return Positioned(
-                                    left:
-                                        marker.x(_selectedRegion) -
-                                        markerSize / 2,
-                                    top:
-                                        marker.y(_selectedRegion) -
-                                        markerSize / 2,
-                                    width: markerSize,
-                                    height: markerSize,
-                                    child: GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: () => _showMarkerInfo(marker),
-                                      child: _MapMarkerIcon(
-                                        marker: marker,
-                                        size: markerSize,
-                                      ),
-                                    ),
-                                  );
-                                },
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      if (_selectedMarker != null) {
+                        setState(() {
+                          _selectedMarker = null;
+                        });
+                      }
+                    },
+                    onDoubleTapDown: _handleDoubleTapDown,
+                    onDoubleTap: _handleDoubleTap,
+                    child: InteractiveViewer(
+                      transformationController: _controller,
+                      constrained: false,
+                      minScale: _minScale,
+                      maxScale: _maxScale,
+                      boundaryMargin: const EdgeInsets.all(80),
+                      child: SizedBox(
+                        width: _currentMapWidth,
+                        height: _currentMapHeight,
+                        child: Listener(
+                          behavior: HitTestBehavior.opaque,
+                          onPointerDown: (event) {
+                            final p = event.localPosition;
+                            debugPrint(
+                              'MAP PIXEL => x: ${p.dx.toStringAsFixed(2)}, '
+                              'y: ${p.dy.toStringAsFixed(2)}',
+                            );
+                          },
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Image.asset(
+                                _currentMapAsset,
+                                width: _currentMapWidth,
+                                height: _currentMapHeight,
+                                fit: BoxFit.fill,
                               ),
+                              for (final marker in markers) ...[
+                                Builder(
+                                  builder: (context) {
+                                    final markerSize = marker.visualSize(
+                                      _markerSize,
+                                    );
+
+                                    return Positioned(
+                                      left:
+                                          marker.x(_selectedRegion) -
+                                          markerSize / 2,
+                                      top:
+                                          marker.y(_selectedRegion) -
+                                          markerSize / 2,
+                                      width: markerSize,
+                                      height: markerSize,
+                                      child: GestureDetector(
+                                        behavior: HitTestBehavior.opaque,
+                                        onTap: () => _showMarkerInfo(marker),
+                                        child: _MapMarkerIcon(
+                                          marker: marker,
+                                          size: markerSize,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
                             ],
-                          ],
+                          ),
                         ),
                       ),
                     ),
                   ),
+                  if (_selectedMarker != null)
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: _buildMarkerInfoCard(_selectedMarker!),
+                    ),
+                  if (widget.showFullscreenButton)
+                    Positioned(
+                      top: 12,
+                      right: 12,
+                      child: SafeArea(
+                        minimum: EdgeInsets.zero,
+                        child: Material(
+                          color: Colors.black.withOpacity(0.55),
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.antiAlias,
+                          child: IconButton(
+                            tooltip: '전체화면',
+                            icon: const Icon(
+                              Icons.fullscreen,
+                              color: Colors.white,
+                            ),
+                            onPressed: _openFullscreenMap,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               );
             },
           );
         },
+      ),
+    );
+  }
+}
+
+class _FullscreenMapPage extends StatefulWidget {
+  final String searchQuery;
+  final Set<String> enabledCategories;
+  final Set<String> enabledDetailKeys;
+  final String selectedRegion;
+  final MapFocusRequest? focusRequest;
+
+  const _FullscreenMapPage({
+    required this.searchQuery,
+    required this.enabledCategories,
+    required this.enabledDetailKeys,
+    required this.selectedRegion,
+    required this.focusRequest,
+  });
+
+  @override
+  State<_FullscreenMapPage> createState() => _FullscreenMapPageState();
+}
+
+class _FullscreenMapPageState extends State<_FullscreenMapPage> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: MapPage(
+              searchQuery: widget.searchQuery,
+              enabledCategories: widget.enabledCategories,
+              enabledDetailKeys: widget.enabledDetailKeys,
+              selectedRegion: widget.selectedRegion,
+              focusRequest: widget.focusRequest,
+              showFullscreenButton: false,
+            ),
+          ),
+          Positioned(
+            top: 12,
+            right: 12,
+            child: SafeArea(
+              minimum: EdgeInsets.zero,
+              child: Material(
+                color: Colors.black.withOpacity(0.55),
+                shape: const CircleBorder(),
+                clipBehavior: Clip.antiAlias,
+                child: IconButton(
+                  tooltip: '전체화면 닫기',
+                  icon: const Icon(Icons.close, color: Colors.white),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -33,6 +33,7 @@ class EWeaponListPage extends StatefulWidget {
   final bool filterDlc;             // DLC 무기
 
   final ValueChanged<String>? showOnMap;
+  final bool Function(String title)? canShowOnMap;
 
   const EWeaponListPage({
     super.key,
@@ -41,6 +42,7 @@ class EWeaponListPage extends StatefulWidget {
     required this.showImageDialog,
     required this.navigateToDetailViewer,
     this.showOnMap,
+    this.canShowOnMap,
     required this.genreFilter,
     required this.subTypeFilter,
     this.filterNormalEnhance = false,
@@ -506,7 +508,9 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                 ),
                               ),
                             ),
-                            if (widget.showOnMap != null) ...[
+                            if (widget.showOnMap != null &&
+                                (widget.canShowOnMap?.call(weapon.title) ??
+                                    true)) ...[
                               const SizedBox(height: 8),
                               GestureDetector(
                                 onTap: () => widget.showOnMap!(weapon.title),
