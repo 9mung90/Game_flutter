@@ -718,7 +718,7 @@
     "lat": -142.28125,
     "lng": 113.47256631364333,
     "region": "dlc",
-    "category": "ash_of_war",
+    "category": "upgrade_material",
     "is_dlc": true,
     "is_altered": false,
     "kor_name": "상실의 전회"
@@ -728,7 +728,7 @@
     "lat": -172.234375,
     "lng": 113.14479486392906,
     "region": "dlc",
-    "category": "ash_of_war",
+    "category": "upgrade_material",
     "is_dlc": true,
     "is_altered": false,
     "kor_name": "상실의 전회"
@@ -738,7 +738,7 @@
     "lat": -139.359375,
     "lng": 103.21481233435387,
     "region": "dlc",
-    "category": "ash_of_war",
+    "category": "upgrade_material",
     "is_dlc": true,
     "is_altered": false,
     "kor_name": "상실의 전회"
@@ -748,7 +748,7 @@
     "lat": -145.15104162693024,
     "lng": 132.35546875,
     "region": "dlc",
-    "category": "ash_of_war",
+    "category": "upgrade_material",
     "is_dlc": true,
     "is_altered": false,
     "kor_name": "상실의 전회"
@@ -3928,7 +3928,7 @@
     "lat": -134.34375,
     "lng": 121.92599038941374,
     "region": "dlc",
-    "category": "key_item",
+    "category": "gesture",
     "is_dlc": true,
     "is_altered": false,
     "kor_name": "겨루기 소망"
@@ -4028,7 +4028,7 @@
     "lat": -134.21875,
     "lng": 133.5366799088375,
     "region": "dlc",
-    "category": "key_item",
+    "category": "gesture",
     "is_dlc": true,
     "is_altered": false,
     "kor_name": "어머니여"
@@ -4168,7 +4168,7 @@
     "lat": -111.828125,
     "lng": 150.09005075315824,
     "region": "dlc",
-    "category": "key_item",
+    "category": "gesture",
     "is_dlc": true,
     "is_altered": false,
     "kor_name": "두 손가락"
@@ -7602,7 +7602,7 @@
     "lat": -117.2890625,
     "lng": 129.2540176327454,
     "region": "dlc",
-    "category": "upgrade_material",
+    "category": "weapon",
     "is_dlc": true,
     "is_altered": false,
     "kor_name": "듀얼링 실드"
@@ -10088,7 +10088,7 @@
     "is_dlc": true,
     "is_altered": false,
     "subcategory": "Crossbow",
-    "kor_name": "연성 석궁"
+    "kor_name": "연노"
   },
   {
     "name": "Serpent Flail",
@@ -11733,7 +11733,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Quality",
-    "kor_name": "전회: 환영의 창"
+    "kor_name": "전회: 환영창"
   },
   {
     "name": "Ash of War: Poison Moth Flight",
@@ -12059,7 +12059,7 @@
     "lat": -97.715625,
     "lng": 107.396296,
     "region": "surface",
-    "category": "ash_of_war",
+    "category": "upgrade_material",
     "is_dlc": false,
     "is_altered": false,
     "kor_name": "상실의 전회"
@@ -12069,7 +12069,7 @@
     "lat": -103.65625,
     "lng": 115.621626,
     "region": "surface",
-    "category": "ash_of_war",
+    "category": "upgrade_material",
     "is_dlc": false,
     "is_altered": false,
     "kor_name": "상실의 전회"
@@ -12079,7 +12079,7 @@
     "lat": -44.86719,
     "lng": 148.12295,
     "region": "surface",
-    "category": "ash_of_war",
+    "category": "upgrade_material",
     "is_dlc": false,
     "is_altered": false,
     "kor_name": "상실의 전회"
@@ -12089,7 +12089,7 @@
     "lat": -104.734375,
     "lng": 71.27019,
     "region": "surface",
-    "category": "ash_of_war",
+    "category": "upgrade_material",
     "is_dlc": false,
     "is_altered": false,
     "kor_name": "상실의 전회"
@@ -12099,7 +12099,7 @@
     "lat": -101,
     "lng": 115,
     "region": "surface",
-    "category": "ash_of_war",
+    "category": "upgrade_material",
     "is_dlc": false,
     "is_altered": false,
     "kor_name": "상실의 전회"
@@ -15922,7 +15922,7 @@
     "category": "flask_upgrade",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "넘치는 붉은 결정 물방울"
+    "kor_name": "넘친 붉은 결정 물방울"
   },
   {
     "name": "Crimsonwhorl Bubbletear",
@@ -15942,7 +15942,7 @@
     "category": "flask_upgrade",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "기량 혹 결정 물방울"
+    "kor_name": "기량의 혹 결정 물방울"
   },
   {
     "name": "Faith-knot Crystal Tear",
@@ -15952,7 +15952,7 @@
     "category": "flask_upgrade",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "신앙 혹 결정 물방울"
+    "kor_name": "신앙의 혹 결정 물방울"
   },
   {
     "name": "Flame-Shrouding Cracked Tear",
@@ -15962,7 +15962,7 @@
     "category": "flask_upgrade",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "화염 두른 깨진 물방울"
+    "kor_name": "불꽃 두른 깨진 물방울"
   },
   {
     "name": "Golden Seed",
@@ -16302,7 +16302,7 @@
     "category": "flask_upgrade",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "넘치는 초록 결정 물방울"
+    "kor_name": "넘친 초록 결정 물방울"
   },
   {
     "name": "Holy-Shrouding Cracked Tear",
@@ -16322,7 +16322,7 @@
     "category": "flask_upgrade",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "지력 혹 결정 물방울"
+    "kor_name": "지력의 혹 결정 물방울"
   },
   {
     "name": "Leaden Hardtear",
@@ -16542,7 +16542,7 @@
     "category": "flask_upgrade",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "돌가시 깨진 물방울"
+    "kor_name": "바위 가시 깨진 물방울"
   },
   {
     "name": "Strength-Knot Crystal Tear",
@@ -16552,7 +16552,7 @@
     "category": "flask_upgrade",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "근력 혹 결정 물방울"
+    "kor_name": "근력의 혹 결정 물방울"
   },
   {
     "name": "Twiggy Cracked Tear",
@@ -16562,7 +16562,7 @@
     "category": "flask_upgrade",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "나뭇가지 깨진 물방울"
+    "kor_name": "가는 가지 깨진 물방울"
   },
   {
     "name": "Windy Crystal Tear",
@@ -16942,7 +16942,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "덱타스의 부절(좌)"
+    "kor_name": "덱타스의 부절 (좌)"
   },
   {
     "name": "Dectus Medallion (Right)",
@@ -16952,7 +16952,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "덱타스의 부절(우)"
+    "kor_name": "덱타스의 부절 (우)"
   },
   {
     "name": "Dozing Cross-Legged",
@@ -17032,7 +17032,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "손가락 끊기 칼"
+    "kor_name": "손가락 끊기"
   },
   {
     "name": "Fingerprint Grape",
@@ -17042,7 +17042,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "손가락 자국 포도"
+    "kor_name": "손가락 자국의 포도"
   },
   {
     "name": "Fire Monks' Prayerbook",
@@ -17382,7 +17382,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "휘석 숫돌 칼날"
+    "kor_name": "휘석의 숫돌 칼날"
   },
   {
     "name": "Glovewort Picker's Bell Bearing (1)",
@@ -17422,7 +17422,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "금 바늘"
+    "kor_name": "황금 재봉 바늘"
   },
   {
     "name": "Golden Order Principia",
@@ -17442,7 +17442,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "황금 재봉 도구"
+    "kor_name": "황금의 재봉도구"
   },
   {
     "name": "Gostoc's Bell Bearing",
@@ -17482,7 +17482,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "성수의 비부절(좌)"
+    "kor_name": "성수의 비부절 (좌)"
   },
   {
     "name": "Haligtree Secret Medallion (Right)",
@@ -17492,7 +17492,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "성수의 비부절(우)"
+    "kor_name": "성수의 비부절 (우)"
   },
   {
     "name": "Homecoming Painting",
@@ -17542,7 +17542,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "철 숫돌 칼날"
+    "kor_name": "철의 숫돌 칼날"
   },
   {
     "name": "Larval Tear (B)",
@@ -17639,7 +17639,7 @@
     "lat": -80.156,
     "lng": 151.43,
     "region": "surface",
-    "category": "key_item",
+    "category": "upgrade_material",
     "is_dlc": false,
     "is_altered": false,
     "kor_name": "상실의 전회"
@@ -18042,7 +18042,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "말하는 머리 \"시작하자\""
+    "kor_name": "말하는 머리 \"시작할까?\""
   },
   {
     "name": "Prattling Pate (My Beloved)",
@@ -18052,7 +18052,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "말하는 머리 \"내 사랑\""
+    "kor_name": "말하는 머리 \"사랑해\""
   },
   {
     "name": "Prattling Pate (Please Help)",
@@ -18062,7 +18062,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "말하는 머리 \"도와줘\""
+    "kor_name": "말하는 머리 \"도와줘…\""
   },
   {
     "name": "Prattling Pate (Thank You)",
@@ -18082,7 +18082,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "말하는 머리 \"대단해\""
+    "kor_name": "말하는 머리 \"대단해!\""
   },
   {
     "name": "Prattling Pate (You're Beautiful)",
@@ -18122,7 +18122,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "배율자의 손가락"
+    "kor_name": "배율의 손가락"
   },
   {
     "name": "Red Letter",
@@ -18142,7 +18142,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "붉은 숫돌 칼날"
+    "kor_name": "불탄 숫돌 칼날"
   },
   {
     "name": "Redmane Painting",
@@ -18292,7 +18292,7 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "신성 숫돌 칼날"
+    "kor_name": "성스러운 숫돌 칼날"
   },
   {
     "name": "Seedbed Curse - East Leyndell, Royal Capital",
@@ -19059,10 +19059,10 @@
     "lat": -176.451563,
     "lng": 107.596117,
     "region": "surface",
-    "category": "key_item",
+    "category": "gesture",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "승리의 환희"
+    "kor_name": "양손으로 환희"
   },
   {
     "name": "Two Fingers' Prayerbook",
@@ -19082,7 +19082,8 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "무구한 금의 침"
+    "kor_name": "무구한 금의 침",
+    "image_url": "https://coddingswitch.s3.ap-northeast-2.amazonaws.com/test/SB_Icon_02__MENU_ItemIcon_03231.png"
   },
   {
     "name": "Valkyrie's Prosthesis",
@@ -19202,7 +19203,7 @@
     "category": "map_fragment",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "지도 조각: 거인들의 산령 동부"
+    "kor_name": "지도 조각: 거인 산령 동부"
   },
   {
     "name": "Map (Mt. Gelmir)",
@@ -19232,7 +19233,7 @@
     "category": "map_fragment",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "지도 조각: 거인들의 산령 서부"
+    "kor_name": "지도 조각: 거인 산령 서부"
   },
   {
     "name": "Map: Liurnia, North",
@@ -21450,7 +21451,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "",
-    "kor_name": "도가니의 모습/목"
+    "kor_name": "도가니의 모습/후대"
   },
   {
     "name": "Aspects of the Crucible: Horns",
@@ -21472,7 +21473,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Incantation",
-    "kor_name": "황금의 마력방호"
+    "kor_name": "황금의 마력 방호"
   },
   {
     "name": "Beast Claw",
@@ -21582,7 +21583,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Sorcery",
-    "kor_name": "하이마의 포탄"
+    "kor_name": "하이마의 포탑"
   },
   {
     "name": "Carian Piercer",
@@ -21736,7 +21737,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Sorcery",
-    "kor_name": "영원한 어둠"
+    "kor_name": "영원한 암흑"
   },
   {
     "name": "Explosive Ghostflame",
@@ -21791,7 +21792,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Incantation",
-    "kor_name": "불이여 힘을!"
+    "kor_name": "불이여, 힘을!"
   },
   {
     "name": "Flame, Protect Me",
@@ -21835,7 +21836,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Sorcery",
-    "kor_name": "냉기 무기"
+    "kor_name": "빙결의 무기"
   },
   {
     "name": "Gavel of Haima",
@@ -21989,7 +21990,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Sorcery",
-    "kor_name": "정신 맑음"
+    "kor_name": "냉정"
   },
   {
     "name": "Magic Downpour",
@@ -22066,7 +22067,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Incantation",
-    "kor_name": "독 무기"
+    "kor_name": "독 칼날"
   },
   {
     "name": "Poison Mist",
@@ -22143,7 +22144,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Sorcery",
-    "kor_name": "용암 작렬"
+    "kor_name": "솟구치는 용암"
   },
   {
     "name": "Scouring Black Flame",
@@ -22165,7 +22166,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Incantation",
-    "kor_name": "그림자의 유인"
+    "kor_name": "그림자 보내기"
   },
   {
     "name": "Shatter Earth",
@@ -22308,7 +22309,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Incantation",
-    "kor_name": "불이여, 회오리쳐라!"
+    "kor_name": "불이여 회오리쳐라"
   },
   {
     "name": "Wrath of Gold",
@@ -22520,7 +22521,7 @@
     "category": "talisman",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "클렙스의 작은 병"
+    "kor_name": "크레푸스의 작은 병"
   },
   {
     "name": "Crimson Amber Medallion +1",
@@ -28778,10 +28779,10 @@
     "lat": -171.159375,
     "lng": 136.611911,
     "region": "underground",
-    "category": "key_item",
+    "category": "gesture",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "내면의 율"
+    "kor_name": "내재하는 규율"
   },
   {
     "name": "Larval Tear",
@@ -28841,7 +28842,8 @@
     "category": "key_item",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "작은 라니"
+    "kor_name": "작은 라니",
+    "image_url": "https://coddingswitch.s3.ap-northeast-2.amazonaws.com/test/SB_Icon_02__MENU_ItemIcon_03074.png"
   },
   {
     "name": "Missionary's Cookbook (5)",
@@ -29021,7 +29023,7 @@
     "category": "map_fragment",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "지도 조각: 시오프라 강"
+    "kor_name": "지도 조각: 시프라 강"
   },
   {
     "name": "Arteria Leaf",
@@ -29237,7 +29239,7 @@
     "is_dlc": false,
     "is_altered": false,
     "subcategory": "Incantation",
-    "kor_name": "빙뢰창"
+    "kor_name": "얼음 뇌창"
   },
   {
     "name": "Great Oracular Bubble",
@@ -29381,14 +29383,14 @@
     "category": "talisman",
     "is_dlc": false,
     "is_altered": false,
-    "kor_name": "사악한 왕자의 업창"
+    "kor_name": "죽음의 왕자의 업창"
   },
   {
     "name": "Somber Smithing Stone (5)",
     "lat": -177.484375,
     "lng": 133.23901,
     "region": "underground",
-    "category": "talisman",
+    "category": "upgrade_material",
     "is_dlc": false,
     "is_altered": false,
     "kor_name": "색 잃은 단석 [5]"

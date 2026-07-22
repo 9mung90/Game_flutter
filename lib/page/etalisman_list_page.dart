@@ -386,7 +386,7 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                                     image: const DecorationImage(
                                       image: AssetImage(
                                           'assets/images/detailground.png'),
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                   child: const Center(

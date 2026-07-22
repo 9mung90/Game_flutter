@@ -154,6 +154,7 @@ class _MapPageState extends State<MapPage> {
     final markerAssetResolver = MapRegionMarkerAssetResolver.fromManifest(
       manifest,
     );
+    final itemContentResolver = await MapItemContentResolver.load();
     final markerPaths =
         manifest.keys
             .where((path) => markerFileNames.contains(path.split('/').last))
@@ -175,6 +176,7 @@ class _MapPageState extends State<MapPage> {
           item,
           path,
           markerAssetResolver: markerAssetResolver,
+          itemContentResolver: itemContentResolver,
         );
         if (marker != null) {
           markers.add(marker);
@@ -298,6 +300,10 @@ class _MapPageState extends State<MapPage> {
   }
 
   Widget _buildMarkerInfoCard(MapMarkerData marker) {
+    if (marker.categoryKey == MapMarkerData.itemKey) {
+      return _buildItemMarkerInfoCard(marker);
+    }
+
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
@@ -365,6 +371,114 @@ class _MapPageState extends State<MapPage> {
                     color: Colors.amber[200],
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildItemMarkerInfoCard(MapMarkerData marker) {
+    final itemContent = marker.itemContent;
+    final itemTitle = itemContent?.title ?? marker.displayName;
+    final hasDifferentMarkerName =
+        MapItemContentResolver._normalizeItemName(itemTitle) !=
+        MapItemContentResolver._normalizeItemName(marker.displayName);
+    final mediaSize = MediaQuery.sizeOf(context);
+    final imageSize = math.min(92.0, mediaSize.width * 0.2);
+    final cardHeight = math.max(104.0, imageSize + 24.0);
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        setState(() {
+          _selectedMarker = null;
+        });
+      },
+      child: SafeArea(
+        minimum: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+        child: Container(
+          height: cardHeight,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.white24, width: 0.8),
+            image: const DecorationImage(
+              image: AssetImage('assets/images/background.png'),
+              fit: BoxFit.cover,
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black54,
+                blurRadius: 14,
+                offset: Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 12, 14, 12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(
+                  width: imageSize,
+                  child: _MapMarkerIcon(
+                    marker: marker,
+                    size: imageSize,
+                    frameItemImage: false,
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          itemTitle,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        if (hasDifferentMarkerName) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            marker.displayName,
+                            style: TextStyle(
+                              color: Colors.grey[300],
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                        if (marker.hasKoreanName &&
+                            marker.name.trim().isNotEmpty) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            marker.name,
+                            style: TextStyle(
+                              color: Colors.grey[400],
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                        const SizedBox(height: 8),
+                        Text(
+                          itemContent?.metadata.isNotEmpty == true
+                              ? itemContent!.metadata
+                              : marker.detailLabel,
+                          style: TextStyle(
+                            color: Colors.amber[200],
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -725,6 +839,7 @@ class MapMarkerData {
   final String? source;
   final String? markerAssetPath;
   final double markerAssetScale;
+  final MapItemContent? itemContent;
 
   static const double defaultMarkerAssetScale = 2.0;
   static const double singleUseMarkerAssetScale = 32 / 9;
@@ -745,7 +860,13 @@ class MapMarkerData {
     required this.source,
     required this.markerAssetPath,
     required this.markerAssetScale,
+    required this.itemContent,
   });
+
+  String? get itemImageUrl {
+    final value = itemContent?.imageUrl.trim();
+    return value == null || value.isEmpty ? null : value;
+  }
 
   String get displayName {
     final value = korName?.trim();
@@ -828,6 +949,7 @@ class MapMarkerData {
       source: source,
       markerAssetPath: markerAssetPath,
       markerAssetScale: scale,
+      itemContent: itemContent,
     );
   }
 
@@ -835,6 +957,7 @@ class MapMarkerData {
     Map<String, dynamic> json,
     String sourcePath, {
     MapRegionMarkerAssetResolver? markerAssetResolver,
+    MapItemContentResolver? itemContentResolver,
   }) {
     final name = json['name'] as String?;
     final lat = json['lat'];
@@ -876,6 +999,26 @@ class MapMarkerData {
             region: region,
           )
         : null;
+    var itemContent = categoryKey == itemKey
+        ? itemContentResolver?.resolve(
+            category: category,
+            name: name,
+            korName: korName,
+          )
+        : null;
+    final explicitImageUrl = json['image_url'];
+    if (categoryKey == itemKey &&
+        explicitImageUrl is String &&
+        explicitImageUrl.trim().isNotEmpty) {
+      itemContent =
+          (itemContent ??
+                  MapItemContent(
+                    title: korName?.trim().isNotEmpty == true ? korName! : name,
+                    imageUrl: '',
+                    metadata: detailDisplayLabel(detailKey),
+                  ))
+              .withImageUrl(explicitImageUrl);
+    }
 
     return MapMarkerData(
       name: name,
@@ -893,6 +1036,7 @@ class MapMarkerData {
       markerAssetPath: markerAssetMatch?.path,
       markerAssetScale:
           markerAssetMatch?.scale ?? MapMarkerData.defaultMarkerAssetScale,
+      itemContent: itemContent,
     );
   }
 
@@ -944,6 +1088,10 @@ class MapMarkerData {
         return 'assets/images/map_assets/spell.png';
       case 'item:ash_of_war':
         return 'assets/images/map_assets/ash.png';
+      case 'item:spirit_ash':
+        return 'assets/images/map_assets/bone.png';
+      case 'item:gesture':
+        return 'assets/images/map_assets/important.png';
       case 'item:key_item':
         return 'assets/images/map_assets/important.png';
       case 'item:consumable':
@@ -1005,6 +1153,8 @@ class MapMarkerData {
         'item:talisman',
         'item:spell',
         'item:ash_of_war',
+        'item:spirit_ash',
+        'item:gesture',
         'item:key_item',
         'item:consumable',
         'item:upgrade_material',
@@ -1044,6 +1194,8 @@ class MapMarkerData {
     'item:talisman',
     'item:spell',
     'item:ash_of_war',
+    'item:spirit_ash',
+    'item:gesture',
     'item:key_item',
     'item:consumable',
     'item:upgrade_material',
@@ -1109,6 +1261,10 @@ class MapMarkerData {
         return '주문';
       case 'item:ash_of_war':
         return '전회';
+      case 'item:spirit_ash':
+        return '영체';
+      case 'item:gesture':
+        return '제스처';
       case 'item:key_item':
         return '주요 아이템';
       case 'item:consumable':
@@ -1260,6 +1416,246 @@ class MapMarkerData {
 
     return itemKey;
   }
+}
+
+class MapItemContent {
+  final String title;
+  final String imageUrl;
+  final String metadata;
+
+  const MapItemContent({
+    required this.title,
+    required this.imageUrl,
+    required this.metadata,
+  });
+
+  MapItemContent withImageUrl(String value) {
+    return MapItemContent(
+      title: title,
+      imageUrl: value,
+      metadata: metadata,
+    );
+  }
+}
+
+class MapItemContentResolver {
+  static const List<_MapItemContentSource> _sources = [
+    _MapItemContentSource(
+      assetPath: 'assets/data/EWeaponv1.json',
+      group: 'weapon',
+    ),
+    _MapItemContentSource(
+      assetPath: 'assets/data/EArmorv1.json',
+      group: 'armor',
+    ),
+    _MapItemContentSource(assetPath: 'assets/data/EAshv1.json', group: 'ash'),
+    _MapItemContentSource(
+      assetPath: 'assets/data/ESpellv1.json',
+      group: 'spell',
+    ),
+    _MapItemContentSource(
+      assetPath: 'assets/data/ETalismanv1.json',
+      group: 'talisman',
+    ),
+    _MapItemContentSource(
+      assetPath: 'assets/data/EBonev1.json',
+      group: 'spirit_ash',
+    ),
+    _MapItemContentSource(assetPath: 'assets/data/EEtcv1.json', group: 'etc'),
+    _MapItemContentSource(
+      assetPath: 'assets/data/EGesturev1.json',
+      group: 'gesture',
+    ),
+  ];
+
+  final Map<String, Map<String, MapItemContent>> _contentsByGroup;
+
+  const MapItemContentResolver._(this._contentsByGroup);
+
+  static Future<MapItemContentResolver> load() async {
+    final contentsByGroup = <String, Map<String, MapItemContent>>{};
+
+    for (final source in _sources) {
+      final raw = await rootBundle.loadString(source.assetPath);
+      final decoded = jsonDecode(raw);
+      if (decoded is! List) continue;
+
+      final groupContents = contentsByGroup.putIfAbsent(
+        source.group,
+        () => <String, MapItemContent>{},
+      );
+
+      for (final value in decoded) {
+        if (value is! Map<String, dynamic>) continue;
+
+        final title = _stringValue(value['title']);
+        final imageUrl = _stringValue(value['img']);
+        if (title.isEmpty || imageUrl.isEmpty) continue;
+
+        final content = MapItemContent(
+          title: title,
+          imageUrl: imageUrl,
+          metadata: _metadataFor(source.group, value),
+        );
+
+        for (final variant in _itemNameVariants(title)) {
+          groupContents.putIfAbsent(variant, () => content);
+        }
+      }
+    }
+
+    return MapItemContentResolver._(contentsByGroup);
+  }
+
+  MapItemContent? resolve({
+    required String? category,
+    required String name,
+    required String? korName,
+  }) {
+    final group = _groupForCategory(category);
+    if (group == null) return null;
+
+    final contents = _contentsByGroup[group];
+    if (contents == null) return null;
+
+    for (final value in [korName, name]) {
+      if (value == null || value.trim().isEmpty) continue;
+      for (final variant in _itemNameVariants(value)) {
+        final content = contents[variant];
+        if (content != null) return content;
+      }
+    }
+
+    return null;
+  }
+
+  static String? _groupForCategory(String? category) {
+    switch (category) {
+      case 'weapon':
+      case 'shield':
+        return 'weapon';
+      case 'armor':
+        return 'armor';
+      case 'ash_of_war':
+        return 'ash';
+      case 'spell':
+        return 'spell';
+      case 'talisman':
+        return 'talisman';
+      case 'spirit_ash':
+        return 'spirit_ash';
+      case 'gesture':
+        return 'gesture';
+      case 'consumable':
+      case 'flask_upgrade':
+      case 'key_item':
+      case 'map_fragment':
+      case 'material':
+      case 'upgrade_material':
+        return 'etc';
+      default:
+        return null;
+    }
+  }
+
+  static Set<String> _itemNameVariants(String value) {
+    final beforeLocation = value.split(' - ').first;
+    final withoutQuantity = beforeLocation.replaceFirst(
+      RegExp(r'\s+x\d+$', caseSensitive: false),
+      '',
+    );
+    final withoutMapFragmentPrefix = withoutQuantity.replaceFirst(
+      RegExp(r'^지도\s*조각\s*[:：]\s*'),
+      '',
+    );
+    final withoutSpiritAshSuffix = withoutQuantity.replaceFirst(
+      RegExp(r'의\s*뼛가루(?:\s*[◇◆○●☆★])?$'),
+      '',
+    );
+    final cookbookNumberFourAlias =
+        RegExp(
+          r'^큰 항아리 도공의 제작서\s*\[4\](?:\s*[◇◆○●☆★])?$',
+        ).hasMatch(beforeLocation)
+        ? beforeLocation.replaceFirst(RegExp(r'\s*\[4\].*$'), '')
+        : '';
+
+    return {
+      _normalizeItemName(value),
+      _normalizeItemName(beforeLocation),
+      _normalizeItemName(withoutQuantity),
+      _normalizeItemName(withoutMapFragmentPrefix),
+      _normalizeItemName(withoutSpiritAshSuffix),
+      _normalizeItemName(cookbookNumberFourAlias),
+    }..remove('');
+  }
+
+  static String _normalizeItemName(String value) {
+    var result = value.toLowerCase();
+    result = result.replaceAll(RegExp(r'전회\s*[:：]\s*'), '');
+    result = result.replaceAll(RegExp(r'[◇◆○●☆★]'), '');
+    result = result.replaceAll('＋', '+');
+    result = result.replaceAll(RegExp(r'\s*\+\s*'), '+');
+    result = result.replaceAll(RegExp(r'\s+'), '');
+    return result.trim();
+  }
+
+  static String _metadataFor(String group, Map<String, dynamic> value) {
+    final parts = <String>[];
+
+    switch (group) {
+      case 'weapon':
+        _addIfUseful(parts, value['genre']);
+        _addIfUseful(parts, value['type']);
+        break;
+      case 'armor':
+        _addIfUseful(parts, value['part']);
+        _addIfUseful(parts, value['aset']);
+        break;
+      case 'ash':
+        _addIfUseful(parts, value['property']);
+        break;
+      case 'spell':
+        _addIfUseful(parts, value['spell']);
+        _addIfUseful(parts, value['type']);
+        final slot = _stringValue(value['slot']);
+        final need = _stringValue(value['need']);
+        if (slot.isNotEmpty) parts.add('슬롯 $slot');
+        if (need.isNotEmpty) parts.add(need);
+        break;
+      case 'talisman':
+        parts.add('탈리스만');
+        break;
+      case 'spirit_ash':
+        final use = _stringValue(value['buse']);
+        parts.add(use.isEmpty ? '영체' : '소비 $use');
+        break;
+      case 'etc':
+        _addIfUseful(parts, value['type']);
+        break;
+      case 'gesture':
+        parts.add('제스처');
+        break;
+    }
+
+    return parts.join(' · ');
+  }
+
+  static void _addIfUseful(List<String> values, dynamic rawValue) {
+    final value = _stringValue(rawValue);
+    if (value.isEmpty || value == '없음' || values.contains(value)) return;
+    values.add(value);
+  }
+
+  static String _stringValue(dynamic value) {
+    return value is String ? value.trim() : '';
+  }
+}
+
+class _MapItemContentSource {
+  final String assetPath;
+  final String group;
+
+  const _MapItemContentSource({required this.assetPath, required this.group});
 }
 
 class MapRegionMarkerAssetResolver {
@@ -1597,8 +1993,13 @@ class MapMarkerDetailGroup {
 class _MapMarkerIcon extends StatelessWidget {
   final MapMarkerData marker;
   final double size;
+  final bool frameItemImage;
 
-  const _MapMarkerIcon({required this.marker, required this.size});
+  const _MapMarkerIcon({
+    required this.marker,
+    required this.size,
+    this.frameItemImage = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1615,11 +2016,99 @@ class _MapMarkerIcon extends StatelessWidget {
       );
     }
 
+    final itemImageUrl = marker.itemImageUrl;
+    if (itemImageUrl != null) {
+      final fallbackAsset = MapMarkerData.markerIconAsset(marker);
+      final cacheSize = size >= 80 ? 384 : 96;
+      final image = Image.network(
+        itemImageUrl,
+        width: size * 0.88,
+        height: size * 0.88,
+        fit: BoxFit.contain,
+        cacheWidth: cacheSize,
+        cacheHeight: cacheSize,
+        filterQuality: FilterQuality.high,
+        errorBuilder: (_, __, ___) {
+          if (fallbackAsset != null) {
+            return Image.asset(
+              fallbackAsset,
+              width: size * 0.88,
+              height: size * 0.88,
+              fit: BoxFit.contain,
+            );
+          }
+          return const Icon(
+            Icons.image_not_supported_outlined,
+            color: Colors.white70,
+          );
+        },
+      );
+
+      if (!frameItemImage) {
+        return Center(child: image);
+      }
+
+      return Center(
+        child: Container(
+          width: size * 0.88,
+          height: size * 0.88,
+          padding: EdgeInsets.all(size * 0.06),
+          decoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: 0.72),
+            borderRadius: BorderRadius.circular(size * 0.18),
+            border: Border.all(color: Colors.white, width: 2),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black87,
+                blurRadius: 5,
+                offset: Offset(0, 1),
+              ),
+            ],
+          ),
+          child: image,
+        ),
+      );
+    }
+
     final iconAsset = MapMarkerData.markerIconAsset(marker);
 
     if (iconAsset != null) {
       if (marker.categoryKey == MapMarkerData.itemKey ||
           marker.detailKey == 'npc:npc_invader') {
+        final isItem = marker.categoryKey == MapMarkerData.itemKey;
+        if (isItem) {
+          final image = Image.asset(
+            iconAsset,
+            width: size * 0.88,
+            height: size * 0.88,
+            fit: BoxFit.contain,
+          );
+          if (!frameItemImage) {
+            return Center(child: image);
+          }
+
+          return Center(
+            child: Container(
+              width: size * 0.88,
+              height: size * 0.88,
+              padding: EdgeInsets.all(size * 0.08),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.72),
+                borderRadius: BorderRadius.circular(size * 0.18),
+                border: Border.all(color: Colors.white, width: 2),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black87,
+                    blurRadius: 5,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+              child: image,
+            ),
+          );
+        }
+
         return Center(
           child: Container(
             width: size * 0.88,

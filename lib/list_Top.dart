@@ -565,8 +565,11 @@ class _ListTopState extends State<ListTop> {
     return matches;
   }
 
-  Future<void> _showConsumableOnMap(String title) async {
-    final matches = await _findMapItemMarkers(title, const {'item:consumable'});
+  Future<void> _showMapItemsOnMap(
+    String title,
+    Set<String> allowedDetailKeys,
+  ) async {
+    final matches = await _findMapItemMarkers(title, allowedDetailKeys);
     if (!mounted) return;
 
     if (matches.isEmpty) {
@@ -579,7 +582,7 @@ class _ListTopState extends State<ListTop> {
     }
 
     if (matches.length == 1) {
-      await _showItemOnMap(title, const {'item:consumable'});
+      await _showItemOnMap(title, allowedDetailKeys);
       return;
     }
 
@@ -607,7 +610,10 @@ class _ListTopState extends State<ListTop> {
       _selectedIndex = 8;
       _selectedMapRegion = selectedRegion;
       _enabledMapMarkerCategories = {MapMarkerData.itemKey};
-      _enabledMapMarkerDetailKeys = {'item:consumable'};
+      _enabledMapMarkerDetailKeys = matches
+          .where((match) => match.region == selectedRegion)
+          .map((match) => match.detailKey)
+          .toSet();
       _mapFocusRequest = null;
     });
 
@@ -705,6 +711,19 @@ class _ListTopState extends State<ListTop> {
       final category = item['category'] as String?;
       final subcategory = item['subcategory'] as String?;
       final detailKey = "item:${category ?? subcategory ?? 'item'}";
+      final name = item['name'];
+      final region = item['region'];
+      final lat = item['lat'];
+      final lng = item['lng'];
+      if (name is! String ||
+          name.isEmpty ||
+          region is! String ||
+          region.isEmpty ||
+          lat is! num ||
+          lng is! num ||
+          (lat == 0 && lng == 0)) {
+        continue;
+      }
 
       for (final value in [item['name'], item['kor_name']]) {
         if (value is! String) continue;
@@ -755,16 +774,35 @@ class _ListTopState extends State<ListTop> {
   }
 
   Set<String> _mapItemNameVariants(String value) {
+    final beforeLocation = value.split(' - ').first;
+    final withoutQuantity = beforeLocation.replaceFirst(
+      RegExp(r'\s+x\d+$', caseSensitive: false),
+      '',
+    );
+    final withoutMapFragmentPrefix = withoutQuantity.replaceFirst(
+      RegExp(r'^지도\s*조각\s*[:：]\s*'),
+      '',
+    );
+    final withoutSpiritAshSuffix = withoutQuantity.replaceFirst(
+      RegExp(r'의\s*뼛가루(?:\s*[◇◆○●☆★])?$'),
+      '',
+    );
+    final cookbookNumberFourAlias =
+        RegExp(
+          r'^큰 항아리 도공의 제작서\s*\[4\](?:\s*[◇◆○●☆★])?$',
+        ).hasMatch(beforeLocation)
+        ? beforeLocation.replaceFirst(RegExp(r'\s*\[4\].*$'), '')
+        : '';
     final full = _normalizeMapItemName(value);
-    final beforeDash = _normalizeMapItemName(value.split(' - ').first);
-    final beforeParen = _normalizeMapItemName(value.split('(').first);
-    final beforeBracket = _normalizeMapItemName(value.split('[').first);
+    final beforeDash = _normalizeMapItemName(beforeLocation);
 
     return {
       full,
       beforeDash,
-      beforeParen,
-      beforeBracket,
+      _normalizeMapItemName(withoutQuantity),
+      _normalizeMapItemName(withoutMapFragmentPrefix),
+      _normalizeMapItemName(withoutSpiritAshSuffix),
+      _normalizeMapItemName(cookbookNumberFourAlias),
     }..remove('');
   }
 
@@ -3176,6 +3214,8 @@ class _ListTopState extends State<ListTop> {
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
+        showOnMap: (title) => _showItemOnMap(title, const {'item:spirit_ash'}),
+        canShowOnMap: (title) => _hasMapItem(title, const {'item:spirit_ash'}),
         filterNormalEnhance: _boneFilterNormalEnhance,
         filterSpecialEnhance: _boneFilterSpecialEnhance,
         filterLegend: _boneFilterLegend,
@@ -3186,11 +3226,22 @@ class _ListTopState extends State<ListTop> {
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
-        showOnMap: _showConsumableOnMap,
-        canShowOnMap: (title) => _hasMapItem(
-          title,
-          const {'item:consumable'},
-        ),
+        showOnMap: (title) => _showMapItemsOnMap(title, const {
+          'item:consumable',
+          'item:flask_upgrade',
+          'item:key_item',
+          'item:map_fragment',
+          'item:material',
+          'item:upgrade_material',
+        }),
+        canShowOnMap: (title) => _hasMapItem(title, const {
+          'item:consumable',
+          'item:flask_upgrade',
+          'item:key_item',
+          'item:map_fragment',
+          'item:material',
+          'item:upgrade_material',
+        }),
         typeFilter: _etcTypeFilter,
         filterBase: _etcFilterBase,
         filterDlc: _etcFilterDlc,
@@ -3199,6 +3250,8 @@ class _ListTopState extends State<ListTop> {
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
+        showOnMap: (title) => _showItemOnMap(title, const {'item:gesture'}),
+        canShowOnMap: (title) => _hasMapItem(title, const {'item:gesture'}),
         filterBase: _gestureFilterBase,
         filterDlc: _gestureFilterDlc,
       ),

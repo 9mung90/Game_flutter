@@ -494,7 +494,7 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                   image: const DecorationImage(
                                     image: AssetImage(
                                         'assets/images/detailground.png'),
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
                                 child: const Center(
@@ -522,7 +522,7 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                     image: const DecorationImage(
                                       image: AssetImage(
                                           'assets/images/detailground.png'),
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                   child: const Center(

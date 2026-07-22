@@ -17,6 +17,8 @@ class EBoneListPage extends StatefulWidget {
   final Game game;
   final String searchQuery; // 상위에서 전달받는 검색어
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
+  final ValueChanged<String>? showOnMap;
+  final bool Function(String title)? canShowOnMap;
 
   // 🔥 무기와 동일한 추가 필터 (강화 방식 / DLC / 전설 / 본편)
   final bool filterNormalEnhance;   // 일반 강화
@@ -30,6 +32,8 @@ class EBoneListPage extends StatefulWidget {
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
+    this.showOnMap,
+    this.canShowOnMap,
     this.filterNormalEnhance = false,
     this.filterSpecialEnhance = false,
     this.filterLegend = false,
@@ -403,7 +407,39 @@ class _EBoneListPageState extends State<EBoneListPage> {
                                   ),
                                 ),
                               ),
+
                             // -------------------------------
+                            if (widget.showOnMap != null &&
+                                (widget.canShowOnMap?.call(bone.title) ??
+                                    true)) ...[
+                              const SizedBox(height: 8),
+                              GestureDetector(
+                                onTap: () => widget.showOnMap!(bone.title),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                        'assets/images/detailground.png',
+                                      ),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      '지도에서 보기',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
 
                             const SizedBox(height: 12),
                           ],

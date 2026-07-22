@@ -15,6 +15,8 @@ class EGestureListPage extends StatefulWidget {
   final Game game;
   final String searchQuery; // 상위에서 전달받는 검색어
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
+  final ValueChanged<String>? showOnMap;
+  final bool Function(String title)? canShowOnMap;
 
   // 🔥 본편 / DLC 필터
   final bool filterBase; // 본편
@@ -25,6 +27,8 @@ class EGestureListPage extends StatefulWidget {
     required this.game,
     required this.searchQuery,
     required this.showImageDialog,
+    this.showOnMap,
+    this.canShowOnMap,
     this.filterBase = false,
     this.filterDlc = false,
   });
@@ -307,6 +311,38 @@ class _EGestureListPageState extends State<EGestureListPage> {
                                   ],
                               ],
                             ),
+
+                            if (widget.showOnMap != null &&
+                                (widget.canShowOnMap?.call(gesture.title) ??
+                                    true)) ...[
+                              const SizedBox(height: 8),
+                              GestureDetector(
+                                onTap: () => widget.showOnMap!(gesture.title),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                        'assets/images/detailground.png',
+                                      ),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      '지도에서 보기',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
 
                             const SizedBox(height: 12),
                           ],

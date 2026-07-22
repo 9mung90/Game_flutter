@@ -370,7 +370,7 @@ class _EArmorListPageState extends State<EArmorListPage> {
                                     borderRadius: BorderRadius.circular(8.0),
                                     image: const DecorationImage(
                                       image: AssetImage('assets/images/detailground.png'),
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                   child: const Center(
