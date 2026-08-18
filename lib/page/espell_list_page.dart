@@ -502,13 +502,20 @@ class _ESpellListPageState extends State<ESpellListPage> {
                                   horizontal: 8.0,
                                 ),
                                 child: ClipRRect(
+                                  clipper: const _HorizontalInsetRRectClipper(
+                                    horizontalInset: 8,
+                                    radius: 8,
+                                  ),
                                   borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    spell.gif, // ✅ ESpell에 실제로 있는 gif 필드명으로 맞추세요
-                                    fit: BoxFit.contain,
-                                    errorBuilder: (c, e, s) => const Icon(
-                                      Icons.image_not_supported,
-                                      color: Colors.white24,
+                                  child: Transform.translate(
+                                    offset: const Offset(0, -5),
+                                    child: Image.network(
+                                      spell.gif, // ✅ ESpell에 실제로 있는 gif 필드명으로 맞추세요
+                                      fit: BoxFit.contain,
+                                      errorBuilder: (c, e, s) => const Icon(
+                                        Icons.image_not_supported,
+                                        color: Colors.white24,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -526,4 +533,24 @@ class _ESpellListPageState extends State<ESpellListPage> {
       },
     );
   }
+}
+
+class _HorizontalInsetRRectClipper extends CustomClipper<RRect> {
+  const _HorizontalInsetRRectClipper({
+    required this.horizontalInset,
+    required this.radius,
+  });
+
+  final double horizontalInset;
+  final double radius;
+
+  @override
+  RRect getClip(Size size) => RRect.fromRectAndRadius(
+    Rect.fromLTRB(horizontalInset, 0, size.width - horizontalInset, size.height),
+    Radius.circular(radius),
+  );
+
+  @override
+  bool shouldReclip(_HorizontalInsetRRectClipper oldClipper) =>
+      horizontalInset != oldClipper.horizontalInset || radius != oldClipper.radius;
 }

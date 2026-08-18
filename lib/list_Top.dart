@@ -367,6 +367,9 @@ class _ListTopState extends State<ListTop> {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
+        final isDesktop = MediaQuery.sizeOf(context).width >= 800;
+        final imageSize = isDesktop ? 1530.0 : 170.0;
+
         return Dialog(
           backgroundColor: Colors.transparent,
           insetPadding: const EdgeInsets.all(12),
@@ -380,8 +383,8 @@ class _ListTopState extends State<ListTop> {
                   Image.asset('assets/images/background.png', fit: BoxFit.fill),
                   Center(
                     child: SizedBox(
-                      width: 170,
-                      height: 170,
+                      width: imageSize,
+                      height: imageSize,
                       child: Image.network(
                         imageUrl,
                         fit: BoxFit.contain,
