@@ -7,7 +7,6 @@ import 'DTO/etc.dart';
 import 'page/eweapon_list_page.dart';
 import 'list_Top.dart';
 import 'page/login_page.dart';
-import 'package:flutter/services.dart';
 
 // 메인페이지, 어차피 엘든링 말고는 작동 안함
 
@@ -38,11 +37,6 @@ class AppScrollBehavior extends MaterialScrollBehavior {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Flutter 바인딩 초기화
-
-  // 🔒 앱 전체를 세로(portraitUp)로 고정
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
 
   runApp(const MyApp());
 }

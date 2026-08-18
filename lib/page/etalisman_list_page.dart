@@ -255,7 +255,9 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                   children: [
                     // 상단: 썸네일 + 제목 + 태그
                     SizedBox(
-                      height: screenHeight * 0.1,
+                      height: screenHeight * 0.1 < 56.0
+                          ? 56.0
+                          : screenHeight * 0.1,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [

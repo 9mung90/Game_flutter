@@ -283,7 +283,9 @@ class _EBoneListPageState extends State<EBoneListPage> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: screenHeight * 0.1,
+                      height: screenHeight * 0.1 < 56.0
+                          ? 56.0
+                          : screenHeight * 0.1,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
