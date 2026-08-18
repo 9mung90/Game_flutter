@@ -152,14 +152,14 @@ class _MapPageState extends State<MapPage> {
       'npcs.json',
       'waygates.json',
     };
-    final manifestString = await rootBundle.loadString('AssetManifest.json');
-    final manifest = jsonDecode(manifestString) as Map<String, dynamic>;
-    final markerAssetResolver = MapRegionMarkerAssetResolver.fromManifest(
-      manifest,
+    final manifest = await AssetManifest.loadFromAssetBundle(rootBundle);
+    final assetPaths = manifest.listAssets();
+    final markerAssetResolver = MapRegionMarkerAssetResolver.fromAssetPaths(
+      assetPaths,
     );
     final itemContentResolver = await MapItemContentResolver.load();
     final markerPaths =
-        manifest.keys
+        assetPaths
             .where((path) => markerFileNames.contains(path.split('/').last))
             .toList()
           ..sort();
@@ -1755,11 +1755,11 @@ class MapRegionMarkerAssetResolver {
   }) : _assetsByBaseName = assetsByBaseName,
        _assets = assets;
 
-  factory MapRegionMarkerAssetResolver.fromManifest(
-    Map<String, dynamic> manifest,
+  factory MapRegionMarkerAssetResolver.fromAssetPaths(
+    Iterable<String> assetPaths,
   ) {
     final assets =
-        manifest.keys
+        assetPaths
             .where(_isSupportedAssetPath)
             .map(_MapRegionMarkerAsset.fromPath)
             .toList()
