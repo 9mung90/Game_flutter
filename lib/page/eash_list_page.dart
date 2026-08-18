@@ -433,14 +433,19 @@ class _EAshListPageState extends State<EAshListPage> {
 
                             if (showGif) ...[
                               const SizedBox(height: 10),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
-                                  ash.gif, // ✅ EAsh에 실제로 있는 gif 필드명으로 맞추세요
-                                  fit: BoxFit.contain,
-                                  errorBuilder: (c, e, s) => const Icon(
-                                    Icons.image_not_supported,
-                                    color: Colors.white24,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
+                                    ash.gif, // ✅ EAsh에 실제로 있는 gif 필드명으로 맞추세요
+                                    fit: BoxFit.contain,
+                                    errorBuilder: (c, e, s) => const Icon(
+                                      Icons.image_not_supported,
+                                      color: Colors.white24,
+                                    ),
                                   ),
                                 ),
                               ),
