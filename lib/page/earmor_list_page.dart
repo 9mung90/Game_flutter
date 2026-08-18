@@ -37,9 +37,9 @@ class EArmorListPage extends StatefulWidget {
     required this.showImageDialog,
     this.showOnMap,
     this.canShowOnMap,
-    required this.partFilter,  // 🔹 기존 필터
-    this.filterBase = true,    // 🔥 기본값: 본편만 ON
-    this.filterDlc = false,    // 🔥 기본값: DLC OFF
+    required this.partFilter, // 🔹 기존 필터
+    this.filterBase = true, // 🔥 기본값: 본편만 ON
+    this.filterDlc = false, // 🔥 기본값: DLC OFF
   });
 
   @override
@@ -154,13 +154,15 @@ class _EArmorListPageState extends State<EArmorListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
+    final double descriptionLeftPadding = screenWidth >= 600.0 ? 20.0 : 8.0;
 
     return FutureBuilder<List<EArmor>>(
       future: _futureEArmors,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
-              child: CircularProgressIndicator(color: Colors.white));
+            child: CircularProgressIndicator(color: Colors.white),
+          );
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
@@ -170,47 +172,48 @@ class _EArmorListPageState extends State<EArmorListPage> {
           );
         }
 
-        final filteredArmors = snapshot.data
-        // 🔹 기존 조건 + partFilter + 본편/DLC 필터까지 함께 적용
+        final filteredArmors =
+            snapshot.data
+            // 🔹 기존 조건 + partFilter + 본편/DLC 필터까지 함께 적용
             ?.where((armor) {
-          final bool gameMatch = armor.game == widget.game.title;
-          final bool nameMatch = armor.title
-              .toLowerCase()
-              .contains(widget.searchQuery.toLowerCase());
+              final bool gameMatch = armor.game == widget.game.title;
+              final bool nameMatch = armor.title.toLowerCase().contains(
+                widget.searchQuery.toLowerCase(),
+              );
 
-          // 🔹 부위 필터 ('전체'면 모두 통과)
-          final bool partMatch = widget.partFilter == '전체'
-              ? true
-              : armor.part == widget.partFilter;
+              // 🔹 부위 필터 ('전체'면 모두 통과)
+              final bool partMatch = widget.partFilter == '전체'
+                  ? true
+                  : armor.part == widget.partFilter;
 
-          // 🔥 본편 / DLC 판별
-          //  - 제목에 '◇' 포함: DLC
-          //  - 그 외: 본편
-          final String title = armor.title;
-          final bool isDlc = title.contains('◇');
-          final bool isBase = !isDlc;
+              // 🔥 본편 / DLC 판별
+              //  - 제목에 '◇' 포함: DLC
+              //  - 그 외: 본편
+              final String title = armor.title;
+              final bool isDlc = title.contains('◇');
+              final bool isBase = !isDlc;
 
-          final bool baseFlag = widget.filterBase;
-          final bool dlcFlag = widget.filterDlc;
+              final bool baseFlag = widget.filterBase;
+              final bool dlcFlag = widget.filterDlc;
 
-          bool matchesBaseDlc = true;
+              bool matchesBaseDlc = true;
 
-          // - 둘 다 true  → 제약 없음 (본편+ DLC 모두 허용)
-          // - base만 true → 본편만
-          // - dlc만 true  → DLC만
-          // - 둘 다 false → 제약 없음 (둘 다 허용)
-          if (baseFlag && dlcFlag) {
-            matchesBaseDlc = true;
-          } else if (baseFlag && !dlcFlag) {
-            matchesBaseDlc = isBase;
-          } else if (!baseFlag && dlcFlag) {
-            matchesBaseDlc = isDlc;
-          } else {
-            matchesBaseDlc = true;
-          }
+              // - 둘 다 true  → 제약 없음 (본편+ DLC 모두 허용)
+              // - base만 true → 본편만
+              // - dlc만 true  → DLC만
+              // - 둘 다 false → 제약 없음 (둘 다 허용)
+              if (baseFlag && dlcFlag) {
+                matchesBaseDlc = true;
+              } else if (baseFlag && !dlcFlag) {
+                matchesBaseDlc = isBase;
+              } else if (!baseFlag && dlcFlag) {
+                matchesBaseDlc = isDlc;
+              } else {
+                matchesBaseDlc = true;
+              }
 
-          return gameMatch && nameMatch && partMatch && matchesBaseDlc;
-        }).toList() ??
+              return gameMatch && nameMatch && partMatch && matchesBaseDlc;
+            }).toList() ??
             [];
 
         if (filteredArmors.isEmpty) {
@@ -220,6 +223,7 @@ class _EArmorListPageState extends State<EArmorListPage> {
         }
 
         return ListView.builder(
+          primary: false,
           padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
           itemCount: filteredArmors.length,
           itemBuilder: (context, index) {
@@ -227,8 +231,9 @@ class _EArmorListPageState extends State<EArmorListPage> {
             final isExpanded = _expandedId == armor.id;
 
             // 설명 문장을 규칙에 맞게 분리
-            final List<String> descriptionLines =
-            _splitDescriptionWithParens(armor.description);
+            final List<String> descriptionLines = _splitDescriptionWithParens(
+              armor.description,
+            );
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -254,7 +259,10 @@ class _EArmorListPageState extends State<EArmorListPage> {
                         children: [
                           GestureDetector(
                             onTap: () => widget.showImageDialog(
-                                context, armor.img, armor.title),
+                              context,
+                              armor.img,
+                              armor.title,
+                            ),
                             child: Container(
                               margin: const EdgeInsets.only(left: 3),
                               width: screenWidth * 0.25,
@@ -292,24 +300,28 @@ class _EArmorListPageState extends State<EArmorListPage> {
                                       Text(
                                         armor.part,
                                         style: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 13),
+                                          color: Colors.grey[400],
+                                          fontSize: 13,
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 4.0),
+                                          horizontal: 4.0,
+                                        ),
                                         child: Text(
                                           '|',
                                           style: TextStyle(
-                                              color: Colors.grey[600],
-                                              fontSize: 11),
+                                            color: Colors.grey[600],
+                                            fontSize: 11,
+                                          ),
                                         ),
                                       ),
                                       Text(
                                         armor.aset,
                                         style: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 13),
+                                          color: Colors.grey[400],
+                                          fontSize: 13,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -323,27 +335,27 @@ class _EArmorListPageState extends State<EArmorListPage> {
                     ),
                     if (isExpanded)
                       Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(8, 1, 12, 12),
+                        padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.stretch,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const Divider(
-                                color: Colors.white24,
-                                height: 1,
-                                thickness: 0.5),
+                              color: Colors.white24,
+                              height: 1,
+                              thickness: 0.5,
+                            ),
                             const SizedBox(height: 10),
 
                             // 설명: 문장별로 나눠 한 줄씩 + 줄마다 SizedBox
                             Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0), // 👉 여기서 오른쪽으로 살짝 밀기
+                                      padding: EdgeInsets.only(
+                                        left: descriptionLeftPadding,
+                                      ),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(
@@ -365,11 +377,15 @@ class _EArmorListPageState extends State<EArmorListPage> {
                               GestureDetector(
                                 onTap: () => widget.showOnMap!(armor.aset),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8.0),
                                     image: const DecorationImage(
-                                      image: AssetImage('assets/images/detailground.png'),
+                                      image: AssetImage(
+                                        'assets/images/detailground.png',
+                                      ),
                                       fit: BoxFit.fill,
                                     ),
                                   ),

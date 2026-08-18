@@ -20,7 +20,7 @@ class ETalismanListPage extends StatefulWidget {
 
   // 🔹 본편 / DLC 필터
   final bool filterBase; // 본편 탈리스만 표시 여부
-  final bool filterDlc;  // DLC 탈리스만 표시 여부
+  final bool filterDlc; // DLC 탈리스만 표시 여부
 
   // 🔥 전설 탈리스만 필터 (주문이랑 동일 구조)
   final bool filterLegend; // 전설만 보기 여부
@@ -153,6 +153,7 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
+    final double descriptionLeftPadding = screenWidth >= 600.0 ? 20.0 : 8.0;
 
     return FutureBuilder<List<ETalisman>>(
       future: _futureETalismans,
@@ -178,9 +179,9 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
         // 🔥 게임 이름 + 검색어 + 본편/DLC + 전설 필터링
         final filtered = items.where((e) {
           final bool gameMatch = e.game == widget.game.title;
-          final bool nameMatch = e.title
-              .toLowerCase()
-              .contains(widget.searchQuery.toLowerCase());
+          final bool nameMatch = e.title.toLowerCase().contains(
+            widget.searchQuery.toLowerCase(),
+          );
 
           // 이름에 '◇' 있으면 DLC로 취급
           final bool isDlc = e.title.contains('◇');
@@ -188,8 +189,7 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
           // 🔥 전설 판정 규칙
           //  - 제목에 '☆' 포함
           //  - 제목에 '전설' 이라는 단어 포함
-          final bool isLegend =
-              e.title.contains('☆') || e.title.contains('전설');
+          final bool isLegend = e.title.contains('☆') || e.title.contains('전설');
 
           bool baseDlcMatch;
           if (widget.filterBase && !widget.filterDlc) {
@@ -214,14 +214,12 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
 
         if (filtered.isEmpty) {
           return const Center(
-            child: Text(
-              '항목이 없습니다.',
-              style: TextStyle(color: Colors.white70),
-            ),
+            child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
         }
 
         return ListView.builder(
+          primary: false,
           padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
@@ -232,8 +230,9 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
             final bool hasAbility = talisman.ability.trim().isNotEmpty;
 
             // 설명을 규칙에 맞게 분리
-            final List<String> descriptionLines =
-            _splitDescriptionWithParens(talisman.description);
+            final List<String> descriptionLines = _splitDescriptionWithParens(
+              talisman.description,
+            );
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -320,11 +319,9 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                     // 아래: 확장 영역(설명 + 능력)
                     if (isExpanded)
                       Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(8, 1, 12, 12),
+                        padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.stretch,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const Divider(
                               color: Colors.white24,
@@ -340,8 +337,9 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0), // 👉 설명 들여쓰기
+                                      padding: EdgeInsets.only(
+                                        left: descriptionLeftPadding,
+                                      ),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(
@@ -379,13 +377,15 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                               GestureDetector(
                                 onTap: () => widget.showOnMap!(talisman.title),
                                 child: Container(
-                                  padding:
-                                  const EdgeInsets.symmetric(vertical: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8.0),
                                     image: const DecorationImage(
                                       image: AssetImage(
-                                          'assets/images/detailground.png'),
+                                        'assets/images/detailground.png',
+                                      ),
                                       fit: BoxFit.fill,
                                     ),
                                   ),

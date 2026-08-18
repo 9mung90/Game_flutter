@@ -20,7 +20,7 @@ class EGestureListPage extends StatefulWidget {
 
   // 🔥 본편 / DLC 필터
   final bool filterBase; // 본편
-  final bool filterDlc;  // DLC (이름에 ◇)
+  final bool filterDlc; // DLC (이름에 ◇)
 
   const EGestureListPage({
     super.key,
@@ -135,6 +135,7 @@ class _EGestureListPageState extends State<EGestureListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
+    final double descriptionLeftPadding = screenWidth >= 600.0 ? 20.0 : 8.0;
 
     return FutureBuilder<List<EGesture>>(
       future: _futureEGestures,
@@ -157,9 +158,9 @@ class _EGestureListPageState extends State<EGestureListPage> {
         // 게임 이름 + 검색어 + 본편/DLC 필터링
         final filtered = items.where((g) {
           final bool gameMatch = g.game == widget.game.title;
-          final bool nameMatch = g.title
-              .toLowerCase()
-              .contains(widget.searchQuery.toLowerCase());
+          final bool nameMatch = g.title.toLowerCase().contains(
+            widget.searchQuery.toLowerCase(),
+          );
 
           final String title = g.title;
           final bool isDlc = title.contains('◇');
@@ -185,22 +186,21 @@ class _EGestureListPageState extends State<EGestureListPage> {
 
         if (filtered.isEmpty) {
           return const Center(
-            child: Text(
-              '항목이 없습니다.',
-              style: TextStyle(color: Colors.white70),
-            ),
+            child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
         }
 
         return ListView.builder(
+          primary: false,
           padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
             final gesture = filtered[index];
             final isExpanded = _expandedId == gesture.id;
 
-            final List<String> descriptionLines =
-            _splitDescriptionWithParens(gesture.description);
+            final List<String> descriptionLines = _splitDescriptionWithParens(
+              gesture.description,
+            );
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -280,8 +280,7 @@ class _EGestureListPageState extends State<EGestureListPage> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.stretch,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const Divider(
                               color: Colors.white24,
@@ -291,13 +290,14 @@ class _EGestureListPageState extends State<EGestureListPage> {
                             const SizedBox(height: 10),
 
                             Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
+                                      padding: EdgeInsets.only(
+                                        left: descriptionLeftPadding,
+                                      ),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(

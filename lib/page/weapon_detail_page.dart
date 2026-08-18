@@ -696,6 +696,7 @@ class _WeaponDetailPageState extends State<WeaponDetailPage> {
           }
 
           return ListView.builder(
+            primary: false,
             padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, bottomPadding),
             itemCount: items.length,
             itemBuilder: (context, index) {

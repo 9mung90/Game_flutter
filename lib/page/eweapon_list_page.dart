@@ -9,7 +9,7 @@ import '../DTO/eweapon.dart';
 import '../DTO/game.dart';
 import 'weapon_detail_page.dart';
 import 'detail_image_view_page.dart';
-import '../local_data/local_data_loader.dart';  // ✅ 로컬 JSON 로더 추가
+import '../local_data/local_data_loader.dart'; // ✅ 로컬 JSON 로더 추가
 
 /// 🔥 EWeapon 전역 캐시 (이 파일 안에서만 사용)
 List<EWeapon>? _eWeaponCache;
@@ -26,11 +26,11 @@ class EWeaponListPage extends StatefulWidget {
   final String subTypeFilter; // 단검 / 직검 / 대검 ...
 
   // 🔥 새 추가 필터들 (강화 방식 / DLC / 전설 / 본편)
-  final bool filterNormalEnhance;   // 일반 강화
-  final bool filterSpecialEnhance;  // 특수 강화
-  final bool filterLegend;          // 전설 무기
-  final bool filterBase;            // 본편 무기
-  final bool filterDlc;             // DLC 무기
+  final bool filterNormalEnhance; // 일반 강화
+  final bool filterSpecialEnhance; // 특수 강화
+  final bool filterLegend; // 전설 무기
+  final bool filterBase; // 본편 무기
+  final bool filterDlc; // DLC 무기
 
   final ValueChanged<String>? showOnMap;
   final bool Function(String title)? canShowOnMap;
@@ -162,6 +162,7 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
+    final double descriptionLeftPadding = screenWidth >= 600.0 ? 20.0 : 8.0;
 
     print('screen width = $screenWidth, height = $screenHeight');
 
@@ -170,7 +171,8 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
-              child: CircularProgressIndicator(color: Colors.white));
+            child: CircularProgressIndicator(color: Colors.white),
+          );
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
@@ -180,101 +182,100 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
           );
         }
 
-        final filteredWeapons = snapshot.data
-            ?.where((weapon) {
-          final bool gameMatch = weapon.game == widget.game.title;
-          final bool nameMatch = weapon.title
-              .toLowerCase()
-              .contains(widget.searchQuery.toLowerCase());
+        final filteredWeapons =
+            snapshot.data?.where((weapon) {
+              final bool gameMatch = weapon.game == widget.game.title;
+              final bool nameMatch = weapon.title.toLowerCase().contains(
+                widget.searchQuery.toLowerCase(),
+              );
 
-          // 🔹 상위 필터(genre: 소형 무기 / 대형 무기 …)
-          final String currentGenreFilter = widget.genreFilter;
-          final bool genreMatch = (currentGenreFilter == '전체')
-              ? true
-              : (weapon.genre == currentGenreFilter);
+              // 🔹 상위 필터(genre: 소형 무기 / 대형 무기 …)
+              final String currentGenreFilter = widget.genreFilter;
+              final bool genreMatch = (currentGenreFilter == '전체')
+                  ? true
+                  : (weapon.genre == currentGenreFilter);
 
-          // 🔹 하위 필터(type: 단검 / 직검 / 대검 …)
-          final String currentSubFilter = widget.subTypeFilter;
-          final bool subMatch = (currentSubFilter == '전체')
-              ? true
-              : (weapon.type == currentSubFilter);
+              // 🔹 하위 필터(type: 단검 / 직검 / 대검 …)
+              final String currentSubFilter = widget.subTypeFilter;
+              final bool subMatch = (currentSubFilter == '전체')
+                  ? true
+                  : (weapon.type == currentSubFilter);
 
-          // ============================
-          // 🔥 새 필터 로직 (강화 / 전설 / 본편 / DLC)
-          // ============================
-          final String title = weapon.title;
+              // ============================
+              // 🔥 새 필터 로직 (강화 / 전설 / 본편 / DLC)
+              // ============================
+              final String title = weapon.title;
 
-          // DLC / 전설 플래그
-          final bool isDlc = title.contains('◇');
-          final bool isLegend = title.contains('☆');
-          final bool isBase = !isDlc;
+              // DLC / 전설 플래그
+              final bool isDlc = title.contains('◇');
+              final bool isLegend = title.contains('☆');
+              final bool isBase = !isDlc;
 
-          // 강화 방식 판별
-          //  - '○' 포함 → 특수 강화
-          //  - '○' 없음 → 일반 강화
-          final bool hasCircle = title.contains('○');
-          final bool isSpecialEnhance = hasCircle;
-          final bool isNormalEnhance = !hasCircle;
+              // 강화 방식 판별
+              //  - '○' 포함 → 특수 강화
+              //  - '○' 없음 → 일반 강화
+              final bool hasCircle = title.contains('○');
+              final bool isSpecialEnhance = hasCircle;
+              final bool isNormalEnhance = !hasCircle;
 
-          // 선택된 강화/전설 모드 (서로 배타적)
-          String enhanceMode = 'none';
-          if (widget.filterNormalEnhance) {
-            enhanceMode = 'normal';
-          } else if (widget.filterSpecialEnhance) {
-            enhanceMode = 'special';
-          } else if (widget.filterLegend) {
-            enhanceMode = 'legend';
-          }
+              // 선택된 강화/전설 모드 (서로 배타적)
+              String enhanceMode = 'none';
+              if (widget.filterNormalEnhance) {
+                enhanceMode = 'normal';
+              } else if (widget.filterSpecialEnhance) {
+                enhanceMode = 'special';
+              } else if (widget.filterLegend) {
+                enhanceMode = 'legend';
+              }
 
-          // 1) 강화/전설 필터 매칭
-          bool matchesEnhance = true;
-          switch (enhanceMode) {
-            case 'normal':
-            // 일반 강화만
-              matchesEnhance = isNormalEnhance;
-              break;
-            case 'special':
-            // 특수 강화만
-              matchesEnhance = isSpecialEnhance;
-              break;
-            case 'legend':
-            // 전설 무기만 (☆)
-              matchesEnhance = isLegend;
-              break;
-            case 'none':
-            default:
-              matchesEnhance = true; // 강화 필터 안 쓰면 무시
-          }
+              // 1) 강화/전설 필터 매칭
+              bool matchesEnhance = true;
+              switch (enhanceMode) {
+                case 'normal':
+                  // 일반 강화만
+                  matchesEnhance = isNormalEnhance;
+                  break;
+                case 'special':
+                  // 특수 강화만
+                  matchesEnhance = isSpecialEnhance;
+                  break;
+                case 'legend':
+                  // 전설 무기만 (☆)
+                  matchesEnhance = isLegend;
+                  break;
+                case 'none':
+                default:
+                  matchesEnhance = true; // 강화 필터 안 쓰면 무시
+              }
 
-          // 2) 본편 / DLC 필터 매칭
-          final bool baseFlag = widget.filterBase;
-          final bool dlcFlag = widget.filterDlc;
+              // 2) 본편 / DLC 필터 매칭
+              final bool baseFlag = widget.filterBase;
+              final bool dlcFlag = widget.filterDlc;
 
-          bool matchesBaseDlc = true;
+              bool matchesBaseDlc = true;
 
-          // - 본편 / DLC 버튼 둘 다 꺼져 있으면 → 제약 없음 (둘 다 허용)
-          // - 본편만 켜져 있으면 → 본편만
-          // - DLC만 켜져 있으면 → DLC만
-          // - 둘 다 켜져 있으면 → 둘 다 허용
-          if (baseFlag && dlcFlag) {
-            matchesBaseDlc = true;
-          } else if (baseFlag && !dlcFlag) {
-            matchesBaseDlc = isBase;
-          } else if (!baseFlag && dlcFlag) {
-            matchesBaseDlc = isDlc;
-          } else {
-            matchesBaseDlc = true; // 둘 다 false → 제약 없음
-          }
+              // - 본편 / DLC 버튼 둘 다 꺼져 있으면 → 제약 없음 (둘 다 허용)
+              // - 본편만 켜져 있으면 → 본편만
+              // - DLC만 켜져 있으면 → DLC만
+              // - 둘 다 켜져 있으면 → 둘 다 허용
+              if (baseFlag && dlcFlag) {
+                matchesBaseDlc = true;
+              } else if (baseFlag && !dlcFlag) {
+                matchesBaseDlc = isBase;
+              } else if (!baseFlag && dlcFlag) {
+                matchesBaseDlc = isDlc;
+              } else {
+                matchesBaseDlc = true; // 둘 다 false → 제약 없음
+              }
 
-          // 최종
-          return gameMatch &&
-              nameMatch &&
-              genreMatch &&
-              subMatch &&
-              matchesEnhance &&
-              matchesBaseDlc;
-        })
-            .toList() ??
+              // 최종
+              return gameMatch &&
+                  nameMatch &&
+                  genreMatch &&
+                  subMatch &&
+                  matchesEnhance &&
+                  matchesBaseDlc;
+            }).toList() ??
             [];
 
         if (filteredWeapons.isEmpty) {
@@ -284,14 +285,16 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
         }
 
         return ListView.builder(
+          primary: false,
           padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
           itemCount: filteredWeapons.length,
           itemBuilder: (context, index) {
             final weapon = filteredWeapons[index];
             final isExpanded = _expandedId == weapon.id;
 
-            final List<String> descriptionLines =
-            _splitDescriptionWithParens(weapon.description);
+            final List<String> descriptionLines = _splitDescriptionWithParens(
+              weapon.description,
+            );
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -364,7 +367,8 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 4.0),
+                                          horizontal: 4.0,
+                                        ),
                                         child: Text(
                                           '|',
                                           style: TextStyle(
@@ -381,7 +385,7 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                         ),
                                       ),
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -436,7 +440,9 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
+                                      padding: EdgeInsets.only(
+                                        left: descriptionLeftPadding,
+                                      ),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(
@@ -487,13 +493,15 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                 );
                               },
                               child: Container(
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   image: const DecorationImage(
                                     image: AssetImage(
-                                        'assets/images/detailground.png'),
+                                      'assets/images/detailground.png',
+                                    ),
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -515,13 +523,15 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                               GestureDetector(
                                 onTap: () => widget.showOnMap!(weapon.title),
                                 child: Container(
-                                  padding:
-                                  const EdgeInsets.symmetric(vertical: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8.0),
                                     image: const DecorationImage(
                                       image: AssetImage(
-                                          'assets/images/detailground.png'),
+                                        'assets/images/detailground.png',
+                                      ),
                                       fit: BoxFit.fill,
                                     ),
                                   ),

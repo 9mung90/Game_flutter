@@ -1,12 +1,12 @@
 // lib/pages/eash_list_page.dart
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;   // 🔹 예전 서버 방식(주석 코드에서만 사용)
+import 'package:http/http.dart' as http; // 🔹 예전 서버 방식(주석 코드에서만 사용)
 import 'dart:convert';
 
 import '../../api_config.dart';
-import '../local_data/local_data_loader.dart';        // ✅ 로컬 JSON 로더
-import '../DTO/eash.dart';            // ✅ EAsh DTO 사용
+import '../local_data/local_data_loader.dart'; // ✅ 로컬 JSON 로더
+import '../DTO/eash.dart'; // ✅ EAsh DTO 사용
 import '../DTO/game.dart';
 
 /// ⭐ EAsh 전역 캐시 (이 파일 안에서만 사용)
@@ -25,7 +25,7 @@ class EAshListPage extends StatefulWidget {
   //  - title에 '◇' 포함 → DLC
   //  - 포함 안 됨 → 본편
   final bool filterBase; // 본편 전투 기술
-  final bool filterDlc;  // DLC 전투 기술
+  final bool filterDlc; // DLC 전투 기술
 
   final ValueChanged<String>? showOnMap;
   final bool Function(String title)? canShowOnMap;
@@ -38,8 +38,8 @@ class EAshListPage extends StatefulWidget {
     required this.propertyFilter,
     this.showOnMap,
     this.canShowOnMap,
-    this.filterBase = true,   // 기본: 본편 ON
-    this.filterDlc = false,   // 기본: DLC OFF
+    this.filterBase = true, // 기본: 본편 ON
+    this.filterDlc = false, // 기본: DLC OFF
   });
 
   @override
@@ -157,12 +157,15 @@ class _EAshListPageState extends State<EAshListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
+    final double descriptionLeftPadding = screenWidth >= 600.0 ? 20.0 : 8.0;
 
     return FutureBuilder<List<EAsh>>(
       future: _futureEAshes,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator(color: Colors.white));
+          return const Center(
+            child: CircularProgressIndicator(color: Colors.white),
+          );
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
@@ -176,9 +179,9 @@ class _EAshListPageState extends State<EAshListPage> {
 
         final filtered = items.where((e) {
           final bool gameMatch = e.game == widget.game.title;
-          final bool nameMatch = e.title
-              .toLowerCase()
-              .contains(widget.searchQuery.toLowerCase());
+          final bool nameMatch = e.title.toLowerCase().contains(
+            widget.searchQuery.toLowerCase(),
+          );
 
           // 🔹 속성 필터 (기존 로직 유지)
           final bool propertyMatch = widget.propertyFilter == '전체'
@@ -188,7 +191,7 @@ class _EAshListPageState extends State<EAshListPage> {
           // 🔥 본편 / DLC 판별
           final String title = e.title;
           final bool isDlc = title.contains('◇'); // DLC
-          final bool isBase = !isDlc;             // 본편
+          final bool isBase = !isDlc; // 본편
 
           final bool baseFlag = widget.filterBase;
           final bool dlcFlag = widget.filterDlc;
@@ -219,6 +222,7 @@ class _EAshListPageState extends State<EAshListPage> {
         }
 
         return ListView.builder(
+          primary: false,
           padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
@@ -231,8 +235,9 @@ class _EAshListPageState extends State<EAshListPage> {
             final bool showGif = _gifExpandedId == ash.id;
 
             // 설명을 규칙에 맞게 분리
-            final List<String> descriptionLines =
-            _splitDescriptionWithParens(ash.description);
+            final List<String> descriptionLines = _splitDescriptionWithParens(
+              ash.description,
+            );
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -342,7 +347,9 @@ class _EAshListPageState extends State<EAshListPage> {
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
+                                      padding: EdgeInsets.only(
+                                        left: descriptionLeftPadding,
+                                      ),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(
@@ -367,11 +374,15 @@ class _EAshListPageState extends State<EAshListPage> {
                                 });
                               },
                               child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   image: const DecorationImage(
-                                    image: AssetImage('assets/images/detailground.png'),
+                                    image: AssetImage(
+                                      'assets/images/detailground.png',
+                                    ),
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -395,11 +406,15 @@ class _EAshListPageState extends State<EAshListPage> {
                               GestureDetector(
                                 onTap: () => widget.showOnMap!(ash.title),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8.0),
                                     image: const DecorationImage(
-                                      image: AssetImage('assets/images/detailground.png'),
+                                      image: AssetImage(
+                                        'assets/images/detailground.png',
+                                      ),
                                       fit: BoxFit.fill,
                                     ),
                                   ),

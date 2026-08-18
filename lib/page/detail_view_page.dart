@@ -315,6 +315,7 @@ class _DetailViewerPageState extends State<DetailViewerPage> {
                               : _comments.isEmpty
                               ? const Center(child: Text('첫 댓글을 남겨보세요!', style: TextStyle(color: Colors.white70)))
                               : ListView.builder(
+                            primary: false,
                             // [수정] 고정값 -> 화면 너비 비율
                             padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.044), // 16 / 360
                             itemCount: _comments.length,

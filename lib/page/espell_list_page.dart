@@ -165,13 +165,15 @@ class _ESpellListPageState extends State<ESpellListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
+    final double descriptionLeftPadding = screenWidth >= 600.0 ? 20.0 : 8.0;
 
     return FutureBuilder<List<ESpell>>(
       future: _futureESpells,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
-              child: CircularProgressIndicator(color: Colors.white));
+            child: CircularProgressIndicator(color: Colors.white),
+          );
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
@@ -186,9 +188,9 @@ class _ESpellListPageState extends State<ESpellListPage> {
         final filtered = items.where((s) {
           final bool gameMatch = s.game == widget.game.title;
 
-          final bool nameMatch = s.title
-              .toLowerCase()
-              .contains(widget.searchQuery.toLowerCase());
+          final bool nameMatch = s.title.toLowerCase().contains(
+            widget.searchQuery.toLowerCase(),
+          );
 
           // 🔹 DLC 여부: 이름에 '◇'가 있으면 DLC 주문으로 취급
           final bool isDlc = s.title.contains('◇');
@@ -196,7 +198,8 @@ class _ESpellListPageState extends State<ESpellListPage> {
           // 🔥 전설 여부:
           // - 무기처럼 '☆' 마크가 있거나
           // - type/title에 '전설' 이라는 단어가 들어가면 전설 주문으로 취급
-          final bool isLegend = s.title.contains('☆') ||
+          final bool isLegend =
+              s.title.contains('☆') ||
               s.type.contains('전설') ||
               s.title.contains('전설');
 
@@ -242,12 +245,12 @@ class _ESpellListPageState extends State<ESpellListPage> {
 
         if (filtered.isEmpty) {
           return const Center(
-            child: Text('항목이 없습니다.',
-                style: TextStyle(color: Colors.white70)),
+            child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
         }
 
         return ListView.builder(
+          primary: false,
           padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
@@ -258,8 +261,9 @@ class _ESpellListPageState extends State<ESpellListPage> {
             final bool showGif = _gifExpandedId == spell.id;
 
             // 설명을 규칙에 맞게 분리
-            final List<String> descriptionLines =
-            _splitDescriptionWithParens(spell.description);
+            final List<String> descriptionLines = _splitDescriptionWithParens(
+              spell.description,
+            );
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -294,7 +298,10 @@ class _ESpellListPageState extends State<ESpellListPage> {
                         children: [
                           GestureDetector(
                             onTap: () => widget.showImageDialog(
-                                context, spell.img, spell.title),
+                              context,
+                              spell.img,
+                              spell.title,
+                            ),
                             child: Container(
                               margin: const EdgeInsets.only(left: 3),
                               width: screenWidth * 0.25,
@@ -330,45 +337,52 @@ class _ESpellListPageState extends State<ESpellListPage> {
                                   // 주문의 핵심 메타: type | slot | need
                                   Wrap(
                                     crossAxisAlignment:
-                                    WrapCrossAlignment.center,
+                                        WrapCrossAlignment.center,
                                     children: [
                                       Text(
                                         spell.type,
                                         style: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 13),
+                                          color: Colors.grey[400],
+                                          fontSize: 13,
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 6.0),
+                                          horizontal: 6.0,
+                                        ),
                                         child: Text(
                                           '|',
                                           style: TextStyle(
-                                              color: Colors.grey[600],
-                                              fontSize: 11),
+                                            color: Colors.grey[600],
+                                            fontSize: 11,
+                                          ),
                                         ),
                                       ),
                                       Text(
                                         '요구 슬롯: ${spell.slot}',
                                         style: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 13),
+                                          color: Colors.grey[400],
+                                          fontSize: 13,
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 6.0),
+                                          horizontal: 6.0,
+                                        ),
                                         child: Text(
                                           '|',
                                           style: TextStyle(
-                                              color: Colors.grey[600],
-                                              fontSize: 11),
+                                            color: Colors.grey[600],
+                                            fontSize: 11,
+                                          ),
                                         ),
                                       ),
                                       Text(
                                         '${spell.need}',
                                         style: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 13),
+                                          color: Colors.grey[400],
+                                          fontSize: 13,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -398,7 +412,9 @@ class _ESpellListPageState extends State<ESpellListPage> {
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
+                                      padding: EdgeInsets.only(
+                                        left: descriptionLeftPadding,
+                                      ),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(
@@ -422,13 +438,15 @@ class _ESpellListPageState extends State<ESpellListPage> {
                                 });
                               },
                               child: Container(
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   image: const DecorationImage(
                                     image: AssetImage(
-                                        'assets/images/detailground.png'),
+                                      'assets/images/detailground.png',
+                                    ),
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -444,8 +462,6 @@ class _ESpellListPageState extends State<ESpellListPage> {
                               ),
                             ),
 
-                            
-
                             // ✅ 추가: JSON에 들어있는 gif URL(예: spell.gif)을 Image.network로 표시
                             if (widget.showOnMap != null &&
                                 (widget.canShowOnMap?.call(spell.title) ??
@@ -454,13 +470,15 @@ class _ESpellListPageState extends State<ESpellListPage> {
                               GestureDetector(
                                 onTap: () => widget.showOnMap!(spell.title),
                                 child: Container(
-                                  padding:
-                                  const EdgeInsets.symmetric(vertical: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8.0),
                                     image: const DecorationImage(
                                       image: AssetImage(
-                                          'assets/images/detailground.png'),
+                                        'assets/images/detailground.png',
+                                      ),
                                       fit: BoxFit.fill,
                                     ),
                                   ),

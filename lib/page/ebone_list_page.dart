@@ -21,11 +21,11 @@ class EBoneListPage extends StatefulWidget {
   final bool Function(String title)? canShowOnMap;
 
   // 🔥 무기와 동일한 추가 필터 (강화 방식 / DLC / 전설 / 본편)
-  final bool filterNormalEnhance;   // 일반 강화
-  final bool filterSpecialEnhance;  // 특수 강화
-  final bool filterLegend;          // 전설 뼛가루
-  final bool filterBase;            // 본편 뼛가루
-  final bool filterDlc;             // DLC 뼛가루
+  final bool filterNormalEnhance; // 일반 강화
+  final bool filterSpecialEnhance; // 특수 강화
+  final bool filterLegend; // 전설 뼛가루
+  final bool filterBase; // 본편 뼛가루
+  final bool filterDlc; // DLC 뼛가루
 
   const EBoneListPage({
     super.key,
@@ -153,6 +153,7 @@ class _EBoneListPageState extends State<EBoneListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
+    final double descriptionLeftPadding = screenWidth >= 600.0 ? 20.0 : 8.0;
 
     return FutureBuilder<List<EBone>>(
       future: _futureEBones,
@@ -179,9 +180,9 @@ class _EBoneListPageState extends State<EBoneListPage> {
         // ============================
         final filtered = items.where((b) {
           final bool gameMatch = b.game == widget.game.title;
-          final bool nameMatch = b.title
-              .toLowerCase()
-              .contains(widget.searchQuery.toLowerCase());
+          final bool nameMatch = b.title.toLowerCase().contains(
+            widget.searchQuery.toLowerCase(),
+          );
 
           final String title = b.title;
 
@@ -239,22 +240,17 @@ class _EBoneListPageState extends State<EBoneListPage> {
             matchesBaseDlc = true; // 둘 다 OFF → 제약 없음
           }
 
-          return gameMatch &&
-              nameMatch &&
-              matchesEnhance &&
-              matchesBaseDlc;
+          return gameMatch && nameMatch && matchesEnhance && matchesBaseDlc;
         }).toList();
 
         if (filtered.isEmpty) {
           return const Center(
-            child: Text(
-              '항목이 없습니다.',
-              style: TextStyle(color: Colors.white70),
-            ),
+            child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
         }
 
         return ListView.builder(
+          primary: false,
           padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
@@ -265,8 +261,9 @@ class _EBoneListPageState extends State<EBoneListPage> {
             final bool hasBget = bone.bget.trim().isNotEmpty;
 
             // description을 규칙에 맞게 분리
-            final List<String> descriptionLines =
-            _splitDescriptionWithParens(bone.description);
+            final List<String> descriptionLines = _splitDescriptionWithParens(
+              bone.description,
+            );
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -293,7 +290,10 @@ class _EBoneListPageState extends State<EBoneListPage> {
                           // 왼쪽 썸네일 이미지
                           GestureDetector(
                             onTap: () => widget.showImageDialog(
-                                context, bone.img, bone.title),
+                              context,
+                              bone.img,
+                              bone.title,
+                            ),
                             child: Container(
                               margin: const EdgeInsets.only(left: 3),
                               width: screenWidth * 0.25,
@@ -332,7 +332,7 @@ class _EBoneListPageState extends State<EBoneListPage> {
                                   // 메타 정보: 용도만 위에 표시
                                   Wrap(
                                     crossAxisAlignment:
-                                    WrapCrossAlignment.center,
+                                        WrapCrossAlignment.center,
                                     children: [
                                       Text(
                                         '소비: ${bone.buse}',
@@ -353,11 +353,9 @@ class _EBoneListPageState extends State<EBoneListPage> {
                     // 확장 영역: 설명 + (있다면) 획득
                     if (isExpanded)
                       Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(8, 1, 12, 12),
+                        padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.stretch,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const Divider(
                               color: Colors.white24,
@@ -368,14 +366,14 @@ class _EBoneListPageState extends State<EBoneListPage> {
 
                             // 상세 설명: 문장별 Text + SizedBox로 한 칸씩
                             Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding:
-                                      const EdgeInsets.only(left: 8.0),
+                                      padding: EdgeInsets.only(
+                                        left: descriptionLeftPadding,
+                                      ),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(
@@ -396,8 +394,7 @@ class _EBoneListPageState extends State<EBoneListPage> {
                             // --- bget이 있을 때만 표시 ---
                             if (hasBget)
                               Padding(
-                                padding:
-                                const EdgeInsets.only(left: 8.0),
+                                padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   bone.bget,
                                   style: TextStyle(

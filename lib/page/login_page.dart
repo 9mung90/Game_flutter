@@ -170,6 +170,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
+            primary: false,
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 440),

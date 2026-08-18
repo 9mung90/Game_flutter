@@ -23,7 +23,7 @@ class EEtcListPage extends StatefulWidget {
 
   // 🔥 본편 / DLC 필터
   final bool filterBase; // 본편
-  final bool filterDlc;  // DLC
+  final bool filterDlc; // DLC
 
   final ValueChanged<String>? showOnMap;
   final bool Function(String title)? canShowOnMap;
@@ -35,9 +35,9 @@ class EEtcListPage extends StatefulWidget {
     required this.showImageDialog,
     this.showOnMap,
     this.canShowOnMap,
-    this.typeFilter = '전체',   // 기본: 전체 타입
-    this.filterBase = true,    // 기본: 본편 ON
-    this.filterDlc = false,    // 기본: DLC OFF
+    this.typeFilter = '전체', // 기본: 전체 타입
+    this.filterBase = true, // 기본: 본편 ON
+    this.filterDlc = false, // 기본: DLC OFF
   });
 
   @override
@@ -155,6 +155,7 @@ class _EEtcListPageState extends State<EEtcListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
+    final double descriptionLeftPadding = screenWidth >= 600.0 ? 20.0 : 8.0;
 
     return FutureBuilder<List<EEtc>>(
       future: _futureEEtcs,
@@ -181,10 +182,10 @@ class _EEtcListPageState extends State<EEtcListPage> {
         final filtered = items.where((e) {
           final bool gameMatch = e.game == widget.game.title;
           final bool typeMatch =
-          (widget.typeFilter == '전체' || e.type == widget.typeFilter);
-          final bool nameMatch = e.title
-              .toLowerCase()
-              .contains(widget.searchQuery.toLowerCase());
+              (widget.typeFilter == '전체' || e.type == widget.typeFilter);
+          final bool nameMatch = e.title.toLowerCase().contains(
+            widget.searchQuery.toLowerCase(),
+          );
 
           // 🔥 본편 / DLC 판별 (이름에 ◇ 있으면 DLC라고 가정)
           final String title = e.title;
@@ -210,14 +211,12 @@ class _EEtcListPageState extends State<EEtcListPage> {
 
         if (filtered.isEmpty) {
           return const Center(
-            child: Text(
-              '항목이 없습니다.',
-              style: TextStyle(color: Colors.white70),
-            ),
+            child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
         }
 
         return ListView.builder(
+          primary: false,
           padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
@@ -228,8 +227,9 @@ class _EEtcListPageState extends State<EEtcListPage> {
             final bool hasAbility = etc.ability.trim().isNotEmpty;
 
             // 새 규칙으로 description 분리
-            final List<String> descriptionLines =
-            _splitDescriptionWithParens(etc.description);
+            final List<String> descriptionLines = _splitDescriptionWithParens(
+              etc.description,
+            );
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -259,7 +259,10 @@ class _EEtcListPageState extends State<EEtcListPage> {
                           // 왼쪽 썸네일
                           GestureDetector(
                             onTap: () => widget.showImageDialog(
-                                context, etc.img, etc.title),
+                              context,
+                              etc.img,
+                              etc.title,
+                            ),
                             child: Container(
                               margin: const EdgeInsets.only(left: 3),
                               width: screenWidth * 0.25,
@@ -313,8 +316,7 @@ class _EEtcListPageState extends State<EEtcListPage> {
                     // 아래: 확장 영역(설명 + 능력)
                     if (isExpanded)
                       Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(8, 1, 12, 12),
+                        padding: const EdgeInsets.fromLTRB(8, 1, 12, 12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -332,7 +334,9 @@ class _EEtcListPageState extends State<EEtcListPage> {
                                 for (final line in descriptionLines)
                                   if (line.trim().isNotEmpty) ...[
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0), // ← 설명 들여쓰기
+                                      padding: EdgeInsets.only(
+                                        left: descriptionLeftPadding,
+                                      ),
                                       child: Text(
                                         line.trim(),
                                         style: TextStyle(
@@ -351,7 +355,9 @@ class _EEtcListPageState extends State<EEtcListPage> {
                             if (hasAbility) ...[
                               const SizedBox(height: 16),
                               Padding(
-                                padding: const EdgeInsets.only(left: 8.0), // ← 설명이랑 같은 들여쓰기
+                                padding: const EdgeInsets.only(
+                                  left: 8.0,
+                                ), // ← 설명이랑 같은 들여쓰기
                                 child: Text(
                                   etc.ability,
                                   style: TextStyle(
@@ -370,13 +376,15 @@ class _EEtcListPageState extends State<EEtcListPage> {
                               GestureDetector(
                                 onTap: () => widget.showOnMap!(etc.title),
                                 child: Container(
-                                  padding:
-                                  const EdgeInsets.symmetric(vertical: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8.0),
                                     image: const DecorationImage(
                                       image: AssetImage(
-                                          'assets/images/detailground.png'),
+                                        'assets/images/detailground.png',
+                                      ),
                                       fit: BoxFit.fill,
                                     ),
                                   ),

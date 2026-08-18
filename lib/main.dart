@@ -13,6 +13,29 @@ import 'package:flutter/services.dart';
 
 ValueNotifier<int> homePageRefreshNotifier = ValueNotifier(0);
 
+class AppScrollBehavior extends MaterialScrollBehavior {
+  const AppScrollBehavior();
+
+  @override
+  Widget buildScrollbar(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) {
+    final axis = axisDirectionToAxis(details.direction);
+    if (axis != Axis.vertical) return child;
+
+    return Scrollbar(
+      controller: details.controller,
+      thumbVisibility: false,
+      trackVisibility: false,
+      interactive: true,
+      scrollbarOrientation: ScrollbarOrientation.right,
+      child: child,
+    );
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Flutter 바인딩 초기화
 
@@ -31,6 +54,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      scrollBehavior: const AppScrollBehavior(),
 
       // 🔹 앱 켜지자마자 ListTop으로 바로 이동
       initialRoute: '/listTop',
@@ -60,6 +84,22 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'GothicA1',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.dragged)) {
+              return const Color(0xB3A0A0A0);
+            }
+            if (states.contains(WidgetState.hovered)) {
+              return const Color(0x99A0A0A0);
+            }
+            return const Color(0x73909090);
+          }),
+          trackColor: const WidgetStatePropertyAll(Color(0x1FFFFFFF)),
+          thickness: WidgetStateProperty.resolveWith((states) {
+            return states.contains(WidgetState.hovered) ? 8 : 6;
+          }),
+          radius: const Radius.circular(8),
+        ),
       ),
 
       // 🔹 initialRoute를 쓰고 있으니까 home은 굳이 안 써도 됨 (써도 무시됨)

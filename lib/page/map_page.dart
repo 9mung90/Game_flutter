@@ -81,6 +81,9 @@ class _MapPageState extends State<MapPage> {
   int? _handledFocusRequestId;
   Offset? _doubleTapPosition;
   bool _needsDefaultViewport = true;
+  Size? _appliedViewportSize;
+  Size? _pendingViewportSize;
+  int _viewportUpdateRevision = 0;
   MapMarkerData? _selectedMarker;
 
   bool get _isDlcMap => _selectedRegion == 'dlc';
@@ -225,7 +228,11 @@ class _MapPageState extends State<MapPage> {
   }
 
   double _defaultViewportScale(Size viewportSize) {
-    return _minScale;
+    final widthFillingScale = viewportSize.width / _currentMapWidth;
+    return math
+        .max(_minScale, widthFillingScale)
+        .clamp(_minScale, _maxScale)
+        .toDouble();
   }
 
   Matrix4 _defaultViewportMatrix(Size viewportSize) {
@@ -240,14 +247,55 @@ class _MapPageState extends State<MapPage> {
       ..scale(scale);
   }
 
-  void _applyDefaultViewportIfNeeded(Size viewportSize) {
-    if (!_needsDefaultViewport || viewportSize.isEmpty) return;
+  void _updateViewportForSize(Size viewportSize) {
+    if (viewportSize.isEmpty ||
+        !viewportSize.width.isFinite ||
+        !viewportSize.height.isFinite ||
+        (!_needsDefaultViewport && _appliedViewportSize == viewportSize) ||
+        _pendingViewportSize == viewportSize) {
+      return;
+    }
 
-    _needsDefaultViewport = false;
+    _pendingViewportSize = viewportSize;
+    final revision = ++_viewportUpdateRevision;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
+      if (!mounted || revision != _viewportUpdateRevision) return;
 
-      final matrix = _defaultViewportMatrix(viewportSize);
+      final previousViewportSize = _appliedViewportSize;
+      late final Matrix4 matrix;
+
+      if (_needsDefaultViewport || previousViewportSize == null) {
+        matrix = _defaultViewportMatrix(viewportSize);
+        _needsDefaultViewport = false;
+      } else {
+        final currentScale = _controller.value.getMaxScaleOnAxis();
+        final previousDefaultScale = _defaultViewportScale(
+          previousViewportSize,
+        );
+        final nextDefaultScale = _defaultViewportScale(viewportSize);
+        final targetScale =
+            (currentScale * nextDefaultScale / previousDefaultScale)
+                .clamp(_minScale, _maxScale)
+                .toDouble();
+        final sceneCenter = _controller.toScene(
+          Offset(
+            previousViewportSize.width / 2,
+            previousViewportSize.height / 2,
+          ),
+        );
+        final nextViewportCenter = Offset(
+          viewportSize.width / 2,
+          viewportSize.height / 2,
+        );
+        final translation = nextViewportCenter - sceneCenter * targetScale;
+
+        matrix = Matrix4.identity()
+          ..translate(translation.dx, translation.dy)
+          ..scale(targetScale);
+      }
+
+      _appliedViewportSize = viewportSize;
+      _pendingViewportSize = null;
       final translationVector = matrix.getTranslation();
 
       _lastViewportScale = matrix.getMaxScaleOnAxis();
@@ -256,6 +304,7 @@ class _MapPageState extends State<MapPage> {
         translationVector.y,
       );
       _controller.value = matrix;
+      setState(() {});
     });
   }
 
@@ -434,6 +483,7 @@ class _MapPageState extends State<MapPage> {
                 const SizedBox(width: 14),
                 Expanded(
                   child: SingleChildScrollView(
+                    primary: false,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -598,7 +648,7 @@ class _MapPageState extends State<MapPage> {
 
           return LayoutBuilder(
             builder: (context, constraints) {
-              _applyDefaultViewportIfNeeded(constraints.biggest);
+              _updateViewportForSize(constraints.biggest);
               _focusMarkerIfNeeded(
                 snapshot.data ?? const <MapMarkerData>[],
                 constraints.biggest,

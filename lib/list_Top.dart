@@ -46,6 +46,7 @@ class ListTop extends StatefulWidget {
 }
 
 class _ListTopState extends State<ListTop> {
+  static const double _sideNavigationBreakpoint = 600.0;
   static const List<int> _pageTabOrder = [8, 0, 1, 2, 3, 4, 5, 6, 7];
 
   static int _pageIndexForTab(int tabIndex) {
@@ -1130,6 +1131,7 @@ class _ListTopState extends State<ListTop> {
               const Divider(color: Colors.white24, height: 1),
               Flexible(
                 child: ListView.builder(
+                  primary: false,
                   shrinkWrap: true,
                   itemCount: options.length,
                   itemBuilder: (context, index) {
@@ -1324,6 +1326,7 @@ class _ListTopState extends State<ListTop> {
                     const Divider(color: Colors.white24, height: 1),
                     Expanded(
                       child: ListView(
+                        primary: false,
                         children: [
                           for (final group in MapMarkerData.detailGroups) ...[
                             Padding(
@@ -1688,6 +1691,7 @@ class _ListTopState extends State<ListTop> {
                   const Divider(color: Colors.white24, height: 1),
                   Flexible(
                     child: ListView.builder(
+                      primary: false,
                       shrinkWrap: true,
                       itemCount: currentTypeList.length,
                       itemBuilder: (context, index) {
@@ -1921,6 +1925,7 @@ class _ListTopState extends State<ListTop> {
                       const SizedBox(height: 8),
                     Expanded(
                       child: ListView.builder(
+                        primary: false,
                         itemCount: mainOptions.length,
                         itemBuilder: (context, index) {
                           final option = mainOptions[index];
@@ -3090,8 +3095,156 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
+  void _selectCategory(int index) {
+    setState(() {
+      _selectedIndex = index;
+      _searchController.clear();
+    });
+    _pageController.animateToPage(
+      _pageIndexForTab(index),
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+    );
+    _scrollToCategory(index);
+  }
+
+  Widget _buildSideNavigation() {
+    const items = <({int index, String iconPath, String label})>[
+      (
+        index: 8,
+        iconPath: 'assets/images/map_assets/map_Icon.png',
+        label: '지도',
+      ),
+      (index: 0, iconPath: 'assets/images/weapon_Icon.png', label: '무기'),
+      (index: 1, iconPath: 'assets/images/armor_Icon.png', label: '방어구'),
+      (index: 2, iconPath: 'assets/images/ash_Icon.png', label: '전회'),
+      (index: 3, iconPath: 'assets/images/ESpell_Icon.png', label: '주문'),
+      (
+        index: 4,
+        iconPath: 'assets/images/ETalisman_Icon.png',
+        label: '탈리스만',
+      ),
+      (index: 5, iconPath: 'assets/images/ai_Icon.png', label: '영체'),
+      (index: 6, iconPath: 'assets/images/etc_Icon.png', label: '기타'),
+      (index: 7, iconPath: 'assets/images/EGesture_Icon.png', label: '제스처'),
+    ];
+
+    return Container(
+      width: 112,
+      color: Colors.grey[900],
+      child: SafeArea(
+        right: false,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 14, 10, 12),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/grace_Icon2.png',
+                    width: 36,
+                    height: 36,
+                    fit: BoxFit.cover,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.game.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1, color: Colors.white12),
+            Expanded(
+              child: ListView.builder(
+                primary: false,
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                itemCount: items.length,
+                itemBuilder: (context, itemIndex) {
+                  final item = items[itemIndex];
+                  final isSelected = item.index == _selectedIndex;
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
+                    child: Material(
+                      color: isSelected
+                          ? Colors.grey[700]!.withValues(alpha: 0.65)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      clipBehavior: Clip.antiAlias,
+                      child: InkWell(
+                        onTap: () => _selectCategory(item.index),
+                        child: SizedBox(
+                          height: 54,
+                          child: Row(
+                            children: [
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 180),
+                                width: 3,
+                                height: isSelected ? 30 : 0,
+                                decoration: BoxDecoration(
+                                  color: Colors.amberAccent,
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                              ),
+                              const SizedBox(width: 9),
+                              Image.asset(
+                                item.iconPath,
+                                width: 22,
+                                height: 22,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(
+                                      Icons.broken_image,
+                                      color: Colors.white70,
+                                      size: 22,
+                                    ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  item.label,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.white70,
+                                    fontSize: 12,
+                                    fontWeight: isSelected
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bool useSideNavigation =
+        MediaQuery.sizeOf(context).width >= _sideNavigationBreakpoint;
     final bool hasFilter = _hasFilterForCurrentTab();
     final bool filterActive = _isFilterActiveForCurrentTab();
 
@@ -3267,7 +3420,9 @@ class _ListTopState extends State<ListTop> {
       },
       child: Scaffold(
         backgroundColor: Colors.black,
-        appBar: AppBar(
+        appBar: useSideNavigation
+            ? null
+            : AppBar(
           iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: Colors.grey[900],
           title: Row(
@@ -3293,8 +3448,12 @@ class _ListTopState extends State<ListTop> {
           ),
           elevation: 0,
         ),
-        body: Column(
+        body: Row(
           children: [
+            if (useSideNavigation) _buildSideNavigation(),
+            Expanded(
+              child: Column(
+                children: [
             // ✅ 업데이트 알림 박스 추가
             if (_showUpdateNotice && _versionInfo != null)
               _buildUpdateNoticeBox(),
@@ -3344,7 +3503,8 @@ class _ListTopState extends State<ListTop> {
               ),
             ),
 
-            Container(
+            if (!useSideNavigation)
+              Container(
               height: 60,
               margin: const EdgeInsets.symmetric(
                 horizontal: 3.0,
@@ -3523,7 +3683,7 @@ class _ListTopState extends State<ListTop> {
               ),
             ),
 
-            const SizedBox(height: 8),
+            if (!useSideNavigation) const SizedBox(height: 8),
 
             Expanded(
               child: PageView(
@@ -3539,6 +3699,9 @@ class _ListTopState extends State<ListTop> {
                   _scrollToCategory(tabIndex);
                 },
                 children: _pages,
+              ),
+            ),
+                ],
               ),
             ),
           ],
