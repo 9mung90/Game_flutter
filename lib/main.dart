@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: '황금 엘든위키',
       debugShowCheckedModeBanner: false,
       scrollBehavior: const AppScrollBehavior(),
 
