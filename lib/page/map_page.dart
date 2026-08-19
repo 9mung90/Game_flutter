@@ -27,14 +27,17 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  static const double _mapWidth = 4500.0;
-  static const double _mapHeight = 4266.0;
+  static const double _mapWidth = 7218.0;
+  static const double _mapHeight = 6836.0;
 
   static const double _dlcMapWidth = 4096.0;
   static const double _dlcMapHeight = 4964.0;
 
   static const double _undergroundMapWidth = 4864.0;
   static const double _undergroundMapHeight = 4608.0;
+
+  static const String _dlcMapUrl =
+      'https://coddingswitch.s3.ap-northeast-2.amazonaws.com/test/0dlc.png';
 
   static const double _markerSize = 26.0;
   static const double _viewportPadding = 256.0;
@@ -44,15 +47,17 @@ class _MapPageState extends State<MapPage> {
   static const double _maxScale = 8.0;
   static const double _doubleTapZoomScale = 2.5;
   static const double _doubleTapZoomOutThreshold = 1.5;
+  static const double _desktopLayoutBreakpoint = 600.0;
+  static const double _desktopInfoContentOffset = 12.0;
 
   // Surface map calibration values.
   // x = lng * scaleX + offsetX
   // y = -lat * scaleY + offsetY
-  static const double _scaleX = 20.0265436304;
-  static const double _offsetX = -270.0875581638;
+  static const double _scaleX = 32.1225759832;
+  static const double _offsetX = -433.2204432947;
 
-  static const double _scaleY = 19.8693755067;
-  static const double _offsetY = -402.0110326920;
+  static const double _scaleY = 31.8394399821;
+  static const double _offsetY = -644.1977073330;
 
   // DLC map calibration values.
   // x = lng * dlcScaleX + dlcOffsetX
@@ -98,11 +103,9 @@ class _MapPageState extends State<MapPage> {
       ? _dlcMapHeight
       : (_isUndergroundMap ? _undergroundMapHeight : _mapHeight);
 
-  String get _currentMapAsset => _isDlcMap
-      ? 'assets/images/map/dlc.png'
-      : (_isUndergroundMap
-            ? 'assets/images/map/underground.jpg'
-            : 'assets/images/map/map.jpg');
+  String get _currentLocalMapAsset => _isUndergroundMap
+      ? 'assets/images/map/underground.jpg'
+      : 'assets/images/map/0cutmap.jpg';
 
   @override
   void initState() {
@@ -353,76 +356,85 @@ class _MapPageState extends State<MapPage> {
       return _buildItemMarkerInfoCard(marker);
     }
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
-        setState(() {
-          _selectedMarker = null;
-        });
-      },
-      child: SafeArea(
-        minimum: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-        child: Container(
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.white24, width: 0.8),
-            image: const DecorationImage(
-              image: AssetImage('assets/images/background.png'),
-              fit: BoxFit.cover,
-            ),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black54,
-                blurRadius: 14,
-                offset: Offset(0, 6),
+    final contentLeftPadding =
+        16.0 +
+        (MediaQuery.sizeOf(context).width >= _desktopLayoutBreakpoint
+            ? _desktopInfoContentOffset
+            : 0.0);
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          setState(() {
+            _selectedMarker = null;
+          });
+        },
+        child: SafeArea(
+          minimum: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+          child: Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.white24, width: 0.8),
+              image: const DecorationImage(
+                image: AssetImage('assets/images/background.png'),
+                fit: BoxFit.cover,
               ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    _MapMarkerIcon(marker: marker, size: 28),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        marker.displayName,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black54,
+                  blurRadius: 14,
+                  offset: Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(contentLeftPadding, 14, 16, 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      _MapMarkerIcon(marker: marker, size: 28),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          marker.displayName,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
+                      ),
+                    ],
+                  ),
+                  if (marker.hasKoreanName &&
+                      marker.name.trim().isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      marker.name,
+                      style: TextStyle(
+                        color: Colors.grey[300],
+                        fontSize: 13,
+                        height: 1.3,
                       ),
                     ),
                   ],
-                ),
-                if (marker.hasKoreanName &&
-                    marker.name.trim().isNotEmpty) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 10),
                   Text(
-                    marker.name,
+                    marker.detailLabel,
                     style: TextStyle(
-                      color: Colors.grey[300],
-                      fontSize: 13,
-                      height: 1.3,
+                      color: Colors.amber[200],
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
-                const SizedBox(height: 10),
-                Text(
-                  marker.detailLabel,
-                  style: TextStyle(
-                    color: Colors.amber[200],
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -439,99 +451,107 @@ class _MapPageState extends State<MapPage> {
     final mediaSize = MediaQuery.sizeOf(context);
     final imageSize = math.min(92.0, mediaSize.width * 0.2);
     final cardHeight = math.max(104.0, imageSize + 24.0);
+    final contentLeftPadding =
+        12.0 +
+        (mediaSize.width >= _desktopLayoutBreakpoint
+            ? _desktopInfoContentOffset
+            : 0.0);
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
-        setState(() {
-          _selectedMarker = null;
-        });
-      },
-      child: SafeArea(
-        minimum: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-        child: Container(
-          height: cardHeight,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.white24, width: 0.8),
-            image: const DecorationImage(
-              image: AssetImage('assets/images/background.png'),
-              fit: BoxFit.cover,
-            ),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black54,
-                blurRadius: 14,
-                offset: Offset(0, 6),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          setState(() {
+            _selectedMarker = null;
+          });
+        },
+        child: SafeArea(
+          minimum: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+          child: Container(
+            height: cardHeight,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.white24, width: 0.8),
+              image: const DecorationImage(
+                image: AssetImage('assets/images/background.png'),
+                fit: BoxFit.cover,
               ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 12, 14, 12),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(
-                  width: imageSize,
-                  child: _MapMarkerIcon(
-                    marker: marker,
-                    size: imageSize,
-                    frameItemImage: false,
-                  ),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: SingleChildScrollView(
-                    primary: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          itemTitle,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        if (hasDifferentMarkerName) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            marker.displayName,
-                            style: TextStyle(
-                              color: Colors.grey[300],
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                        if (marker.hasKoreanName &&
-                            marker.name.trim().isNotEmpty) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            marker.name,
-                            style: TextStyle(
-                              color: Colors.grey[400],
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                        const SizedBox(height: 8),
-                        Text(
-                          itemContent?.metadata.isNotEmpty == true
-                              ? itemContent!.metadata
-                              : marker.detailLabel,
-                          style: TextStyle(
-                            color: Colors.amber[200],
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black54,
+                  blurRadius: 14,
+                  offset: Offset(0, 6),
                 ),
               ],
+            ),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(contentLeftPadding, 12, 14, 12),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
+                    width: imageSize,
+                    child: _MapMarkerIcon(
+                      marker: marker,
+                      size: imageSize,
+                      frameItemImage: false,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      primary: false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            itemTitle,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          if (hasDifferentMarkerName) ...[
+                            const SizedBox(height: 4),
+                            Text(
+                              marker.displayName,
+                              style: TextStyle(
+                                color: Colors.grey[300],
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                          if (marker.hasKoreanName &&
+                              marker.name.trim().isNotEmpty) ...[
+                            const SizedBox(height: 4),
+                            Text(
+                              marker.name,
+                              style: TextStyle(
+                                color: Colors.grey[400],
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                          const SizedBox(height: 8),
+                          Text(
+                            itemContent?.metadata.isNotEmpty == true
+                                ? itemContent!.metadata
+                                : marker.detailLabel,
+                            style: TextStyle(
+                              color: Colors.amber[200],
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -539,10 +559,7 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  void _focusMarkerIfNeeded(
-    List<MapMarkerData> markers,
-    Size viewportSize,
-  ) {
+  void _focusMarkerIfNeeded(List<MapMarkerData> markers, Size viewportSize) {
     final request = widget.focusRequest;
     if (request == null ||
         request.id == _handledFocusRequestId ||
@@ -693,12 +710,52 @@ class _MapPageState extends State<MapPage> {
                           child: Stack(
                             clipBehavior: Clip.none,
                             children: [
-                              Image.asset(
-                                _currentMapAsset,
-                                width: _currentMapWidth,
-                                height: _currentMapHeight,
-                                fit: BoxFit.fill,
-                              ),
+                              if (_isDlcMap)
+                                Image.network(
+                                  _dlcMapUrl,
+                                  width: _currentMapWidth,
+                                  height: _currentMapHeight,
+                                  fit: BoxFit.fill,
+                                  loadingBuilder: (context, child, progress) {
+                                    if (progress == null) return child;
+
+                                    final expectedBytes =
+                                        progress.expectedTotalBytes;
+                                    return SizedBox(
+                                      width: _currentMapWidth,
+                                      height: _currentMapHeight,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          value: expectedBytes == null
+                                              ? null
+                                              : progress.cumulativeBytesLoaded /
+                                                    expectedBytes,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return SizedBox(
+                                      width: _currentMapWidth,
+                                      height: _currentMapHeight,
+                                      child: const Center(
+                                        child: Text(
+                                          'DLC 지도 이미지를 불러오지 못했습니다.',
+                                          style: TextStyle(
+                                            color: Colors.white70,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                )
+                              else
+                                Image.asset(
+                                  _currentLocalMapAsset,
+                                  width: _currentMapWidth,
+                                  height: _currentMapHeight,
+                                  fit: BoxFit.fill,
+                                ),
                               for (final marker in markers) ...[
                                 Builder(
                                   builder: (context) {
@@ -715,12 +772,15 @@ class _MapPageState extends State<MapPage> {
                                           markerSize / 2,
                                       width: markerSize,
                                       height: markerSize,
-                                      child: GestureDetector(
-                                        behavior: HitTestBehavior.opaque,
-                                        onTap: () => _showMarkerInfo(marker),
-                                        child: _MapMarkerIcon(
-                                          marker: marker,
-                                          size: markerSize,
+                                      child: MouseRegion(
+                                        cursor: SystemMouseCursors.click,
+                                        child: GestureDetector(
+                                          behavior: HitTestBehavior.opaque,
+                                          onTap: () => _showMarkerInfo(marker),
+                                          child: _MapMarkerIcon(
+                                            marker: marker,
+                                            size: markerSize,
+                                          ),
                                         ),
                                       ),
                                     );
@@ -1480,11 +1540,7 @@ class MapItemContent {
   });
 
   MapItemContent withImageUrl(String value) {
-    return MapItemContent(
-      title: title,
-      imageUrl: value,
-      metadata: metadata,
-    );
+    return MapItemContent(title: title, imageUrl: value, metadata: metadata);
   }
 }
 
@@ -1742,9 +1798,7 @@ class MapRegionMarkerAssetResolver {
     '신수탑': ['divine tower'],
     '마술사탑': ['rise'],
   };
-  static final RegExp _dlcShackNamePattern = RegExp(
-    r'\b(hovel|rest|hut)\b',
-  );
+  static final RegExp _dlcShackNamePattern = RegExp(r'\b(hovel|rest|hut)\b');
 
   final Map<String, _MapRegionMarkerAsset> _assetsByBaseName;
   final List<_MapRegionMarkerAsset> _assets;
@@ -1894,7 +1948,10 @@ class MapRegionMarkerAssetResolver {
     return _imageExtensions.contains(extension);
   }
 
-  static Set<String> _normalizedNameSet(String? value, {required String region}) {
+  static Set<String> _normalizedNameSet(
+    String? value, {
+    required String region,
+  }) {
     if (value == null) return const <String>{};
 
     final normalizedValue = _normalize(value);
