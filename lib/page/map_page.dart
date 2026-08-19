@@ -90,6 +90,7 @@ class _MapPageState extends State<MapPage> {
   Size? _pendingViewportSize;
   int _viewportUpdateRevision = 0;
   MapMarkerData? _selectedMarker;
+  bool _isDlcMapImageLoading = false;
 
   bool get _isDlcMap => _selectedRegion == 'dlc';
 
@@ -111,6 +112,7 @@ class _MapPageState extends State<MapPage> {
   void initState() {
     super.initState();
     _selectedRegion = widget.selectedRegion;
+    _isDlcMapImageLoading = _isDlcMap;
     _controller.addListener(_handleViewportChanged);
   }
 
@@ -121,6 +123,7 @@ class _MapPageState extends State<MapPage> {
     if (oldWidget.selectedRegion != widget.selectedRegion) {
       _selectedRegion = widget.selectedRegion;
       _needsDefaultViewport = true;
+      _isDlcMapImageLoading = _isDlcMap;
     }
   }
 
@@ -144,6 +147,20 @@ class _MapPageState extends State<MapPage> {
       _lastViewportTranslation = translation;
       setState(() {});
     }
+  }
+
+  void _scheduleDlcMapImageLoading(bool isLoading) {
+    if (_isDlcMapImageLoading == isLoading) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_isDlcMap || _isDlcMapImageLoading == isLoading) {
+        return;
+      }
+
+      setState(() {
+        _isDlcMapImageLoading = isLoading;
+      });
+    });
   }
 
   Future<List<MapMarkerData>> _loadMarkers() async {
@@ -716,25 +733,21 @@ class _MapPageState extends State<MapPage> {
                                   width: _currentMapWidth,
                                   height: _currentMapHeight,
                                   fit: BoxFit.fill,
-                                  loadingBuilder: (context, child, progress) {
-                                    if (progress == null) return child;
-
-                                    final expectedBytes =
-                                        progress.expectedTotalBytes;
-                                    return SizedBox(
-                                      width: _currentMapWidth,
-                                      height: _currentMapHeight,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          value: expectedBytes == null
-                                              ? null
-                                              : progress.cumulativeBytesLoaded /
-                                                    expectedBytes,
-                                        ),
-                                      ),
-                                    );
-                                  },
+                                  frameBuilder:
+                                      (
+                                        context,
+                                        child,
+                                        frame,
+                                        wasSynchronouslyLoaded,
+                                      ) {
+                                        _scheduleDlcMapImageLoading(
+                                          !wasSynchronouslyLoaded &&
+                                              frame == null,
+                                        );
+                                        return child;
+                                      },
                                   errorBuilder: (context, error, stackTrace) {
+                                    _scheduleDlcMapImageLoading(false);
                                     return SizedBox(
                                       width: _currentMapWidth,
                                       height: _currentMapHeight,
@@ -793,6 +806,42 @@ class _MapPageState extends State<MapPage> {
                       ),
                     ),
                   ),
+                  if (_isDlcMap && _isDlcMapImageLoading)
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: ColoredBox(
+                          color: Color(0x66000000),
+                          child: Center(
+                            child: Semantics(
+                              label: 'DLC 지도 로딩 중',
+                              liveRegion: true,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 3,
+                                    ),
+                                  ),
+                                  SizedBox(height: 12),
+                                  Text(
+                                    'DLC 지도 불러오는 중...',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   if (_selectedMarker != null)
                     Positioned(
                       left: 0,
