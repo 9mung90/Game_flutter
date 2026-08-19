@@ -36,8 +36,8 @@ class _MapPageState extends State<MapPage> {
   static const double _undergroundMapWidth = 4864.0;
   static const double _undergroundMapHeight = 4608.0;
 
-  static const String _dlcMapUrl =
-      'https://coddingswitch.s3.ap-northeast-2.amazonaws.com/test/0dlc.png';
+  static const String _dlcMapAsset = 'assets/images/map/dlc.png';
+  static const AssetImage _dlcMapImageProvider = AssetImage(_dlcMapAsset);
 
   static const double _markerSize = 26.0;
   static const double _viewportPadding = 256.0;
@@ -89,6 +89,7 @@ class _MapPageState extends State<MapPage> {
   Size? _appliedViewportSize;
   Size? _pendingViewportSize;
   int _viewportUpdateRevision = 0;
+  int _dlcMapImageLoadRevision = 0;
   MapMarkerData? _selectedMarker;
   bool _isDlcMapImageLoading = false;
 
@@ -117,6 +118,15 @@ class _MapPageState extends State<MapPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_isDlcMap) {
+      _scheduleDlcMapImageLoad();
+    }
+  }
+
+  @override
   void didUpdateWidget(covariant MapPage oldWidget) {
     super.didUpdateWidget(oldWidget);
 
@@ -124,6 +134,12 @@ class _MapPageState extends State<MapPage> {
       _selectedRegion = widget.selectedRegion;
       _needsDefaultViewport = true;
       _isDlcMapImageLoading = _isDlcMap;
+
+      if (_isDlcMap) {
+        _scheduleDlcMapImageLoad();
+      } else {
+        _dlcMapImageLoadRevision++;
+      }
     }
   }
 
@@ -149,17 +165,34 @@ class _MapPageState extends State<MapPage> {
     }
   }
 
-  void _scheduleDlcMapImageLoading(bool isLoading) {
-    if (_isDlcMapImageLoading == isLoading) return;
+  void _scheduleDlcMapImageLoad() {
+    final revision = ++_dlcMapImageLoadRevision;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !_isDlcMap || _isDlcMapImageLoading == isLoading) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted || !_isDlcMap || revision != _dlcMapImageLoadRevision) {
+        return;
+      }
+
+      Object? loadError;
+      await precacheImage(
+        _dlcMapImageProvider,
+        context,
+        onError: (error, stackTrace) {
+          loadError = error;
+        },
+      );
+
+      if (!mounted || !_isDlcMap || revision != _dlcMapImageLoadRevision) {
         return;
       }
 
       setState(() {
-        _isDlcMapImageLoading = isLoading;
+        _isDlcMapImageLoading = false;
       });
+
+      if (loadError != null) {
+        debugPrint('Failed to precache DLC map image: $loadError');
+      }
     });
   }
 
@@ -728,26 +761,12 @@ class _MapPageState extends State<MapPage> {
                             clipBehavior: Clip.none,
                             children: [
                               if (_isDlcMap)
-                                Image.network(
-                                  _dlcMapUrl,
+                                Image(
+                                  image: _dlcMapImageProvider,
                                   width: _currentMapWidth,
                                   height: _currentMapHeight,
                                   fit: BoxFit.fill,
-                                  frameBuilder:
-                                      (
-                                        context,
-                                        child,
-                                        frame,
-                                        wasSynchronouslyLoaded,
-                                      ) {
-                                        _scheduleDlcMapImageLoading(
-                                          !wasSynchronouslyLoaded &&
-                                              frame == null,
-                                        );
-                                        return child;
-                                      },
                                   errorBuilder: (context, error, stackTrace) {
-                                    _scheduleDlcMapImageLoading(false);
                                     return SizedBox(
                                       width: _currentMapWidth,
                                       height: _currentMapHeight,
