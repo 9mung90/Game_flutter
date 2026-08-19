@@ -368,7 +368,7 @@ class _ListTopState extends State<ListTop> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         final isDesktop = MediaQuery.sizeOf(context).width >= 800;
-        final imageSize = isDesktop ? 1530.0 : 170.0;
+        final imageSize = isDesktop ? 510.0 : 170.0;
 
         return Dialog(
           backgroundColor: Colors.transparent,
