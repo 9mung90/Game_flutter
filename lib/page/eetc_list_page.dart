@@ -155,7 +155,7 @@ class _EEtcListPageState extends State<EEtcListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
-    final double descriptionLeftPadding = screenWidth >= 600.0 ? 20.0 : 8.0;
+    final double descriptionLeftPadding = screenWidth >= 600.0 ? 27.0 : 8.0;
 
     return FutureBuilder<List<EEtc>>(
       future: _futureEEtcs,
@@ -357,8 +357,8 @@ class _EEtcListPageState extends State<EEtcListPage> {
                             if (hasAbility) ...[
                               const SizedBox(height: 16),
                               Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 8.0,
+                                padding: EdgeInsets.only(
+                                  left: descriptionLeftPadding,
                                 ), // ← 설명이랑 같은 들여쓰기
                                 child: Text(
                                   etc.ability,

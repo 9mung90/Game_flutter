@@ -157,7 +157,7 @@ class _EAshListPageState extends State<EAshListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
-    final double descriptionLeftPadding = screenWidth >= 600.0 ? 20.0 : 8.0;
+    final double descriptionLeftPadding = screenWidth >= 600.0 ? 27.0 : 8.0;
 
     return FutureBuilder<List<EAsh>>(
       future: _futureEAshes,

@@ -153,7 +153,7 @@ class _EBoneListPageState extends State<EBoneListPage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     final double bottomPadding = MediaQuery.of(context).padding.bottom + 16.0;
-    final double descriptionLeftPadding = screenWidth >= 600.0 ? 20.0 : 8.0;
+    final double descriptionLeftPadding = screenWidth >= 600.0 ? 27.0 : 8.0;
 
     return FutureBuilder<List<EBone>>(
       future: _futureEBones,
@@ -396,7 +396,9 @@ class _EBoneListPageState extends State<EBoneListPage> {
                             // --- bget이 있을 때만 표시 ---
                             if (hasBget)
                               Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
+                                padding: EdgeInsets.only(
+                                  left: descriptionLeftPadding,
+                                ),
                                 child: Text(
                                   bone.bget,
                                   style: TextStyle(
