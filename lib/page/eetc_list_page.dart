@@ -8,6 +8,7 @@ import '../api_config.dart';
 import '../DTO/eetc.dart';
 import '../DTO/game.dart';
 import '../local_data/local_data_loader.dart'; // ⭐ 로컬 JSON 로더 추가
+import '../widget/integrated_category_badge.dart';
 
 /// 🔥 EEtc 전역 캐시 (이 파일 안에서만 사용)
 List<EEtc>? _eEtcCache;
@@ -27,6 +28,7 @@ class EEtcListPage extends StatefulWidget {
 
   final ValueChanged<String>? showOnMap;
   final bool Function(String title)? canShowOnMap;
+  final bool integratedSearchMode;
 
   const EEtcListPage({
     super.key,
@@ -35,6 +37,7 @@ class EEtcListPage extends StatefulWidget {
     required this.showImageDialog,
     this.showOnMap,
     this.canShowOnMap,
+    this.integratedSearchMode = false,
     this.typeFilter = '전체', // 기본: 전체 타입
     this.filterBase = true, // 기본: 본편 ON
     this.filterDlc = false, // 기본: DLC OFF
@@ -210,6 +213,7 @@ class _EEtcListPageState extends State<EEtcListPage> {
         }).toList();
 
         if (filtered.isEmpty) {
+          if (widget.integratedSearchMode) return const SizedBox.shrink();
           return const Center(
             child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
@@ -217,7 +221,16 @@ class _EEtcListPageState extends State<EEtcListPage> {
 
         return ListView.builder(
           primary: false,
-          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
+          shrinkWrap: widget.integratedSearchMode,
+          physics: widget.integratedSearchMode
+              ? const NeverScrollableScrollPhysics()
+              : null,
+          padding: EdgeInsets.fromLTRB(
+            8.0,
+            0.0,
+            8.0,
+            widget.integratedSearchMode ? 0.0 : bottomPadding,
+          ),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
             final etc = filtered[index];
@@ -300,12 +313,26 @@ class _EEtcListPageState extends State<EEtcListPage> {
                                   ),
                                   const SizedBox(height: 4),
                                   // 메타 정보: 타입만 표시
-                                  Text(
-                                    etc.type,
-                                    style: TextStyle(
-                                      color: Colors.grey[400],
-                                      fontSize: 13,
-                                    ),
+                                  Row(
+                                    children: [
+                                      if (widget.integratedSearchMode) ...[
+                                        const IntegratedCategoryBadge(
+                                          label: '기타',
+                                        ),
+                                        const SizedBox(width: 7),
+                                      ],
+                                      Flexible(
+                                        child: Text(
+                                          etc.type,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: Colors.grey[400],
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

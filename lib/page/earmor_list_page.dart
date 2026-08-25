@@ -9,6 +9,7 @@ import '../DTO/earmor.dart';
 import '../DTO/game.dart';
 import 'detail_image_view_page.dart';
 import '../local_data/local_data_loader.dart'; // ✅ 추가: 로컬 JSON 로더
+import '../widget/integrated_category_badge.dart';
 
 /// ⭐ 파일 전역 캐시: 이 파일 안에서만 쓰이는 방어구 캐시
 List<EArmor>? _eArmorCache;
@@ -29,6 +30,7 @@ class EArmorListPage extends StatefulWidget {
   final bool filterDlc;
   final ValueChanged<String>? showOnMap;
   final bool Function(String armorSetName)? canShowOnMap;
+  final bool integratedSearchMode;
 
   const EArmorListPage({
     super.key,
@@ -37,6 +39,7 @@ class EArmorListPage extends StatefulWidget {
     required this.showImageDialog,
     this.showOnMap,
     this.canShowOnMap,
+    this.integratedSearchMode = false,
     required this.partFilter, // 🔹 기존 필터
     this.filterBase = true, // 🔥 기본값: 본편만 ON
     this.filterDlc = false, // 🔥 기본값: DLC OFF
@@ -217,6 +220,7 @@ class _EArmorListPageState extends State<EArmorListPage> {
             [];
 
         if (filteredArmors.isEmpty) {
+          if (widget.integratedSearchMode) return const SizedBox.shrink();
           return const Center(
             child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
@@ -224,7 +228,16 @@ class _EArmorListPageState extends State<EArmorListPage> {
 
         return ListView.builder(
           primary: false,
-          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
+          shrinkWrap: widget.integratedSearchMode,
+          physics: widget.integratedSearchMode
+              ? const NeverScrollableScrollPhysics()
+              : null,
+          padding: EdgeInsets.fromLTRB(
+            8.0,
+            0.0,
+            8.0,
+            widget.integratedSearchMode ? 0.0 : bottomPadding,
+          ),
           itemCount: filteredArmors.length,
           itemBuilder: (context, index) {
             final armor = filteredArmors[index];
@@ -234,6 +247,7 @@ class _EArmorListPageState extends State<EArmorListPage> {
             final List<String> descriptionLines = _splitDescriptionWithParens(
               armor.description,
             );
+            final bool hasFind = armor.find.trim().isNotEmpty;
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -299,6 +313,12 @@ class _EArmorListPageState extends State<EArmorListPage> {
                                   const SizedBox(height: 4),
                                   Row(
                                     children: [
+                                      if (widget.integratedSearchMode) ...[
+                                        const IntegratedCategoryBadge(
+                                          label: '방어구',
+                                        ),
+                                        const SizedBox(width: 7),
+                                      ],
                                       Text(
                                         armor.part,
                                         style: TextStyle(
@@ -371,6 +391,23 @@ class _EArmorListPageState extends State<EArmorListPage> {
                                   ],
                               ],
                             ),
+
+                            if (hasFind) ...[
+                              const SizedBox(height: 12),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: descriptionLeftPadding,
+                                ),
+                                child: Text(
+                                  armor.find,
+                                  style: TextStyle(
+                                    color: Colors.grey[300],
+                                    fontSize: 14,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ),
+                            ],
 
                             const SizedBox(height: 12),
                             if (widget.showOnMap != null &&

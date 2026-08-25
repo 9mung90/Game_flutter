@@ -8,6 +8,7 @@ class ETalisman {
   final String description;
   final String ability;
   final String img; // 목록에 표시될 기본 이미지 URL
+  final String find;
 
   ETalisman({
     required this.id,
@@ -16,6 +17,7 @@ class ETalisman {
     required this.description,
     required this.ability,
     required this.img,
+    required this.find,
   });
 
   // JSON 데이터를 ETalisman 객체로 변환해주는 팩토리 생성자입니다.
@@ -28,6 +30,7 @@ class ETalisman {
       description: json['description'] ?? '설명이 없습니다.',
       ability: json['ability'] ?? '능력 정보가 없습니다.',
       img: json['img'] ?? '',
+      find: json['find'] ?? '',
     );
   }
 }

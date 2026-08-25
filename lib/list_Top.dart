@@ -23,6 +23,7 @@ import 'package:forspeech/page/espell_list_page.dart';
 import 'page/ebone_list_page.dart';
 import 'page/eetc_list_page.dart';
 import 'page/etalisman_list_page.dart';
+import 'page/integrated_search_page.dart';
 import 'page/map_page.dart';
 
 // ⭐ 제스처 리스트 페이지
@@ -47,7 +48,7 @@ class ListTop extends StatefulWidget {
 
 class _ListTopState extends State<ListTop> {
   static const double _sideNavigationBreakpoint = 600.0;
-  static const List<int> _pageTabOrder = [8, 0, 1, 2, 3, 4, 5, 6, 7];
+  static const List<int> _pageTabOrder = [9, 8, 0, 1, 2, 3, 4, 5, 6, 7];
 
   static int _pageIndexForTab(int tabIndex) {
     final pageIndex = _pageTabOrder.indexOf(tabIndex);
@@ -60,7 +61,7 @@ class _ListTopState extends State<ListTop> {
   }
 
   final TextEditingController _searchController = TextEditingController();
-  final PageController _pageController = PageController(initialPage: 1);
+  final PageController _pageController = PageController(initialPage: 2);
   final ScrollController _tabScrollController = ScrollController();
 
   // 🔥 검색창 포커스 제어용 FocusNode 추가
@@ -338,7 +339,11 @@ class _ListTopState extends State<ListTop> {
     const double itemWidth = 58.0;
     final double screenWidth = MediaQuery.of(context).size.width;
 
-    final int visualIndex = index == 8 ? 0 : index + 1;
+    final int visualIndex = switch (index) {
+      9 => 0,
+      8 => 1,
+      _ => index + 2,
+    };
     double targetOffset =
         itemWidth * visualIndex - (screenWidth - itemWidth) / 2;
 
@@ -424,9 +429,7 @@ class _ListTopState extends State<ListTop> {
     if (match == null) {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(content: Text('"$title" 지도 위치를 찾을 수 없습니다.')),
-        );
+        ..showSnackBar(SnackBar(content: Text('"$title" 지도 위치를 찾을 수 없습니다.')));
       return;
     }
 
@@ -579,9 +582,7 @@ class _ListTopState extends State<ListTop> {
     if (matches.isEmpty) {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(content: Text('"$title" 지도 위치를 찾을 수 없습니다.')),
-        );
+        ..showSnackBar(SnackBar(content: Text('"$title" 지도 위치를 찾을 수 없습니다.')));
       return;
     }
 
@@ -737,9 +738,7 @@ class _ListTopState extends State<ListTop> {
       }
 
       final korName = item['kor_name'] as String?;
-      if (category == 'armor' &&
-          korName != null &&
-          korName.contains(' 세트')) {
+      if (category == 'armor' && korName != null && korName.contains(' 세트')) {
         final setName = _normalizeMapItemName(korName.split(' 세트').first);
         if (setName.isNotEmpty) {
           keys.add(_mapAvailabilityKey('armor_set', setName));
@@ -774,7 +773,9 @@ class _ListTopState extends State<ListTop> {
     final setName = _normalizeMapItemName(armorSetName);
     return setName.isNotEmpty &&
         setName != _normalizeMapItemName('없음') &&
-        _availableMapItemKeys.contains(_mapAvailabilityKey('armor_set', setName));
+        _availableMapItemKeys.contains(
+          _mapAvailabilityKey('armor_set', setName),
+        );
   }
 
   Set<String> _mapItemNameVariants(String value) {
@@ -823,6 +824,7 @@ class _ListTopState extends State<ListTop> {
     result = result.replaceAll(RegExp(r'\s+'), '');
     return result.trim();
   }
+
   // 🔹 현재 탭에 "기존 필터"(리스트 필터)가 있는지 여부
   bool _hasFilterForCurrentTab() {
     return _selectedIndex == 0 || // 무기
@@ -3113,6 +3115,7 @@ class _ListTopState extends State<ListTop> {
 
   Widget _buildSideNavigation() {
     const items = <({int index, String iconPath, String label})>[
+      (index: 9, iconPath: 'assets/images/random_Icon.png', label: '통합'),
       (
         index: 8,
         iconPath: 'assets/images/map_assets/map_Icon.png',
@@ -3122,11 +3125,7 @@ class _ListTopState extends State<ListTop> {
       (index: 1, iconPath: 'assets/images/armor_Icon.png', label: '방어구'),
       (index: 2, iconPath: 'assets/images/ash_Icon.png', label: '전회'),
       (index: 3, iconPath: 'assets/images/ESpell_Icon.png', label: '주문'),
-      (
-        index: 4,
-        iconPath: 'assets/images/ETalisman_Icon.png',
-        label: '탈리스만',
-      ),
+      (index: 4, iconPath: 'assets/images/ETalisman_Icon.png', label: '탈리스만'),
       (index: 5, iconPath: 'assets/images/ai_Icon.png', label: '영체'),
       (index: 6, iconPath: 'assets/images/etc_Icon.png', label: '기타'),
       (index: 7, iconPath: 'assets/images/EGesture_Icon.png', label: '제스처'),
@@ -3244,6 +3243,131 @@ class _ListTopState extends State<ListTop> {
     );
   }
 
+  List<Widget> _buildIntegratedResultPages(String searchQuery) {
+    return [
+      EWeaponListPage(
+        key: const ValueKey('integrated-weapons'),
+        game: widget.game,
+        searchQuery: searchQuery,
+        showImageDialog: _showImageDialog,
+        navigateToDetailViewer: _navigateToDetailViewer,
+        showOnMap: (title) =>
+            _showItemOnMap(title, const {'item:weapon', 'item:shield'}),
+        canShowOnMap: (title) =>
+            _hasMapItem(title, const {'item:weapon', 'item:shield'}),
+        genreFilter: '전체',
+        subTypeFilter: '전체',
+        filterNormalEnhance: false,
+        filterSpecialEnhance: false,
+        filterLegend: false,
+        filterBase: false,
+        filterDlc: false,
+        integratedSearchMode: true,
+      ),
+      EArmorListPage(
+        key: const ValueKey('integrated-armors'),
+        game: widget.game,
+        searchQuery: searchQuery,
+        showImageDialog: _showImageDialog,
+        showOnMap: _showArmorSetOnMap,
+        canShowOnMap: _hasArmorSetMapItem,
+        partFilter: '전체',
+        filterBase: false,
+        filterDlc: false,
+        integratedSearchMode: true,
+      ),
+      EAshListPage(
+        key: const ValueKey('integrated-ashes'),
+        game: widget.game,
+        searchQuery: searchQuery,
+        showImageDialog: _showImageDialog,
+        showOnMap: (title) => _showItemOnMap(title, const {'item:ash_of_war'}),
+        canShowOnMap: (title) => _hasMapItem(title, const {'item:ash_of_war'}),
+        propertyFilter: '전체',
+        filterBase: false,
+        filterDlc: false,
+        integratedSearchMode: true,
+      ),
+      ESpellListPage(
+        key: const ValueKey('integrated-spells'),
+        game: widget.game,
+        searchQuery: searchQuery,
+        showImageDialog: _showImageDialog,
+        showOnMap: (title) => _showItemOnMap(title, const {'item:spell'}),
+        canShowOnMap: (title) => _hasMapItem(title, const {'item:spell'}),
+        filterBase: false,
+        filterDlc: false,
+        filterLegend: false,
+        spellKindFilter: '전체',
+        spellTypeFilter: '전체',
+        integratedSearchMode: true,
+      ),
+      ETalismanListPage(
+        key: const ValueKey('integrated-talismans'),
+        game: widget.game,
+        searchQuery: searchQuery,
+        showImageDialog: _showImageDialog,
+        showOnMap: (title) => _showItemOnMap(title, const {'item:talisman'}),
+        canShowOnMap: (title) => _hasMapItem(title, const {'item:talisman'}),
+        filterBase: false,
+        filterDlc: false,
+        filterLegend: false,
+        integratedSearchMode: true,
+      ),
+      EBoneListPage(
+        key: const ValueKey('integrated-bones'),
+        game: widget.game,
+        searchQuery: searchQuery,
+        showImageDialog: _showImageDialog,
+        showOnMap: (title) => _showItemOnMap(title, const {'item:spirit_ash'}),
+        canShowOnMap: (title) => _hasMapItem(title, const {'item:spirit_ash'}),
+        filterNormalEnhance: false,
+        filterSpecialEnhance: false,
+        filterLegend: false,
+        filterBase: false,
+        filterDlc: false,
+        integratedSearchMode: true,
+      ),
+      EEtcListPage(
+        key: const ValueKey('integrated-etcs'),
+        game: widget.game,
+        searchQuery: searchQuery,
+        showImageDialog: _showImageDialog,
+        showOnMap: (title) => _showMapItemsOnMap(title, const {
+          'item:consumable',
+          'item:flask_upgrade',
+          'item:key_item',
+          'item:map_fragment',
+          'item:material',
+          'item:upgrade_material',
+        }),
+        canShowOnMap: (title) => _hasMapItem(title, const {
+          'item:consumable',
+          'item:flask_upgrade',
+          'item:key_item',
+          'item:map_fragment',
+          'item:material',
+          'item:upgrade_material',
+        }),
+        typeFilter: '전체',
+        filterBase: false,
+        filterDlc: false,
+        integratedSearchMode: true,
+      ),
+      EGestureListPage(
+        key: const ValueKey('integrated-gestures'),
+        game: widget.game,
+        searchQuery: searchQuery,
+        showImageDialog: _showImageDialog,
+        showOnMap: (title) => _showItemOnMap(title, const {'item:gesture'}),
+        canShowOnMap: (title) => _hasMapItem(title, const {'item:gesture'}),
+        filterBase: false,
+        filterDlc: false,
+        integratedSearchMode: true,
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool useSideNavigation =
@@ -3278,6 +3402,11 @@ class _ListTopState extends State<ListTop> {
     };
 
     final List<Widget> _pages = [
+      IntegratedSearchPage(
+        game: widget.game,
+        searchQuery: _searchQuery,
+        resultPages: _buildIntegratedResultPages(_searchQuery.trim()),
+      ),
       MapPage(
         searchQuery: _searchQuery,
         enabledCategories: _enabledMapMarkerCategories,
@@ -3290,14 +3419,10 @@ class _ListTopState extends State<ListTop> {
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
         navigateToDetailViewer: _navigateToDetailViewer,
-        showOnMap: (title) => _showItemOnMap(
-          title,
-          const {'item:weapon', 'item:shield'},
-        ),
-        canShowOnMap: (title) => _hasMapItem(
-          title,
-          const {'item:weapon', 'item:shield'},
-        ),
+        showOnMap: (title) =>
+            _showItemOnMap(title, const {'item:weapon', 'item:shield'}),
+        canShowOnMap: (title) =>
+            _hasMapItem(title, const {'item:weapon', 'item:shield'}),
         genreFilter: _weaponMainFilter,
         subTypeFilter: _weaponSubFilter,
         filterNormalEnhance: _weaponFilterNormalEnhance,
@@ -3320,14 +3445,8 @@ class _ListTopState extends State<ListTop> {
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
-        showOnMap: (title) => _showItemOnMap(
-          title,
-          const {'item:ash_of_war'},
-        ),
-        canShowOnMap: (title) => _hasMapItem(
-          title,
-          const {'item:ash_of_war'},
-        ),
+        showOnMap: (title) => _showItemOnMap(title, const {'item:ash_of_war'}),
+        canShowOnMap: (title) => _hasMapItem(title, const {'item:ash_of_war'}),
         propertyFilter: _ashPropertyFilter,
         filterBase: _ashFilterBase,
         filterDlc: _ashFilterDlc,
@@ -3336,14 +3455,8 @@ class _ListTopState extends State<ListTop> {
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
-        showOnMap: (title) => _showItemOnMap(
-          title,
-          const {'item:spell'},
-        ),
-        canShowOnMap: (title) => _hasMapItem(
-          title,
-          const {'item:spell'},
-        ),
+        showOnMap: (title) => _showItemOnMap(title, const {'item:spell'}),
+        canShowOnMap: (title) => _hasMapItem(title, const {'item:spell'}),
         filterBase: _spellFilterBase,
         filterDlc: _spellFilterDlc,
         filterLegend: _spellFilterLegend,
@@ -3354,14 +3467,8 @@ class _ListTopState extends State<ListTop> {
         game: widget.game,
         searchQuery: _searchQuery,
         showImageDialog: _showImageDialog,
-        showOnMap: (title) => _showItemOnMap(
-          title,
-          const {'item:talisman'},
-        ),
-        canShowOnMap: (title) => _hasMapItem(
-          title,
-          const {'item:talisman'},
-        ),
+        showOnMap: (title) => _showItemOnMap(title, const {'item:talisman'}),
+        canShowOnMap: (title) => _hasMapItem(title, const {'item:talisman'}),
         filterBase: _talismanFilterBase,
         filterDlc: _talismanFilterDlc,
         filterLegend: _talismanFilterLegend,
@@ -3426,284 +3533,291 @@ class _ListTopState extends State<ListTop> {
         appBar: useSideNavigation
             ? null
             : AppBar(
-          iconTheme: const IconThemeData(color: Colors.white),
-          backgroundColor: Colors.grey[900],
-          title: Row(
-            children: [
-              Image.asset(
-                'assets/images/grace_Icon2.png',
-                width: 32,
-                height: 32,
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  widget.game.title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+                iconTheme: const IconThemeData(color: Colors.white),
+                backgroundColor: Colors.grey[900],
+                title: Row(
+                  children: [
+                    Image.asset(
+                      'assets/images/grace_Icon2.png',
+                      width: 32,
+                      height: 32,
+                      fit: BoxFit.cover,
+                    ),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        widget.game.title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
+                elevation: 0,
               ),
-            ],
-          ),
-          elevation: 0,
-        ),
         body: Row(
           children: [
             if (useSideNavigation) _buildSideNavigation(),
             Expanded(
               child: Column(
                 children: [
-            // ✅ 업데이트 알림 박스 추가
-            if (_showUpdateNotice && _versionInfo != null)
-              _buildUpdateNoticeBox(),
+                  // ✅ 업데이트 알림 박스 추가
+                  if (_showUpdateNotice && _versionInfo != null)
+                    _buildUpdateNoticeBox(),
 
-            // 🔹 검색창
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 8, 8, 5),
-              child: TextField(
-                controller: _searchController,
-                focusNode: _searchFocusNode,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: '아이템 이름으로 검색...',
-                  hintStyle: TextStyle(color: Colors.grey[500]),
-                  prefixIcon: Icon(Icons.search, color: Colors.grey[500]),
-                  suffixIcon: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (_searchQuery.isNotEmpty)
-                        IconButton(
-                          icon: const Icon(Icons.clear),
-                          color: Colors.white70,
-                          tooltip: '검색어 지우기',
-                          onPressed: () => _searchController.clear(),
+                  // 🔹 검색창
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 5),
+                    child: TextField(
+                      controller: _searchController,
+                      focusNode: _searchFocusNode,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: '아이템 이름으로 검색...',
+                        hintStyle: TextStyle(color: Colors.grey[500]),
+                        prefixIcon: Icon(Icons.search, color: Colors.grey[500]),
+                        suffixIcon: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (_searchQuery.isNotEmpty)
+                              IconButton(
+                                icon: const Icon(Icons.clear),
+                                color: Colors.white70,
+                                tooltip: '검색어 지우기',
+                                onPressed: () => _searchController.clear(),
+                              ),
+                            IconButton(
+                              icon: const Icon(Icons.filter_alt_outlined),
+                              color: extraFilterIconColor,
+                              tooltip: _extraFilterTooltip(),
+                              onPressed: _extraFilterAction(),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.tune),
+                              color: filterIconColor,
+                              tooltip: hasFilter ? '필터' : '필터 없음',
+                              onPressed: hasFilter ? _openFilterSheet : null,
+                            ),
+                          ],
                         ),
-                      IconButton(
-                        icon: const Icon(Icons.filter_alt_outlined),
-                        color: extraFilterIconColor,
-                        tooltip: _extraFilterTooltip(),
-                        onPressed: _extraFilterAction(),
+                        filled: true,
+                        fillColor: const Color.fromRGBO(33, 33, 33, 1),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.tune),
-                        color: filterIconColor,
-                        tooltip: hasFilter ? '필터' : '필터 없음',
-                        onPressed: hasFilter ? _openFilterSheet : null,
+                    ),
+                  ),
+
+                  if (!useSideNavigation)
+                    Container(
+                      height: 60,
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 3.0,
+                        vertical: 0.0,
                       ),
-                    ],
-                  ),
-                  filled: true,
-                  fillColor: const Color.fromRGBO(33, 33, 33, 1),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-            ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: ListView(
+                        controller: _tabScrollController,
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+                          _buildCategoryButton(
+                            iconPath: 'assets/images/random_Icon.png',
+                            label: '통합',
+                            index: 9,
+                            currentIndex: _selectedIndex,
+                            onTap: _selectCategory,
+                          ),
+                          _buildCategoryButton(
+                            iconPath: 'assets/images/map_assets/map_Icon.png',
+                            label: '맵',
+                            index: 8,
+                            currentIndex: _selectedIndex,
+                            onTap: (index) {
+                              setState(() {
+                                _selectedIndex = index;
+                                _searchController.clear();
+                              });
+                              _pageController.animateToPage(
+                                _pageIndexForTab(index),
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.easeInOut,
+                              );
+                              _scrollToCategory(index);
+                            },
+                          ),
+                          _buildCategoryButton(
+                            iconPath: 'assets/images/weapon_Icon.png',
+                            label: '무기',
+                            index: 0,
+                            currentIndex: _selectedIndex,
+                            onTap: (index) {
+                              setState(() {
+                                _selectedIndex = index;
+                                _searchController.clear();
+                              });
+                              _pageController.animateToPage(
+                                _pageIndexForTab(index),
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.easeInOut,
+                              );
+                              _scrollToCategory(index);
+                            },
+                          ),
+                          _buildCategoryButton(
+                            iconPath: 'assets/images/armor_Icon.png',
+                            label: '방어구',
+                            index: 1,
+                            currentIndex: _selectedIndex,
+                            onTap: (index) {
+                              setState(() {
+                                _selectedIndex = index;
+                                _searchController.clear();
+                              });
+                              _pageController.animateToPage(
+                                _pageIndexForTab(index),
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.easeInOut,
+                              );
+                              _scrollToCategory(index);
+                            },
+                          ),
+                          _buildCategoryButton(
+                            iconPath: 'assets/images/ash_Icon.png',
+                            label: '전회',
+                            index: 2,
+                            currentIndex: _selectedIndex,
+                            onTap: (index) {
+                              setState(() {
+                                _selectedIndex = index;
+                                _searchController.clear();
+                              });
+                              _pageController.animateToPage(
+                                _pageIndexForTab(index),
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.easeInOut,
+                              );
+                              _scrollToCategory(index);
+                            },
+                          ),
+                          _buildCategoryButton(
+                            iconPath: 'assets/images/ESpell_Icon.png',
+                            label: '마술,기도',
+                            index: 3,
+                            currentIndex: _selectedIndex,
+                            onTap: (index) {
+                              setState(() {
+                                _selectedIndex = index;
+                                _searchController.clear();
+                              });
+                              _pageController.animateToPage(
+                                _pageIndexForTab(index),
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.easeInOut,
+                              );
+                              _scrollToCategory(index);
+                            },
+                          ),
+                          _buildCategoryButton(
+                            iconPath: 'assets/images/ETalisman_Icon.png',
+                            label: '탈리스만',
+                            index: 4,
+                            currentIndex: _selectedIndex,
+                            onTap: (index) {
+                              setState(() {
+                                _selectedIndex = index;
+                                _searchController.clear();
+                              });
+                              _pageController.animateToPage(
+                                _pageIndexForTab(index),
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.easeInOut,
+                              );
+                              _scrollToCategory(index);
+                            },
+                          ),
+                          _buildCategoryButton(
+                            iconPath: 'assets/images/ai_Icon.png',
+                            label: '뼛가루',
+                            index: 5,
+                            currentIndex: _selectedIndex,
+                            onTap: (index) {
+                              setState(() {
+                                _selectedIndex = index;
+                                _searchController.clear();
+                              });
+                              _pageController.animateToPage(
+                                _pageIndexForTab(index),
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.easeInOut,
+                              );
+                              _scrollToCategory(index);
+                            },
+                          ),
+                          _buildCategoryButton(
+                            iconPath: 'assets/images/etc_Icon.png',
+                            label: '기타',
+                            index: 6,
+                            currentIndex: _selectedIndex,
+                            onTap: (index) {
+                              setState(() {
+                                _selectedIndex = index;
+                                _searchController.clear();
+                              });
+                              _pageController.animateToPage(
+                                _pageIndexForTab(index),
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.easeInOut,
+                              );
+                              _scrollToCategory(index);
+                            },
+                          ),
+                          _buildCategoryButton(
+                            iconPath: 'assets/images/EGesture_Icon.png',
+                            label: '제스처',
+                            index: 7,
+                            currentIndex: _selectedIndex,
+                            onTap: (index) {
+                              setState(() {
+                                _selectedIndex = index;
+                                _searchController.clear();
+                              });
+                              _pageController.animateToPage(
+                                _pageIndexForTab(index),
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.easeInOut,
+                              );
+                              _scrollToCategory(index);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
 
-            if (!useSideNavigation)
-              Container(
-              height: 60,
-              margin: const EdgeInsets.symmetric(
-                horizontal: 3.0,
-                vertical: 0.0,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: ListView(
-                controller: _tabScrollController,
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  _buildCategoryButton(
-                    iconPath: 'assets/images/map_assets/map_Icon.png',
-                    label: '맵',
-                    index: 8,
-                    currentIndex: _selectedIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                        _searchController.clear();
-                      });
-                      _pageController.animateToPage(
-                        _pageIndexForTab(index),
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                      );
-                      _scrollToCategory(index);
-                    },
-                  ),
-                  _buildCategoryButton(
-                    iconPath: 'assets/images/weapon_Icon.png',
-                    label: '무기',
-                    index: 0,
-                    currentIndex: _selectedIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                        _searchController.clear();
-                      });
-                      _pageController.animateToPage(
-                        _pageIndexForTab(index),
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                      );
-                      _scrollToCategory(index);
-                    },
-                  ),
-                  _buildCategoryButton(
-                    iconPath: 'assets/images/armor_Icon.png',
-                    label: '방어구',
-                    index: 1,
-                    currentIndex: _selectedIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                        _searchController.clear();
-                      });
-                      _pageController.animateToPage(
-                        _pageIndexForTab(index),
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                      );
-                      _scrollToCategory(index);
-                    },
-                  ),
-                  _buildCategoryButton(
-                    iconPath: 'assets/images/ash_Icon.png',
-                    label: '전회',
-                    index: 2,
-                    currentIndex: _selectedIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                        _searchController.clear();
-                      });
-                      _pageController.animateToPage(
-                        _pageIndexForTab(index),
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                      );
-                      _scrollToCategory(index);
-                    },
-                  ),
-                  _buildCategoryButton(
-                    iconPath: 'assets/images/ESpell_Icon.png',
-                    label: '마술,기도',
-                    index: 3,
-                    currentIndex: _selectedIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                        _searchController.clear();
-                      });
-                      _pageController.animateToPage(
-                        _pageIndexForTab(index),
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                      );
-                      _scrollToCategory(index);
-                    },
-                  ),
-                  _buildCategoryButton(
-                    iconPath: 'assets/images/ETalisman_Icon.png',
-                    label: '탈리스만',
-                    index: 4,
-                    currentIndex: _selectedIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                        _searchController.clear();
-                      });
-                      _pageController.animateToPage(
-                        _pageIndexForTab(index),
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                      );
-                      _scrollToCategory(index);
-                    },
-                  ),
-                  _buildCategoryButton(
-                    iconPath: 'assets/images/ai_Icon.png',
-                    label: '뼛가루',
-                    index: 5,
-                    currentIndex: _selectedIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                        _searchController.clear();
-                      });
-                      _pageController.animateToPage(
-                        _pageIndexForTab(index),
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                      );
-                      _scrollToCategory(index);
-                    },
-                  ),
-                  _buildCategoryButton(
-                    iconPath: 'assets/images/etc_Icon.png',
-                    label: '기타',
-                    index: 6,
-                    currentIndex: _selectedIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                        _searchController.clear();
-                      });
-                      _pageController.animateToPage(
-                        _pageIndexForTab(index),
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                      );
-                      _scrollToCategory(index);
-                    },
-                  ),
-                  _buildCategoryButton(
-                    iconPath: 'assets/images/EGesture_Icon.png',
-                    label: '제스처',
-                    index: 7,
-                    currentIndex: _selectedIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                        _searchController.clear();
-                      });
-                      _pageController.animateToPage(
-                        _pageIndexForTab(index),
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                      );
-                      _scrollToCategory(index);
-                    },
-                  ),
-                ],
-              ),
-            ),
+                  if (!useSideNavigation) const SizedBox(height: 8),
 
-            if (!useSideNavigation) const SizedBox(height: 8),
-
-            Expanded(
-              child: PageView(
-                controller: _pageController,
-                physics: _selectedIndex == 8
-                    ? const NeverScrollableScrollPhysics()
-                    : const PageScrollPhysics(),
-                onPageChanged: (index) {
-                  final tabIndex = _tabIndexForPage(index);
-                  setState(() {
-                    _selectedIndex = tabIndex;
-                  });
-                  _scrollToCategory(tabIndex);
-                },
-                children: _pages,
-              ),
-            ),
+                  Expanded(
+                    child: PageView(
+                      controller: _pageController,
+                      physics: _selectedIndex == 8
+                          ? const NeverScrollableScrollPhysics()
+                          : const PageScrollPhysics(),
+                      onPageChanged: (index) {
+                        final tabIndex = _tabIndexForPage(index);
+                        setState(() {
+                          _selectedIndex = tabIndex;
+                        });
+                        _scrollToCategory(tabIndex);
+                      },
+                      children: _pages,
+                    ),
+                  ),
                 ],
               ),
             ),

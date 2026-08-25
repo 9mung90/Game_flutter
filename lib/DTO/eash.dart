@@ -7,8 +7,9 @@ class EAsh {
   final String title;
   final String property;
   final String description;
-  final String img;  // 목록에 표시될 기본 이미지
+  final String img; // 목록에 표시될 기본 이미지
   final String gif;
+  final String find;
 
   EAsh({
     required this.id,
@@ -18,7 +19,7 @@ class EAsh {
     required this.description,
     required this.img,
     required this.gif,
-
+    required this.find,
   });
 
   // JSON 데이터를 EWeapon 객체로 변환해주는 팩토리 생성자입니다.
@@ -32,6 +33,7 @@ class EAsh {
       description: json['description'] ?? '설명이 없습니다.',
       img: json['img'] ?? '',
       gif: json['gif'] ?? '',
+      find: json['find'] ?? '',
     );
   }
 }

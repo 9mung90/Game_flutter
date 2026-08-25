@@ -7,9 +7,10 @@ class EWeapon {
   final String title;
   final String genre;
   final String type;
-  final String img;  // 목록에 표시될 기본 이미지
+  final String img; // 목록에 표시될 기본 이미지
   final String img2; // 확장 시 보일 상세 이미지
   final String description; // 확장 시 보일 설명
+  final String find;
 
   EWeapon({
     required this.id,
@@ -20,6 +21,7 @@ class EWeapon {
     required this.img,
     required this.img2,
     required this.description,
+    required this.find,
   });
 
   // JSON 데이터를 EWeapon 객체로 변환해주는 팩토리 생성자입니다.
@@ -34,6 +36,7 @@ class EWeapon {
       img: json['img'] ?? '',
       img2: json['img2'] ?? '',
       description: json['description'] ?? '설명이 없습니다.',
+      find: json['find'] ?? '',
     );
   }
 }

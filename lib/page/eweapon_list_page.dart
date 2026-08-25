@@ -10,6 +10,7 @@ import '../DTO/game.dart';
 import 'weapon_detail_page.dart';
 import 'detail_image_view_page.dart';
 import '../local_data/local_data_loader.dart'; // ✅ 로컬 JSON 로더 추가
+import '../widget/integrated_category_badge.dart';
 
 /// 🔥 EWeapon 전역 캐시 (이 파일 안에서만 사용)
 List<EWeapon>? _eWeaponCache;
@@ -34,6 +35,7 @@ class EWeaponListPage extends StatefulWidget {
 
   final ValueChanged<String>? showOnMap;
   final bool Function(String title)? canShowOnMap;
+  final bool integratedSearchMode;
 
   const EWeaponListPage({
     super.key,
@@ -43,6 +45,7 @@ class EWeaponListPage extends StatefulWidget {
     required this.navigateToDetailViewer,
     this.showOnMap,
     this.canShowOnMap,
+    this.integratedSearchMode = false,
     required this.genreFilter,
     required this.subTypeFilter,
     this.filterNormalEnhance = false,
@@ -279,6 +282,7 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
             [];
 
         if (filteredWeapons.isEmpty) {
+          if (widget.integratedSearchMode) return const SizedBox.shrink();
           return const Center(
             child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
@@ -286,7 +290,16 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
 
         return ListView.builder(
           primary: false,
-          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
+          shrinkWrap: widget.integratedSearchMode,
+          physics: widget.integratedSearchMode
+              ? const NeverScrollableScrollPhysics()
+              : null,
+          padding: EdgeInsets.fromLTRB(
+            8.0,
+            0.0,
+            8.0,
+            widget.integratedSearchMode ? 0.0 : bottomPadding,
+          ),
           itemCount: filteredWeapons.length,
           itemBuilder: (context, index) {
             final weapon = filteredWeapons[index];
@@ -295,6 +308,7 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
             final List<String> descriptionLines = _splitDescriptionWithParens(
               weapon.description,
             );
+            final bool hasFind = weapon.find.trim().isNotEmpty;
 
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -360,6 +374,12 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                   const SizedBox(height: 4),
                                   Row(
                                     children: [
+                                      if (widget.integratedSearchMode) ...[
+                                        const IntegratedCategoryBadge(
+                                          label: '무기',
+                                        ),
+                                        const SizedBox(width: 7),
+                                      ],
                                       Text(
                                         weapon.type,
                                         style: TextStyle(
@@ -458,6 +478,24 @@ class _EWeaponListPageState extends State<EWeaponListPage> {
                                   ],
                               ],
                             ),
+
+                            if (hasFind) ...[
+                              const SizedBox(height: 12),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: descriptionLeftPadding,
+                                ),
+                                child: Text(
+                                  weapon.find,
+                                  style: TextStyle(
+                                    color: Colors.grey[300],
+                                    fontSize: 14,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ),
+                            ],
+
                             const SizedBox(height: 12),
                             GestureDetector(
                               // 전에 무기 상세 이미지 보여주던 코드

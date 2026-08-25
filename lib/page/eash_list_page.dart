@@ -8,6 +8,7 @@ import '../../api_config.dart';
 import '../local_data/local_data_loader.dart'; // ✅ 로컬 JSON 로더
 import '../DTO/eash.dart'; // ✅ EAsh DTO 사용
 import '../DTO/game.dart';
+import '../widget/integrated_category_badge.dart';
 
 /// ⭐ EAsh 전역 캐시 (이 파일 안에서만 사용)
 List<EAsh>? _eAshCache;
@@ -29,6 +30,7 @@ class EAshListPage extends StatefulWidget {
 
   final ValueChanged<String>? showOnMap;
   final bool Function(String title)? canShowOnMap;
+  final bool integratedSearchMode;
 
   const EAshListPage({
     super.key,
@@ -38,6 +40,7 @@ class EAshListPage extends StatefulWidget {
     required this.propertyFilter,
     this.showOnMap,
     this.canShowOnMap,
+    this.integratedSearchMode = false,
     this.filterBase = true, // 기본: 본편 ON
     this.filterDlc = false, // 기본: DLC OFF
   });
@@ -216,6 +219,7 @@ class _EAshListPageState extends State<EAshListPage> {
         }).toList();
 
         if (filtered.isEmpty) {
+          if (widget.integratedSearchMode) return const SizedBox.shrink();
           return const Center(
             child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
@@ -223,7 +227,16 @@ class _EAshListPageState extends State<EAshListPage> {
 
         return ListView.builder(
           primary: false,
-          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
+          shrinkWrap: widget.integratedSearchMode,
+          physics: widget.integratedSearchMode
+              ? const NeverScrollableScrollPhysics()
+              : null,
+          padding: EdgeInsets.fromLTRB(
+            8.0,
+            0.0,
+            8.0,
+            widget.integratedSearchMode ? 0.0 : bottomPadding,
+          ),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
             final ash = filtered[index];
@@ -233,6 +246,7 @@ class _EAshListPageState extends State<EAshListPage> {
 
             // ✅ 추가: 현재 아이템의 gif 표시 여부
             final bool showGif = _gifExpandedId == ash.id;
+            final bool hasFind = ash.find.trim().isNotEmpty;
 
             // 설명을 규칙에 맞게 분리
             final List<String> descriptionLines = _splitDescriptionWithParens(
@@ -312,6 +326,12 @@ class _EAshListPageState extends State<EAshListPage> {
                                   const SizedBox(height: 4),
                                   Row(
                                     children: [
+                                      if (widget.integratedSearchMode) ...[
+                                        const IntegratedCategoryBadge(
+                                          label: '전회',
+                                        ),
+                                        const SizedBox(width: 7),
+                                      ],
                                       Text(
                                         ash.property, // 속성
                                         style: TextStyle(
@@ -365,6 +385,23 @@ class _EAshListPageState extends State<EAshListPage> {
                                   ],
                               ],
                             ),
+
+                            if (hasFind) ...[
+                              const SizedBox(height: 12),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: descriptionLeftPadding,
+                                ),
+                                child: Text(
+                                  ash.find,
+                                  style: TextStyle(
+                                    color: Colors.grey[300],
+                                    fontSize: 14,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ),
+                            ],
 
                             const SizedBox(height: 12),
 
@@ -484,11 +521,17 @@ class _HorizontalInsetRRectClipper extends CustomClipper<RRect> {
 
   @override
   RRect getClip(Size size) => RRect.fromRectAndRadius(
-    Rect.fromLTRB(horizontalInset, 0, size.width - horizontalInset, size.height),
+    Rect.fromLTRB(
+      horizontalInset,
+      0,
+      size.width - horizontalInset,
+      size.height,
+    ),
     Radius.circular(radius),
   );
 
   @override
   bool shouldReclip(_HorizontalInsetRRectClipper oldClipper) =>
-      horizontalInset != oldClipper.horizontalInset || radius != oldClipper.radius;
+      horizontalInset != oldClipper.horizontalInset ||
+      radius != oldClipper.radius;
 }

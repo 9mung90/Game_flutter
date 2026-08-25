@@ -8,6 +8,7 @@ import '../api_config.dart';
 import '../DTO/etalisman.dart';
 import '../DTO/game.dart';
 import '../local_data/local_data_loader.dart'; // ⭐ 로컬 JSON 로더 추가
+import '../widget/integrated_category_badge.dart';
 
 /// 🔥 ETalisman 전역 캐시 (이 파일 안에서만 사용)
 List<ETalisman>? _eTalismanCache;
@@ -27,6 +28,7 @@ class ETalismanListPage extends StatefulWidget {
 
   final ValueChanged<String>? showOnMap;
   final bool Function(String title)? canShowOnMap;
+  final bool integratedSearchMode;
 
   const ETalismanListPage({
     super.key,
@@ -35,6 +37,7 @@ class ETalismanListPage extends StatefulWidget {
     required this.showImageDialog,
     this.showOnMap,
     this.canShowOnMap,
+    this.integratedSearchMode = false,
     required this.filterBase,
     required this.filterDlc,
     this.filterLegend = false, // 🔥 기본값: 전설 필터 OFF
@@ -213,6 +216,7 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
         }).toList();
 
         if (filtered.isEmpty) {
+          if (widget.integratedSearchMode) return const SizedBox.shrink();
           return const Center(
             child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
@@ -220,7 +224,16 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
 
         return ListView.builder(
           primary: false,
-          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
+          shrinkWrap: widget.integratedSearchMode,
+          physics: widget.integratedSearchMode
+              ? const NeverScrollableScrollPhysics()
+              : null,
+          padding: EdgeInsets.fromLTRB(
+            8.0,
+            0.0,
+            8.0,
+            widget.integratedSearchMode ? 0.0 : bottomPadding,
+          ),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
             final talisman = filtered[index];
@@ -228,6 +241,7 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
 
             // ability가 비어있는지 체크
             final bool hasAbility = talisman.ability.trim().isNotEmpty;
+            final bool hasFind = talisman.find.trim().isNotEmpty;
 
             // 설명을 규칙에 맞게 분리
             final List<String> descriptionLines = _splitDescriptionWithParens(
@@ -303,12 +317,22 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                                   ),
                                   const SizedBox(height: 4),
                                   // 작은 태그 느낌으로 "탈리스만"
-                                  Text(
-                                    '탈리스만',
-                                    style: TextStyle(
-                                      color: Colors.grey[400],
-                                      fontSize: 13,
-                                    ),
+                                  Row(
+                                    children: [
+                                      if (widget.integratedSearchMode) ...[
+                                        const IntegratedCategoryBadge(
+                                          label: '탈리스만',
+                                        ),
+                                        const SizedBox(width: 7),
+                                      ],
+                                      Text(
+                                        '탈리스만',
+                                        style: TextStyle(
+                                          color: Colors.grey[400],
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -374,6 +398,25 @@ class _ETalismanListPageState extends State<ETalismanListPage> {
                               ),
                               const SizedBox(height: 12),
                             ],
+
+                            if (hasFind) ...[
+                              const SizedBox(height: 4),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: descriptionLeftPadding,
+                                ),
+                                child: Text(
+                                  talisman.find,
+                                  style: TextStyle(
+                                    color: Colors.grey[300],
+                                    fontSize: 14,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+
                             if (widget.showOnMap != null &&
                                 (widget.canShowOnMap?.call(talisman.title) ??
                                     true)) ...[

@@ -6,6 +6,7 @@ import 'dart:convert'; // (기존 http 버전에서 쓰던 것, 안 쓰이면 �
 import '../DTO/egesture.dart';
 import '../DTO/game.dart';
 import '../local_data/local_data_loader.dart'; // ⭐ 로컬 JSON 로더 추가
+import '../widget/integrated_category_badge.dart';
 
 /// 🔥 EGesture 전역 캐시 (이 파일 안에서만 사용)
 List<EGesture>? _eGestureCache;
@@ -17,6 +18,7 @@ class EGestureListPage extends StatefulWidget {
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
   final ValueChanged<String>? showOnMap;
   final bool Function(String title)? canShowOnMap;
+  final bool integratedSearchMode;
 
   // 🔥 본편 / DLC 필터
   final bool filterBase; // 본편
@@ -29,6 +31,7 @@ class EGestureListPage extends StatefulWidget {
     required this.showImageDialog,
     this.showOnMap,
     this.canShowOnMap,
+    this.integratedSearchMode = false,
     this.filterBase = false,
     this.filterDlc = false,
   });
@@ -185,6 +188,7 @@ class _EGestureListPageState extends State<EGestureListPage> {
         }).toList();
 
         if (filtered.isEmpty) {
+          if (widget.integratedSearchMode) return const SizedBox.shrink();
           return const Center(
             child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
@@ -192,7 +196,16 @@ class _EGestureListPageState extends State<EGestureListPage> {
 
         return ListView.builder(
           primary: false,
-          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
+          shrinkWrap: widget.integratedSearchMode,
+          physics: widget.integratedSearchMode
+              ? const NeverScrollableScrollPhysics()
+              : null,
+          padding: EdgeInsets.fromLTRB(
+            8.0,
+            0.0,
+            8.0,
+            widget.integratedSearchMode ? 0.0 : bottomPadding,
+          ),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
             final gesture = filtered[index];
@@ -269,6 +282,8 @@ class _EGestureListPageState extends State<EGestureListPage> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 4),
+                                  if (widget.integratedSearchMode)
+                                    const IntegratedCategoryBadge(label: '제스처'),
                                 ],
                               ),
                             ),

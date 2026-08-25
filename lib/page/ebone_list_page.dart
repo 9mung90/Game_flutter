@@ -8,6 +8,7 @@ import '../api_config.dart';
 import '../DTO/ebone.dart';
 import '../DTO/game.dart';
 import '../local_data/local_data_loader.dart'; // ⭐ 로컬 JSON 로더 추가
+import '../widget/integrated_category_badge.dart';
 
 /// EBone 전역 캐시 (이 파일 안에서만 사용)
 List<EBone>? _eBoneCache;
@@ -19,6 +20,7 @@ class EBoneListPage extends StatefulWidget {
   final Function(BuildContext, String, String) showImageDialog; // 이미지 다이얼로그 콜백
   final ValueChanged<String>? showOnMap;
   final bool Function(String title)? canShowOnMap;
+  final bool integratedSearchMode;
 
   // 🔥 무기와 동일한 추가 필터 (강화 방식 / DLC / 전설 / 본편)
   final bool filterNormalEnhance; // 일반 강화
@@ -34,6 +36,7 @@ class EBoneListPage extends StatefulWidget {
     required this.showImageDialog,
     this.showOnMap,
     this.canShowOnMap,
+    this.integratedSearchMode = false,
     this.filterNormalEnhance = false,
     this.filterSpecialEnhance = false,
     this.filterLegend = false,
@@ -244,6 +247,7 @@ class _EBoneListPageState extends State<EBoneListPage> {
         }).toList();
 
         if (filtered.isEmpty) {
+          if (widget.integratedSearchMode) return const SizedBox.shrink();
           return const Center(
             child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
@@ -251,7 +255,16 @@ class _EBoneListPageState extends State<EBoneListPage> {
 
         return ListView.builder(
           primary: false,
-          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
+          shrinkWrap: widget.integratedSearchMode,
+          physics: widget.integratedSearchMode
+              ? const NeverScrollableScrollPhysics()
+              : null,
+          padding: EdgeInsets.fromLTRB(
+            8.0,
+            0.0,
+            8.0,
+            widget.integratedSearchMode ? 0.0 : bottomPadding,
+          ),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
             final bone = filtered[index];
@@ -336,6 +349,12 @@ class _EBoneListPageState extends State<EBoneListPage> {
                                     crossAxisAlignment:
                                         WrapCrossAlignment.center,
                                     children: [
+                                      if (widget.integratedSearchMode) ...[
+                                        const IntegratedCategoryBadge(
+                                          label: '뿛가루',
+                                        ),
+                                        const SizedBox(width: 7),
+                                      ],
                                       Text(
                                         '소비: ${bone.buse}',
                                         style: TextStyle(

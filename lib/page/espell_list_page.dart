@@ -7,6 +7,7 @@ import '../api_config.dart';
 import '../DTO/espell.dart';
 import '../DTO/game.dart';
 import '../local_data/local_data_loader.dart'; // ⭐ 로컬 JSON 로더 추가
+import '../widget/integrated_category_badge.dart';
 
 /// 🔥 ESpell 전역 캐시 (이 파일 안에서만 사용)
 List<ESpell>? _eSpellCache;
@@ -32,6 +33,7 @@ class ESpellListPage extends StatefulWidget {
 
   final ValueChanged<String>? showOnMap;
   final bool Function(String title)? canShowOnMap;
+  final bool integratedSearchMode;
 
   const ESpellListPage({
     super.key,
@@ -40,6 +42,7 @@ class ESpellListPage extends StatefulWidget {
     required this.showImageDialog,
     this.showOnMap,
     this.canShowOnMap,
+    this.integratedSearchMode = false,
     required this.filterBase,
     required this.filterDlc,
     this.filterLegend = false,
@@ -244,6 +247,7 @@ class _ESpellListPageState extends State<ESpellListPage> {
         }).toList();
 
         if (filtered.isEmpty) {
+          if (widget.integratedSearchMode) return const SizedBox.shrink();
           return const Center(
             child: Text('항목이 없습니다.', style: TextStyle(color: Colors.white70)),
           );
@@ -251,7 +255,16 @@ class _ESpellListPageState extends State<ESpellListPage> {
 
         return ListView.builder(
           primary: false,
-          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, bottomPadding),
+          shrinkWrap: widget.integratedSearchMode,
+          physics: widget.integratedSearchMode
+              ? const NeverScrollableScrollPhysics()
+              : null,
+          padding: EdgeInsets.fromLTRB(
+            8.0,
+            0.0,
+            8.0,
+            widget.integratedSearchMode ? 0.0 : bottomPadding,
+          ),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
             final spell = filtered[index];
@@ -259,6 +272,7 @@ class _ESpellListPageState extends State<ESpellListPage> {
 
             // ✅ 추가: 현재 아이템의 gif 표시 여부
             final bool showGif = _gifExpandedId == spell.id;
+            final bool hasFind = spell.find.trim().isNotEmpty;
 
             // 설명을 규칙에 맞게 분리
             final List<String> descriptionLines = _splitDescriptionWithParens(
@@ -341,6 +355,12 @@ class _ESpellListPageState extends State<ESpellListPage> {
                                     crossAxisAlignment:
                                         WrapCrossAlignment.center,
                                     children: [
+                                      if (widget.integratedSearchMode) ...[
+                                        const IntegratedCategoryBadge(
+                                          label: '마술·기도',
+                                        ),
+                                        const SizedBox(width: 7),
+                                      ],
                                       Text(
                                         spell.type,
                                         style: TextStyle(
@@ -430,6 +450,24 @@ class _ESpellListPageState extends State<ESpellListPage> {
                                   ],
                               ],
                             ),
+
+                            if (hasFind) ...[
+                              const SizedBox(height: 12),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: descriptionLeftPadding,
+                                ),
+                                child: Text(
+                                  spell.find,
+                                  style: TextStyle(
+                                    color: Colors.grey[300],
+                                    fontSize: 14,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ),
+                            ],
+
                             const SizedBox(height: 12),
 
                             // ✅ 추가: '시전 모션 보기' 버튼 (gif 토글)
@@ -512,7 +550,8 @@ class _ESpellListPageState extends State<ESpellListPage> {
                                   child: Transform.translate(
                                     offset: const Offset(0, -5),
                                     child: Image.network(
-                                      spell.gif, // ✅ ESpell에 실제로 있는 gif 필드명으로 맞추세요
+                                      spell
+                                          .gif, // ✅ ESpell에 실제로 있는 gif 필드명으로 맞추세요
                                       fit: BoxFit.contain,
                                       errorBuilder: (c, e, s) => const Icon(
                                         Icons.image_not_supported,
@@ -548,11 +587,17 @@ class _HorizontalInsetRRectClipper extends CustomClipper<RRect> {
 
   @override
   RRect getClip(Size size) => RRect.fromRectAndRadius(
-    Rect.fromLTRB(horizontalInset, 0, size.width - horizontalInset, size.height),
+    Rect.fromLTRB(
+      horizontalInset,
+      0,
+      size.width - horizontalInset,
+      size.height,
+    ),
     Radius.circular(radius),
   );
 
   @override
   bool shouldReclip(_HorizontalInsetRRectClipper oldClipper) =>
-      horizontalInset != oldClipper.horizontalInset || radius != oldClipper.radius;
+      horizontalInset != oldClipper.horizontalInset ||
+      radius != oldClipper.radius;
 }
